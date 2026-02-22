@@ -228,13 +228,10 @@ L'architettura deve essere stabile prima di parallelizzare.
 
 ## 9. Workflow GitHub
 
-### Configurazione Claude Code ← DA COMPLETARE
-> Passi da fare quando si configura Claude Code:
-> 1. GitHub → Settings → Developer settings → Personal access tokens → Generate new token
-> 2. Permessi: selezionare `repo` (lettura e scrittura completa)
-> 3. Inserire il token nella configurazione di Claude Code
-> 4. Verificare che il push funzioni
-> Aggiornare questa sezione con i dettagli dopo la configurazione.
+### Configurazione Claude Code
+- Cartella locale: C:\Users\gc048\OneDrive - RINA S.p.A\Documents\Personale\TLN
+- Remote configurato con Fine-grained token (repo: the-long-night, permessi: Contents read/write)
+- Push funzionante — nessuna credenziale richiesta a runtime
 
 ### Deploy
 Ogni push su `main` aggiorna automaticamente il sito pubblico.
