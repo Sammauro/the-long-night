@@ -1,8 +1,8 @@
 # THE LONG NIGHT — CLAUDE.md
-*Ultimo Aggiornamento: 2026-02-26 | Versione: v1.2*
+*Ultimo Aggiornamento: 2026-03-02 | Versione: v1.2*
 
 > **LEGGI QUESTO FILE INTERO prima di toccare qualsiasi codice.**
-> Source of truth regole di gioco: `docs/regole_v0031def.md`
+> Source of truth regole di gioco: `docs/regole_v0041a.md`
 > In caso di dubbio sulle regole: chiedi conferma, non interpretare.
 
 ---
@@ -106,9 +106,7 @@ the-long-night/
 │
 ├── docs/
 │   ├── regole_v0031def.md        ← SOURCE OF TRUTH regole di gioco
-│   ├── workflow_master.md        ← configurazione progetto
-│   └── mockups/
-│       └── ui_mockup_v4.html     ← riferimento visivo congelato (NON la UI finale)
+│   └── workflow_master.md        ← configurazione progetto
 │
 └── _archive/
     └── python/                   ← vecchio codice Python (solo riferimento)
@@ -124,56 +122,44 @@ the-long-night/
 
 ---
 
-## 5. Layout Visivo
+## 5. Layout Visivo (Riferimento: Death Howl)
 
-### Riferimento visivo
-**File:** `docs/mockups/ui_mockup_v4.html`
-
-Questo file è un mockup di esplorazione — definisce macro-layout, comportamenti UI e palette provvisoria.
-**NON è la UI da implementare direttamente.**
-La palette definitiva e gli asset reali verranno definiti in una fase successiva.
-Rispetta la struttura e i comportamenti, non i colori né le forme degli sprite.
-
-### Principi congelati (non modificare senza discussione)
-- **Griglia:** esagonale isometrica low-angle, schermo pieno, pan e zoom liberi
-- **UI:** completamente floating — zero sfondi opachi, zero bordi che separano zone
-- **Sprite:** 2D a figura intera con ombra ellittica sotto i piedi per profondità
-- **Dadi:** striscia orizzontale ultra-compatta (PRE / FUT / BAG in una riga)
-- **Sequenza vincolata:** dado attivo si alza, dado usato grigio, hover = popover dettaglio
-- **Carte:** si allargano al hover mostrando testo effetto completo
-- **Azioni nemici:** integrate nella sequenza vincolata, dettaglio su hover
-- **Message strip:** quasi invisibile di default, appare brevemente su eventi chiave
-- **Layout landscape obbligatorio** anche su mobile (nessun layout portrait)
-
-### Schematizzazione
 ```
-[HUD giocatore]    [GRIGLIA ISOMETRICA — schermo pieno]    [HUD nemici]
-                        sprite 2D con ombra profondità
-
-[dadi PRE/FUT/BAG]   [←  SEQUENZA VINCOLATA  →]   [cooldown]
-
-                   [  CARTE IN MANO — gradient basso  ]    [fine turno]
+┌──────────────────────────────────────────────┐
+│  HUD sx              GRIGLIA            HUD dx│
+│  HP / PT / PM      isometrica    info nemici  │
+│                    Three.js                   │
+│                                               │
+│         ┌────────────────────────────┐        │
+│         │  ←  SEQUENZA DADI  →       │        │
+│         │  [d6✊][d4🔥][AI][d8🔮]   │        │
+│         └────────────────────────────┘        │
+│  ┌───────────────────────────────────────┐    │
+│  │  CARTE IN MANO                        │    │
+│  │  [carta]  [carta]  [carta]  [carta]   │    │
+│  └───────────────────────────────────────┘    │
+└──────────────────────────────────────────────┘
 ```
 
-**Three.js:** griglia esagonale + sprite (canvas 2D sovrapposto).
-**HTML/CSS:** tutto il resto — floating, backdrop-filter blur, zero bordi.
+**Three.js** gestisce solo la griglia isometrica esagonale e i personaggi.
+**HTML/CSS** gestisce tutto il resto: sequenza dadi, carte, HUD, pannelli.
 
-### Palette provvisoria (cyber-horror organico)
+**Palette colori (Death Howl style):**
 ```css
---bg-void:   #04040e;
---cyan:      #00e5ff;
---violet:    #b44fff;
---acid:      #39ff14;
---red:       #ff2d2d;
---gold:      #ffaa00;
---text:      #c8d8e8;
---muted:     #4a5570;
+--bg-deep:     #151519;
+--bg-card:     #16141c;
+--bg-panel:    #1c1a24;
+--border:      #2e2a3e;
+--text:        #e8e0d0;
+--text-muted:  #8a7f9a;
+--gold:        #c9a84c;
+--red:         #b84040;
+--blue:        #4a8fbd;
 ```
-La palette definitiva sarà definita con lo stile artistico finale.
 
-**Compatibilità mobile:** landscape obbligatorio.
+**Compatibilità mobile:** tutti gli elementi UI devono rispondere a touch.
 `input_handler.js` traduce `touchstart/touchend` negli stessi comandi di `click`.
-Nessun hover-only interaction — tutto deve funzionare con tap.
+Nessun `hover`-only interaction — tutto deve funzionare con tap.
 
 ---
 
@@ -213,6 +199,9 @@ Ogni funzione che implementa una regola cita la sezione:
 `event_bus.js` deve essere scritto e stabile **prima** che altri moduli lo usino.
 Stessa cosa per `command_bus.js` — definisce i comandi disponibili prima che input o AI li chiamino.
 
+### Procedure code
+Il proprietario del progetto non è uno sviluppatore. Non mostrare codice salvo richiesta esplicita. Lavora feature per feature: completa, testa, fai push, comunica solo il risultato funzionale e il link GitHub Pages per il test. Le decisioni bloccanti si risolvono in Project 1 su Claude.ai.
+
 ### Un file, una responsabilità
 `gamedata.js` aggrega dati, non contiene logica.
 `turn_manager.js` orchestra, non implementa.
@@ -239,11 +228,13 @@ L'architettura deve essere stabile prima di parallelizzare.
 
 ## 9. Workflow GitHub
 
-### Configurazione Claude Code
-- Cartella locale: `C:\Users\gc048\OneDrive - RINA S.p.A\Documents\Personale\TLN`
-- Remote configurato con Fine-grained token (repo: the-long-night, permessi: Contents read/write)
-- Push funzionante — nessuna credenziale richiesta a runtime
-- Per aggiornare la cartella locale con modifiche fatte su GitHub: `git pull` in PowerShell
+### Configurazione Claude Code ← DA COMPLETARE
+> Passi da fare quando si configura Claude Code:
+> 1. GitHub → Settings → Developer settings → Personal access tokens → Generate new token
+> 2. Permessi: selezionare `repo` (lettura e scrittura completa)
+> 3. Inserire il token nella configurazione di Claude Code
+> 4. Verificare che il push funzioni
+> Aggiornare questa sezione con i dettagli dopo la configurazione.
 
 ### Deploy
 Ogni push su `main` aggiorna automaticamente il sito pubblico.
@@ -291,7 +282,7 @@ Crea/aggiorna `SESSION_RESUME.md`:
 
 **FASE 0 — Setup (corrente)**
 - [ ] Struttura repo pulita con cartelle
-- [ ] `index.html` + `style.css` base (palette cyber-horror provvisoria da mockup v4)
+- [ ] `index.html` + `style.css` base (Death Howl palette)
 - [ ] `engine/data/` con tutte le 14 carte, dadi, zombie
 - [ ] `engine/game_state.js` con Bag/Presente/Futuro
 - [ ] `engine/event_bus.js` e `input/command_bus.js`
@@ -318,5 +309,5 @@ Crea/aggiorna `SESSION_RESUME.md`:
 
 ---
 
-*The Long Night — CLAUDE.md v1.2 · 2026-02-26*
+*The Long Night — CLAUDE.md v1.1 · 2026-02-21*
 *Non modificare senza aggiornare data e versione*
