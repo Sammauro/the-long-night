@@ -1,0 +1,183 @@
+/* ═══════════════════════════════════════════════════════════
+   THE LONG NIGHT — style.css
+   Tutti gli stili UI in un unico file (regola architetturale)
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --bg-void: #04040e;
+  --cyan:    #00e5ff;
+  --violet:  #b44fff;
+  --acid:    #39ff14;
+  --red:     #ff2d2d;
+  --gold:    #ffaa00;
+  --text:    #c8d8e8;
+  --muted:   #4a5570;
+  --dim:     #1e2238;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg-void);
+  width: 100vw; height: 100vh;
+  overflow: hidden;
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--text);
+  user-select: none;
+}
+
+/* Scanline overlay */
+body::after {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 3px,
+    rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 4px
+  );
+  pointer-events: none; z-index: 300;
+}
+
+/* ── CANVAS ── */
+#gc { position: fixed; inset: 0; z-index: 0; cursor: grab; }
+#gc:active { cursor: grabbing; }
+
+/* ── AMBIENT GLOW ── */
+.amb {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 30% 20% at 40% 47%, rgba(180,79,255,0.09) 0%, transparent 70%),
+    radial-gradient(ellipse 20% 15% at 60% 44%, rgba(255,45,45,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 70% 28% at 50% 100%, rgba(0,0,0,0.75) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 20% at 50% 0%,   rgba(0,0,0,0.55) 0%, transparent 70%);
+}
+
+/* ── UI ROOT ── */
+#ui { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+#ui > * { pointer-events: all; }
+
+.mono { font-family: 'Share Tech Mono', monospace; }
+.orb  { font-family: 'Orbitron', monospace; }
+
+/* ══ TURNO — top center ══ */
+#hud-turn {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px;
+  pointer-events: none;
+}
+.t-lbl   { font-family: 'Share Tech Mono', monospace; font-size: 8px; color: var(--muted); letter-spacing: 3px; }
+.t-num   { font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 900; color: var(--cyan); text-shadow: 0 0 14px var(--cyan); }
+.t-phase { font-family: 'Share Tech Mono', monospace; font-size: 8px; color: var(--muted); letter-spacing: 2px; }
+
+/* ══ GIOCATORE — top left ══ */
+#hud-player {
+  position: absolute; top: 14px; left: 14px;
+  display: flex; flex-direction: column; gap: 6px;
+  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.9));
+}
+.p-name {
+  font-family: 'Orbitron', monospace; font-size: 9px; font-weight: 700;
+  color: var(--violet); letter-spacing: 3px; text-shadow: 0 0 12px var(--violet);
+  display: flex; align-items: center; gap: 5px;
+}
+.p-name::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--violet); box-shadow: 0 0 8px var(--violet);
+  animation: pp 2s ease-in-out infinite; flex-shrink: 0;
+}
+@keyframes pp { 0%,100% { opacity: 1 } 50% { opacity: .4 } }
+.s-row { display: flex; align-items: center; gap: 6px; }
+.s-ic  { font-size: 10px; width: 12px; text-align: center; flex-shrink: 0; }
+.bw    { width: 88px; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+.bf    { height: 100%; border-radius: 2px; transition: width .3s; }
+.bf-hp { width: 100%; background: linear-gradient(90deg, var(--acid), #00ff88); box-shadow: 0 0 5px var(--acid); }
+.bf-pt { width: 100%; background: linear-gradient(90deg, var(--violet), #dd88ff); box-shadow: 0 0 5px var(--violet); }
+.sv    { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--muted); min-width: 28px; }
+.pm-pips { display: flex; gap: 3px; }
+.pip   { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 5px var(--cyan); }
+.pip.e { background: transparent; border: 1px solid rgba(255,255,255,0.1); box-shadow: none; }
+
+/* ══ NEMICI — top right ══ */
+#hud-enemies {
+  position: absolute; top: 14px; right: 14px;
+  display: flex; flex-direction: column; gap: 5px; align-items: flex-end;
+  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.9));
+}
+.e-title { font-family: 'Share Tech Mono', monospace; font-size: 8px; color: var(--red); letter-spacing: 2px; opacity: .8; }
+.e-row   { display: flex; align-items: center; gap: 6px; flex-direction: row-reverse; }
+.e-icon  { font-size: 13px; }
+.e-info  { display: flex; flex-direction: column; gap: 2px; align-items: flex-end; }
+.e-name  { font-family: 'Share Tech Mono', monospace; font-size: 8px; color: var(--muted); }
+.e-row.act .e-name { color: var(--red); }
+.e-bar   { width: 70px; height: 3px; background: rgba(255,255,255,0.06); border-radius: 1px; overflow: hidden; }
+.e-fill  { height: 100%; background: var(--red); border-radius: 1px; transition: width .3s; }
+.e-row.act .e-fill { box-shadow: 0 0 5px var(--red); }
+
+/* ══ SEQUENZA — bottom center ══ */
+#hud-seq {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: 130px;
+  display: flex; align-items: center; gap: 5px;
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,0.95));
+  pointer-events: none;
+}
+.seq-ttl {
+  font-family: 'Share Tech Mono', monospace; font-size: 7px; color: var(--muted);
+  letter-spacing: 2px; writing-mode: vertical-rl; transform: rotate(180deg);
+  opacity: .4; margin-right: 2px;
+}
+
+/* ══ CARTE — bottom ══ */
+#hud-cards {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 112px;
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 8px; padding: 0 16px 10px;
+  background: linear-gradient(to top, rgba(4,4,14,0.92) 0%, transparent 100%);
+  pointer-events: none;
+}
+#hud-cards > * { pointer-events: all; }
+
+/* ══ MESSAGE STRIP ══ */
+#msg-strip {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: 120px;
+  font-family: 'Share Tech Mono', monospace; font-size: 8px;
+  color: var(--muted); letter-spacing: 1.5px; text-align: center;
+  opacity: 0; transition: opacity .4s;
+  pointer-events: none; white-space: nowrap;
+  text-shadow: 0 0 10px rgba(0,229,255,0.3);
+}
+#msg-strip.show { opacity: 1; }
+
+/* ══ FINE TURNO — bottom right ══ */
+#btn-end {
+  position: absolute; bottom: 14px; right: 14px;
+  font-family: 'Orbitron', monospace; font-size: 8px; font-weight: 700;
+  letter-spacing: 2px; color: var(--cyan);
+  border: 1px solid rgba(0,229,255,0.35); border-radius: 4px;
+  padding: 7px 13px; cursor: pointer; text-transform: uppercase;
+  text-shadow: 0 0 8px var(--cyan);
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+  transition: all .2s; pointer-events: all;
+  opacity: .35;
+}
+#btn-end:hover { background: rgba(0,229,255,.1); box-shadow: 0 0 18px rgba(0,229,255,.2); opacity: 1; }
+
+/* ══ ZOOM HINT — bottom left ══ */
+#zoom-hint {
+  position: absolute; bottom: 14px; left: 14px;
+  font-family: 'Share Tech Mono', monospace; font-size: 7px;
+  color: var(--muted); letter-spacing: 1px; opacity: .35; pointer-events: none;
+}
+
+/* ══ LANDSCAPE OBBLIGATORIO ══ */
+@media (orientation: portrait) {
+  body::before {
+    content: 'Ruota il dispositivo in orizzontale';
+    position: fixed; inset: 0; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-void);
+    font-family: 'Share Tech Mono', monospace; font-size: 14px;
+    color: var(--muted); letter-spacing: 2px; text-align: center;
+    padding: 20px;
+  }
+}

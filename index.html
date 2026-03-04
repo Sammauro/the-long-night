@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE LONG NIGHT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="gc"></canvas>
+<div class="amb"></div>
+
+<div id="ui">
+
+  <!-- TURNO — top center -->
+  <div id="hud-turn">
+    <span class="t-lbl">TURNO</span>
+    <span class="t-num" id="turn-number">01</span>
+    <span class="t-phase" id="turn-phase">· IN ATTESA</span>
+  </div>
+
+  <!-- GIOCATORE — top left -->
+  <div id="hud-player">
+    <div class="p-name">INDAGATORE</div>
+    <div class="s-row">
+      <span class="s-ic">♥</span>
+      <div class="bw"><div class="bf bf-hp" id="hp-bar"></div></div>
+      <span class="sv" id="hp-val">10/10</span>
+    </div>
+    <div class="s-row">
+      <span class="s-ic">💀</span>
+      <div class="bw"><div class="bf bf-pt" id="pt-bar"></div></div>
+      <span class="sv" id="pt-val">6/6</span>
+    </div>
+    <div class="s-row">
+      <span class="s-ic">⚡</span>
+      <div class="pm-pips" id="pm-pips">
+        <div class="pip"></div>
+        <div class="pip"></div>
+      </div>
+      <span class="sv" id="pm-val">2 PM</span>
+    </div>
+  </div>
+
+  <!-- NEMICI — top right (popolato da hex_renderer) -->
+  <div id="hud-enemies">
+    <div class="e-title" id="e-count">NEMICI ×4</div>
+    <div id="e-list"></div>
+  </div>
+
+  <!-- SEQUENZA VINCOLATA — bottom center (vuota allo Step 1) -->
+  <div id="hud-seq">
+    <span class="seq-ttl">SEQUENZA VINCOLATA</span>
+  </div>
+
+  <!-- MESSAGE STRIP -->
+  <div id="msg-strip"></div>
+
+  <!-- CARTE — bottom (vuote allo Step 1) -->
+  <div id="hud-cards"></div>
+
+  <!-- FINE TURNO (non funzionale allo Step 1) -->
+  <div id="btn-end">FINE TURNO →</div>
+
+  <div id="zoom-hint">scroll = zoom · drag = sposta</div>
+
+</div>
+
+<script type="module">
+  import { initScene }    from './src/rendering/scene.js';
+  import { initRenderer } from './src/rendering/hex_renderer.js';
+  import { DEMO_LEVEL }   from './src/engine/data/levels_demo.js';
+
+  initScene(DEMO_LEVEL.grid.rows, DEMO_LEVEL.grid.cols);
+  initRenderer(DEMO_LEVEL);
+</script>
+
+</body>
+</html>

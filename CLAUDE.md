@@ -1,5 +1,5 @@
 # THE LONG NIGHT — CLAUDE.md
-*Ultimo Aggiornamento: 2026-03-04 | Versione: v1.3*
+*Ultimo Aggiornamento: 2026-03-04 | Versione: v1.4*
 
 > **LEGGI QUESTO FILE INTERO prima di toccare qualsiasi codice.**
 > Source of truth regole di gioco: `docs/regole_v0041a.md`
@@ -58,26 +58,26 @@ L'AI di bilanciamento (`balancing/sim_agent.js`) deve poter giocare migliaia di 
 ```
 the-long-night/
 │
-├── index.html                    ← shell: carica CSS e moduli JS
-├── style.css                     ← tutto lo stile UI in un file unico
+├── index.html                    ← shell: carica CSS e moduli JS  ✅ Step 1
+├── style.css                     ← tutto lo stile UI in un file unico  ✅ Step 1
 ├── CLAUDE.md                     ← questo file
 │
 ├── src/
 │   ├── engine/                   ← LOGICA DI GIOCO PURA (zero grafica, zero input)
 │   │   ├── data/                 ← dati statici separati per categoria
+│   │   │   ├── levels_demo.js    ← configurazione scenario demo  ✅ Step 1
 │   │   │   ├── cards_combat.js   ← le 13 carte del combat system v0.0.4a
 │   │   │   ├── enemies_zombie.js ← scheda nemico Zombie
-│   │   │   ├── dice_types.js     ← definizioni e facce dei dadi
-│   │   │   └── levels_demo.js    ← configurazione scenario demo
+│   │   │   └── dice_types.js     ← definizioni e facce dei dadi
+│   │   ├── hex_grid.js           ← coordinate esagonali, distanze, pathfinding  ✅ Step 1
+│   │   ├── event_bus_contract.js ← emette eventi quando lo stato cambia  ✅ Step 0
 │   │   ├── gamedata.js           ← aggrega data/ e lo esporta
 │   │   ├── game_state.js         ← stato partita: HP/PT/PM/Luce, Bag, Equipaggiamento
-│   │   ├── event_bus.js          ← emette eventi quando lo stato cambia
 │   │   ├── turn_manager.js       ← orchestra le 4 fasi del turno
 │   │   ├── dice_system.js        ← lancio dadi, Selezione, Sequenza Vincolata
 │   │   ├── card_system.js        ← effetti carte, cooldown, eco
 │   │   ├── combat_resolver.js    ← danni, stati, collisioni, spinte
-│   │   ├── ai_opponent.js        ← comportamento nemici (zombie AI)
-│   │   └── hex_grid.js           ← coordinate esagonali, distanze, pathfinding
+│   │   └── ai_opponent.js        ← comportamento nemici (zombie AI)
 │   │
 │   ├── balancing/                ← AI DI BILANCIAMENTO (usa solo engine/)
 │   │   ├── sim_runner.js         ← esegue N partite automatiche
@@ -86,11 +86,11 @@ the-long-night/
 │   │
 │   ├── input/                    ← GESTIONE INPUT (astrae click/touch/AI)
 │   │   ├── input_handler.js      ← unifica eventi mouse, touch, keyboard
-│   │   └── command_bus.js        ← lista comandi disponibili e dispatcher
+│   │   └── command_bus_contract.js ← lista comandi disponibili e dispatcher  ✅ Step 0
 │   │
 │   ├── rendering/                ← CANVAS 2D (solo rendering griglia e sprite)
-│   │   ├── scene.js              ← setup canvas: pan, zoom, resize
-│   │   └── hex_renderer.js       ← disegna griglia isometrica e personaggi
+│   │   ├── scene.js              ← setup canvas: pan, zoom, resize  ✅ Step 1
+│   │   └── hex_renderer.js       ← disegna griglia isometrica e personaggi  ✅ Step 1
 │   │
 │   └── ui/                       ← HTML/CSS OVERLAY
 │       └── combat/
@@ -290,12 +290,12 @@ Ogni step fa push su GitHub Pages ed è verificabile visivamente. Non si passa a
 - [x] `command_bus.js` con catalogo comandi
 - [x] Aggiornamento CLAUDE.md
 
-**STEP 1 — Griglia esagonale**
-- [ ] `hex_grid.js` (da hex_utils.py)
-- [ ] `data/levels_demo.js`
-- [ ] `index.html` + `style.css`
-- [ ] `rendering/scene.js` (canvas, pan, zoom)
-- [ ] `rendering/hex_renderer.js` (griglia, sprite, ostacoli)
+**STEP 1 — Griglia esagonale** ✅
+- [x] `hex_grid.js` (da hex_utils.py)
+- [x] `data/levels_demo.js`
+- [x] `index.html` + `style.css`
+- [x] `rendering/scene.js` (canvas, pan, zoom)
+- [x] `rendering/hex_renderer.js` (griglia, sprite, ostacoli)
 
 **STEP 2 — Stato e HUD**
 - [ ] `game_state.js`
@@ -347,5 +347,5 @@ Ogni step fa push su GitHub Pages ed è verificabile visivamente. Non si passa a
 
 ---
 
-*The Long Night — CLAUDE.md v1.3 · 2026-03-04*
+*The Long Night — CLAUDE.md v1.4 · 2026-03-04*
 *Non modificare senza aggiornare data e versione*
