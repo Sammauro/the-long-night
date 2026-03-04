@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>THE LONG NIGHT</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
@@ -69,9 +70,9 @@
 </div>
 
 <script type="module">
-  import { initScene }    from './src/rendering/scene.js?v=3';
-  import { initRenderer } from './src/rendering/hex_renderer.js?v=3';
-  import { DEMO_LEVEL }   from './src/engine/data/levels_demo.js?v=3';
+  import { initScene }    from './src/rendering/scene.js';
+  import { initRenderer } from './src/rendering/hex_renderer.js';
+  import { DEMO_LEVEL }   from './src/engine/data/levels_demo.js';
 
   initScene(DEMO_LEVEL.grid.rows, DEMO_LEVEL.grid.cols);
   initRenderer(DEMO_LEVEL);
