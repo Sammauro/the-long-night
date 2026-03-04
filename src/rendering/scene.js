@@ -24,14 +24,14 @@ export function hexCenter(col, row) {
 }
 
 export function hexPoints(cx, cy) {
-  // pointy-top: vertici in alto/basso, lati piatti a sinistra/destra
+  // flat-top: lati piatti in alto/basso, vertici puntati a sinistra/destra
   return [
-    [cx,        cy - HH       ],
-    [cx + HW,   cy - HH * 0.5 ],
-    [cx + HW,   cy + HH * 0.5 ],
-    [cx,        cy + HH       ],
-    [cx - HW,   cy + HH * 0.5 ],
-    [cx - HW,   cy - HH * 0.5 ],
+    [cx - HH,        cy         ],
+    [cx - HH * 0.5,  cy - HW    ],
+    [cx + HH * 0.5,  cy - HW    ],
+    [cx + HH,        cy         ],
+    [cx + HH * 0.5,  cy + HW    ],
+    [cx - HH * 0.5,  cy + HW    ],
   ];
 }
 
