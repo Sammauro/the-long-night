@@ -8,7 +8,29 @@
 //  Dipendenze: scene.js
 // ═══════════════════════════════════════════════════════════
 
-import { canvas, ctx, cam, HW, HH, hexCenter, hexPoints, setRenderCallback } from './scene.js';
+import { canvas, ctx, cam, HW, HH, setRenderCallback } from './scene.js';
+
+
+// ── Geometria hex — copiata esattamente da docs/mockups/ui_mockup_v4.html ──
+// flat-top, very squashed (low-angle isometric). Input: 1-indexed.
+
+function hexCenter(col, row) {
+  const c = col - 1;
+  const r = row - 1;
+  const off = r % 2 === 0 ? 0 : HW;
+  return [c * HW * 2 + off, r * HH * 1.6];
+}
+
+function hexPoints(cx, cy) {
+  return [
+    [cx + HW,      cy      ],
+    [cx + HW * .5, cy - HH ],
+    [cx - HW * .5, cy - HH ],
+    [cx - HW,      cy      ],
+    [cx - HW * .5, cy + HH ],
+    [cx + HW * .5, cy + HH ],
+  ];
+}
 
 
 // ── Stato interno renderer ───────────────────────────────────
@@ -111,15 +133,6 @@ function _drawGrid() {
       }
 
       _fillHex(pts, fill, stroke, lw, dash);
-
-      // DEBUG: label coordinate — rimuovere dopo verifica
-      ctx.save();
-      ctx.font         = `${HH * 0.65}px monospace`;
-      ctx.textAlign    = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle    = 'rgba(200,210,230,0.55)';
-      ctx.fillText(`R${r}Q${q}`, cx, cy);
-      ctx.restore();
     }
   }
 }
