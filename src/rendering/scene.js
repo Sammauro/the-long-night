@@ -24,24 +24,14 @@ export function hexCenter(col, row) {
 }
 
 export function hexPoints(cx, cy) {
-  // 6 vertici del poligono esagonale flat-top, ruotati di 30°
-  function rotatePoint(px, py, cx, cy, angleDeg) {
-    const a = angleDeg * Math.PI / 180;
-    const cos = Math.cos(a), sin = Math.sin(a);
-    return [
-      cx + (px - cx) * cos - (py - cy) * sin,
-      cy + (px - cx) * sin + (py - cy) * cos
-    ];
-  }
-  const pts = [
-    [cx + HW,       cy      ],
-    [cx + HW * .5,  cy - HH ],
-    [cx - HW * .5,  cy - HH ],
-    [cx - HW,       cy      ],
-    [cx - HW * .5,  cy + HH ],
-    [cx + HW * .5,  cy + HH ],
+  return [
+    [cx - HW,        cy       ],
+    [cx - HW * 0.5,  cy - HH  ],
+    [cx + HW * 0.5,  cy - HH  ],
+    [cx + HW,        cy       ],
+    [cx + HW * 0.5,  cy + HH  ],
+    [cx - HW * 0.5,  cy + HH  ],
   ];
-  return pts.map(([px, py]) => rotatePoint(px, py, cx, cy, 30));
 }
 
 
