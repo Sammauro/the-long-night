@@ -15,10 +15,8 @@ import { canvas, ctx, cam, HW, HH, setRenderCallback } from './scene.js';
 // flat-top, very squashed (low-angle isometric). Input: 1-indexed.
 
 function hexCenter(col, row) {
-  const c = col - 1;
-  const r = row - 1;
-  const off = r % 2 === 0 ? 0 : HW;
-  return [c * HW * 2 + off, r * HH * 1.6];
+  const off = row % 2 === 0 ? 0 : HW;
+  return [col * HW * 2 + off, row * HH * 1.6];
 }
 
 function hexPoints(cx, cy) {
