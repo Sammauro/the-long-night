@@ -20,17 +20,18 @@ export function hexCenter(col, row) {
   const c = col - 1;
   const r = row - 1;
   const off = r % 2 === 0 ? 0 : HW;
-  return [c * HW * 2 + off, r * HH * 1.6];
+  return [c * HW * 2 + off, r * HH * 1.5];
 }
 
 export function hexPoints(cx, cy) {
+  // pointy-top: vertici in alto/basso, lati piatti a sinistra/destra
   return [
-    [cx - HW,        cy       ],
-    [cx - HW * 0.5,  cy - HH  ],
-    [cx + HW * 0.5,  cy - HH  ],
-    [cx + HW,        cy       ],
-    [cx + HW * 0.5,  cy + HH  ],
-    [cx - HW * 0.5,  cy + HH  ],
+    [cx,        cy - HH       ],
+    [cx + HW,   cy - HH * 0.5 ],
+    [cx + HW,   cy + HH * 0.5 ],
+    [cx,        cy + HH       ],
+    [cx - HW,   cy + HH * 0.5 ],
+    [cx - HW,   cy - HH * 0.5 ],
   ];
 }
 
