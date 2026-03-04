@@ -17,8 +17,10 @@ export const HW = 52;   // metà larghezza esagono
 export const HH = 20;   // metà altezza esagono (schiacciato per prospettiva)
 
 export function hexCenter(col, row) {
-  const off = row % 2 === 0 ? 0 : HW;
-  return [col * HW * 2 + off, row * HH * 1.6];
+  const c = col - 1;
+  const r = row - 1;
+  const off = r % 2 === 0 ? 0 : HW;
+  return [c * HW * 2 + off, r * HH * 1.6];
 }
 
 export function hexPoints(cx, cy) {
