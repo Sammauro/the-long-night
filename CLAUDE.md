@@ -212,6 +212,9 @@ Il proprietario del progetto non è uno sviluppatore. Non mostrare codice salvo 
 ### Aggiornare CLAUDE.md
 Ogni volta che crei un nuovo file o cambi l'architettura, aggiorna la sezione 4.
 
+### Modifiche chirurgiche — no letture inutili
+Per modifiche a singole funzioni o valori già noti in sessione, non rileggere il file — agisci direttamente con Edit. Leggere un file è giustificato solo se il contenuto non è già stato visto nella sessione corrente.
+
 ---
 
 ## 8. Multi-Agente (Strategia Graduale)
