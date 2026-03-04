@@ -157,15 +157,6 @@ function _drawGrid() {
       }
 
       _fillHex(pts, fill, stroke, lw, dash);
-
-      // DEBUG: label coordinate — rimuovere dopo verifica
-      ctx.save();
-      ctx.font         = `${HH * 0.65}px monospace`;
-      ctx.textAlign    = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle    = 'rgba(200,210,230,0.55)';
-      ctx.fillText(`R${r}Q${q}`, cx, cy);
-      ctx.restore();
     }
   }
 }
