@@ -5,43 +5,19 @@
 //  Responsabilità: disegna la griglia esagonale e tutte le unità.
 //  Step 1: stato statico da levelData. Step 2+ riceverà eventi.
 //
-//  Geometria: flat-top, layout odd-q (colonne offset)
-//    centerX = q × HW × 1.5
-//    centerY = r × HH × 2 + (q dispari ? HH : 0)
-//
 //  Dipendenze: scene.js
 // ═══════════════════════════════════════════════════════════
 
-import { canvas, ctx, cam, HW, HH, setRenderCallback } from './scene.js';
-
-
-// ── Geometria hex — flat-top, odd-q ─────────────────────────
-
-function hexCenter(q, r) {
-  // q, r: 1-indexed. Colonne dispari (q=1,3,5…) spostate in basso di HH.
-  return [
-    q * HW * 1.5,
-    r * HH * 2 + (q % 2 === 1 ? HH : 0),
-  ];
-}
-
-function hexPoints(cx, cy) {
-  // 6 vertici flat-top, coerenti con hexCenter sopra.
-  return [
-    [cx + HW,      cy      ],   // destra
-    [cx + HW * .5, cy - HH ],   // alto-destra
-    [cx - HW * .5, cy - HH ],   // alto-sinistra
-    [cx - HW,      cy      ],   // sinistra
-    [cx - HW * .5, cy + HH ],   // basso-sinistra
-    [cx + HW * .5, cy + HH ],   // basso-destra
-  ];
-}
+import { canvas, ctx, cam, HW, HH, hexCenter, hexPoints, setRenderCallback } from './scene.js';
 
 
 // ── Stato interno renderer ───────────────────────────────────
 
-let _level     = null;
-let _hover     = { q: -1, r: -1 };
+let _level = null;
+let _hover = { q: -1, r: -1 };
+
+// Stato visivo unità (aggiornato da eventi Step 2+)
+// Per Step 1: HP al massimo, posizioni da levelData
 let _unitState = {};
 
 
@@ -50,16 +26,13 @@ let _unitState = {};
 export function initRenderer(levelData) {
   _level = levelData;
 
-  // Stato visivo iniziale — HP al massimo (collegato a game_state allo Step 2)
+  // Stato iniziale unità
   _unitState['player'] = { pos: { ...levelData.player.pos }, hp: 10, maxHp: 10 };
   for (const e of levelData.enemies) {
-    _unitState[e.id] = { pos: { ...e.pos }, hp: 4, maxHp: 4 };  // zombie HP 4 (regola §)
+    _unitState[e.id] = { pos: { ...e.pos }, hp: 4, maxHp: 4 };  // HP zombie: 4 (regola §)
   }
 
-  // Centra la camera sulla griglia
-  _recenterCamera();
-
-  // Hover: rilevamento casella sotto il cursore
+  // Hover su griglia
   canvas.addEventListener('mousemove', e => {
     const wx = (e.clientX - cam.x) / cam.zoom;
     const wy = (e.clientY - cam.y) / cam.zoom;
@@ -70,29 +43,10 @@ export function initRenderer(levelData) {
     }
   });
 
-  // Ricentra dopo resize (si aggiunge dopo scene.js, quindi sovrascrive i valori errati)
-  window.addEventListener('resize', () => {
-    _recenterCamera();
-    render();
-  });
-
   // Registra callback e fa il primo render
   setRenderCallback(render);
   _buildEnemyHud();
   render();
-}
-
-function _recenterCamera() {
-  // Calcola il centro della griglia in coordinate mondo e lo porta al centro schermo
-  const { rows, cols } = _level.grid;
-  // Bounds griglia (1-indexed):
-  //   x: da (1*HW*1.5 - HW) a (cols*HW*1.5 + HW)
-  //   y: da HH a (rows*HH*2 + 2*HH)
-  const gridCenterX = (1 * HW * 1.5 - HW + cols * HW * 1.5 + HW) / 2;
-  const gridCenterY = (HH + rows * HH * 2 + 2 * HH) / 2;
-  // Centra orizzontalmente; verticalmente lascia ~130px per la UI in basso
-  cam.x = canvas.width  / 2 - gridCenterX;
-  cam.y = (canvas.height - 130) / 2 - gridCenterY;
 }
 
 
@@ -123,15 +77,15 @@ function _drawGrid() {
     for (let q = 1; q <= cols; q++) {
       const [cx, cy] = hexCenter(q, r);
       const pts = hexPoints(cx, cy);
-      const isHov      = (_hover.q === q && _hover.r === r);
-      const isPlayer   = (_level.player.pos.q === q && _level.player.pos.r === r);
-      const isEnemy    = _level.enemies.some(e => e.pos.q === q && e.pos.r === r);
-      const isObstacle = _level.obstacles.some(o => o.pos.q === q && o.pos.r === r);
-      const isTrap     = _level.traps.some(t => t.pos.q === q && t.pos.r === r);
+      const isHov = _hover.q === q && _hover.r === r;
+      const isPlayer   = _level.player.pos.r === r && _level.player.pos.q === q;
+      const enemyHere  = _level.enemies.find(e => e.pos.r === r && e.pos.q === q);
+      const obstacHere = _level.obstacles.find(o => o.pos.r === r && o.pos.q === q);
+      const trapHere   = _level.traps.find(t => t.pos.r === r && t.pos.q === q);
 
       let fill, stroke, lw = 1, dash = [];
 
-      if (isObstacle) {
+      if (obstacHere) {
         fill   = 'rgba(30,25,55,0.85)';
         stroke = 'rgba(80,70,130,0.6)';
         lw = 1.5;
@@ -143,13 +97,13 @@ function _drawGrid() {
         fill   = 'rgba(180,79,255,0.12)';
         stroke = 'rgba(180,79,255,0.55)';
         lw = 1.5;
-      } else if (isEnemy) {
+      } else if (enemyHere) {
         fill   = 'rgba(255,45,45,0.09)';
         stroke = 'rgba(255,45,45,0.45)';
         lw = 1.5;
-      } else if (isTrap) {
+      } else if (trapHere) {
         fill   = 'rgba(255,170,0,0.04)';
-        stroke = 'rgba(255,170,0,0.30)';
+        stroke = 'rgba(255,170,0,0.3)';
         dash = [4, 3];
       } else {
         fill   = 'rgba(8,8,28,0.5)';
@@ -167,6 +121,7 @@ function _drawGrid() {
 function _drawObstacles() {
   for (const obs of _level.obstacles) {
     const [cx, cy] = hexCenter(obs.pos.q, obs.pos.r);
+    // Colonna: rettangolo verticale grigio con glow
     ctx.save();
     ctx.shadowColor = 'rgba(120,100,200,0.4)';
     ctx.shadowBlur  = 12;
@@ -175,7 +130,7 @@ function _drawObstacles() {
     ctx.fillStyle = 'rgba(60,55,90,0.9)';
     _roundRect(cx - colW / 2, cy - colH * 0.85, colW, colH, 3);
     ctx.fill();
-    // cap superiore
+    // Top cap
     ctx.fillStyle = 'rgba(100,90,150,0.8)';
     _roundRect(cx - colW * 0.65, cy - colH * 0.85 - 4, colW * 1.3, 6, 2);
     ctx.fill();
@@ -192,16 +147,16 @@ function _drawTraps() {
     const [cx, cy] = hexCenter(trap.pos.q, trap.pos.r);
     ctx.save();
     ctx.font = `${HH * 1.1}px serif`;
-    ctx.textAlign    = 'center';
+    ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.globalAlpha  = 0.55;
+    ctx.globalAlpha = 0.55;
     ctx.fillText('⚠', cx, cy + HH * 0.1);
     ctx.restore();
   }
 }
 
 
-// ── Sprite humanoid ──────────────────────────────────────────
+// ── Sprite humanoid (giocatore e zombie) ─────────────────────
 
 function _drawHumanoid(cx, cy, height, color, glowColor) {
   const headR  = height * 0.10;
@@ -224,14 +179,17 @@ function _drawHumanoid(cx, cy, height, color, glowColor) {
   ctx.beginPath();
   ctx.arc(cx, headY, headR, 0, Math.PI * 2);
   ctx.fill();
+
   // Busto
   _roundRect(cx - bodyW / 2, shouldY, bodyW, bodyH, 2);
   ctx.fill();
+
   // Braccia
   _roundRect(cx - bodyW / 2 - armW, shouldY + height * 0.02, armW, armH, 2);
   ctx.fill();
   _roundRect(cx + bodyW / 2,        shouldY + height * 0.02, armW, armH, 2);
   ctx.fill();
+
   // Gambe
   _roundRect(cx - bodyW / 2 + height * 0.01, hipY, legW, legH, 2);
   ctx.fill();
@@ -244,11 +202,13 @@ function _drawHumanoid(cx, cy, height, color, glowColor) {
 function _drawHpBar(cx, cy, pct, color, width = 44) {
   const bx = cx - width / 2;
   const by = cy + 4;
+  // Sfondo
   ctx.fillStyle = 'rgba(0,0,0,0.55)';
   _roundRect(bx, by, width, 3, 1.5);
   ctx.fill();
+  // Barra
   if (pct > 0) {
-    ctx.fillStyle   = color;
+    ctx.fillStyle = color;
     ctx.shadowColor = color;
     ctx.shadowBlur  = 4;
     _roundRect(bx, by, width * pct, 3, 1.5);
@@ -261,9 +221,10 @@ function _drawHpBar(cx, cy, pct, color, width = 44) {
 // ── Giocatore ────────────────────────────────────────────────
 
 function _drawPlayer() {
-  const s = _unitState['player'];
-  const [cx, cy] = hexCenter(s.pos.q, s.pos.r);
+  const state = _unitState['player'];
+  const [cx, cy] = hexCenter(state.pos.q, state.pos.r);
 
+  // Ombra ellittica
   ctx.save();
   ctx.beginPath();
   ctx.ellipse(cx, cy + HH * .2, HW * .45, HH * .4, 0, 0, Math.PI * 2);
@@ -271,8 +232,11 @@ function _drawPlayer() {
   ctx.fill();
   ctx.restore();
 
+  // Sprite — alto, elegante
   _drawHumanoid(cx, cy - HH * .1, HH * 3.8, 'rgba(195,130,255,0.92)', 'rgba(180,79,255,0.6)');
-  _drawHpBar(cx, cy + HH * .3, s.hp / s.maxHp, '#39ff14');
+
+  // HP bar
+  _drawHpBar(cx, cy + HH * .3, state.hp / state.maxHp, '#39ff14');
 }
 
 
@@ -280,10 +244,11 @@ function _drawPlayer() {
 
 function _drawEnemies() {
   for (const enemy of _level.enemies) {
-    const s = _unitState[enemy.id];
-    if (!s || s.hp <= 0) continue;
-    const [cx, cy] = hexCenter(s.pos.q, s.pos.r);
+    const state = _unitState[enemy.id];
+    if (!state || state.hp <= 0) continue;
+    const [cx, cy] = hexCenter(state.pos.q, state.pos.r);
 
+    // Ombra ellittica
     ctx.save();
     ctx.beginPath();
     ctx.ellipse(cx, cy + HH * .2, HW * .4, HH * .35, 0, 0, Math.PI * 2);
@@ -291,13 +256,16 @@ function _drawEnemies() {
     ctx.fill();
     ctx.restore();
 
+    // Sprite — basso, curvo (zombie)
     _drawHumanoid(cx, cy, HH * 3.0, 'rgba(255,100,100,0.82)', 'rgba(255,45,45,0.5)');
-    _drawHpBar(cx, cy + HH * .25, s.hp / s.maxHp, '#ff2d2d', 36);
+
+    // HP bar
+    _drawHpBar(cx, cy + HH * .25, state.hp / state.maxHp, '#ff2d2d', 36);
   }
 }
 
 
-// ── HUD nemici — top right ───────────────────────────────────
+// ── HUD nemici ───────────────────────────────────────────────
 
 function _buildEnemyHud() {
   const list = document.getElementById('e-list');
@@ -305,12 +273,12 @@ function _buildEnemyHud() {
   list.innerHTML = '';
   for (const e of _level.enemies) {
     const row = document.createElement('div');
-    row.className  = 'e-row';
+    row.className = 'e-row';
     row.dataset.id = e.id;
     row.innerHTML = `
       <span class="e-icon">🧟</span>
       <div class="e-info">
-        <div class="e-name">${e.id.replace('_', '\u00A0').toUpperCase()}</div>
+        <div class="e-name">${e.id.replace('_', ' ').toUpperCase()}</div>
         <div class="e-bar"><div class="e-fill" id="hbar-${e.id}" style="width:100%"></div></div>
       </div>`;
     list.appendChild(row);
@@ -318,10 +286,10 @@ function _buildEnemyHud() {
 }
 
 
-// ── Helper: hit-test hex ─────────────────────────────────────
+// ── Helper coordinate ────────────────────────────────────────
 
 function _worldToHex(wx, wy) {
-  // Approssimazione ellissoidale per hit-test (stessa del mockup v4)
+  // Approssimazione ellissoidale (dal mockup v4)
   const { rows, cols } = _level.grid;
   for (let r = 1; r <= rows; r++) {
     for (let q = 1; q <= cols; q++) {
@@ -342,7 +310,7 @@ function _fillHex(pts, fill, stroke, lw = 1, dash = []) {
   ctx.moveTo(pts[0][0], pts[0][1]);
   for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
   ctx.closePath();
-  ctx.fillStyle   = fill;
+  ctx.fillStyle = fill;
   ctx.fill();
   ctx.setLineDash(dash);
   ctx.strokeStyle = stroke;
