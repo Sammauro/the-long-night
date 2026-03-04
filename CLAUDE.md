@@ -1,5 +1,5 @@
 # THE LONG NIGHT — CLAUDE.md
-*Ultimo Aggiornamento: 2026-03-02 | Versione: v1.2*
+*Ultimo Aggiornamento: 2026-03-04 | Versione: v1.3*
 
 > **LEGGI QUESTO FILE INTERO prima di toccare qualsiasi codice.**
 > Source of truth regole di gioco: `docs/regole_v0041a.md`
@@ -22,17 +22,12 @@
 
 ## 2. Stack Tecnico
 
-- **Rendering 3D:** Three.js r128 via CDN — zero npm, zero bundler
-- **UI:** HTML/CSS sovrapposto al canvas Three.js
+- **Rendering:** Canvas 2D — zero npm, zero bundler, zero Three.js
+- **UI:** HTML/CSS sovrapposto al canvas
 - **Linguaggio:** Vanilla JavaScript — zero framework
 - **Entry point:** `index.html` nella root (GitHub Pages)
 - **Compatibilità:** browser desktop + mobile (touch e click gestiti in modo unificato)
 - **OS sviluppatore:** Windows
-
-```html
-<!-- Unica dipendenza esterna -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-```
 
 ---
 
@@ -63,22 +58,22 @@ L'AI di bilanciamento (`balancing/sim_agent.js`) deve poter giocare migliaia di 
 ```
 the-long-night/
 │
-├── index.html                    ← shell: carica Three.js, CSS, moduli JS
+├── index.html                    ← shell: carica CSS e moduli JS
 ├── style.css                     ← tutto lo stile UI in un file unico
 ├── CLAUDE.md                     ← questo file
 │
 ├── src/
 │   ├── engine/                   ← LOGICA DI GIOCO PURA (zero grafica, zero input)
 │   │   ├── data/                 ← dati statici separati per categoria
-│   │   │   ├── cards_combat.js   ← le 14 carte del combat system
+│   │   │   ├── cards_combat.js   ← le 13 carte del combat system v0.0.4a
 │   │   │   ├── enemies_zombie.js ← scheda nemico Zombie
 │   │   │   ├── dice_types.js     ← definizioni e facce dei dadi
 │   │   │   └── levels_demo.js    ← configurazione scenario demo
 │   │   ├── gamedata.js           ← aggrega data/ e lo esporta
-│   │   ├── game_state.js         ← stato partita: Bag/Presente/Futuro, HP/PT/PM
+│   │   ├── game_state.js         ← stato partita: HP/PT/PM/Luce, Bag, Equipaggiamento
 │   │   ├── event_bus.js          ← emette eventi quando lo stato cambia
 │   │   ├── turn_manager.js       ← orchestra le 4 fasi del turno
-│   │   ├── dice_system.js        ← lancio dadi, sequenza vincolata, impulsi
+│   │   ├── dice_system.js        ← lancio dadi, Selezione, Sequenza Vincolata
 │   │   ├── card_system.js        ← effetti carte, cooldown, eco
 │   │   ├── combat_resolver.js    ← danni, stati, collisioni, spinte
 │   │   ├── ai_opponent.js        ← comportamento nemici (zombie AI)
@@ -93,25 +88,39 @@ the-long-night/
 │   │   ├── input_handler.js      ← unifica eventi mouse, touch, keyboard
 │   │   └── command_bus.js        ← lista comandi disponibili e dispatcher
 │   │
-│   ├── rendering/                ← THREE.JS (solo rendering 3D)
-│   │   ├── scene.js              ← setup Three.js: renderer, camera, luci
+│   ├── rendering/                ← CANVAS 2D (solo rendering griglia e sprite)
+│   │   ├── scene.js              ← setup canvas: pan, zoom, resize
 │   │   └── hex_renderer.js       ← disegna griglia isometrica e personaggi
 │   │
-│   └── ui/                       ← HTML/CSS OVERLAY (si espande per blocco)
+│   └── ui/                       ← HTML/CSS OVERLAY
 │       └── combat/
-│           ├── ui_sequence.js    ← striscia sequenza dadi (cuore visivo)
+│           ├── ui_sequence.js    ← striscia Sequenza Vincolata
 │           ├── ui_cards.js       ← carte in mano
-│           ├── ui_hud.js         ← HP, PT, PM, risorse
-│           └── ui_dice_panel.js  ← pannello Bag/Presente/Futuro
+│           ├── ui_hud.js         ← HP, PT, PM, Luce, risorse
+│           └── ui_dice_panel.js  ← Plancia Cooldown
 │
 ├── docs/
-│   ├── regole_v0031def.md        ← SOURCE OF TRUTH regole di gioco
-│   └── workflow_master.md        ← configurazione progetto
+│   ├── regole_v0041a.md          ← SOURCE OF TRUTH regole di gioco
+│   ├── piano_sviluppo.md         ← piano incrementale dettagliato
+│   └── mockups/
+│       └── ui_mockup_v4.html     ← riferimento visivo congelato (NON la UI finale)
 │
 └── _archive/
     └── python/                   ← vecchio codice Python (solo riferimento)
-        ← web_version/hex_utils.js e game_engine.js utili per hex logic
+        ├── hex_utils.py          ← geometria esagonale — recuperabile quasi 1:1
+        ├── game_state.py         ← solo struttura cooldown board come riferimento
+        ├── gamedata.py           ← solo facce dadi e costanti mappa
+        └── player_game.py        ← solo pattern effect handler come riferimento
 ```
+
+### Contratti tra moduli (Step 0)
+
+I file `event_bus.js` e `command_bus.js` contengono sia il codice funzionante sia il **catalogo completo** degli eventi e comandi come commenti strutturati. Questi cataloghi sono il contratto di comunicazione tra tutti i moduli:
+
+- **event_bus.js** — lista tutti gli eventi che `engine/` può emettere. `rendering/` e `ui/` ascoltano solo questi eventi.
+- **command_bus.js** — lista tutti i comandi che `input/` e `balancing/` possono chiamare.
+
+**Regola:** prima di creare un nuovo modulo, verifica che gli eventi che emette e i comandi che chiama siano nel catalogo. Se mancano, aggiorna il contratto e chiedi approvazione.
 
 ### Regola di scalabilità
 - **Nuova carta:** aggiungi a `data/cards_combat.js`
@@ -122,44 +131,38 @@ the-long-night/
 
 ---
 
-## 5. Layout Visivo (Riferimento: Death Howl)
+## 5. Layout Visivo
 
-```
-┌──────────────────────────────────────────────┐
-│  HUD sx              GRIGLIA            HUD dx│
-│  HP / PT / PM      isometrica    info nemici  │
-│                    Three.js                   │
-│                                               │
-│         ┌────────────────────────────┐        │
-│         │  ←  SEQUENZA DADI  →       │        │
-│         │  [d6✊][d4🔥][AI][d8🔮]   │        │
-│         └────────────────────────────┘        │
-│  ┌───────────────────────────────────────┐    │
-│  │  CARTE IN MANO                        │    │
-│  │  [carta]  [carta]  [carta]  [carta]   │    │
-│  └───────────────────────────────────────┘    │
-└──────────────────────────────────────────────┘
-```
+### Riferimento visivo
+**File:** `docs/mockups/ui_mockup_v4.html`
 
-**Three.js** gestisce solo la griglia isometrica esagonale e i personaggi.
-**HTML/CSS** gestisce tutto il resto: sequenza dadi, carte, HUD, pannelli.
+Mockup di esplorazione — definisce macro-layout e comportamenti UI. **NON è la UI da implementare direttamente.** La palette definitiva e gli asset reali verranno definiti in una fase successiva. Rispetta struttura e interazioni, non i colori né le forme degli sprite.
 
-**Palette colori (Death Howl style):**
+### Principi congelati
+- Griglia esagonale isometrica low-angle, schermo pieno, pan e zoom liberi
+- UI completamente floating — zero sfondi opachi, zero bordi che separano zone
+- Sprite 2D a figura intera con ombra ellittica sotto i piedi
+- Dadi: striscia orizzontale ultra-compatta
+- Sequenza vincolata: dado attivo si alza, dado usato grigio, hover = popover dettaglio
+- Carte: si allargano al hover mostrando testo effetto completo
+- Azioni nemici: integrate nella sequenza vincolata, dettaglio su hover
+- Message strip: quasi invisibile di default
+- Layout landscape obbligatorio
+
+### Palette provvisoria
 ```css
---bg-deep:     #151519;
---bg-card:     #16141c;
---bg-panel:    #1c1a24;
---border:      #2e2a3e;
---text:        #e8e0d0;
---text-muted:  #8a7f9a;
---gold:        #c9a84c;
---red:         #b84040;
---blue:        #4a8fbd;
+--bg-void:   #04040e;
+--cyan:      #00e5ff;
+--violet:    #b44fff;
+--acid:      #39ff14;
+--red:       #ff2d2d;
+--gold:      #ffaa00;
+--text:      #c8d8e8;
+--muted:     #4a5570;
 ```
 
-**Compatibilità mobile:** tutti gli elementi UI devono rispondere a touch.
-`input_handler.js` traduce `touchstart/touchend` negli stessi comandi di `click`.
-Nessun `hover`-only interaction — tutto deve funzionare con tap.
+**Compatibilità mobile:** landscape obbligatorio.
+Nessun hover-only interaction — tutto deve funzionare con tap.
 
 ---
 
@@ -169,15 +172,18 @@ Usare SEMPRE questi nomi nel codice, commenti e variabili:
 
 | Termine di gioco | JS | Note |
 |---|---|---|
-| Bag | `diceBag` | Arsenale dadi non attivi |
-| Presente | `activePool` | Dadi turno corrente |
-| Futuro | `nextTurnBuffer` | Dadi turno successivo |
+| Bag | `diceBag` | Arsenale dadi — unico pool |
+| Selezione | `diceSelection` | Fase scelta dadi dopo il lancio |
+| Sequenza Vincolata | `sequence` | Ordine dadi per la Fase 4 |
+| Turno Attuale | `currentTurn` | Stati acquisiti questo turno |
+| Prossimo Turno | `nextTurn` | Stati che scadono a fine turno |
 | Dado Vigore | `VIGOR` | Fisico — Forza ✊ |
 | Dado Fuoco | `FIRE` | Elementale — Fuoco 🔥 |
 | Dado Terrore | `TERROR` | Mentale — Presagio 🔮 |
 | Presagio | `presagio` | Impulso del Dado Terrore |
+| Luce | `light` | Risorsa per recupero slot CD |
 | Eco | `eco` | Effetto scarto carta |
-| Amplificazione Elementale | `elementalAmplify` | Dado elementale su carta fisica |
+| Equipaggiamento | `equipment` | Slot che determinano dadi accessibili |
 
 ---
 
@@ -185,7 +191,7 @@ Usare SEMPRE questi nomi nel codice, commenti e variabili:
 
 ### Regola fondamentale — regole di gioco
 Non interpretare mai le regole di gioco autonomamente.
-Se qualcosa in `docs/regole_v0031def.md` è ambiguo, fermati e chiedi.
+Se qualcosa in `docs/regole_v0041a.md` è ambiguo, fermati e chiedi.
 Le regole su una carta hanno sempre la precedenza sul manuale generale.
 
 ### Commenti nel codice
@@ -194,10 +200,6 @@ Ogni funzione che implementa una regola cita la sezione:
 // REGOLA 3.2 — Dado Vigore: genera impulsi Forza pari al risultato del lancio
 // REGOLA 5.3 — Fase 3: impulsi non spesi vanno persi, non si accumulano
 ```
-
-### Contratti tra moduli
-`event_bus.js` deve essere scritto e stabile **prima** che altri moduli lo usino.
-Stessa cosa per `command_bus.js` — definisce i comandi disponibili prima che input o AI li chiamino.
 
 ### Procedure code
 Il proprietario del progetto non è uno sviluppatore. Non mostrare codice salvo richiesta esplicita. Lavora feature per feature: completa, testa, fai push, comunica solo il risultato funzionale e il link GitHub Pages per il test. Le decisioni bloccanti si risolvono in Project 1 su Claude.ai.
@@ -228,17 +230,15 @@ L'architettura deve essere stabile prima di parallelizzare.
 
 ## 9. Workflow GitHub
 
-### Configurazione Claude Code ← DA COMPLETARE
-> Passi da fare quando si configura Claude Code:
-> 1. GitHub → Settings → Developer settings → Personal access tokens → Generate new token
-> 2. Permessi: selezionare `repo` (lettura e scrittura completa)
-> 3. Inserire il token nella configurazione di Claude Code
-> 4. Verificare che il push funzioni
-> Aggiornare questa sezione con i dettagli dopo la configurazione.
+### Configurazione Claude Code
+- Cartella locale: `C:\Users\gc048\OneDrive - RINA S.p.A\Documents\Personale\TLN`
+- Remote configurato con Fine-grained token (repo: the-long-night, permessi: Contents read/write)
+- Push funzionante — nessuna credenziale richiesta a runtime
+- **Importante:** fare sempre `git pull` prima di aprire Claude Code se si sono fatte modifiche via browser
 
 ### Deploy
 Ogni push su `main` aggiorna automaticamente il sito pubblico.
-Claude Code fa push dopo ogni feature completata e testata.
+Claude Code fa push dopo ogni step completato e testato.
 
 ### Naming Convention Commit
 - `BACKUP: pre-[feature]` — prima di modifiche grosse
@@ -280,34 +280,72 @@ Crea/aggiorna `SESSION_RESUME.md`:
 
 ## 11. Fasi di Sviluppo
 
-**FASE 0 — Setup (corrente)**
-- [ ] Struttura repo pulita con cartelle
-- [ ] `index.html` + `style.css` base (Death Howl palette)
-- [ ] `engine/data/` con tutte le 14 carte, dadi, zombie
-- [ ] `engine/game_state.js` con Bag/Presente/Futuro
-- [ ] `engine/event_bus.js` e `input/command_bus.js`
+**Piano dettagliato completo:** `docs/piano_sviluppo.md`
 
-**FASE 1 — Combat Simulator**
-- [ ] `engine/hex_grid.js`
-- [ ] `engine/dice_system.js` con sequenza vincolata
-- [ ] `engine/card_system.js` con effetti, cooldown, eco
-- [ ] `engine/combat_resolver.js` con danni, stati, spinte
-- [ ] `engine/ai_opponent.js` zombie
-- [ ] `rendering/` griglia isometrica Three.js
-- [ ] `ui/combat/` HUD giocabile completo
-- [ ] `input/input_handler.js` click + touch
-- [ ] Deploy GitHub Pages — primo playtest pubblico
+Ogni step fa push su GitHub Pages ed è verificabile visivamente. Non si passa al successivo senza approvazione.
 
-**FASE 1.5 — Balancing AI**
-- [ ] `balancing/sim_runner.js`
-- [ ] `balancing/sim_agent.js`
-- [ ] `balancing/data_collector.js`
+**STEP 0 — Contratti** ✅
+- [x] Struttura cartelle repo
+- [x] `event_bus.js` con catalogo eventi
+- [x] `command_bus.js` con catalogo comandi
+- [x] Aggiornamento CLAUDE.md
 
-**FASE 2 — Esplorazione (Blocco 2)**
-**FASE 3 — Narrativa (Blocco 1)**
-**FASE 4 — Integrazione**
+**STEP 1 — Griglia esagonale**
+- [ ] `hex_grid.js` (da hex_utils.py)
+- [ ] `data/levels_demo.js`
+- [ ] `index.html` + `style.css`
+- [ ] `rendering/scene.js` (canvas, pan, zoom)
+- [ ] `rendering/hex_renderer.js` (griglia, sprite, ostacoli)
+
+**STEP 2 — Stato e HUD**
+- [ ] `game_state.js`
+- [ ] `data/enemies_zombie.js`
+- [ ] `ui/combat/ui_hud.js`
+- [ ] Collegamento state→event_bus→UI
+
+**STEP 3 — Dadi e Sequenza**
+- [ ] `data/dice_types.js`
+- [ ] `dice_system.js`
+- [ ] `ui/combat/ui_sequence.js`
+- [ ] `gamedata.js`
+
+**STEP 4 — Selezione e Equipaggiamento**
+- [ ] Logica Selezione in dice_system
+- [ ] Sistema Equipaggiamento in game_state
+- [ ] UI selezione interattiva
+- [ ] Risorse da scarto in tempo reale
+
+**STEP 5 — Carte e mano**
+- [ ] `data/cards_combat.js` (13 carte v0.0.4a)
+- [ ] `card_system.js`
+- [ ] `ui/combat/ui_cards.js`
+- [ ] Pesca iniziale
+
+**STEP 6 — Risoluzione (Attacco Base + mov + AI)**
+- [ ] `turn_manager.js`
+- [ ] `combat_resolver.js`
+- [ ] `input_handler.js`
+- [ ] Attacco Base funzionante
+- [ ] Movimento giocatore
+- [ ] `ai_opponent.js` (4 azioni zombie)
+- [ ] Feedback visivo
+
+**STEP 7 — CD, Eco, Fine Turno, ciclo**
+- [ ] Plancia Cooldown (3+1 slot)
+- [ ] `ui/combat/ui_dice_panel.js`
+- [ ] Fase 1 completa
+- [ ] Fase 2 completa
+- [ ] Ciclo turno continuo
+
+**STEP 8 — Allineamento UI v0.0.4a**
+- [ ] Rimozione PRE/FUT/BAG → Bag + Equipaggiamento
+- [ ] Luce nell'HUD
+- [ ] Aggiornamento popover e testi
+- [ ] Verifica coerenza finale
+
+**DOPO STEP 8 — Carte complesse (uno step per carta)**
 
 ---
 
-*The Long Night — CLAUDE.md v1.1 · 2026-02-21*
+*The Long Night — CLAUDE.md v1.3 · 2026-03-04*
 *Non modificare senza aggiornare data e versione*
