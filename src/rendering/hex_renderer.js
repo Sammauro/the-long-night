@@ -18,12 +18,10 @@ import { canvas, ctx, cam, HW, HH, setRenderCallback } from './scene.js';
 // ── Geometria hex — flat-top, odd-q ─────────────────────────
 
 function hexCenter(q, r) {
-  // Odd-r layout — come mockup v4: colonne HW*2 distanziate, righe HH*1.6 schiacciate.
-  // Righe pari (r=2,4,6…) spostate a destra di HW → effetto isometrico low-angle.
-  const off = r % 2 === 0 ? HW : 0;
+  // q, r: 1-indexed. Colonne dispari (q=1,3,5…) spostate in basso di HH.
   return [
-    q * HW * 2 + off,
-    r * HH * 1.6,
+    q * HW * 1.5,
+    r * HH * 2 + (q % 2 === 1 ? HH : 0),
   ];
 }
 
@@ -85,13 +83,14 @@ export function initRenderer(levelData) {
 }
 
 function _recenterCamera() {
-  // Calcola il centro della griglia in coordinate mondo e lo porta al centro schermo.
-  // Formula odd-r (q*HW*2 + rowOffset, r*HH*1.6), q/r 1-indexed:
-  //   x: da (HW*2 - HW) a (cols*HW*2 + HW*2)   [+HW*2 per offset righe pari]
-  //   y: da (HH*1.6 - HH) a (rows*HH*1.6 + HH)
+  // Calcola il centro della griglia in coordinate mondo e lo porta al centro schermo
   const { rows, cols } = _level.grid;
-  const gridCenterX = (HW * 2 - HW + cols * HW * 2 + HW * 2) / 2;
-  const gridCenterY = (HH * 1.6 - HH + rows * HH * 1.6 + HH) / 2;
+  // Bounds griglia (1-indexed):
+  //   x: da (1*HW*1.5 - HW) a (cols*HW*1.5 + HW)
+  //   y: da HH a (rows*HH*2 + 2*HH)
+  const gridCenterX = (1 * HW * 1.5 - HW + cols * HW * 1.5 + HW) / 2;
+  const gridCenterY = (HH + rows * HH * 2 + 2 * HH) / 2;
+  // Centra orizzontalmente; verticalmente lascia ~130px per la UI in basso
   cam.x = canvas.width  / 2 - gridCenterX;
   cam.y = (canvas.height - 130) / 2 - gridCenterY;
 }
@@ -158,15 +157,6 @@ function _drawGrid() {
       }
 
       _fillHex(pts, fill, stroke, lw, dash);
-
-      // DEBUG: label coordinate — rimuovere dopo verifica sprite
-      ctx.save();
-      ctx.font         = `${HH * 0.65}px monospace`;
-      ctx.textAlign    = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle    = 'rgba(200,210,230,0.55)';
-      ctx.fillText(`R${r}Q${q}`, cx, cy);
-      ctx.restore();
     }
   }
 }

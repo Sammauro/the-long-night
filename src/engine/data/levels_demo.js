@@ -25,16 +25,16 @@ export const DEMO_LEVEL = {
 
   // 4 zombie — statistiche in src/engine/data/enemies_zombie.js (Step 2)
   enemies: [
-    { id: 'zombie_1', type: 'zombie', pos: { r: 4, q: 3 } },
-    { id: 'zombie_2', type: 'zombie', pos: { r: 6, q: 2 } },
-    { id: 'zombie_3', type: 'zombie', pos: { r: 7, q: 4 } },
-    { id: 'zombie_4', type: 'zombie', pos: { r: 7, q: 5 } },
+    { id: 'zombie_a', type: 'zombie', pos: { r: 4, q: 3 } },
+    { id: 'zombie_b', type: 'zombie', pos: { r: 2, q: 6 } },
+    { id: 'zombie_c', type: 'zombie', pos: { r: 4, q: 6 } },
+    { id: 'zombie_d', type: 'zombie', pos: { r: 7, q: 4 } },
   ],
 
   // Ostacoli inamovibili — colonne
   obstacles: [
-    { id: 'col_a', type: 'column', pos: { r: 4, q: 5 } },
-    { id: 'col_b', type: 'column', pos: { r: 6, q: 4 } },
+    { id: 'col_a', type: 'column', pos: { r: 3, q: 2 } },
+    { id: 'col_b', type: 'column', pos: { r: 5, q: 5 } },
   ],
 
   // Trappole — danni a chi ci entra
