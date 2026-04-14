@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Long Night — VTT Playtest v2</title>
+<style>
+:root{
+  --bg:#04040e;--bgc:#080818;--bgp:#0c0c1e;--brd:#1a1a3e;
+  --txt:#c8d8e8;--mut:#4a5570;--cyn:#00e5ff;--vio:#b44fff;
+  --acid:#39ff14;--red:#ff2d2d;--gld:#ffaa00;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',sans-serif;font-size:12px;padding:8px;min-width:320px;}
+h1{color:var(--cyn);font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;text-shadow:0 0 8px rgba(0,229,255,.35);}
+.sec{color:var(--mut);font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.panel{background:var(--bgp);border:1px solid var(--brd);border-radius:5px;padding:8px;margin-bottom:8px;}
+/* 3-col layouts */
+.top3{display:grid;grid-template-columns:148px auto 1fr;gap:8px;align-items:start;margin-bottom:0;}
+.bot3{display:grid;grid-template-columns:230px 1fr 178px;gap:8px;align-items:start;}
+/* Buttons */
+.btn{background:var(--bgc);border:1px solid var(--brd);color:var(--txt);padding:4px 9px;border-radius:3px;cursor:pointer;font-size:10px;text-transform:uppercase;letter-spacing:.8px;transition:border-color .15s,color .15s;}
+.btn:hover{border-color:var(--cyn);color:var(--cyn);}
+.btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.btn-cyn{border-color:var(--cyn);color:var(--cyn);}.btn-cyn:hover{background:rgba(0,229,255,.09);}
+.btn-vio{border-color:var(--vio);color:var(--vio);}.btn-vio:hover{background:rgba(180,79,255,.09);}
+.btn-gld{border-color:var(--gld);color:var(--gld);}.btn-gld:hover{background:rgba(255,170,0,.09);}
+.btn-red{border-color:var(--red);color:var(--red);}.btn-red:hover{background:var(--red);color:#fff;}
+.btn-sm{background:var(--bgc);border:1px solid var(--brd);color:var(--txt);width:22px;height:22px;border-radius:3px;cursor:pointer;font-size:13px;display:inline-flex;align-items:center;justify-content:center;user-select:none;transition:border-color .1s,color .1s;}
+.btn-sm:hover{border-color:var(--cyn);color:var(--cyn);}
+/* Canvas */
+#hexCanvas{display:block;border-radius:3px;}
+/* Resources */
+.res-row{display:flex;align-items:center;gap:4px;margin-bottom:5px;}
+.res-lbl{font-size:11px;width:62px;}
+.res-val{font-size:17px;font-weight:700;color:var(--gld);width:26px;text-align:center;}
+.res-bar{flex:1;height:3px;background:var(--brd);border-radius:2px;overflow:hidden;}
+.res-fill{height:100%;border-radius:2px;transition:width .2s;}
+/* Zombie cards */
+.z-row{display:flex;gap:6px;flex-wrap:wrap;}
+.z-card{background:var(--bgc);border:1px solid var(--brd);border-radius:4px;padding:5px 6px;min-width:86px;text-align:center;transition:opacity .3s;}
+.z-card.dead{opacity:.2;pointer-events:none;}
+.z-name{color:var(--red);font-weight:700;font-size:11px;margin-bottom:2px;text-shadow:0 0 5px rgba(255,45,45,.3);}
+.z-hp{font-size:17px;font-weight:700;color:var(--gld);margin-bottom:2px;}
+.z-ctrl{display:flex;align-items:center;justify-content:center;gap:3px;margin-bottom:4px;}
+/* Pool counters */
+.pool-row{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+.pool-lbl{width:100px;font-size:11px;color:var(--mut);}
+.pool-num{width:22px;text-align:center;font-weight:700;color:var(--gld);font-size:13px;}
+/* Sequence */
+.seq-strip{display:flex;gap:5px;flex-wrap:wrap;min-height:48px;background:var(--bg);border:1px dashed var(--brd);border-radius:4px;padding:5px;margin-bottom:6px;align-items:flex-start;}
+.seq-slot{background:var(--bgc);border:1px solid var(--brd);border-radius:3px;padding:3px 6px;text-align:center;min-width:56px;cursor:grab;user-select:none;position:relative;transition:border-color .15s;}
+.seq-slot:hover{border-color:var(--cyn);}
+.seq-slot:active{cursor:grabbing;border-color:var(--gld);}
+.seq-type{color:var(--mut);font-size:9px;}
+.seq-val{font-size:15px;font-weight:700;color:var(--gld);}
+.seq-val.ai{color:var(--red);}
+.seq-who{font-size:8px;color:var(--mut);}
+.seq-x{position:absolute;top:-4px;right:-4px;width:12px;height:12px;background:rgba(255,45,45,.8);border-radius:50%;font-size:7px;display:none;align-items:center;justify-content:center;cursor:pointer;color:#fff;line-height:1;}
+.seq-slot:hover .seq-x{display:flex;}
+/* CD Slots */
+.cd-sl{background:var(--bgc);border:1px solid var(--brd);border-radius:4px;padding:6px 8px;margin-bottom:6px;transition:border-color .2s;}
+.cd-sl.free{border-left:3px solid var(--acid);}
+.cd-sl.occ{border-left:3px solid var(--gld);}
+.cd-sl-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px;}
+.cd-sl-nm{font-size:10px;color:var(--cyn);font-weight:700;}
+.cd-sl-die{font-size:10px;color:var(--mut);}
+.cd-sl-meta{font-size:9px;color:var(--mut);margin-bottom:3px;}
+.cd-sl-st{font-size:10px;margin-bottom:3px;}
+.cd-sl-st.f{color:var(--acid);}
+.cd-sl-st.o{color:var(--gld);}
+.cd-sl-btns{display:flex;gap:4px;}
+/* Hand cards */
+.hand-wrap{display:flex;gap:5px;flex-wrap:wrap;min-height:28px;}
+.hc{background:var(--bgc);border:1px solid var(--brd);border-radius:4px;padding:3px 7px;font-size:10px;cursor:pointer;position:relative;transition:border-color .12s;user-select:none;}
+.hc:hover{border-color:var(--vio);}
+.hc.active{border-color:var(--vio);}
+.hc-menu{position:absolute;bottom:calc(100% + 4px);left:0;background:#10102a;border:1px solid var(--vio);border-radius:4px;padding:3px;z-index:200;min-width:200px;max-width:260px;box-shadow:0 4px 12px rgba(0,0,0,.9);}
+.hc-menu-info{padding:5px 8px 5px;border-bottom:1px solid var(--brd);margin-bottom:3px;}
+.hc-menu-info strong{color:var(--gld);font-size:10px;display:block;margin-bottom:2px;}
+.hc-menu-info .mi-meta{color:var(--cyn);font-size:9px;margin-bottom:3px;}
+.hc-menu-info .mi-act{font-size:9px;color:var(--txt);white-space:pre-line;line-height:1.4;}
+.hc-menu-info .mi-eco{color:var(--vio);font-size:9px;margin-top:3px;}
+.hc-menu button{display:block;width:100%;background:none;border:none;color:var(--txt);padding:4px 8px;text-align:left;cursor:pointer;font-size:10px;border-radius:2px;}
+.hc-menu button:hover{background:rgba(180,79,255,.2);color:var(--vio);}
+/* Stati (giocatore e zombie) */
+.stati-sec{margin-top:7px;padding-top:6px;border-top:1px solid var(--brd);}
+.stati-hdr{display:flex;font-size:8px;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;}
+.stati-hdr span:first-child{flex:1;}
+.stati-hdr span{width:60px;text-align:center;}
+.stato-row{display:flex;align-items:center;gap:3px;margin-bottom:4px;}
+.stato-ico{font-size:10px;flex:1;color:var(--txt);}
+.stato-cell{display:flex;align-items:center;gap:2px;width:60px;justify-content:center;}
+.stato-num{font-size:12px;font-weight:700;color:var(--gld);width:16px;text-align:center;}
+/* Zombie stati (compact) */
+.z-stati{margin-top:5px;border-top:1px solid var(--brd);padding-top:4px;}
+.z-stati-hdr{display:flex;font-size:7px;color:var(--mut);text-transform:uppercase;margin-bottom:3px;}
+.z-stati-hdr span:first-child{flex:1;}
+.z-stati-hdr span{width:28px;text-align:center;font-size:7px;}
+.z-stato-row{display:flex;align-items:center;margin-bottom:3px;}
+.z-stato-ico{font-size:8px;flex:1;text-align:left;color:var(--txt);}
+.z-stato-cell{display:flex;align-items:center;gap:1px;width:28px;justify-content:center;}
+.z-stato-num{font-size:9px;font-weight:700;color:var(--gld);width:10px;text-align:center;}
+.z-btn-sm{background:var(--bgc);border:1px solid var(--brd);color:var(--txt);width:16px;height:16px;border-radius:2px;cursor:pointer;font-size:10px;display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:0;}
+.z-btn-sm:hover{border-color:var(--cyn);color:var(--cyn);}
+/* Trap tooltip overlay */
+#trapTip{display:none;position:fixed;z-index:9999;background:#0a0820;border:1px solid var(--gld);border-radius:4px;padding:7px 9px;width:220px;font-size:10px;line-height:1.5;color:var(--txt);pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.95);}
+#trapTip strong{color:var(--gld);display:block;margin-bottom:2px;}
+.disc-list{display:flex;gap:3px;flex-wrap:wrap;min-height:18px;margin-top:4px;}
+.disc-it{background:#100808;border:1px solid #2e1414;border-radius:2px;padding:1px 5px;font-size:9px;color:var(--mut);}
+/* Log */
+.log-area{background:var(--bg);border:1px solid var(--brd);border-radius:3px;padding:6px;height:100px;overflow-y:auto;font-size:10px;font-family:monospace;color:var(--mut);white-space:pre-wrap;margin-bottom:5px;}
+.log-ctrl{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+#logInp{flex:1;min-width:110px;background:var(--bgc);border:1px solid var(--brd);color:var(--txt);padding:3px 6px;border-radius:3px;font-size:10px;}
+/* Tooltip */
+.tt{position:relative;}
+.tt-box{display:none;position:absolute;z-index:9999;bottom:calc(100% + 4px);left:0;background:#0a0820;border:1px solid var(--gld);border-radius:4px;padding:7px 9px;width:230px;font-size:10px;line-height:1.5;color:var(--txt);pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.95);}
+.tt:hover .tt-box,.tt.topen .tt-box{display:block;}
+.tt-box strong{color:var(--gld);display:block;margin-bottom:2px;}
+.tt-meta{color:var(--cyn);font-size:9px;margin-bottom:3px;}
+.tt-eco{color:var(--vio);margin-top:4px;padding-top:3px;border-top:1px solid var(--brd);}
+/* Modal */
+.mdl{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:500;align-items:center;justify-content:center;}
+.mdl.open{display:flex;}
+.mdl-box{background:var(--bgp);border:1px solid var(--vio);border-radius:6px;padding:16px;min-width:260px;max-width:320px;box-shadow:0 0 20px rgba(180,79,255,.3);}
+.mdl-title{color:var(--vio);font-size:11px;font-weight:700;margin-bottom:10px;text-transform:uppercase;}
+.mdl-lbl{font-size:9px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.mdl-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.mdl-opt{background:var(--bgc);border:1px solid var(--brd);border-radius:3px;padding:4px 9px;cursor:pointer;font-size:10px;transition:all .12s;}
+.mdl-opt:hover{border-color:var(--vio);color:var(--vio);}
+.mdl-opt.sel{border-color:var(--vio);background:rgba(180,79,255,.14);color:var(--vio);}
+.mdl-opt.dis{opacity:.3;cursor:not-allowed;pointer-events:none;}
+.mdl-btns{display:flex;gap:6px;margin-top:2px;}
+@media(max-width:740px){
+  .top3{grid-template-columns:1fr;}.bot3{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<h1>⚔ THE LONG NIGHT — VTT PLAYTEST v2</h1>
+
+<!-- TOP ROW: Giocatore | Griglia | Zombie -->
+<div class="top3">
+  <!-- PLAYER -->
+  <div class="panel">
+    <div class="sec">Giocatore</div>
+    <div id="resContainer"></div>
+  </div>
+
+  <!-- GRID -->
+  <div class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+      <div class="sec" style="margin:0">Griglia 6×8</div>
+      <button class="btn btn-red" style="font-size:9px;padding:3px 7px" onclick="doReset()">↺ Reset Setup</button>
+    </div>
+    <canvas id="hexCanvas"></canvas>
+  </div>
+
+  <!-- ZOMBIES -->
+  <div class="panel">
+    <div class="sec">Zombie</div>
+    <div class="z-row" id="zCards"></div>
+  </div>
+</div>
+
+<!-- ZOMBIE ACTIONS (common reference) -->
+<div class="panel">
+  <div class="sec">Azioni Zombie — Dado AI d4</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;">
+    <div style="font-size:10px;line-height:1.4;padding:4px 0;border-bottom:1px solid var(--brd)"><span style="color:var(--gld);font-weight:700">1 — Morso Rigenerante</span><br><span style="color:var(--mut)">Muove + Attacca (2 Danni). Cura 1 HP per ogni danno agli HP.</span></div>
+    <div style="font-size:10px;line-height:1.4;padding:4px 0;border-bottom:1px solid var(--brd)"><span style="color:var(--gld);font-weight:700">2 — Attacco Orda</span><br><span style="color:var(--mut)">Muove + Attacca (2 Danni). +1 Danno per ogni altro Zombie adiacente al bersaglio.</span></div>
+    <div style="font-size:10px;line-height:1.4;padding:4px 0"><span style="color:var(--gld);font-weight:700">3 — Incassare</span><br><span style="color:var(--mut)">Non si muove. Non attacca. Guadagna 2 Scudi (Turno Attuale).</span></div>
+    <div style="font-size:10px;line-height:1.4;padding:4px 0"><span style="color:var(--gld);font-weight:700">4 — Attacco Terrore</span><br><span style="color:var(--mut)">Muove + Attacca (2 Danni). Se almeno 1 danno agli HP: bersaglio perde 1 PT.</span></div>
+  </div>
+</div>
+
+<!-- SEQUENCE ROW -->
+<div class="panel">
+  <div class="sec">Sequenza Vincolata — imposta i dadi → genera → trascina per riordinare</div>
+  <div style="background:var(--bg);border:1px solid var(--brd);border-radius:4px;padding:7px;margin-bottom:7px;">
+    <div style="font-size:9px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">Dadi da includere</div>
+    <div id="poolBuild"></div>
+    <div style="display:flex;gap:6px;align-items:center;margin-top:6px;flex-wrap:wrap;">
+      <button class="btn btn-cyn" onclick="genSeq()">🎲 GENERA SEQUENZA</button>
+      <span id="seqInfo" style="font-size:9px;color:var(--mut)"></span>
+    </div>
+  </div>
+  <div class="seq-strip" id="seqStrip"></div>
+  <button class="btn" onclick="clearSeq()">✕ Pulisci Sequenza</button>
+</div>
+
+<!-- BOTTOM ROW: CD Slots | Mano | Mazzo+Scarto -->
+<div class="bot3">
+
+  <!-- CD SLOTS -->
+  <div class="panel">
+    <div class="sec">Equipaggiamento — Cooldown Slot</div>
+    <div id="cdSlots"></div>
+  </div>
+
+  <!-- HAND -->
+  <div class="panel">
+    <div class="sec">Mano — clicca carta per opzioni</div>
+    <div class="hand-wrap" id="handArea"></div>
+  </div>
+
+  <!-- DECK + DISCARD -->
+  <div>
+    <div class="panel">
+      <div class="sec">Mazzo</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
+        <button class="btn btn-gld" id="btnPesca" onclick="drawCard()">+ Pesca</button>
+        <span id="deckCnt" style="color:var(--gld);font-size:11px">13 carte</span>
+      </div>
+      <div id="drawnBadge"></div>
+    </div>
+    <div class="panel">
+      <div class="sec">Scarto</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <button class="btn" onclick="reshuffle()">↺ Rimescola</button>
+        <span id="discCnt" style="color:var(--mut);font-size:11px">0 carte</span>
+      </div>
+      <div class="disc-list" id="discArea"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOG -->
+<div class="panel">
+  <div class="sec">Log di Turno</div>
+  <div class="log-area" id="logArea"></div>
+  <div class="log-ctrl">
+    <button class="btn" onclick="newTurn()">+ Nuovo Turno</button>
+    <button class="btn" onclick="copyLog()">📋 Copia</button>
+    <input id="logInp" placeholder="Nota manuale..." onkeydown="if(event.key==='Enter')addNote()">
+    <button class="btn" onclick="addNote()">Aggiungi</button>
+  </div>
+</div>
+
+<!-- MODAL CD -->
+<div class="mdl" id="cdModal">
+  <div class="mdl-box">
+    <div class="mdl-title" id="mdlTitle">Metti in Cooldown</div>
+    <div class="mdl-lbl">Scegli slot:</div>
+    <div class="mdl-row" id="mdlSlots"></div>
+    <div class="mdl-lbl">Livello CD:</div>
+    <div class="mdl-row" id="mdlLvls"></div>
+    <div class="mdl-btns">
+      <button class="btn btn-vio" id="mdlOk" disabled onclick="confirmCD()">Conferma</button>
+      <button class="btn" onclick="closeModal()">Annulla</button>
+    </div>
+  </div>
+</div>
+
+<div id="trapTip"><strong>⚠ TRAPPOLA</strong>3 Danni Diretti all'unità che entra (ignora Scudi e Vulnerabilità). Rimossa dopo l'attivazione.<br><br><em style="color:var(--cyn)">Click sulla griglia per rimuovere</em></div>
+
+<script>
+// ─── CARD DATA ──────────────────────────────────────────────────────────
+const CARDS=[
+  {id:'ab1',name:'Attacco Base (1)',cd:'0',supply:'—',
+   active:'1 ✊ → 1 Danno. / 2 ✊ → Pesca 1 carta.',
+   eco:'+1 PM · +1 Scudo (Turno Attuale)'},
+  {id:'ab2',name:'Attacco Base (2)',cd:'0',supply:'—',
+   active:'1 ✊ → 1 Danno. / 2 ✊ → Pesca 1 carta.',
+   eco:'+1 PM · +1 Scudo (Turno Attuale)'},
+  {id:'ap',name:'Attacco Poderoso',cd:'1',supply:'—',
+   active:'1 ✊ → 2 Danni (self: Vulnerabile). /\n1 ✊ → Stordisci + Spingi 1 (self: Vulnerabile).',
+   eco:'+1 PM · +1 Luce'},
+  {id:'ds',name:'Diniego Sismico',cd:'1',supply:'—',
+   active:'1 ✊ → 1 Danno + Spingi 1 (Collisione Tattica).',
+   eco:'+1 PM · +1 Luce'},
+  {id:'as',name:'Attacco Strategico',cd:'2',supply:'1× d6 Vigore',
+   active:'1 ✊ → 1 Danno. Per ogni danno agli HP: +1 PM oppure +1 Scudo (a scelta).',
+   eco:'+1 PM · +2 Luce'},
+  {id:'af',name:'Attacco di Fuoco',cd:'1',supply:'1× d4 Fuoco',
+   active:'1 🔥 → 2 Danni Fuoco (Corpo a Corpo). /\n1 🔥 → Vulnerabilità Fuoco (bersaglio adiacente).',
+   eco:'+1 PM · +1 Luce'},
+  {id:'cf',name:'Cono di Fuoco',cd:'1',supply:'1× d4 Fuoco',
+   active:'1 🔥 → 2 Danni Fuoco AOE (Cono, Gittata 3). Scegli orientamento tra 6 direzioni.',
+   eco:'+1 PM · +1 Luce'},
+  {id:'ie',name:'Infusione Elementale',cd:'1 excl.Fuoco',supply:'—',
+   active:'GRATIS — Converti impulsi di 1 dado non-Terrore in Fuoco (+1 impulso al dado).',
+   eco:'+1 PM · Avanza 1 carta in CD di 90°'},
+  {id:'cfu',name:'Carica Furiosa',cd:'2',supply:'1× d6 Vigore',
+   active:'GRATIS — Consuma 2 dadi adiacenti in Sequenza. Muovi in linea retta (caselle = somma impulsi). Danno = caselle percorse (solo se adiacente a nemico al termine).',
+   eco:'+1 PM · +2 Luce'},
+  {id:'pm',name:'Profondità Mente',cd:'2',supply:'1× d8 Terrore',
+   active:'X 🔮 + X PT → X Danni Diretti a un bersaglio ovunque sulla mappa.',
+   eco:'+1 PM · +2 Luce'},
+  {id:'md',name:'Manipolazione Destino',cd:'2',supply:'—',
+   active:'GRATIS — Costa 1 PT: ruota un dado in Sequenza sulla faccia che preferisci.',
+   eco:'+1 PM · Avanza tutte le carte in CD di 90°'},
+  {id:'di',name:'Distorsione',cd:'1',supply:'—',
+   active:"X 🔮 + 1 PT → sposta un'unità (non self) di X caselle. No Collisione. Trappole attive.",
+   eco:'+1 PM · Pesca 1 carta'},
+];
+
+const ZOMBIE_ACTS=[
+  {n:1,nm:'Morso Rigenerante',tx:'Muove verso il giocatore + Attacca (2 Danni). Cura 1 HP per ogni danno inflitto agli HP.'},
+  {n:2,nm:'Attacco Orda',tx:'Muove verso il giocatore + Attacca (2 Danni). +1 Danno per ogni altro Zombie adiacente al bersaglio.'},
+  {n:3,nm:'Incassare',tx:'Non si muove. Non attacca. Guadagna 2 Segnalini Scudo (Turno Attuale).'},
+  {n:4,nm:'Attacco Terrore',tx:'Muove verso il giocatore + Attacca (2 Danni). Se almeno 1 danno agli HP: bersaglio perde 1 PT.'},
+];
+
+// Equipment slots (setup demo — regole sez.10)
+const ESLOTS=[
+  {id:1,nm:'Slot 1',die:'d8 🔮',pr:'Alta',cost:2},
+  {id:2,nm:'Slot 2',die:'d6 ✊',pr:'Media',cost:1},
+  {id:3,nm:'Slot 3',die:'d6 ✊',pr:'Bassa',cost:2},
+  {id:4,nm:'Slot 4 ★Fuoco',die:'d4 🔥',pr:'—',cost:1,excl:true},
+];
+
+// Player dice (bag = supply of demo deck)
+const PDICE=[
+  {id:'d6v1',lbl:'d6 ✊',tag:'Vigore',sides:6},
+  {id:'d6v2',lbl:'d6 ✊',tag:'Vigore',sides:6},
+  {id:'d4f1',lbl:'d4 🔥',tag:'Fuoco',sides:4},
+  {id:'d4f2',lbl:'d4 🔥',tag:'Fuoco',sides:4},
+  {id:'d8t1',lbl:'d8 🔮',tag:'Terrore',sides:8},
+];
+
+// ─── HEX CONSTANTS ──────────────────────────────────────────────────────
+const HS=27,COLS=6,ROWS=8,SQ3=Math.sqrt(3);
+const HW=SQ3*HS,VS=HS*1.5,MX=24,MY=20;
+// "Righe dispari offset a destra di mezza casella" (odd rows shifted +HW/2)
+// Even rows: base = MX + (e-1)*HW + HW/2
+// Odd rows: base + HW/2
+const CW=Math.ceil(MX*2+COLS*HW+HW+4);
+const CH=Math.ceil(MY*2+(ROWS-1)*VS+HS*2+4);
+
+const INIT_PC={
+  PG:{r:1,e:4,lbl:'PG',col:'#b44fff'},
+  Z1:{r:4,e:3,lbl:'Z1',col:'#ff2d2d'},Z2:{r:4,e:6,lbl:'Z2',col:'#ff2d2d'},
+  Z3:{r:6,e:2,lbl:'Z3',col:'#ff2d2d'},Z4:{r:6,e:6,lbl:'Z4',col:'#ff2d2d'},
+  Z5:{r:7,e:4,lbl:'Z5',col:'#ff2d2d'},
+};
+const FIXED={
+  CA:{r:4,e:5,t:'obs',tip:'Col.A'},CB:{r:6,e:4,t:'obs',tip:'Col.B'},
+  TR:{r:5,e:3,t:'trap',tip:'Trap'},
+};
+
+// Pool definitions for sequence builder
+const POOL_DEFS=[
+  {k:'d4f',label:'🔥 d4 Fuoco',sides:4,ai:false},
+  {k:'d4ai',label:'💀 d4 AI Zombie',sides:4,ai:true},
+  {k:'d6',label:'✊ d6 Vigore',sides:6,ai:false},
+  {k:'d8',label:'🔮 d8 Terrore',sides:8,ai:false},
+];
+
+// ─── STATE ──────────────────────────────────────────────────────────────
+let res={},pc={},zHP={},zDead={},pgStati={},zStati={};
+let cdSt=[];       // [{card:null|str, cd:0}]
+let hand=[],deck=[],disc=[];
+let pool={d4f:0,d4ai:0,d6:0,d8:0};
+let sq=[];         // sequence
+let trapRemoved=false;
+let turnN=1,logTxt='';
+let drag=null; const mouse={x:0,y:0};
+let mdl_ci=null,mdl_sl=null,mdl_lv=null; // modal state
+
+const cp=o=>JSON.parse(JSON.stringify(o));
+const sfl=a=>{for(let i=a.length-1;i>0;i--){const j=0|Math.random()*(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;};
+
+// ─── HEX MATH ───────────────────────────────────────────────────────────
+function hC(r,e){
+  // odd rows (r%2===1) → +HW/2 offset to the right
+  return{x:MX+(e-1)*HW+HW*.5+(r%2===1?HW*.5:0),y:MY+(r-1)*VS+HS};
+}
+function hPts(cx,cy){
+  const p=[];for(let i=0;i<6;i++){const a=Math.PI/6+i*Math.PI/3;p.push([cx+HS*Math.cos(a),cy+HS*Math.sin(a)]);}return p;
+}
+function nearest(px,py){
+  let b=null,bd=1e9;
+  for(let r=1;r<=ROWS;r++)for(let e=1;e<=COLS;e++){
+    const c=hC(r,e),d=(px-c.x)**2+(py-c.y)**2;if(d<bd){bd=d;b={r,e};}
+  }
+  return b;
+}
+
+// ─── CANVAS ─────────────────────────────────────────────────────────────
+const cv=document.getElementById('hexCanvas');
+cv.width=CW;cv.height=CH;
+const ctx=cv.getContext('2d');
+
+function fH(cx,cy,f,s,w=1){
+  const p=hPts(cx,cy);ctx.beginPath();ctx.moveTo(p[0][0],p[0][1]);
+  for(let i=1;i<6;i++)ctx.lineTo(p[i][0],p[i][1]);
+  ctx.closePath();ctx.fillStyle=f;ctx.fill();ctx.strokeStyle=s;ctx.lineWidth=w;ctx.stroke();
+}
+function dP(cx,cy,lbl,col,g=false){
+  const r=HS*.41;ctx.beginPath();ctx.arc(cx,cy-1,r,0,Math.PI*2);
+  ctx.fillStyle=g?col+'55':col;ctx.fill();
+  ctx.strokeStyle=g?'#ffaa00':'rgba(255,255,255,.12)';ctx.lineWidth=g?1.5:.7;ctx.stroke();
+  ctx.fillStyle='#fff';ctx.font='bold 9px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(lbl,cx,cy-1);
+}
+function drawGrid(){
+  ctx.clearRect(0,0,CW,CH);ctx.fillStyle='#04040e';ctx.fillRect(0,0,CW,CH);
+  for(let r=1;r<=ROWS;r++)for(let e=1;e<=COLS;e++){
+    const c=hC(r,e);fH(c.x,c.y,'#07071a','#1a1a3e');
+    ctx.fillStyle='#3a4560';ctx.font='7px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(`${r},${e}`,c.x,c.y+10);
+  }
+  for(const[,f]of Object.entries(FIXED)){
+    const c=hC(f.r,f.e);
+    if(f.t==='obs'){
+      fH(c.x,c.y,'#141428','#3a5566',1.5);
+      ctx.fillStyle='#6688aa';ctx.font='bold 13px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('▪',c.x,c.y-1);
+      ctx.fillStyle='#445566';ctx.font='7px sans-serif';ctx.fillText(f.tip,c.x,c.y+10);
+    }else{
+      if(trapRemoved)continue;
+      fH(c.x,c.y,'#140800','#ffaa00',1.5);
+      ctx.fillStyle='#ffaa00';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('⚠',c.x,c.y-1);
+      ctx.fillStyle='#cc8800';ctx.font='7px sans-serif';ctx.fillText(f.tip,c.x,c.y+10);
+    }
+  }
+  if(drag){const t=nearest(mouse.x,mouse.y);if(t){const c=hC(t.r,t.e);fH(c.x,c.y,'#0a0a28','#00e5ff',2);}}
+  for(const[id,p]of Object.entries(pc)){
+    if(drag&&drag.id===id)continue;if(zDead[id])continue;
+    const c=hC(p.r,p.e);dP(c.x,c.y,p.lbl,p.col);
+  }
+  if(drag){const p=pc[drag.id];if(p)dP(mouse.x,mouse.y,p.lbl,p.col,true);}
+}
+
+// ─── DRAG ───────────────────────────────────────────────────────────────
+function cvXY(e){
+  const r=cv.getBoundingClientRect(),sx=cv.width/r.width,sy=cv.height/r.height;
+  const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;
+  return{x:(cx-r.left)*sx,y:(cy-r.top)*sy};
+}
+function pieceAt(x,y){
+  let b=null,bd=1e9;
+  for(const[id,p]of Object.entries(pc)){
+    if(zDead[id])continue;const c=hC(p.r,p.e),d=(x-c.x)**2+(y-c.y)**2;
+    if(d<(HS*.54)**2&&d<bd){bd=d;b=id;}
+  }
+  return b;
+}
+cv.addEventListener('mousedown',e=>{e.preventDefault();const p=cvXY(e);const id=pieceAt(p.x,p.y);if(id){drag={id};mouse.x=p.x;mouse.y=p.y;cv.style.cursor='grabbing';}},{passive:false});
+cv.addEventListener('touchstart',e=>{e.preventDefault();const p=cvXY(e);const id=pieceAt(p.x,p.y);if(id){drag={id};mouse.x=p.x;mouse.y=p.y;}},{passive:false});
+cv.addEventListener('mousemove',e=>{if(!drag)return;const p=cvXY(e);mouse.x=p.x;mouse.y=p.y;},{passive:false});
+cv.addEventListener('touchmove',e=>{if(!drag)return;e.preventDefault();const p=cvXY(e);mouse.x=p.x;mouse.y=p.y;},{passive:false});
+function endDrag(e){
+  if(!drag)return;
+  let pos=mouse;
+  try{if(e.changedTouches){const r=cv.getBoundingClientRect();pos={x:(e.changedTouches[0].clientX-r.left)*(cv.width/r.width),y:(e.changedTouches[0].clientY-r.top)*(cv.height/r.height)};}else pos=cvXY(e);}catch{}
+  const t=nearest(pos.x,pos.y);
+  if(t){const o={...pc[drag.id]};pc[drag.id].r=t.r;pc[drag.id].e=t.e;log(`→ ${drag.id} R${o.r}E${o.e} → R${t.r}E${t.e}`);}
+  drag=null;cv.style.cursor='default';
+}
+cv.addEventListener('mouseup',endDrag);cv.addEventListener('touchend',endDrag);
+
+// ─── TRAP TOOLTIP + CLICK-REMOVE (Fix 5) ────────────────────────────────
+const trapTipEl=document.getElementById('trapTip');
+function trapHexContains(px,py){
+  if(trapRemoved)return false;
+  const c=hC(FIXED.TR.r,FIXED.TR.e);
+  return(px-c.x)**2+(py-c.y)**2<(HS*.7)**2;
+}
+cv.addEventListener('mousemove',e=>{
+  const pos=cvXY(e),inTrap=trapHexContains(pos.x,pos.y);
+  if(inTrap){
+    trapTipEl.style.display='block';
+    trapTipEl.style.left=(e.clientX+14)+'px';
+    trapTipEl.style.top=(e.clientY-10)+'px';
+  }else{trapTipEl.style.display='none';}
+});
+cv.addEventListener('mouseleave',()=>{trapTipEl.style.display='none';});
+cv.addEventListener('click',e=>{
+  if(drag)return;
+  const pos=cvXY(e);
+  if(trapHexContains(pos.x,pos.y)){
+    if(confirm('Rimuovere la trappola dalla griglia?')){
+      trapRemoved=true;trapTipEl.style.display='none';log('⚠ Trappola rimossa dalla griglia');
+    }
+  }
+});
+
+// ─── RESOURCES ──────────────────────────────────────────────────────────
+const RES_DEF=[
+  {k:'hp',lbl:'❤️ HP',max:10,col:'#ff2d2d'},
+  {k:'pt',lbl:'💀 PT',max:10,col:'#b44fff'},
+  {k:'pm',lbl:'⚡ PM',max:20,col:'#00e5ff'},
+  {k:'luce',lbl:'💡 Luce',max:10,col:'#ffaa00'},
+];
+function buildRes(){
+  const c=document.getElementById('resContainer');c.innerHTML='';
+  RES_DEF.forEach(d=>{
+    const pct=Math.min(100,res[d.k]/d.max*100);
+    c.innerHTML+=`<div class="res-row">
+      <span class="res-lbl">${d.lbl}</span>
+      <button class="btn-sm" onclick="chR('${d.k}',-1)">−</button>
+      <span class="res-val" id="rv-${d.k}">${res[d.k]}</span>
+      <button class="btn-sm" onclick="chR('${d.k}',1)">+</button>
+      <div class="res-bar"><div class="res-fill" id="rb-${d.k}" style="width:${pct}%;background:${d.col}"></div></div>
+    </div>`;
+  });
+  // Stati
+  c.innerHTML+=`<div class="stati-sec">
+    <div class="sec" style="margin-bottom:3px">Stati</div>
+    <div class="stati-hdr"><span></span><span>Prec.</span><span>Att.</span></div>
+    ${['sc','vu','st'].map(k=>{
+      const ico=k==='sc'?'🛡 Scudo':k==='vu'?'⚠ Vuln.':'💫 Stord.';
+      return `<div class="stato-row">
+        <span class="stato-ico">${ico}</span>
+        <div class="stato-cell">
+          <button class="btn-sm" onclick="chPgS('${k}','p',-1)">−</button>
+          <span class="stato-num" id="pgs-${k}-p">${pgStati[k].p}</span>
+          <button class="btn-sm" onclick="chPgS('${k}','p',1)">+</button>
+        </div>
+        <div class="stato-cell">
+          <button class="btn-sm" onclick="chPgS('${k}','c',-1)">−</button>
+          <span class="stato-num" id="pgs-${k}-c">${pgStati[k].c}</span>
+          <button class="btn-sm" onclick="chPgS('${k}','c',1)">+</button>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+function chPgS(k,pc,d){
+  pgStati[k][pc]=Math.max(0,pgStati[k][pc]+d);
+  document.getElementById(`pgs-${k}-${pc}`).textContent=pgStati[k][pc];
+  const lbl=k==='sc'?'Scudo':k==='vu'?'Vuln.':'Stord.';
+  const area=pc==='p'?'Prec':'Att';
+  log(`→ PG ${lbl} ${area} ${d>0?'+':''}${d} → ${pgStati[k][pc]}`);
+}
+function chR(k,d){
+  const def=RES_DEF.find(x=>x.k===k);
+  res[k]=Math.max(0,Math.min(def.max,res[k]+d));
+  document.getElementById('rv-'+k).textContent=res[k];
+  document.getElementById('rb-'+k).style.width=Math.min(100,res[k]/def.max*100)+'%';
+  log(`→ ${k.toUpperCase()} ${d>0?'+':''}${d} → ${res[k]}`);
+}
+
+// ─── ZOMBIES ────────────────────────────────────────────────────────────
+function buildZombies(){
+  const c=document.getElementById('zCards');c.innerHTML='';
+  for(let i=1;i<=5;i++){
+    const id='Z'+i;
+    const st=zStati[id];
+    const stHtml=`<div class="z-stati">
+      <div class="z-stati-hdr"><span></span><span>Pre</span><span>Att</span></div>
+      ${['sc','vu','st'].map(k=>{
+        const ico=k==='sc'?'🛡':k==='vu'?'⚠':'💫';
+        return `<div class="z-stato-row">
+          <span class="z-stato-ico">${ico}</span>
+          <div class="z-stato-cell">
+            <button class="z-btn-sm" onclick="chZS('${id}','${k}','p',-1)">−</button>
+            <span class="z-stato-num" id="zs-${id}-${k}-p">${st[k].p}</span>
+            <button class="z-btn-sm" onclick="chZS('${id}','${k}','p',1)">+</button>
+          </div>
+          <div class="z-stato-cell">
+            <button class="z-btn-sm" onclick="chZS('${id}','${k}','c',-1)">−</button>
+            <span class="z-stato-num" id="zs-${id}-${k}-c">${st[k].c}</span>
+            <button class="z-btn-sm" onclick="chZS('${id}','${k}','c',1)">+</button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+    c.innerHTML+=`<div class="z-card${zDead[id]?' dead':''}" id="zc-${id}">
+      <div class="z-name">${id}</div>
+      <div class="z-hp" id="zh-${id}">${zHP[id]}</div>
+      <div class="z-ctrl">
+        <button class="btn-sm" onclick="chZ('${id}',-1)">−</button>
+        <span style="font-size:8px;color:var(--mut)">HP</span>
+        <button class="btn-sm" onclick="chZ('${id}',1)">+</button>
+      </div>
+      <button class="btn btn-red" style="font-size:9px;padding:2px 4px;width:100%;margin-bottom:0" onclick="killZ('${id}')">MORTO</button>
+      ${stHtml}
+    </div>`;
+  }
+}
+function chZS(id,k,pc,d){
+  zStati[id][k][pc]=Math.max(0,zStati[id][k][pc]+d);
+  document.getElementById(`zs-${id}-${k}-${pc}`).textContent=zStati[id][k][pc];
+}
+function chZ(id,d){
+  if(zDead[id])return;zHP[id]=Math.max(0,Math.min(10,zHP[id]+d));
+  document.getElementById('zh-'+id).textContent=zHP[id];
+  log(`→ ${id} HP ${d>0?'+':''}${d} → ${zHP[id]}`);
+}
+function killZ(id){
+  zDead[id]=true;
+  const el=document.getElementById('zc-'+id);if(el)el.className='z-card dead';
+  log(`💀 ${id} eliminato`);
+  drawGrid();
+}
+
+// ─── POOL BUILDER ───────────────────────────────────────────────────────
+function buildPool(){
+  const c=document.getElementById('poolBuild');c.innerHTML='';
+  POOL_DEFS.forEach(d=>{
+    c.innerHTML+=`<div class="pool-row">
+      <span class="pool-lbl">${d.label}</span>
+      <button class="btn-sm" onclick="chPool('${d.k}',-1)">−</button>
+      <span class="pool-num" id="pn-${d.k}">${pool[d.k]}</span>
+      <button class="btn-sm" onclick="chPool('${d.k}',1)">+</button>
+    </div>`;
+  });
+  updPoolInfo();
+}
+function chPool(k,d){
+  pool[k]=Math.max(0,pool[k]+d);
+  document.getElementById('pn-'+k).textContent=pool[k];
+  updPoolInfo();
+}
+function updPoolInfo(){
+  const tot=POOL_DEFS.reduce((s,d)=>s+pool[d.k],0);
+  document.getElementById('seqInfo').textContent=tot?`${tot} dado/i in coda`:'';
+}
+
+// ─── SEQUENCE ───────────────────────────────────────────────────────────
+const DICE_FACES={
+  'vigore_d4': [1,1,2,2],
+  'vigore_d6': [1,1,2,2,2,3],
+  'vigore_d8': [1,1,2,2,2,3,3,4],
+  'fuoco_d4':  [1,1,2,2],
+  'terrore_d8':[1,1,2,2,2,3,3,4],
+  'ai_d4':     [1,2,3,4],
+};
+const POOL_FACE_KEY={d4f:'fuoco_d4',d4ai:'ai_d4',d6:'vigore_d6',d8:'terrore_d8'};
+// reverse map: item.label → pool key (for Fix 6 tooltip lookup)
+const POOL_FACE_KEY_REV={'🔥 d4 Fuoco':'d4f','💀 d4 AI Zombie':'d4ai','✊ d6 Vigore':'d6','🔮 d8 Terrore':'d8'};
+function rollDie(type){const f=DICE_FACES[type];return f[0|Math.random()*f.length];}
+
+function genSeq(){
+  const items=[];
+  POOL_DEFS.forEach(def=>{
+    for(let i=0;i<pool[def.k];i++){
+      items.push({label:def.label,sides:def.sides,ai:def.ai,
+                  val:rollDie(POOL_FACE_KEY[def.k]),id:Math.random()});
+    }
+  });
+  if(!items.length){alert('Aggiungi almeno un dado con i pulsanti + qui sopra.');return;}
+  sfl(items);sq=items;renderSeq();
+  log(`🎲 Sequenza (${sq.length}): `+sq.map(x=>x.label.split(' ').slice(0,2).join('')+x.val).join(' | '));
+}
+const SEQ_TT_PLAYER={
+  d4f:'Colpo a Distanza: 1 🔥 → 1 Danno (Gittata 3)',
+  d4ai:'',
+  d6:'Movimento Tattico: 1 ✊ → +1 PM',
+  d8:'Conversione Oscura: 1 🔮 + 1 PT → 1 impulso a scelta\n(se Elementale: +1 PT flat extra)',
+};
+const SEQ_TT_AI={
+  1:'Morso Rigenerante: Muove + Attacca 2 Danni. Cura 1 HP per danno agli HP.',
+  2:"Attacco Orda: Muove + Attacca 2 Danni. +1 per ogni Zombie adiacente.",
+  3:'Incassare: Fermo. +2 Scudi (Turno Attuale).',
+  4:'Attacco Terrore: Muove + Attacca 2 Danni. Se danno agli HP: −1 PT al bersaglio.',
+};
+
+function renderSeq(){
+  const s=document.getElementById('seqStrip');s.innerHTML='';
+  if(!sq.length){
+    s.innerHTML='<span style="color:var(--mut);font-size:10px">Imposta i dadi con i pulsanti + e premi GENERA SEQUENZA</span>';
+    return;
+  }
+  sq.forEach((item,idx)=>{
+    const ttTxt=item.ai?SEQ_TT_AI[item.val]||'':SEQ_TT_PLAYER[POOL_FACE_KEY_REV[item.label]]||'';
+    const el=document.createElement('div');
+    el.className='seq-slot tt';el.draggable=true;
+    el.innerHTML=`<div class="seq-type">${item.label}</div>
+      <div class="seq-val${item.ai?' ai':''}">${item.val}</div>
+      ${ttTxt?`<div class="tt-box" style="width:190px;white-space:pre-line"><strong>${item.ai?'Azione AI':'Manovra Base'}</strong>${ttTxt}</div>`:''}
+      <div class="seq-x" onclick="rmSq(${idx});event.stopPropagation()">✕</div>`;
+    el.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',idx));
+    el.addEventListener('dragover',e=>e.preventDefault());
+    el.addEventListener('drop',e=>{
+      e.preventDefault();
+      const from=+e.dataTransfer.getData('text/plain');
+      if(from!==idx){const it=sq.splice(from,1)[0];sq.splice(idx,0,it);renderSeq();}
+    });
+    s.appendChild(el);
+  });
+  document.getElementById('seqInfo').textContent=`${sq.length} dado/i`;
+}
+function rmSq(i){sq.splice(i,1);renderSeq();}
+function clearSeq(){sq=[];renderSeq();log('— Sequenza pulita —');}
+
+// ─── CD SLOTS ───────────────────────────────────────────────────────────
+function buildCDSlots(){
+  const c=document.getElementById('cdSlots');c.innerHTML='';
+  ESLOTS.forEach((sl,i)=>{
+    const st=cdSt[i],free=!st.card;
+    const el=document.createElement('div');
+    el.className='cd-sl '+(free?'free':'occ');
+    el.innerHTML=`<div class="cd-sl-h">
+        <span class="cd-sl-nm">${sl.nm}</span>
+        <span class="cd-sl-die">${sl.die}</span>
+      </div>
+      <div class="cd-sl-meta">Priorità: ${sl.pr} · Rec: ${sl.cost} 💡${sl.excl?' · ★Fuoco':''}</div>
+      <div class="cd-sl-st ${free?'f':'o'}">${free?'◆ LIBERO':'⏳ '+st.card+' — CD'+st.cd}</div>
+      ${!free?`<div class="cd-sl-btns">
+        <button class="btn btn-gld" style="font-size:9px;padding:2px 6px" onclick="advCD(${i})">↺ −CD</button>
+        <button class="btn" style="font-size:9px;padding:2px 6px" onclick="slotDisc(${i})">→ Scarto</button>
+      </div>`:''}`;
+    c.appendChild(el);
+  });
+}
+function advCD(i){
+  if(!cdSt[i].card)return;
+  const was=cdSt[i].cd;
+  if(was===0){
+    const nm=cdSt[i].card;disc.push(nm);cdSt[i]={card:null,cd:0};
+    log(`→ ${nm} → Scarto`);renderDisc();updCnts();
+  }else{
+    cdSt[i].cd--;
+    log(`→ ${cdSt[i].card} · ${ESLOTS[i].nm}: CD${was} → CD${cdSt[i].cd}`);
+  }
+  buildCDSlots();
+}
+function slotDisc(i){
+  if(!cdSt[i].card)return;
+  const nm=cdSt[i].card;disc.push(nm);cdSt[i]={card:null,cd:0};
+  log(`→ ${nm} spostata in Scarto`);renderDisc();updCnts();buildCDSlots();
+}
+
+// ─── HAND ───────────────────────────────────────────────────────────────
+function renderHand(){
+  const c=document.getElementById('handArea');c.innerHTML='';
+  if(!hand.length){c.innerHTML='<span style="color:var(--mut);font-size:10px">—</span>';return;}
+  hand.forEach((nm,i)=>{
+    const def=CARDS.find(x=>x.name===nm);
+    const el=document.createElement('div');
+    el.className='hc tt';
+    const tt=def?`<div class="tt-box"><strong>${def.name}</strong>
+      <div class="tt-meta">CD: ${def.cd}${def.supply!=='—'?' · '+def.supply:''}</div>
+      <div style="white-space:pre-line">${def.active}</div>
+      <div class="tt-eco">Eco: ${def.eco}</div></div>`:'';
+    el.innerHTML=nm+tt;
+    el.addEventListener('touchend',e=>{e.stopPropagation();el.classList.toggle('topen');});
+    c.appendChild(el);
+  });
+}
+function discHand(i){
+  const nm=hand.splice(i,1)[0];disc.push(nm);
+  renderHand();renderDisc();updCnts();log(`→ Scartato: ${nm}`);
+}
+
+// ─── CD MODAL ───────────────────────────────────────────────────────────
+function openModal(ci){
+  mdl_ci=ci;mdl_sl=null;mdl_lv=null;
+  const nm=hand[ci];
+  document.getElementById('mdlTitle').textContent='CD: '+nm;
+  // Slots
+  const sc=document.getElementById('mdlSlots');sc.innerHTML='';
+  ESLOTS.forEach((sl,i)=>{
+    const occ=!!cdSt[i].card;
+    const b=document.createElement('div');
+    b.className='mdl-opt'+(occ?' dis':'');
+    b.textContent=sl.nm+' '+sl.die;
+    if(!occ){b.addEventListener('click',()=>{mdl_sl=i;document.querySelectorAll('#mdlSlots .mdl-opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');chkMdl();});}
+    sc.appendChild(b);
+  });
+  // CD levels
+  const lc=document.getElementById('mdlLvls');lc.innerHTML='';
+  [1,2,3].forEach(lv=>{
+    const b=document.createElement('div');b.className='mdl-opt';b.textContent='CD '+lv;
+    b.addEventListener('click',()=>{mdl_lv=lv;document.querySelectorAll('#mdlLvls .mdl-opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');chkMdl();});
+    lc.appendChild(b);
+  });
+  document.getElementById('mdlOk').disabled=true;
+  document.getElementById('cdModal').classList.add('open');
+}
+function chkMdl(){document.getElementById('mdlOk').disabled=!(mdl_sl!==null&&mdl_lv!==null);}
+function confirmCD(){
+  if(mdl_sl===null||mdl_lv===null||mdl_ci===null)return;
+  const nm=hand.splice(mdl_ci,1)[0];
+  cdSt[mdl_sl]={card:nm,cd:mdl_lv};
+  log(`→ ${nm} → ${ESLOTS[mdl_sl].nm} CD${mdl_lv}`);
+  closeModal();renderHand();buildCDSlots();
+}
+function closeModal(){document.getElementById('cdModal').classList.remove('open');mdl_ci=mdl_sl=mdl_lv=null;}
+
+// ─── DECK / DISCARD ─────────────────────────────────────────────────────
+function drawCard(){
+  if(!deck.length)return;
+  const idx=0|Math.random()*deck.length;
+  const nm=deck.splice(idx,1)[0];hand.push(nm);
+  updCnts();renderHand();
+  document.getElementById('drawnBadge').innerHTML=`<div style="background:rgba(255,170,0,.13);border:1px solid var(--gld);border-radius:3px;padding:4px 9px;font-size:11px;font-weight:700;color:var(--gld);margin-top:4px">PESCATO: ${nm}</div>`;
+  log(`📄 Pescato: ${nm} (mazzo: ${deck.length})`);
+}
+function renderDisc(){
+  const c=document.getElementById('discArea');c.innerHTML='';
+  if(!disc.length){c.innerHTML='<span style="font-size:9px;color:var(--mut)">—</span>';return;}
+  disc.forEach(nm=>{const el=document.createElement('div');el.className='disc-it';el.textContent=nm;c.appendChild(el);});
+}
+function reshuffle(){
+  if(!disc.length){log('⚠ Scarto vuoto.');return;}
+  deck=[...deck,...disc];disc=[];sfl(deck);
+  renderDisc();updCnts();log(`↺ Scarto rimescolato (mazzo: ${deck.length})`);
+  document.getElementById('drawnBadge').innerHTML='';
+}
+function updCnts(){
+  document.getElementById('deckCnt').textContent=deck.length+' carte';
+  document.getElementById('discCnt').textContent=disc.length+' carte';
+  document.getElementById('btnPesca').disabled=!deck.length;
+}
+
+// ─── LOG ────────────────────────────────────────────────────────────────
+function log(msg){
+  const t=new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  logTxt+=`[${t}] ${msg}\n`;const el=document.getElementById('logArea');el.textContent=logTxt;el.scrollTop=el.scrollHeight;
+}
+function addNote(){const i=document.getElementById('logInp');if(i.value.trim()){log(i.value.trim());i.value='';}}
+function newTurn(){
+  turnN++;
+  // Rotazione stati giocatore: Att → Prec, Att → 0
+  ['sc','vu','st'].forEach(k=>{
+    pgStati[k].p=pgStati[k].c;pgStati[k].c=0;
+    const ep=document.getElementById(`pgs-${k}-p`),ec=document.getElementById(`pgs-${k}-c`);
+    if(ep)ep.textContent=pgStati[k].p;if(ec)ec.textContent=0;
+  });
+  // Rotazione stati zombie
+  for(let i=1;i<=5;i++){const id='Z'+i;
+    ['sc','vu','st'].forEach(k=>{
+      zStati[id][k].p=zStati[id][k].c;zStati[id][k].c=0;
+      const ep=document.getElementById(`zs-${id}-${k}-p`),ec=document.getElementById(`zs-${id}-${k}-c`);
+      if(ep)ep.textContent=zStati[id][k].p;if(ec)ec.textContent=0;
+    });
+  }
+  logTxt+=`\n══════════ TURNO ${turnN} ══════════\n`;
+  const el=document.getElementById('logArea');el.textContent=logTxt;el.scrollTop=el.scrollHeight;
+}
+function copyLog(){
+  const fb=()=>{const t=document.createElement('textarea');t.value=logTxt;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('Copiato!');};
+  navigator.clipboard?navigator.clipboard.writeText(logTxt).then(()=>alert('Copiato!')).catch(fb):fb();
+}
+
+// ─── RESET ──────────────────────────────────────────────────────────────
+function doReset(){
+  if(!confirm('Reset completo? Posizioni, risorse, mazzo, mano, CD e sequenza tornano ai valori iniziali.'))return;
+  init();rebuild();
+  log('═══ RESET SETUP ═══ · HP10 PT6 PM2 Luce0 · Turno 1 Fase 2');
+  drawGrid();
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────
+function init(){
+  res={hp:10,pt:6,pm:2,luce:0};
+  pc=cp(INIT_PC);
+  zHP={Z1:10,Z2:10,Z3:10,Z4:10,Z5:10};
+  zDead={Z1:false,Z2:false,Z3:false,Z4:false,Z5:false};
+  pgStati={sc:{p:0,c:0},vu:{p:0,c:0},st:{p:0,c:0}};
+  zStati={};for(let i=1;i<=5;i++)zStati['Z'+i]={sc:{p:0,c:0},vu:{p:0,c:0},st:{p:0,c:0}};
+  cdSt=ESLOTS.map(()=>({card:null,cd:0}));
+  deck=sfl(CARDS.map(c=>c.name));hand=[];disc=[];
+  pool={d4f:0,d4ai:0,d6:0,d8:0};
+  sq=[];turnN=1;logTxt='';drag=null;
+  trapRemoved=false;
+  if(trapTipEl)trapTipEl.style.display='none';
+  document.getElementById('drawnBadge').innerHTML='';
+  closeMenus();closeModal();
+}
+function rebuild(){
+  buildRes();buildZombies();buildPool();buildCDSlots();
+  renderSeq();renderHand();renderDisc();updCnts();
+  document.getElementById('logArea').textContent=logTxt;
+}
+
+// ─── BOOT ───────────────────────────────────────────────────────────────
+init();rebuild();
+log('═══ THE LONG NIGHT — VTT Playtest v2 ═══');
+log('Turno 1 — Fase 2 (Upkeep) — Fase 1 saltata al primo turno');
+log('HP 10 | PT 6 | PM 2 | Luce 0 | Mazzo: 13 carte');
+drawGrid();
+(function loop(){drawGrid();requestAnimationFrame(loop);})();
+</script>
+</body>
+</html>
