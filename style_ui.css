@@ -90,3 +90,17 @@ body.pt-low #hud, body.pt-low #seq { animation:jit .25s infinite steps(2); } @ke
 body.pt-low #seq { animation:none; }
 #rotate-hint { display:none; }
 .act-btn .via { color:var(--fuoco); font-style:normal; }
+/* Schermate della run */
+#screens { display:none; position:fixed; inset:0; z-index:35; background:radial-gradient(ellipse at 50% 40%, rgba(30,26,40,.92), rgba(8,7,10,.97)); overflow:auto; }
+#screens.on { display:flex; align-items:flex-start; justify-content:center; }
+.scr { max-width:860px; width:100%; padding:5vh 24px; box-sizing:border-box; text-align:center; }
+.scr h1 { font-weight:normal; letter-spacing:.3em; color:var(--gold); margin:0 0 8px; } .scr h1.title { font-size:42px; letter-spacing:.4em; color:#e8d8a8; text-shadow:0 0 18px rgba(242,196,90,.35); margin-top:8vh; }
+.scr .sub { color:var(--text); } .scr .note { color:var(--text-muted); font-size:13px; } .scr .lbl { color:var(--text-muted); letter-spacing:.15em; text-transform:uppercase; font-size:11px; margin:16px 0 6px; }
+.scr.menu .btn { display:block; width:340px; max-width:90%; margin:10px auto; padding:12px; font-size:16px; }
+.rests { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; } .rest { width:200px; padding:12px; border:1px solid var(--border); background:#1a1722; cursor:pointer; }
+.rest span { display:block; font-size:12px; color:var(--text-muted); margin-top:4px; } .rest.on { border-color:var(--gold); background:#2a2416; box-shadow:0 0 12px rgba(201,168,76,.4); }
+.sg-ens { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; text-align:left; } .sg-en { display:flex; gap:8px; background:#1a1722; border:1px solid var(--border); padding:8px; font-size:12px; }
+.sg-en img { width:36px; height:36px; image-rendering:pixelated; } .sg-en table { font-size:11px; color:var(--text-muted); margin-top:4px; }
+.scr .btn.main { margin-top:18px; padding:10px 22px; font-size:15px; }
+.hist { margin:14px auto; border-collapse:collapse; } .hist td, .hist th { padding:4px 12px; border-bottom:1px solid var(--border); font-size:13px; } .hist th { color:var(--text-muted); font-weight:normal; }
+.scr .row { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; } .final.death h1, .final.madness h1 { color:var(--red); }

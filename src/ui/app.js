@@ -25,7 +25,7 @@
       UI.onEngineEvent && UI.onEngineEvent(ev);
     });
     UI.log.clear();
-    if (UI.collector) UI.collector.attach(bus);
+    UI.collector = TLN.balancing.createCollector().attach(bus);
     var cmd = TLN.input.createCommandBus();
     COMMANDS.forEach(function (t) { cmd.register(t, function (c) { return TLN.engine.run.execute(st.run, c); }); });
     st.cmd = cmd; st.bus = bus; st.mode = null; st.staged = []; st.preview = null; st.pinned = false; st.selectedEnemy = null;

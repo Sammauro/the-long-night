@@ -117,6 +117,7 @@
     if (G.over) {
       G.over.turn = G.turn;
       G.over.inVeglia = G.room.veglia == null ? false : G.turn <= G.room.veglia;
+      G.over.player = { hp: p.hp, pt: p.pt, luce: p.luce, pm: p.pm };
       G.phase = G.over.result === 'win' ? 'WON' : 'LOST';
       // I dadi rimasti in Sequenza si scartano senza effetto
       G.seq.forEach(function (d) { if (d.state === 'pending' || d.state === 'active') d.state = 'void'; });

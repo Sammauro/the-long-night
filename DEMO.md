@@ -14,12 +14,12 @@ Brief: docs/BRIEF_demo_claudecode.md (v1.0)
 | M2 | Motore senza grafica | ✅ | `node tools/smoke.js`: 1477 controlli, 0 falliti (~25 s) |
 | M3 | Scena 2.5D | ✅ | 4 stanze verificate con screenshot (Chromium headless); 60 fps da verificare su GPU vera |
 | M4 | Combattimento giocabile | ✅ | Stanza 1 vinta da inizio a fine con mouse e con tocco (bot Playwright, clic reali); 14/14 carte giocate dall'interfaccia |
-| M5 | Run | ⬜ | |
+| M5 | Run | ✅ | Run dal menu via UI: Cripta vinta → Soglia → Corridoio; log scaricato con tutti i campi di §10. Vittoria della Stanza 3 verificata solo nel motore |
 | M6 | Tutorial | ⬜ | |
 | M7 | Rifinitura e pubblicazione | ⬜ | |
 
 ## Prossimo passo
-M5: run completa — Soglia, Veglia a schermo, tre stanze in sequenza, schermate iniziale e finale, log di §10.
+M6: tutorial guidato della Stanza 0 (`tutorial_driver.js`, `ui_coach.js`) e suggerimenti contestuali.
 
 ## Sessioni
 ### Sessione 1 — 2026-11-16
@@ -71,6 +71,13 @@ M5: run completa — Soglia, Veglia a schermo, tre stanze in sequenza, schermate
   - Nuovo test `tools/tests/preview_tests.js`: l'anteprima del dado IA (danno "adesso", PT, Luce rubata) coincide con l'azione reale nel **99,8%** di 2978 casi; le differenze vengono dalle parità di percorso che il motore risolve a caso (§6.9), mentre l'anteprima mostra il primo percorso più breve.
   - `node tools/smoke.js` → 1478 controlli, 0 falliti.
 - Osservazione di bilanciamento (non è una regola, solo un dato): un agente tattico rozzo scritto per i test (colpisce chi deve ancora agire, si ritira dai gruppi) vince la Stanza 0 nel 99% dei casi, la Stanza 1 nel ~10%, la Stanza 2 nel ~10%, la Stanza 3 quasi mai, perdendo soprattutto per **Follia al Buio** (è lento). Il modello di `design_demo_v005.md` dichiara ~80%: la differenza è probabilmente l'agente, ma vale un controllo nel playtest.
+
+- Fatto (M5): `src/balancing/data_collector.js` (log della run dagli eventi: per turno stanza, turno, seed, Sequenza, Plancia, slot coperti, Luce disponibile, esito di ogni slot coperto pagato/scartato/lasciato, Eco, carte giocate, danni fatti e subiti, PT persi con causa, HP/PT/Luce/PM finali; per stanza turni, esito rispetto alla Veglia, Soste; riepilogo testuale per Notion e JSON);
+  `src/ui/run/ui_soglia.js` (riepilogo, cosa si azzera e cosa resta, scelta di 1 o 2 Soste, "ti aspetta" con le schede dei nemici della stanza successiva), `src/ui/run/ui_screens.js` (menu con "Inizia (tutorial)" e "Salta il tutorial", schermata finale con storia, "Copia riepilogo", "Scarica log", "Torna al menu").
+  Il motore ora include nel `SELECTION_START` la Plancia e la Luce, e nell'esito di stanza lo stato del giocatore (serve al log per l'ultimo turno).
+- Verifiche M5: nuovo test `tools/tests/log_tests.js` (campi di §10 presenti, JSON valido, riepilogo); `node tools/smoke.js` → 1503 controlli, 0 falliti.
+  Bot Playwright dal menu ("Salta il tutorial", solo clic): seed 17 → Cripta vinta in 7 turni, Soglia (Bendarsi), Corridoio perso per Follia; il file scaricato con "Scarica log" contiene tutti i campi. Seed 10 con il tocco: run fino alla schermata finale. 0 errori in console.
+  **Non verificato in UI:** una run vinta fino alla fine della Stanza 3 (l'agente di test non vince la Sala del Custode); la sequenza completa r0 → r3 con vittoria è coperta solo dai test del motore. Va provata a mano.
 
 ### Inventario iniziale (M0)
 | Cosa c'era | Stato | Cosa ne è stato fatto |
@@ -135,6 +142,8 @@ M5: run completa — Soglia, Veglia a schermo, tre stanze in sequenza, schermate
   - [ ] Passando sopra un dado IA: nemico, percorso e casella del giocatore evidenziati; il riquadro rosso dice il danno.
   - [ ] Ritmo delle animazioni dei nemici (passi, affondo, numeri) e della pausa prima dei dadi IA.
   - [ ] Su tablet/telefono: tocco su caselle piccole, tocco prolungato sul nemico per la scheda.
+
+- **M5 — run**: [ ] una run completa vinta fino all'alba (schermata finale di vittoria); [ ] testo di "Copia riepilogo" incollato su Notion.
 
 ## Scostamenti dal brief
 - Nessuna modifica a `CLAUDE.md` (deroga della sessione di prova): vedi "Modifiche da applicare ai documenti".

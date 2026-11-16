@@ -35,7 +35,9 @@
       'src/input/command_bus.js',
       'src/input/input_handler.js'
     ],
-    balancing: [],
+    balancing: [
+      'src/balancing/data_collector.js'
+    ],
     render: [
       'src/rendering/theme.js',
       'src/rendering/sprite_factory.js',
@@ -63,6 +65,8 @@
       'src/ui/combat/ui_enemy_panel.js',
       'src/ui/combat/ui_targeting.js',
       'src/ui/combat/ui_log.js',
+      'src/ui/run/ui_soglia.js',
+      'src/ui/run/ui_screens.js',
       'src/ui/app.js'
     ]
   };

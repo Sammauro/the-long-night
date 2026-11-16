@@ -49,7 +49,10 @@
     E.cards.preparation(G);
     if (G.over) return;
     setPhase(G, 'SELEZIONE');
-    G.bus.emit('SELECTION_START', { coverage: E.dice.coverage(G), plancia: E.cards.entries(G).length });
+    G.bus.emit('SELECTION_START', {
+      turn: G.turn, coverage: E.dice.coverage(G), luce: G.player.luce,
+      plancia: E.cards.entries(G).map(function (e) { return { id: e.id, kind: e.kind, cd: e.cd, spot: e === G.plancia.fire ? 'fire' : 'std' }; })
+    });
   }
 
   // Fase 5 — Risoluzione
