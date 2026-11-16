@@ -35,7 +35,23 @@
       'src/input/command_bus.js'
     ],
     balancing: [],
-    render: [],
+    render: [
+      'src/rendering/theme.js',
+      'src/rendering/sprite_factory.js',
+      'src/rendering/sprites/indagatore.js',
+      'src/rendering/sprites/zombie.js',
+      'src/rendering/sprites/sussurratore.js',
+      'src/rendering/sprites/falena.js',
+      'src/rendering/sprites/custode.js',
+      'src/rendering/scene.js',
+      'src/rendering/camera.js',
+      'src/rendering/lights.js',
+      'src/rendering/hex_renderer.js',
+      'src/rendering/props.js',
+      'src/rendering/room_shell.js',
+      'src/rendering/unit_renderer.js',
+      'src/rendering/fx.js'
+    ],
     ui: [
       'src/ui/app.js'
     ]

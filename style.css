@@ -7,3 +7,16 @@ html, body { margin:0; height:100%; background:var(--bg-deep); color:var(--text)
   font-family: Georgia, 'Times New Roman', serif; overflow:hidden; }
 .boot { position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
   letter-spacing:.3em; color:var(--text-muted); }
+#gc { position:fixed; inset:0; width:100vw; height:100vh; display:block; }
+#fx-layer { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:5; }
+.fx-num { position:absolute; left:0; top:0; font-weight:bold; font-size:20px; color:#fff;
+  text-shadow:0 0 4px #000, 0 2px 0 #000; white-space:nowrap; }
+.fx-num.dmg { color:#ff6a5a; } .fx-num.fire { color:#ffa040; } .fx-num.heal { color:#8fe08a; }
+.fx-num.pt { color:#c78cff; } .fx-num.luce { color:var(--luce); } .fx-num.shield { color:#9cc4e8; }
+/* vignettatura, grana e righe di scansione in CSS (BRIEF 8.1) */
+.vignette { position:fixed; inset:0; pointer-events:none; z-index:4;
+  background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,.55) 85%, rgba(0,0,0,.85) 100%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.015) 0 1px, transparent 1px 3px);
+  transition: background .8s; }
+body.buio .vignette { background: radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(0,0,0,.7) 70%, rgba(0,0,0,.95) 100%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 3px); }

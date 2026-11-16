@@ -12,14 +12,14 @@ Brief: docs/BRIEF_demo_claudecode.md (v1.0)
 | M0 | Ricognizione e scheletro | ✅ | Pagina senza errori in console (verificato con Chromium headless) |
 | M1 | Dati | ✅ | `node tools/smoke.js data`: 169 controlli, 0 falliti |
 | M2 | Motore senza grafica | ✅ | `node tools/smoke.js`: 1477 controlli, 0 falliti (~25 s) |
-| M3 | Scena 2.5D | ⬜ | |
+| M3 | Scena 2.5D | ✅ | 4 stanze verificate con screenshot (Chromium headless); 60 fps da verificare su GPU vera |
 | M4 | Combattimento giocabile | ⬜ | |
 | M5 | Run | ⬜ | |
 | M6 | Tutorial | ⬜ | |
 | M7 | Rifinitura e pubblicazione | ⬜ | |
 
 ## Prossimo passo
-M3: scena 2.5D (camera, luci, esagoni, guscio, oggetti, sprite, lanterna) e `docs/mockups/sprites.html`.
+M4: interfaccia di combattimento (§7) collegata al motore tramite command bus ed eventi.
 
 ## Sessioni
 ### Sessione 1 — 2026-11-16
@@ -52,6 +52,11 @@ M3: scena 2.5D (camera, luci, esagoni, guscio, oggetti, sprite, lanterna) e `doc
   - Casi mirati: Collisione contro colonna, bordo e unità; Braciere; trappola con spinta e con Distorsione; Vulnerabilità prima degli Scudi; Danno Diretto; Contrattacco; dado IA spento; Corazza; Sigillo con Plancia libera e piena (e uscita senza scarti); Buio; tetto PT alla Soglia; 2 Soste entro la Veglia; Luce "Lanterna"; cono a 9 caselle; Amplificazione; Conversione Oscura; PM Salto; annulla; costi di Selezione; carte gratuite; ap, as, Scatto; Falena, Coro, Morso, Maglio; vittoria immediata; Follia pagando PT; pesca a vuoto; Eco di rotazione.
   - Script del tutorial: tutti gli stati attesi di §9.1 (fine T1, passo 12, passo 14) verificati.
 - Nota: il giocatore casuale perde quasi sempre (è casuale); un agente goloso di prova (non nel repo) mostra che si muore soprattutto entrando nell'orda. Non è un indicatore di bilanciamento.
+
+- Fatto (M3): `src/rendering/` — `theme.js` (tutti i parametri visivi, curva della lanterna), `scene.js` (renderer, ciclo, coordinate [R,E] → mondo, selezione casella, proiezione su schermo), `camera.js` (ortografica a 50°, respiro, scossa, inquadratura che lascia spazio all'interfaccia), `lights.js` (ambiente freddo, luna, lanterna legata alla Luce, Buio), `hex_renderer.js` (prismi esagonali con variazioni di altezza e tono, bordi luminosi raggiungibile/bersaglio/cono/selezione/spinta), `props.js` (Colonna con cima spezzata, Braciere con luce tremolante e scintille, Trappola con glifo pulsante), `room_shell.js` (pavimento, pareti basse, porta sul lato R8 che si illumina), `unit_renderer.js` (billboard con ombra, 2 fotogrammi, oscillazione, affondo, lampo bianco, dissolvenza; fuori dal raggio della lanterna sagome scure con occhi accesi), `fx.js` (numeri che salgono, particelle), `sprite_factory.js` + `sprites/*.js` (5 sprite come griglie di caratteri), `docs/mockups/sprites.html`.
+  Vignettatura e righe di scansione in CSS; al Buio la vignettatura si stringe.
+- Verifiche M3: screenshot headless delle 4 stanze (`index.html?view=r0..r3&luce=N&dark=1&won=1`), 0 errori in console. Unità, colonne, bracieri, trappole al loro posto; con Luce 0 i nemici lontani sono sagome con occhi accesi, con Luce 5 la lanterna illumina la prima fila; la porta si accende.
+  **FPS:** in Chromium headless con rendering software (SwiftShader) ~20 fps: non è indicativo. Il controllo dei 60 fps va fatto su un browser desktop con GPU (vedi "Da controllare a occhio").
 
 ### Inventario iniziale (M0)
 | Cosa c'era | Stato | Cosa ne è stato fatto |
@@ -101,6 +106,12 @@ M3: scena 2.5D (camera, luci, esagoni, guscio, oggetti, sprite, lanterna) e `doc
 
 ## Da controllare a occhio
 (elenco per il controllo visivo)
+- **M3 — scena** (`index.html?view=r1&luce=0`, poi `luce=5`, `view=r3&dark=1&won=1`):
+  - [ ] 60 fps su desktop con GPU (in console: `TLN.render.scene.ctx.fps`).
+  - [ ] Righe della griglia parallele allo schermo, porta in alto (lato R8), giocatore in basso.
+  - [ ] La lanterna cresce visibilmente da Luce 0 a Luce 5; a Luce 0 i nemici lontani sono sagome con gli occhi accesi.
+  - [ ] Bracieri: tremolio e scintille leggibili; non sembrano palle arancioni.
+  - [ ] Sprite (`docs/mockups/sprites.html`): lo Zombie ha la testa troppo "a rana"? Il volto dell'Indagatore si legge? Il Custode è abbastanza massiccio?
 
 ## Scostamenti dal brief
 - Nessuna modifica a `CLAUDE.md` (deroga della sessione di prova): vedi "Modifiche da applicare ai documenti".

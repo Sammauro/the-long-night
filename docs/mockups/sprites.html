@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TLN — Sprite</title>
+<style>
+  body { margin: 0; background: #0b0a0e; color: #e8e0d0; font-family: Georgia, serif; padding: 24px; }
+  h1 { font-weight: normal; letter-spacing: .25em; color: #8a7f9a; font-size: 16px; }
+  .row { display: flex; flex-wrap: wrap; gap: 28px; margin-bottom: 34px; align-items: flex-end; }
+  .card { background: #151519; border: 1px solid #2e2a3e; padding: 14px; }
+  .card h2 { font-size: 13px; font-weight: normal; margin: 0 0 10px; color: #c9a84c; letter-spacing: .1em; }
+  .frames { display: flex; gap: 12px; align-items: flex-end; }
+  canvas { image-rendering: pixelated; image-rendering: crisp-edges; background: #1c1a24; }
+  .lbl { font-size: 11px; color: #8a7f9a; text-align: center; margin-top: 4px; }
+</style>
+</head>
+<body>
+<h1>THE LONG NIGHT — SPRITE (ingranditi ×6: fotogramma 1, fotogramma 2, sagoma al buio, accento luminoso)</h1>
+<div class="row" id="list"></div>
+<script src="../../src/manifest.js"></script>
+<script>
+  (function () {
+    var files = TLN.manifest.render.filter(function (f) { return f.indexOf('sprites/') >= 0 || f.indexOf('sprite_factory') >= 0; });
+    var i = 0;
+    function next() {
+      if (i >= files.length) return draw();
+      var s = document.createElement('script'); s.src = '../../' + files[i++]; s.onload = next; document.body.appendChild(s);
+    }
+    function draw() {
+      var list = document.getElementById('list');
+      Object.keys(TLN.render.sprites).forEach(function (k) {
+        var def = TLN.render.sprites[k];
+        var card = document.createElement('div'); card.className = 'card';
+        card.innerHTML = '<h2>' + def.name + ' · ' + def.w + '×' + def.h + '</h2>';
+        var fr = document.createElement('div'); fr.className = 'frames';
+        [['full', 0, 'attesa 1'], ['full', 1, 'attesa 2'], ['dark', 0, 'al buio'], ['glow', 0, 'accento']].forEach(function (m) {
+          var wrap = document.createElement('div');
+          var c = TLN.render.spriteFactory.frameCanvas(def, m[1], m[0], 6);
+          if (m[0] === 'dark') { var g = c.getContext('2d'); g.drawImage(TLN.render.spriteFactory.frameCanvas(def, 0, 'glow', 6), 0, 0); }
+          wrap.appendChild(c);
+          var l = document.createElement('div'); l.className = 'lbl'; l.textContent = m[2]; wrap.appendChild(l);
+          fr.appendChild(wrap);
+        });
+        card.appendChild(fr); list.appendChild(card);
+      });
+    }
+    next();
+  })();
+</script>
+</body>
+</html>
