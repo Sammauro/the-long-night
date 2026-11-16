@@ -32,7 +32,8 @@
       'src/engine/run_manager.js'
     ],
     input: [
-      'src/input/command_bus.js'
+      'src/input/command_bus.js',
+      'src/input/input_handler.js'
     ],
     balancing: [],
     render: [
@@ -53,6 +54,15 @@
       'src/rendering/fx.js'
     ],
     ui: [
+      'src/ui/ui_common.js',
+      'src/ui/combat/ui_hud.js',
+      'src/ui/combat/ui_sequence.js',
+      'src/ui/combat/ui_selection.js',
+      'src/ui/combat/ui_plancia.js',
+      'src/ui/combat/ui_cards.js',
+      'src/ui/combat/ui_enemy_panel.js',
+      'src/ui/combat/ui_targeting.js',
+      'src/ui/combat/ui_log.js',
       'src/ui/app.js'
     ]
   };

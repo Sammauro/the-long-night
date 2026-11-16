@@ -13,13 +13,13 @@ Brief: docs/BRIEF_demo_claudecode.md (v1.0)
 | M1 | Dati | ✅ | `node tools/smoke.js data`: 169 controlli, 0 falliti |
 | M2 | Motore senza grafica | ✅ | `node tools/smoke.js`: 1477 controlli, 0 falliti (~25 s) |
 | M3 | Scena 2.5D | ✅ | 4 stanze verificate con screenshot (Chromium headless); 60 fps da verificare su GPU vera |
-| M4 | Combattimento giocabile | ⬜ | |
+| M4 | Combattimento giocabile | ✅ | Stanza 1 vinta da inizio a fine con mouse e con tocco (bot Playwright, clic reali); 14/14 carte giocate dall'interfaccia |
 | M5 | Run | ⬜ | |
 | M6 | Tutorial | ⬜ | |
 | M7 | Rifinitura e pubblicazione | ⬜ | |
 
 ## Prossimo passo
-M4: interfaccia di combattimento (§7) collegata al motore tramite command bus ed eventi.
+M5: run completa — Soglia, Veglia a schermo, tre stanze in sequenza, schermate iniziale e finale, log di §10.
 
 ## Sessioni
 ### Sessione 1 — 2026-11-16
@@ -57,6 +57,20 @@ M4: interfaccia di combattimento (§7) collegata al motore tramite command bus e
   Vignettatura e righe di scansione in CSS; al Buio la vignettatura si stringe.
 - Verifiche M3: screenshot headless delle 4 stanze (`index.html?view=r0..r3&luce=N&dark=1&won=1`), 0 errori in console. Unità, colonne, bracieri, trappole al loro posto; con Luce 0 i nemici lontani sono sagome con occhi accesi, con Luce 5 la lanterna illumina la prima fila; la porta si accende.
   **FPS:** in Chromium headless con rendering software (SwiftShader) ~20 fps: non è indicativo. Il controllo dei 60 fps va fatto su un browser desktop con GPU (vedi "Da controllare a occhio").
+
+- Fatto (M4): interfaccia di §7 in `src/ui/` e `src/input/`:
+  `ui_common.js` (stato UI, invio comandi, **riproduzione degli eventi** con i loro tempi: passi, affondi, lampi, numeri, Collisioni, morti; finestre di scelta; conferma per i pagamenti in PT che portano a 0),
+  `ui_hud.js` (HP, PT, PM + PM Salto, Luce, candela della Veglia, turno e fase), `ui_sequence.js` (Sequenza con ritratti, icone d'azione e stati attivo/risolto/spento; anteprima del dado IA al passaggio o al tocco),
+  `ui_selection.js` (pannello comandi: Selezione con "libero / N Luce / nessuno slot" e contatori in tempo reale, Fine Turno con somma degli Eco, dado attivo con impulsi e manovre base, "Dado successivo" con conferma se restano impulsi, "Continua" prima dei dadi IA e opzione "continua da solo", annulla movimento),
+  `ui_plancia.js` (4 slot con dado e costo, lucchetto sui coperti, carte in CD ruotate davvero di 90°/180°, Sigilli, anteprima "prossimo turno: bloccati"), `ui_cards.js` (mano con Azioni sopra ed Eco sotto, carta aperta con le Azioni come pulsanti, Amplificazione, ricompensa di Attacco Strategico, scarti di Fine Turno nell'ordine scelto con bersaglio della rotazione),
+  `ui_enemy_panel.js` (elenco con HP, Scudi, stati, intenzione; scheda con tabella d4), `ui_targeting.js` (caselle raggiungibili con costo in PM, bersagli, tre caselle di spinta con "Collisione", cono nei 6 orientamenti, percorso di Distorsione, Infusione, Manipolazione, Carica), `ui_log.js` (registro copiabile), `input_handler.js` (clic e tocco unificati, tocco prolungato = scheda, spazio = continua, esc = annulla).
+  Layout in `style_ui.css`.
+- Verifiche M4 (strumenti Playwright nello scratchpad, **non** nel repo perché Playwright è un pacchetto):
+  - Bot che sceglie con una politica tattica minima e **agisce solo con clic/tocchi reali** sui pulsanti, sulle carte, sui dadi e sulle caselle del canvas: Stanza 1 vinta con il mouse (seed 17, 6 turni) e con il tocco (seed 10 e 17); altre partite giocate fino a Morte/Follia; 0 errori in console.
+  - Tutte le 14 carte distinte giocate dall'interfaccia (stato preparato via script, poi solo clic): ok. Bug trovati e corretti: pannello Registro sovrapposto alla carta aperta; Carica Furiosa che restava nella scelta dei dadi; copia negli appunti senza permesso.
+  - Nuovo test `tools/tests/preview_tests.js`: l'anteprima del dado IA (danno "adesso", PT, Luce rubata) coincide con l'azione reale nel **99,8%** di 2978 casi; le differenze vengono dalle parità di percorso che il motore risolve a caso (§6.9), mentre l'anteprima mostra il primo percorso più breve.
+  - `node tools/smoke.js` → 1478 controlli, 0 falliti.
+- Osservazione di bilanciamento (non è una regola, solo un dato): un agente tattico rozzo scritto per i test (colpisce chi deve ancora agire, si ritira dai gruppi) vince la Stanza 0 nel 99% dei casi, la Stanza 1 nel ~10%, la Stanza 2 nel ~10%, la Stanza 3 quasi mai, perdendo soprattutto per **Follia al Buio** (è lento). Il modello di `design_demo_v005.md` dichiara ~80%: la differenza è probabilmente l'agente, ma vale un controllo nel playtest.
 
 ### Inventario iniziale (M0)
 | Cosa c'era | Stato | Cosa ne è stato fatto |
@@ -102,6 +116,8 @@ M4: interfaccia di combattimento (§7) collegata al motore tramite command bus e
 | Q12 | Movimento: "un movimento" è il singolo comando di spostamento? | Sì: ogni spostamento (destinazione) è un movimento; se parte da adiacente a un nemico il primo passo costa 2 PM. Il percorso automatico non attraversa trappole camminando, salvo se la trappola è la destinazione. | `resolution.js` |
 | Q13 | Log §10: cosa vuol dire "lasciato" per un dado coperto? | Per ogni slot coperto: **pagato** (tenuto pagando Luce), **scartato** (c'era un dado di quel tipo ed è stato scartato), **lasciato** (nessun dado di quel tipo a disposizione). | `dice_system.js` |
 | Q14 | Annullare un movimento che ha chiuso una carta aperta. | Non annullabile (la chiusura ha già messo la carta in Plancia/scarti). | `resolution.js` |
+| Q16 | Un'Azione di carta Vigore costa ✊ ma il dado attivo ha solo 🔥: si paga con 🔥 da sola? | Sì, l'Amplificazione è legale: se i ✊ non bastano il motore usa 🔥 e il pulsante dell'Azione lo dice ("paghi 🔥, danno Fuoco"). Con ✊ disponibili si paga ✊, salvo spunta "paga con 🔥". | `card_effects.js`, `ui_cards.js` |
+| Q17 | L'anteprima del dado IA deve mostrare il percorso esatto quando ci sono più percorsi brevi equivalenti? | Mostra il primo; il motore sceglie a caso tra i pari (§6.9). Danno e portata coincidono nel 99,8% dei casi. Se serve l'esattezza, si può rendere deterministica la scelta tra pari. | `ai_opponent.js` |
 | Q15 | Soste: se ne spettano 2, si può sceglierne solo 1? | No, si scelgono esattamente 1 o 2 Soste diverse. "Raccogliersi" non abbassa mai i PT. | `run_manager.js` |
 
 ## Da controllare a occhio
@@ -113,6 +129,14 @@ M4: interfaccia di combattimento (§7) collegata al motore tramite command bus e
   - [ ] Bracieri: tremolio e scintille leggibili; non sembrano palle arancioni.
   - [ ] Sprite (`docs/mockups/sprites.html`): lo Zombie ha la testa troppo "a rana"? Il volto dell'Indagatore si legge? Il Custode è abbastanza massiccio?
 
+- **M4 — combattimento** (`index.html?room=r1`):
+  - [ ] Leggibilità della Sequenza con 10 dadi (Stanza 2) e delle etichette di Selezione sotto i dadi.
+  - [ ] Le carte in Plancia ruotate di 180° (CD 2) restano leggibili? Va bene il testo capovolto?
+  - [ ] Passando sopra un dado IA: nemico, percorso e casella del giocatore evidenziati; il riquadro rosso dice il danno.
+  - [ ] Ritmo delle animazioni dei nemici (passi, affondo, numeri) e della pausa prima dei dadi IA.
+  - [ ] Su tablet/telefono: tocco su caselle piccole, tocco prolungato sul nemico per la scheda.
+
 ## Scostamenti dal brief
 - Nessuna modifica a `CLAUDE.md` (deroga della sessione di prova): vedi "Modifiche da applicare ai documenti".
+- Il pannello Registro è un menu a tendina in alto (pulsanti "Registro" e "Copia") invece di un riquadro sempre aperto, per non coprire la griglia.
 - `src/manifest.js` elenca solo i file già scritti; cresce milestone per milestone, così la pagina non ha mai script mancanti.

@@ -2,15 +2,41 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <title>The Long Night</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style_ui.css">
 </head>
 <body>
   <canvas id="gc"></canvas>
+  <div id="cell-labels"></div>
   <div id="fx-layer"></div>
   <div class="vignette"></div>
+
+  <div id="game">
+    <div id="hud" class="panel"></div>
+    <div id="enemies" class="panel"></div>
+    <div id="enemy-sheet" class="panel"></div>
+    <div id="log" class="panel"><div class="log-h"><button id="log-toggle" class="btn ghost">Registro</button><button id="log-copy" class="btn ghost">Copia</button></div><div id="log-lines"></div></div>
+    <div id="modebar"></div>
+    <div id="seq-row"><div id="preview"></div><div id="seq"></div></div>
+    <div id="bottom">
+      <div id="plancia" class="panel"></div>
+      <div id="hand"></div>
+      <div id="side"><div id="open-card" class="panel"></div><div id="controls" class="panel"></div></div>
+    </div>
+  </div>
+
+  <div id="coach"></div>
+  <div id="screens"></div>
+  <div id="banner"></div>
+  <div id="toast"></div>
+  <div id="modal"></div>
+  <div id="rotate-hint">Ruota il telefono in orizzontale</div>
   <div id="boot" class="boot">THE LONG NIGHT</div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="src/manifest.js"></script>
   <script>
@@ -21,7 +47,7 @@
       function next() {
         if (i >= files.length) { TLN.ui.boot(); return; }
         var s = document.createElement('script');
-        s.src = files[i++] + '?v=1';
+        s.src = files[i++] + '?v=4';
         s.onload = next;
         s.onerror = function () { console.error('Script mancante: ' + s.src); next(); };
         document.body.appendChild(s);

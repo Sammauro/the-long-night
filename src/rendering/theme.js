@@ -21,7 +21,7 @@
     camera: {
       tilt: 50,               // gradi dall'orizzontale
       distance: 30,
-      margin: { top: 0.06, bottom: 0.30, side: 0.20 }, // quota di schermo lasciata all'interfaccia
+      margin: { top: 0.03, bottom: 0.40, side: 0.21 }, // quota di schermo lasciata all'interfaccia
       breathe: { amp: 0.035, speed: 0.35 },
       shake: { amp: 0.16, decay: 6 }
     },

@@ -13,6 +13,7 @@ var suites = {
   data: require('./tests/data_tests'),
   cases: require('./tests/case_tests'),
   tutorial: require('./tests/tutorial_tests'),
+  preview: require('./tests/preview_tests'),
   random: require('./tests/random_tests'),
 };
 var only = process.argv[2];
