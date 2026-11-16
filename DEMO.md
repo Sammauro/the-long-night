@@ -11,7 +11,7 @@ Brief: docs/BRIEF_demo_claudecode.md (v1.0)
 |---|---|---|---|
 | M0 | Ricognizione e scheletro | ✅ | Pagina senza errori in console (verificato con Chromium headless) |
 | M1 | Dati | ✅ | `node tools/smoke.js data`: 169 controlli, 0 falliti |
-| M2 | Motore senza grafica | ⬜ | |
+| M2 | Motore senza grafica | ✅ | `node tools/smoke.js`: 1477 controlli, 0 falliti (~25 s) |
 | M3 | Scena 2.5D | ⬜ | |
 | M4 | Combattimento giocabile | ⬜ | |
 | M5 | Run | ⬜ | |
@@ -19,7 +19,7 @@ Brief: docs/BRIEF_demo_claudecode.md (v1.0)
 | M7 | Rifinitura e pubblicazione | ⬜ | |
 
 ## Prossimo passo
-M2: motore senza grafica (griglia, stato, turno, dadi, Selezione, carte, Plancia, danni, IA, Veglia, Soglia) e partite casuali in `tools/smoke.js`.
+M3: scena 2.5D (camera, luci, esagoni, guscio, oggetti, sprite, lanterna) e `docs/mockups/sprites.html`.
 
 ## Sessioni
 ### Sessione 1 — 2026-11-16
@@ -36,6 +36,22 @@ M2: motore senza grafica (griglia, stato, turno, dadi, Selezione, carte, Plancia
   - `src/engine/data/`: `dice.js`, `equipment.js` (preset `demo` e `rev11`), `cards.js` (14 carte distinte, 16 copie, Azioni strutturate), `enemies.js` (4 nemici, tabelle d4 come dati interpretati dall'IA), `terrain.js`, `rooms.js` (4 stanze), `run_config.js`, `tutorial_script.js` (mazzo, dadi, movimento fissato, 16 passi), `hints.js` (9 suggerimenti).
   - `tools/load.js` (carica i file del manifest in un contesto `vm` di Node) e `tools/smoke.js` (runner); `tools/tests/data_tests.js`.
 - Verifiche M1: `node tools/smoke.js data` → 169 controlli superati: 16 carte (7/5/4), 5 dadi, 4 stanze senza sovrapposizioni né coordinate fuori griglia, ogni d4 copre 1–4; pagina senza errori.
+
+- Fatto (M2): motore completo in `src/engine/` (script classici, namespace `TLN.engine`):
+  `hex_grid.js` (assiali, distanza, vicini anche fuori griglia per il muro, cono, linee), `game_state.js` (stato, stati a due aree, risorse, esito, registro comandi `check/run`),
+  `combat_resolver.js` (danni con Vulnerabilità → Scudi → HP, Diretti, Contrattacco, trappole, spinte, Collisione, Braciere), `dice_system.js` (Lancio, Sequenza, legame D6, Selezione e costi),
+  `card_system.js` (mazzo, pesca, Plancia, Sigilli, Eco, Rotazione CD), `card_effects.js` (aprire/usare/chiudere/annullare, Amplificazione), `card_effects_free.js` (Infusione, Manipolazione, Carica),
+  `ai_opponent.js` (percorsi, Volo, allontanamento, 12 azioni, Corazza, anteprima per l'interfaccia), `resolution.js` (finestre, dado attivo, movimento con PM Salto, annulla, manovre base),
+  `turn_manager.js` (5 fasi), `legal_moves.js` (mosse legali, per i test e per il futuro simulatore), `run_manager.js` (stanze, Soglia, Soste, tetto PT).
+  Il motore emette ~40 tipi di evento sul bus; non conosce né rendering né UI.
+- Test (M2): `tools/tests/` — `case_tests*.js` (casi mirati), `tutorial_tests.js`, `random_tests.js` (+ `agent.js`, `invariants.js`, `helpers.js`).
+- Verifiche M2: `node tools/smoke.js` → **1477 controlli superati, 0 falliti**:
+  - 300 partite casuali per ciascuna delle 4 stanze + 50 run complete: nessuna eccezione, nessuna mossa legale rifiutata; a ogni passo: 16 carte, ≤ 3 standard e ≤ 1 Fuoco in Plancia, HP ≤ 10, nessuna unità sovrapposta, fuori griglia, su ostacolo o ferma su trappola.
+  - Esplorazione con un giocatore casuale "pesato" (preferisce mosse di danno) per raggiungere vittorie, Soglia e tutti gli eventi rari (Buio, Sigillo, Coro, Luce rubata, Corazza, Carica, Infusione...).
+  - Stesso seed → stesso log (9 combinazioni seed × stanza).
+  - Casi mirati: Collisione contro colonna, bordo e unità; Braciere; trappola con spinta e con Distorsione; Vulnerabilità prima degli Scudi; Danno Diretto; Contrattacco; dado IA spento; Corazza; Sigillo con Plancia libera e piena (e uscita senza scarti); Buio; tetto PT alla Soglia; 2 Soste entro la Veglia; Luce "Lanterna"; cono a 9 caselle; Amplificazione; Conversione Oscura; PM Salto; annulla; costi di Selezione; carte gratuite; ap, as, Scatto; Falena, Coro, Morso, Maglio; vittoria immediata; Follia pagando PT; pesca a vuoto; Eco di rotazione.
+  - Script del tutorial: tutti gli stati attesi di §9.1 (fine T1, passo 12, passo 14) verificati.
+- Nota: il giocatore casuale perde quasi sempre (è casuale); un agente goloso di prova (non nel repo) mostra che si muore soprattutto entrando nell'orda. Non è un indicatore di bilanciamento.
 
 ### Inventario iniziale (M0)
 | Cosa c'era | Stato | Cosa ne è stato fatto |
@@ -64,6 +80,24 @@ M2: motore senza grafica (griglia, stato, turno, dadi, Selezione, carte, Plancia
 
 ## Domande per Gianmarco
 (regole non coperte dal brief; ho scelto l'opzione più prudente e sono andato avanti)
+
+| # | Domanda | Scelta fatta (prudente) | Dove |
+|---|---|---|---|
+| Q1 | "Rimescola gli scarti nel mazzo": si mescola tutto il mazzo o solo gli scarti? | Se ci sono scarti, mazzo + scarti si mescolano insieme; se gli scarti sono vuoti non si mescola nulla (così la cima del mazzo del tutorial resta intatta al T2). | `card_system.js` `preparation` |
+| Q2 | Una carta aperta resta aperta passando al dado successivo? | No: si chiude da sé quando si avanza (come quando ci si muove o si apre un'altra carta). Ogni Azione si paga comunque con un solo dado. | `resolution.js` ADVANCE |
+| Q3 | Le carte gratuite (`ie`, `md`, `cu`) si possono giocare mentre un dado è attivo? | Solo in finestra libera (nessun dado attivo). L'Azione gratuita di `ab` invece sempre. | `card_effects_free.js` |
+| Q4 | Scatto ha già pescato all'attivazione: si può annullare? | No: dopo la pesca non è più annullabile. | `card_effects.js` CANCEL_CARD |
+| Q5 | Scatto "richiede almeno 1 ✊": vale anche 🔥 tramite Amplificazione? | Sì, basta poter pagare la sua Azione (✊, o 🔥 per Amplificazione). | `cards.js` / `costOf` |
+| Q6 | Amplificazione su Diniego Sismico: il +1 vale anche se la Collisione colpisce un'altra unità? | Il +1 si applica al danno d'attacco sul bersaglio; il danno di Collisione resta 1 normale. | `card_effects.js` |
+| Q7 | Attacco Strategico: la scelta PM/Scudo. | Alla chiusura il giocatore sceglie quanti PM (il resto Scudi). Se la carta va chiusa da sola (movimento, altra carta, dado successivo) prima serve la scelta. | `card_effects.js` |
+| Q8 | Contrattacco: vale anche sul danno da Collisione della spinta del Maglio? | No, solo sul danno dell'attacco nemico. | `combat_resolver.js` |
+| Q9 | Distorsione: se il bersaglio entra in una trappola a metà percorso e sopravvive, continua? | Sì, continua il percorso scelto; si ferma se muore. | `card_effects.js` |
+| Q10 | Falena: può atterrare su una trappola? "Volteggiare" (si allontana di 3) è un Volo? | Non atterra mai su una trappola; Volteggiare usa la regola "si allontana di N" passo per passo, senza attivare trappole. | `ai_opponent.js` |
+| Q11 | Carica Furiosa: le trappole sulla linea contano come caselle libere? | Sì (sono attraversabili) e scattano. "Adiacenti in Sequenza" = consecutivi nella Sequenza dopo la Selezione. | `card_effects_free.js` |
+| Q12 | Movimento: "un movimento" è il singolo comando di spostamento? | Sì: ogni spostamento (destinazione) è un movimento; se parte da adiacente a un nemico il primo passo costa 2 PM. Il percorso automatico non attraversa trappole camminando, salvo se la trappola è la destinazione. | `resolution.js` |
+| Q13 | Log §10: cosa vuol dire "lasciato" per un dado coperto? | Per ogni slot coperto: **pagato** (tenuto pagando Luce), **scartato** (c'era un dado di quel tipo ed è stato scartato), **lasciato** (nessun dado di quel tipo a disposizione). | `dice_system.js` |
+| Q14 | Annullare un movimento che ha chiuso una carta aperta. | Non annullabile (la chiusura ha già messo la carta in Plancia/scarti). | `resolution.js` |
+| Q15 | Soste: se ne spettano 2, si può sceglierne solo 1? | No, si scelgono esattamente 1 o 2 Soste diverse. "Raccogliersi" non abbassa mai i PT. | `run_manager.js` |
 
 ## Da controllare a occhio
 (elenco per il controllo visivo)

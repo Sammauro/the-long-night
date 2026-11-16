@@ -11,6 +11,9 @@ function section(name) { console.log('— ' + name); }
 var TLN = loadTLN();
 var suites = {
   data: require('./tests/data_tests'),
+  cases: require('./tests/case_tests'),
+  tutorial: require('./tests/tutorial_tests'),
+  random: require('./tests/random_tests'),
 };
 var only = process.argv[2];
 var opts = { games: +(process.argv[3] || 300) };

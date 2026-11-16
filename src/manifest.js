@@ -17,7 +17,19 @@
     ],
     engine: [
       'src/engine/rng.js',
-      'src/engine/event_bus.js'
+      'src/engine/event_bus.js',
+      'src/engine/hex_grid.js',
+      'src/engine/game_state.js',
+      'src/engine/combat_resolver.js',
+      'src/engine/dice_system.js',
+      'src/engine/card_system.js',
+      'src/engine/card_effects.js',
+      'src/engine/card_effects_free.js',
+      'src/engine/ai_opponent.js',
+      'src/engine/resolution.js',
+      'src/engine/turn_manager.js',
+      'src/engine/legal_moves.js',
+      'src/engine/run_manager.js'
     ],
     input: [
       'src/input/command_bus.js'
