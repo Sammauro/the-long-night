@@ -10,7 +10,7 @@ Brief: docs/BRIEF_demo_claudecode.md (v1.0)
 | # | Milestone | Stato | Note |
 |---|---|---|---|
 | M0 | Ricognizione e scheletro | ✅ | Pagina senza errori in console (verificato con Chromium headless) |
-| M1 | Dati | ⬜ | |
+| M1 | Dati | ✅ | `node tools/smoke.js data`: 169 controlli, 0 falliti |
 | M2 | Motore senza grafica | ⬜ | |
 | M3 | Scena 2.5D | ⬜ | |
 | M4 | Combattimento giocabile | ⬜ | |
@@ -19,7 +19,7 @@ Brief: docs/BRIEF_demo_claudecode.md (v1.0)
 | M7 | Rifinitura e pubblicazione | ⬜ | |
 
 ## Prossimo passo
-M1: scrivere i file di `src/engine/data/` secondo §5 e §9 e i primi controlli di `tools/smoke.js`.
+M2: motore senza grafica (griglia, stato, turno, dadi, Selezione, carte, Plancia, danni, IA, Veglia, Soglia) e partite casuali in `tools/smoke.js`.
 
 ## Sessioni
 ### Sessione 1 — 2026-11-16
@@ -31,6 +31,11 @@ M1: scrivere i file di `src/engine/data/` secondo §5 e §9 e i primi controlli 
 - File toccati: `index.html`, `style.css`, `src/manifest.js`, `src/engine/rng.js`, `src/engine/event_bus.js`, `src/input/command_bus.js`, `src/ui/app.js`, `DEMO.md`; spostamenti in `_archive/js_v0/`.
 - Verifiche eseguite e risultato: apertura di `index.html` da `file://` in Chromium headless: 0 errori, 0 avvisi in console.
 - Problemi aperti: nessuno.
+
+- Fatto (M1):
+  - `src/engine/data/`: `dice.js`, `equipment.js` (preset `demo` e `rev11`), `cards.js` (14 carte distinte, 16 copie, Azioni strutturate), `enemies.js` (4 nemici, tabelle d4 come dati interpretati dall'IA), `terrain.js`, `rooms.js` (4 stanze), `run_config.js`, `tutorial_script.js` (mazzo, dadi, movimento fissato, 16 passi), `hints.js` (9 suggerimenti).
+  - `tools/load.js` (carica i file del manifest in un contesto `vm` di Node) e `tools/smoke.js` (runner); `tools/tests/data_tests.js`.
+- Verifiche M1: `node tools/smoke.js data` → 169 controlli superati: 16 carte (7/5/4), 5 dadi, 4 stanze senza sovrapposizioni né coordinate fuori griglia, ogni d4 copre 1–4; pagina senza errori.
 
 ### Inventario iniziale (M0)
 | Cosa c'era | Stato | Cosa ne è stato fatto |

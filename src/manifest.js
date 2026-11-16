@@ -4,7 +4,17 @@
 (function (root) {
   var TLN = root.TLN = root.TLN || {};
   TLN.manifest = {
-    data: [],
+    data: [
+      'src/engine/data/dice.js',
+      'src/engine/data/equipment.js',
+      'src/engine/data/cards.js',
+      'src/engine/data/enemies.js',
+      'src/engine/data/terrain.js',
+      'src/engine/data/rooms.js',
+      'src/engine/data/run_config.js',
+      'src/engine/data/tutorial_script.js',
+      'src/engine/data/hints.js'
+    ],
     engine: [
       'src/engine/rng.js',
       'src/engine/event_bus.js'
