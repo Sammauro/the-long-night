@@ -1,0 +1,43 @@
+/* THE LONG NIGHT — layout compatto per schermi bassi (telefono in orizzontale, BRIEF 7) */
+@media (max-height: 520px) {
+  .panel { font-size:10px; }
+  .btn { padding:3px 6px; }
+  #hud { width:150px; padding:5px 7px; top:4px; left:4px; }
+  #hud .who { margin-bottom:2px; font-size:10px; } #hud .room { display:none; } #hud .row { margin:1px 0; gap:4px; } #hud .k { width:26px; font-size:9px; }
+  #hud .pips { display:none; } #hud .row .v { flex:1; text-align:left; } #hud .bar + .v { flex:none; } .notch { width:7px; height:9px; } .veglia { margin-top:3px; } .veglia em, #hud .turn { font-size:9px; margin-top:2px; }
+  #log { top:auto; bottom:4px; left:4px; width:auto; padding:0; z-index:11; } #log:not(.open) { display:none; }
+  #enemies { width:160px; top:4px; right:4px; padding:4px; max-height:44vh; } #enemies .ttl { margin-bottom:2px; }
+  .en { padding:1px 2px; gap:4px; } .en img { width:18px; height:18px; } .en-n { font-size:10px; } .en-n small { display:none; } .en-s { font-size:9px; margin:0; }
+  .en .int { display:none; } .en.sel .int, .en.target .int { display:inline; }
+  #enemy-sheet { top:50%; left:50%; right:auto; bottom:auto; transform:translate(-50%,-50%); width:260px; font-size:10px; max-height:86vh; overflow:auto; z-index:32; box-shadow:0 0 0 100vmax rgba(0,0,0,.45); }
+  #seq-row { bottom:100px; max-width:calc(100vw - 330px); } #preview { font-size:10px; padding:2px 6px; max-width:420px; }
+  #seq { gap:2px; padding:2px 3px; } .die { width:28px; height:28px; border-width:1px; font-size:9px; } .die .val { font-size:12px; } .die .ic { font-size:9px; }
+  .die .por { width:14px; height:14px; } .die.k-ai .val { margin-top:10px; font-size:10px; } .die .ai-act { font-size:8px; } .die .own { display:none; }
+  .die .lab { top:29px; font-size:7px; } .die .lab2 { display:none; } #seq:has(.lab) { padding-bottom:12px; } .dropped { display:none; }
+  #bottom { height:96px; min-height:0; }
+  #plancia { left:4px; bottom:4px; width:148px; padding:3px 4px; } #plancia .ttl { display:none; } .pl-row { gap:2px; }
+  .pl-spot { width:32px; height:38px; } .pl-card { width:26px; height:34px; font-size:5px; padding:1px; } .pl-card .glyph { font-size:10px; } .pl-card .cdv { font-size:6px; }
+  .pl-slot { width:34px; font-size:7px; padding:1px 0; } .pl-slot .n { font-size:6px; } .pl-slot .ic { font-size:9px; } .pl-next { font-size:8px; margin-top:2px; }
+  #hand { left:156px; right:190px; bottom:4px; gap:3px; }
+  .card { width:66px; min-height:86px; font-size:8px; } .card .acts { display:none; } .card .hd { padding:2px 3px; flex-direction:column; min-height:40px; }
+  .card .nm { font-size:9px; line-height:1.1; } .cdb { font-size:8px; } .card .eco { padding:2px 3px; font-size:8px; } .card .eco span { font-size:7px; }
+  .card.playable:hover, .card.discardable:hover { transform:none; } .card.staged { transform:translateY(-5px); } .card .order { width:14px; height:14px; font-size:9px; }
+  #side { right:4px; bottom:4px; width:182px; gap:3px; } #controls { padding:4px; } #controls .sum { font-size:9px; margin-bottom:3px; }
+  .man { gap:2px; margin-bottom:3px; } .man .btn { font-size:9px; padding:2px; } .man .btn small { display:none; }
+  #controls .btn.main { padding:5px; margin-top:2px; } .auto, .hint-s { display:none; } .nav .btn.ghost { font-size:9px; }
+  #open-card { padding:4px; max-height:calc(100vh - 150px); overflow:auto; } .oc-t { font-size:10px; margin-bottom:2px; } .act-btn { font-size:9px; padding:3px; margin:1px 0; } .amp { font-size:9px; }
+  #coach { top:122px; left:4px; transform:none; width:150px; min-width:0; max-height:calc(100vh - 230px); overflow:auto; } .coach-box { font-size:10px; padding:4px 6px; line-height:1.25; }
+  .coach-box .skip { float:none; display:block; margin:2px 0 0; } .coach-box p { margin:2px 0 3px; } .coach-box .ct { font-size:8px; }
+  #modebar { top:auto; bottom:136px; font-size:10px; padding:3px 6px; } body:has(#coach.on) #modebar { bottom:136px; }
+  #banner { font-size:15px; top:30%; } #toast { top:auto; bottom:140px; font-size:11px; }
+  .mbox { padding:10px; max-width:80vw; font-size:12px; } .cl { font-size:9px; } .fx-num { font-size:14px; }
+  .scr { padding:2vh 12px 0; } .scr.soglia h1 { font-size:18px; margin:0; } .scr .sub, .scr .note { font-size:11px; margin:3px 0; } .scr .lbl { margin:6px 0 3px; }
+  .scr .btn.main { position:sticky; bottom:6px; margin:8px 0 6px; box-shadow:0 0 0 6px rgba(11,10,14,.9); } .sg-en table { display:none; } .sg-en img { width:24px; height:24px; } .scr h1.title { font-size:26px; margin-top:4vh; } .scr.menu .btn { padding:8px; font-size:13px; } .rest { width:150px; padding:6px; font-size:11px; } .sg-en { font-size:10px; }
+}
+/* Dettaglio di una carta (tocco prolungato) */
+.card-detail { display:flex; justify-content:center; } .card-detail .card { width:220px; min-height:240px; font-size:14px; cursor:default; } .card-detail .card .acts { display:block; } .card-detail .card .hd { flex-direction:row; min-height:0; }
+.card-detail .card .nm { font-size:15px; }
+/* Telefono in verticale: chiedi di ruotarlo */
+@media (orientation: portrait) and (max-width: 700px) {
+  #rotate-hint { display:flex; position:fixed; inset:0; z-index:100; background:#0b0a0e; color:var(--text); align-items:center; justify-content:center; text-align:center; padding:30px; font-size:18px; letter-spacing:.1em; }
+}

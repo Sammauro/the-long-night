@@ -40,6 +40,8 @@
       '<div class="sh-s">HP ' + sel.hp + '/' + sel.hpMax + ' · Mov ' + def.mov + (def.range > 1 ? ' · Gittata ' + def.range : '') + (def.fly ? ' · Volo' : '') + (def.armor ? ' · Corazza ' + def.armor : '') + '</div>' +
       '<table>' + rows + '</table>';
     sheet.querySelector('.x').onclick = function () { UI.st.selectedEnemy = null; UI.refresh(); };
+    // in modalità compatta la scheda è sovrapposta: un tocco la chiude
+    sheet.onclick = function (e) { if (window.innerHeight <= 520) { e.stopPropagation(); UI.st.selectedEnemy = null; UI.refresh(); } };
     sheet.classList.add('on');
   }
 

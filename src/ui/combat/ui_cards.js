@@ -58,7 +58,13 @@
       var cls = G.phase === 'FINE_TURNO' ? (si >= 0 ? 'staged' : 'discardable') : playable(G, inst) ? 'playable' : 'idle';
       var el = cardEl(def, { cls: cls });
       if (si >= 0) el.appendChild(u.h('span', 'order', String(si + 1)));
-      el.onclick = function () { onCard(inst); };
+      el.onclick = function () { if (el._long) { el._long = false; return; } onCard(inst); };
+      // tocco prolungato (o tasto destro) = dettaglio della carta
+      var t = null;
+      el.addEventListener('pointerdown', function () { t = setTimeout(function () { el._long = true; showCard(def); }, 450); });
+      el.addEventListener('pointerup', function () { clearTimeout(t); });
+      el.addEventListener('pointerleave', function () { clearTimeout(t); });
+      el.addEventListener('contextmenu', function (e) { e.preventDefault(); clearTimeout(t); el._long = false; showCard(def); });
       box.appendChild(el);
     });
     box.classList.toggle('empty', !G.hand.length);
@@ -110,6 +116,12 @@
     UI.choose('Attacco Strategico: ' + n + ' danni agli HP. Scegli la ricompensa.', opts);
   }
 
+  function showCard(def) {
+    var m = u.$('modal'); m.innerHTML = '';
+    var box = u.h('div', 'mbox card-detail'); box.appendChild(cardEl(def, {}));
+    m.appendChild(box); m.classList.add('on');
+    m.onclick = function () { m.classList.remove('on'); m.onclick = null; };
+  }
   function render() { renderHand(); renderOpen(); }
 
   UI.cards = { render: render, cardEl: cardEl, setRotateTarget: setRotateTarget, askReward: askReward, closeCard: closeCard };

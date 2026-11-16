@@ -26,8 +26,8 @@
   function fit(ctx) {
     var cam = ctx.camera; if (!cam || !ctx.w) return;
     var th = R.theme.camera, m = th.margin;
-    var narrow = ctx.w < 900;
-    var side = narrow ? m.side * 0.7 : m.side, bottom = narrow ? m.bottom * 1.1 : m.bottom, top = m.top;
+    var narrow = ctx.w < 900, low = ctx.h <= 520;
+    var side = low ? 0.215 : narrow ? m.side * 0.7 : m.side, bottom = low ? 0.42 : m.bottom, top = m.top;
     var a = th.tilt * Math.PI / 180;
     var boardW = Math.sqrt(3) * 6.6, boardD = 1.5 * 8 + 1.2;
     var projH = boardD * Math.sin(a) + 2.4 * Math.cos(a);

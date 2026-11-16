@@ -94,7 +94,8 @@
     var g = G(), m = UI.st.mode; if (!g || UI.st.busy) return;
     var unit = S().unitAt(g, c);
     if (!m) {
-      if (unit && unit.kind === 'enemy') { UI.st.selectedEnemy = unit.id; UI.refresh(); return; }
+      // al tocco la scheda si apre solo con il tocco prolungato (input_handler.js)
+      if (unit && unit.kind === 'enemy') { if (!UI.st.touch) { UI.st.selectedEnemy = unit.id; UI.refresh(); } return; }
       if (g.phase === 'RISOLUZIONE' && E().resolution.reachable(g)[key(c)]) {
         if (E().cardFx.needsChoice(g)) { UI.cards.askReward(); return; }
         UI.send({ type: 'MOVE', to: c });

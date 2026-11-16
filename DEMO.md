@@ -16,10 +16,10 @@ Brief: docs/BRIEF_demo_claudecode.md (v1.0)
 | M4 | Combattimento giocabile | ✅ | Stanza 1 vinta da inizio a fine con mouse e con tocco (bot Playwright, clic reali); 14/14 carte giocate dall'interfaccia |
 | M5 | Run | ✅ | Run dal menu via UI: Cripta vinta → Soglia → Corridoio; log scaricato con tutti i campi di §10. Vittoria della Stanza 3 verificata solo nel motore |
 | M6 | Tutorial | ✅ | Bot che segue solo i passi: Stanza 0 completata fino alla Soglia; "Salta tutorial" e suggerimenti una tantum verificati. Prova con una persona vera: da fare |
-| M7 | Rifinitura e pubblicazione | ⬜ | |
+| M7 | Rifinitura e pubblicazione | 🟡 | Rifinitura e passata mobile fatte (iPhone 12 e Pixel 7 in orizzontale emulati); **pubblicazione su GitHub Pages esclusa** in questa prova |
 
 ## Prossimo passo
-M7: rifinitura (animazioni, mobile in orizzontale, prestazioni). Pubblicazione su GitHub Pages esclusa in questa prova.
+Prova a mano (lista "Da controllare a occhio"), risposte alle domande Q1–Q17, poi decidere se portare il ramo su `main` e pubblicare su GitHub Pages (escluso in questa prova).
 
 ## Sessioni
 ### Sessione 1 — 2026-11-16
@@ -87,6 +87,16 @@ M7: rifinitura (animazioni, mobile in orizzontale, prestazioni). Pubblicazione s
   Bot Playwright che esegue esattamente quello che chiede ogni testo (clic reali): passi 1–14 superati, Stanza 0 vinta, Soglia (passo 16), ingresso nella Cripta; 0 errori in console. "Salta tutorial" → Cripta. Suggerimento del Sussurratore: compare la prima volta, non la seconda.
   **Non verificabile qui:** "una persona che non conosce il gioco arriva alla Soglia seguendo solo i testi" — serve un playtest vero. Persistenza dei suggerimenti dopo un ricaricamento: in Chromium headless da `file://` non persiste (origine opaca); da verificare via http/GitHub Pages.
 
+- Fatto (M7): `style_mobile.css`, un layout compatto per schermi bassi (≤ 520 px: telefono in orizzontale) con HUD, nemici, Plancia, mano, Sequenza e comandi ridimensionati. Le carte in mano mostrano nome, CD ed Eco; il testo completo compare nella carta aperta o con tocco prolungato / tasto destro (nuovo dettaglio carta). In compatto il riquadro del tutorial sta nella colonna sinistra; la scheda del nemico è sovrapposta al centro e si chiude toccandola; il pulsante "Attraversa la Soglia" è sempre visibile. Con il telefono in verticale compare "Ruota il telefono in orizzontale". La camera usa margini diversi sugli schermi bassi.
+  Riscontri visivi già presenti da M3/M4: passi, affondo, lampo bianco, scossa della camera, numeri che salgono, particelle alla morte, porta che si illumina, dadi che rotolano in 0,35 s (un tocco o lo spazio accelerano le animazioni), tremolio dell'interfaccia con PT ≤ 2, vignettatura più stretta al Buio.
+- Bug trovati e corretti in M7 (con il tocco su telefono emulato): toccare un nemico apriva la scheda sopra la carta aperta e bloccava le Azioni (ora al tocco la scheda si apre solo con il tocco prolungato, come chiede §7); il pulsante della Soglia finiva fuori schermo.
+- Verifiche M7 (Playwright, emulazione dispositivi, solo tocchi):
+  - **iPhone 12 in orizzontale** (750×340): tutorial completo, passi 1–16 → Soglia → Cripta → schermata finale e "Scarica log"; Cripta vinta da sola (seed 17). 0 errori.
+  - **Pixel 7 in orizzontale**: Cripta vinta (seed 17). 0 errori.
+  - Desktop 1280×720 invariato; verticale: avviso di rotazione. `node tools/smoke.js` → 1516 controlli, 0 falliti. Nessun file JS oltre 250 righe; nessun `Math.random` nel motore.
+- **Non fatto (deroga della prova):** pubblicazione su GitHub Pages, merge su `main`, aggiornamento di `CLAUDE.md`.
+- **Non verificabile qui:** 60 fps su GPU vera; un telefono fisico (le emulazioni non provano prestazioni, Safari reale e gesti di sistema).
+
 ### Inventario iniziale (M0)
 | Cosa c'era | Stato | Cosa ne è stato fatto |
 |---|---|---|
@@ -110,6 +120,8 @@ M7: rifinitura (animazioni, mobile in orizzontale, prestazioni). Pubblicazione s
   - riferimento a `docs/BRIEF_demo_claudecode.md` e a `DEMO.md`;
   - §2/§4: script classici con namespace `TLN` (niente moduli ES), struttura file di BRIEF §4;
   - §2: rimuovere i font esterni (BRIEF 2: "niente font esterni").
+- `CLAUDE.md` §9: spuntare la FASE 0 e aggiungere la demo (M0–M7) con il riferimento a `DEMO.md`.
+- M7 del brief: la pubblicazione su GitHub Pages (`https://sammauro.github.io/the-long-night`) richiede che `index.html` di questo ramo arrivi sul ramo pubblicato; non fatto.
 - `SIMULATOR.md`: il brief dice che le fasi 2–5 sono sostituite dal brief, ma il file non esiste nel repo.
 
 ## Domande per Gianmarco
@@ -155,9 +167,12 @@ M7: rifinitura (animazioni, mobile in orizzontale, prestazioni). Pubblicazione s
 
 - **M6 — tutorial**: [ ] far giocare la Stanza 0 a qualcuno che non conosce il gioco; [ ] testi del coach leggibili e non sovrapposti alla griglia; [ ] i suggerimenti non ricompaiono dopo aver ricaricato la pagina (via http).
 
+- **M7 — telefono reale in orizzontale** (Android e iPhone): [ ] fluidità; [ ] caselle e dadi abbastanza grandi da toccare; [ ] tocco prolungato su carte e nemici; [ ] barra degli indirizzi di Safari che non copre la mano; [ ] il testo delle carte in Plancia (piccolissimo) è comunque utile o va sostituito con un'icona?
+
 ## Scostamenti dal brief
 - Nessuna modifica a `CLAUDE.md` (deroga della sessione di prova): vedi "Modifiche da applicare ai documenti".
 - Tutorial: dopo il passo 13 il resto del turno 2 è libero (come dice il brief) e il riquadro mostra "Gioca liberamente il resto del turno" finché non arriva la Selezione del turno 3 (passo 14).
 - Suggerimenti: "una volta sola" è inteso per browser (localStorage), non per run.
+- Telefono: le carte in mano non mostrano il testo delle Azioni (non ci sta); si legge nella carta aperta o con il tocco prolungato.
 - Il pannello Registro è un menu a tendina in alto (pulsanti "Registro" e "Copia") invece di un riquadro sempre aperto, per non coprire la griglia.
 - `src/manifest.js` elenca solo i file già scritti; cresce milestone per milestone, così la pagina non ha mai script mancanti.
