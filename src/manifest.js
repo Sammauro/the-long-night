@@ -33,6 +33,7 @@
     ],
     input: [
       'src/input/command_bus.js',
+      'src/input/tutorial_driver.js',
       'src/input/input_handler.js'
     ],
     balancing: [
@@ -67,6 +68,7 @@
       'src/ui/combat/ui_log.js',
       'src/ui/run/ui_soglia.js',
       'src/ui/run/ui_screens.js',
+      'src/ui/tutorial/ui_coach.js',
       'src/ui/app.js'
     ]
   };

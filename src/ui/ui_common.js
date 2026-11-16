@@ -32,7 +32,7 @@
     if (st.busy) return { ok: false, error: 'Attendi' };
     var r = st.cmd.execute(cmd);
     if (!r.ok) {
-      if (!r.filtered) UI.toast(r.error);
+      if (!r.filtered) UI.toast(r.error); else if (UI.coach) UI.coach.flash(r.error);
       UI.refresh();
       return r;
     }

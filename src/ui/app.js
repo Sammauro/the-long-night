@@ -49,6 +49,7 @@
   // ── ridisegno ──
   function refreshGrid() {
     var hl = UI.targeting.highlights();
+    if (UI.coach) hl.list = hl.list.concat(UI.coach.highlights());
     TLN.render.hexes.setHighlights(hl.list);
     var box = u.$('cell-labels'); if (!box) return;
     box.innerHTML = '';
@@ -78,7 +79,11 @@
   }
   UI.refresh = refresh;
   UI.refreshGrid = refreshGrid;
-  UI.refreshPreview = function () { refreshGrid(); UI.controls.render(); UI.sequence.render(); };
+  UI.refreshPreview = function () {
+    refreshGrid(); UI.sequence.markPeek();
+    var pv = UI.sequence.previewInfo(), pb = u.$('preview');
+    if (pb) { pb.innerHTML = pv ? pv.text : ''; pb.classList.toggle('on', !!pv); }
+  };
 
   // ── avanzamento automatico (BRIEF 7: "continua da solo se non ho PM né carte gratuite") ──
   function hasFreeOptions(G) {

@@ -103,5 +103,11 @@
   }
   function S() { return TLN.engine.state; }
 
-  UI.sequence = { render: render, previewInfo: previewInfo, portrait: portrait };
+  // Evidenzia il dado in anteprima senza ridisegnare la Sequenza (un ridisegno farebbe perdere il clic)
+  function markPeek() {
+    var els = document.querySelectorAll('#seq .die');
+    for (var i = 0; i < els.length; i++) els[i].classList.toggle('peek', els[i].dataset.uid === UI.st.preview);
+  }
+
+  UI.sequence = { render: render, previewInfo: previewInfo, portrait: portrait, markPeek: markPeek };
 })(typeof window !== 'undefined' ? window : globalThis);

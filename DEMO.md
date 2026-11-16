@@ -15,11 +15,11 @@ Brief: docs/BRIEF_demo_claudecode.md (v1.0)
 | M3 | Scena 2.5D | ✅ | 4 stanze verificate con screenshot (Chromium headless); 60 fps da verificare su GPU vera |
 | M4 | Combattimento giocabile | ✅ | Stanza 1 vinta da inizio a fine con mouse e con tocco (bot Playwright, clic reali); 14/14 carte giocate dall'interfaccia |
 | M5 | Run | ✅ | Run dal menu via UI: Cripta vinta → Soglia → Corridoio; log scaricato con tutti i campi di §10. Vittoria della Stanza 3 verificata solo nel motore |
-| M6 | Tutorial | ⬜ | |
+| M6 | Tutorial | ✅ | Bot che segue solo i passi: Stanza 0 completata fino alla Soglia; "Salta tutorial" e suggerimenti una tantum verificati. Prova con una persona vera: da fare |
 | M7 | Rifinitura e pubblicazione | ⬜ | |
 
 ## Prossimo passo
-M6: tutorial guidato della Stanza 0 (`tutorial_driver.js`, `ui_coach.js`) e suggerimenti contestuali.
+M7: rifinitura (animazioni, mobile in orizzontale, prestazioni). Pubblicazione su GitHub Pages esclusa in questa prova.
 
 ## Sessioni
 ### Sessione 1 — 2026-11-16
@@ -75,9 +75,17 @@ M6: tutorial guidato della Stanza 0 (`tutorial_driver.js`, `ui_coach.js`) e sugg
 - Fatto (M5): `src/balancing/data_collector.js` (log della run dagli eventi: per turno stanza, turno, seed, Sequenza, Plancia, slot coperti, Luce disponibile, esito di ogni slot coperto pagato/scartato/lasciato, Eco, carte giocate, danni fatti e subiti, PT persi con causa, HP/PT/Luce/PM finali; per stanza turni, esito rispetto alla Veglia, Soste; riepilogo testuale per Notion e JSON);
   `src/ui/run/ui_soglia.js` (riepilogo, cosa si azzera e cosa resta, scelta di 1 o 2 Soste, "ti aspetta" con le schede dei nemici della stanza successiva), `src/ui/run/ui_screens.js` (menu con "Inizia (tutorial)" e "Salta il tutorial", schermata finale con storia, "Copia riepilogo", "Scarica log", "Torna al menu").
   Il motore ora include nel `SELECTION_START` la Plancia e la Luce, e nell'esito di stanza lo stato del giocatore (serve al log per l'ultimo turno).
-- Verifiche M5: nuovo test `tools/tests/log_tests.js` (campi di §10 presenti, JSON valido, riepilogo); `node tools/smoke.js` → 1503 controlli, 0 falliti.
+- Verifiche M5: nuovo test `tools/tests/log_tests.js` (campi di §10 presenti, JSON valido, riepilogo); `node tools/smoke.js` → 1502 controlli, 0 falliti.
   Bot Playwright dal menu ("Salta il tutorial", solo clic): seed 17 → Cripta vinta in 7 turni, Soglia (Bendarsi), Corridoio perso per Follia; il file scaricato con "Scarica log" contiene tutti i campi. Seed 10 con il tocco: run fino alla schermata finale. 0 errori in console.
   **Non verificato in UI:** una run vinta fino alla fine della Stanza 3 (l'agente di test non vince la Sala del Custode); la sequenza completa r0 → r3 con vittoria è coperta solo dai test del motore. Va provata a mano.
+
+- Fatto (M6): `src/input/tutorial_driver.js` (legge i passi di `tutorial_script.js`, filtra il bus dei comandi lasciando passare solo il comando atteso, controlla i dadi da tenere, avanza quando la condizione del passo è vera; un passo iniziato resta attivo finché non è completato),
+  `src/ui/tutorial/ui_coach.js` (riquadro "Tutorial · passo N/16" con il testo del brief, casella evidenziata dove serve, "Salta tutorial" sempre visibile; suggerimenti contestuali di §9.2 in un riquadro "Ho capito", una volta sola, ricordati in `localStorage` con ripiego in memoria; `?hints=reset` li azzera).
+  Il menu "Inizia" avvia la Stanza 0 con lo script; "Salta tutorial" porta alla Cripta con una run nuova.
+- Bug trovati e corretti in M6: passando il mouse su un dado IA la Sequenza veniva ridisegnata e il clic sul dado andava perso (ora si aggiorna solo l'evidenziazione); il passo 14 (attivo in Selezione, completato uscendone) non si chiudeva.
+- Verifiche M6: nuovo test `tools/tests/driver_tests.js` (comandi sbagliati bloccati ai passi 1, 4, 10, 11, 12, 14; avanzamento fino alla Soglia e uscita dal tutorial); `node tools/smoke.js` → 1516 controlli, 0 falliti.
+  Bot Playwright che esegue esattamente quello che chiede ogni testo (clic reali): passi 1–14 superati, Stanza 0 vinta, Soglia (passo 16), ingresso nella Cripta; 0 errori in console. "Salta tutorial" → Cripta. Suggerimento del Sussurratore: compare la prima volta, non la seconda.
+  **Non verificabile qui:** "una persona che non conosce il gioco arriva alla Soglia seguendo solo i testi" — serve un playtest vero. Persistenza dei suggerimenti dopo un ricaricamento: in Chromium headless da `file://` non persiste (origine opaca); da verificare via http/GitHub Pages.
 
 ### Inventario iniziale (M0)
 | Cosa c'era | Stato | Cosa ne è stato fatto |
@@ -145,7 +153,11 @@ M6: tutorial guidato della Stanza 0 (`tutorial_driver.js`, `ui_coach.js`) e sugg
 
 - **M5 — run**: [ ] una run completa vinta fino all'alba (schermata finale di vittoria); [ ] testo di "Copia riepilogo" incollato su Notion.
 
+- **M6 — tutorial**: [ ] far giocare la Stanza 0 a qualcuno che non conosce il gioco; [ ] testi del coach leggibili e non sovrapposti alla griglia; [ ] i suggerimenti non ricompaiono dopo aver ricaricato la pagina (via http).
+
 ## Scostamenti dal brief
 - Nessuna modifica a `CLAUDE.md` (deroga della sessione di prova): vedi "Modifiche da applicare ai documenti".
+- Tutorial: dopo il passo 13 il resto del turno 2 è libero (come dice il brief) e il riquadro mostra "Gioca liberamente il resto del turno" finché non arriva la Selezione del turno 3 (passo 14).
+- Suggerimenti: "una volta sola" è inteso per browser (localStorage), non per run.
 - Il pannello Registro è un menu a tendina in alto (pulsanti "Registro" e "Copia") invece di un riquadro sempre aperto, per non coprire la griglia.
 - `src/manifest.js` elenca solo i file già scritti; cresce milestone per milestone, così la pagina non ha mai script mancanti.

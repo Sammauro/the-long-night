@@ -104,3 +104,10 @@ body.pt-low #seq { animation:none; }
 .scr .btn.main { margin-top:18px; padding:10px 22px; font-size:15px; }
 .hist { margin:14px auto; border-collapse:collapse; } .hist td, .hist th { padding:4px 12px; border-bottom:1px solid var(--border); font-size:13px; } .hist th { color:var(--text-muted); font-weight:normal; }
 .scr .row { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; } .final.death h1, .final.madness h1 { color:var(--red); }
+/* Tutorial e suggerimenti */
+#coach { display:none; position:fixed; z-index:20; top:10px; left:50%; transform:translateX(-50%); width:min(520px, calc(100vw - 520px)); min-width:280px; flex-direction:column; gap:6px; }
+#coach.on { display:flex; } .coach-box { background:rgba(24,20,10,.95); border:1px solid var(--gold); padding:8px 12px; font-size:14px; box-shadow:0 4px 20px rgba(0,0,0,.6); }
+.coach-box.hint { border-color:var(--blue); background:rgba(14,22,32,.95); } .coach-box p { margin:4px 0 6px; } .coach-box .ct { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--text-muted); }
+.coach-box .skip { float:right; font-size:11px; padding:2px 8px; margin-top:-2px; } .coach-box.shake { animation:shk .35s; }
+@keyframes shk { 25% { transform:translateX(-6px); } 75% { transform:translateX(6px); } }
+body:has(#coach.on) #modebar { top:auto; bottom:calc(25vh + 90px); }

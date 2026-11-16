@@ -15,6 +15,7 @@ var suites = {
   tutorial: require('./tests/tutorial_tests'),
   preview: require('./tests/preview_tests'),
   log: require('./tests/log_tests'),
+  driver: require('./tests/driver_tests'),
   random: require('./tests/random_tests'),
 };
 var only = process.argv[2];
