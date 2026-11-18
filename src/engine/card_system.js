@@ -101,7 +101,7 @@
     entries(G).forEach(function (e) { if (e.cd > 0 && (!best || e.cd < best.cd)) best = e; });
     return best ? best.pid : null;
   }
-  // BRIEF 6.2 Fase 2.4 — escono le voci a CD 0 (carte negli scarti, Sigilli spariscono), le altre scendono di 1
+  // BRIEF 6.2 Fase 2 (Q1: prima di Scarto ed Eco) — escono le voci a CD 0 (carte negli scarti, Sigilli spariscono), le altre scendono di 1
   function cdRotation(G) {
     function step(e) {
       if (e.cd <= 0) {
@@ -156,13 +156,12 @@
   E.defineCommand('ECO_DONE', {
     check: function (G) { return G.phase !== 'FINE_TURNO' ? 'Non è la Fine Turno' : null; },
     run: function (G) {
-      cdRotation(G);
       E.turn.afterEndTurn(G);
     }
   });
 
   E.cards = {
-    def: def, setupDeck: setupDeck, draw: draw, preparation: preparation, entries: entries, findEntry: findEntry,
+    def: def, cdRotation: cdRotation, setupDeck: setupDeck, draw: draw, preparation: preparation, entries: entries, findEntry: findEntry,
     spotFor: spotFor, place: place, addSeal: addSeal, rotateEntry: rotateEntry, cdRotation: cdRotation,
     defaultRotateTarget: defaultRotateTarget, applyEco: applyEco
   };

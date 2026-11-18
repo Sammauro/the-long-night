@@ -19,7 +19,7 @@ Brief: docs/BRIEF_demo_claudecode.md (v1.0)
 | M7 | Rifinitura e pubblicazione | 🟡 | Rifinitura e passata mobile fatte (iPhone 12 e Pixel 7 in orizzontale emulati); **pubblicazione su GitHub Pages esclusa** in questa prova |
 
 ## Prossimo passo
-Prova a mano (lista "Da controllare a occhio"), risposte alle domande Q1–Q17, poi decidere se portare il ramo su `main` e pubblicare su GitHub Pages (escluso in questa prova).
+Decidere la difficoltà (la demo è più facile del previsto, vedi Sessione 2), poi direzione artistica e interfaccia (grafica e UI da rifare). Portare il ramo su `main` solo dopo.
 
 ## Sessioni
 ### Sessione 1 — 2026-11-16
@@ -97,6 +97,31 @@ Prova a mano (lista "Da controllare a occhio"), risposte alle domande Q1–Q17, 
 - **Non fatto (deroga della prova):** pubblicazione su GitHub Pages, merge su `main`, aggiornamento di `CLAUDE.md`.
 - **Non verificabile qui:** 60 fps su GPU vera; un telefono fisico (le emulazioni non provano prestazioni, Safari reale e gesti di sistema).
 
+### Sessione 2 — 2026-11-18 (verifiche e decisioni di Gianmarco)
+- **Verifiche:** 1521 controlli del motore superati; regole confrontate con il brief; 5 run complete giocate attraverso l'interfaccia vera fino alla schermata finale, 0 errori in console dopo la correzione; suggerimenti "visti" conservati dopo il ricaricamento (via http).
+- **Bilanciamento:** l'agente di prova della Sessione 1 vinceva poco perché giocava male, non per un difetto del motore. Nuovo agente prudente in `tools/balance_agent.js`.
+- **Bug corretti:**
+  - Conversione Oscura in 🔥 dava +1 PT invece di costarlo (refuso del brief: il regolamento dice costo). Ora: 1 PT per impulso + 1 PT una volta.
+  - Amplificazione Elementale dava +1 a ogni impulso; ora +1 una volta per attivazione della carta.
+  - `ui/app.js`: avanzamento automatico che leggeva uno stato già chiuso (errore in console).
+- **Decisioni applicate** (dal foglio di Gianmarco):
+  - **Q1** Fine Turno: Rotazione Stati → **Rotazione CD** → Scarto → Eco (prima D5 metteva la Rotazione CD in fondo). Conseguenza: un Eco di rotazione non libera più uno slot nello stesso turno; accorcia solo i Cooldown lunghi. Testi dei suggerimenti aggiornati.
+  - **Q2** confermata: una carta si usa con un solo dado; si chiude passando al dado successivo.
+  - **Q3** carte gratuite (Infusione, Manipolazione, Carica) giocabili anche con un dado attivo, purché nessuna carta sia aperta. Il dado attivo non è un bersaglio valido (non è "non risolto").
+  - **Q12** "un movimento" è la singola casella: **ogni passo** che parte da una casella adiacente a un nemico costa 2 PM (prima solo il primo passo).
+  - **Soglia:** i nemici della stanza successiva non si vedono più; al loro posto un presagio (campo `omen` in `rooms.js`). Si riattivano con `runConfig.soglia.showEnemies`.
+  - Q4–Q11, Q13–Q17: confermate le scelte già fatte.
+- **Misura dopo le modifiche** (agente prudente, 400 run, preset slot `demo`):
+
+| Stanza | Vittorie | Turni (mediana) | Entro la Veglia |
+|---|---|---|---|
+| Cripta | 89% | 6 | 65% |
+| Corridoio dei Sussurri | 91% | 5 | 86% |
+| Sala del Custode | 82% | 6 | 66% |
+
+  Run completa: **66%**. Più facile di quanto previsto dal design (52%) e un umano esperto farà meglio: difficoltà da decidere.
+- File toccati: `engine/turn_manager.js`, `engine/card_system.js`, `engine/card_effects.js`, `engine/card_effects_free.js`, `engine/resolution.js`, `engine/data/{hints,rooms,run_config}.js`, `ui/app.js`, `ui/combat/ui_cards.js`, `ui/run/ui_soglia.js`, `style_ui.css`, `tools/tests/case_tests2.js`, `tools/balance_agent.js` (nuovo).
+
 ### Inventario iniziale (M0)
 | Cosa c'era | Stato | Cosa ne è stato fatto |
 |---|---|---|
@@ -125,7 +150,7 @@ Prova a mano (lista "Da controllare a occhio"), risposte alle domande Q1–Q17, 
 - `SIMULATOR.md`: il brief dice che le fasi 2–5 sono sostituite dal brief, ma il file non esiste nel repo.
 
 ## Domande per Gianmarco
-(regole non coperte dal brief; ho scelto l'opzione più prudente e sono andato avanti)
+**Risolte il 2026-11-18** (vedi Sessione 2). Q1, Q3 e Q12 cambiate; le altre confermate. La colonna qui sotto è la scelta originale della Sessione 1.
 
 | # | Domanda | Scelta fatta (prudente) | Dove |
 |---|---|---|---|
@@ -175,4 +200,5 @@ Prova a mano (lista "Da controllare a occhio"), risposte alle domande Q1–Q17, 
 - Suggerimenti: "una volta sola" è inteso per browser (localStorage), non per run.
 - Telefono: le carte in mano non mostrano il testo delle Azioni (non ci sta); si legge nella carta aperta o con il tocco prolungato.
 - Il pannello Registro è un menu a tendina in alto (pulsanti "Registro" e "Copia") invece di un riquadro sempre aperto, per non coprire la griglia.
+- Sessione 2: regole cambiate rispetto al brief per decisione di Gianmarco — ordine Fine Turno (Q1), carte gratuite con dado attivo (Q3), costo 2 PM per ogni passo da adiacente (Q12), Soglia senza nemici; Conversione Oscura in 🔥 ora costa (il brief diceva "+1 PT" in modo ambiguo).
 - `src/manifest.js` elenca solo i file già scritti; cresce milestone per milestone, così la pagina non ha mai script mancanti.

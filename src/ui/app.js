@@ -106,12 +106,12 @@
     var d = nextPending(G);
     if (!d) return;
     if (d.owner === 'P') {
-      if (!hasFreeOptions(G)) setTimeout(function () { if (!st.busy && st.G === G && !G.res.active && G.phase === 'RISOLUZIONE') UI.send({ type: 'ADVANCE' }); }, 120);
+      if (!hasFreeOptions(G)) setTimeout(function () { if (!st.busy && st.G === G && G.phase === 'RISOLUZIONE' && G.res && !G.res.active) UI.send({ type: 'ADVANCE' }); }, 120);
       return;
     }
     if (st.autoContinue && !hasFreeOptions(G)) {
       var turn = G.turn, cur = G.res.cursor;
-      setTimeout(function () { if (!st.busy && st.G === G && G.turn === turn && G.res.cursor === cur && !st.mode && G.phase === 'RISOLUZIONE') UI.send({ type: 'ADVANCE' }); }, 650);
+      setTimeout(function () { if (!st.busy && st.G === G && G.turn === turn && G.phase === 'RISOLUZIONE' && G.res && G.res.cursor === cur && !st.mode) UI.send({ type: 'ADVANCE' }); }, 650);
     }
   };
   UI.keySpace = function () {

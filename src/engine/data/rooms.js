@@ -17,6 +17,7 @@
         ],
         terrain: [{ type: 'column', at: [4, 5] }] },
       { id: 'r1', index: 1, name: 'La Cripta', veglia: 6,
+        omen: 'Odore di terra smossa. Qualcosa raspa contro la pietra.',
         player: [1, 4],
         enemies: [
           { type: 'zombie', at: [4, 3] }, { type: 'zombie', at: [4, 6] },
@@ -25,6 +26,7 @@
         ],
         terrain: [{ type: 'column', at: [4, 5] }, { type: 'column', at: [6, 4] }, { type: 'trap', at: [5, 3] }] },
       { id: 'r2', index: 2, name: 'Il Corridoio dei Sussurri', veglia: 6,
+        omen: 'Oltre la porta qualcuno ripete il tuo nome, sottovoce.',
         player: [1, 3],
         enemies: [
           { type: 'zombie', at: [4, 3] }, { type: 'zombie', at: [4, 4] }, { type: 'zombie', at: [5, 2] },
@@ -36,6 +38,7 @@
           { type: 'trap', at: [4, 1] }, { type: 'trap', at: [5, 6] }
         ] },
       { id: 'r3', index: 3, name: 'La Sala del Custode', veglia: 7,
+        omen: 'Un battito di ali secche. Sotto, un passo che fa tremare il pavimento.',
         player: [1, 3],
         enemies: [
           { type: 'custode', at: [6, 3] },

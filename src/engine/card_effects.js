@@ -150,7 +150,8 @@
       // Attacco Poderoso: Vulnerabilità su di te, una volta per attivazione
       if (def.selfVuln && !o.selfVuln) { o.selfVuln = true; S.addStatus(G, p, 'vuln', 1, def.name); }
       var t = c.target ? S.unitById(G, c.target) : null;
-      var amp = cost.payer === 'fuoco' && amplifiable(def);
+      var amp = cost.payer === 'fuoco' && amplifiable(def) && !o.ampUsed;
+      if (amp && act.kind === 'attack') o.ampUsed = true;
       switch (act.kind) {
         case 'attack': {
           var dmg = act.dmg + (amp ? TLN.data.cards.amplifyBonus : 0);

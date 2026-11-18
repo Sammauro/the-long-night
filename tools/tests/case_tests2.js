@@ -22,12 +22,20 @@ module.exports = function (TLN, check, section) {
   ex(G, { type: 'USE_ACTION', action: 2 });
   check(G.hand.length === 1, 'ab A3: pesca 1');
 
+  // Amplificazione: +1 una volta per attivazione della carta, non per impulso
+  G = H.custom(TLN, { player: [2, 4], enemies: [{ type: 'zombie', at: [3, 4] }], pool: { fuoco: 2 } });
+  ab = H.give(TLN, G, 'ab');
+  ex(G, { type: 'OPEN_CARD', card: ab });
+  ex(G, { type: 'USE_ACTION', action: 1, target: 'Z1', pay: 'fuoco' });
+  ex(G, { type: 'USE_ACTION', action: 1, target: 'Z1', pay: 'fuoco' });
+  check(hpOf(G, 'Z1') === 3, 'Amplificazione: 2 🔥 su ab = 2 + 1 danni, +1 una sola volta (HP ' + hpOf(G, 'Z1') + ')');
+
   section('Manovre base e Conversione Oscura');
   G = H.custom(TLN, { player: [1, 1], enemies: [{ type: 'zombie', at: [3, 2] }], pool: { presagio: 3 } });
   var pt = G.player.pt;
   ex(G, { type: 'MANEUVER', kind: 'convert', to: 'fuoco' });
   ex(G, { type: 'MANEUVER', kind: 'convert', to: 'fuoco' });
-  check(G.player.pt === pt - 1 && G.res.pool.fuoco === 2, 'conversione in 🔥: +1 PT una sola volta (PT ' + G.player.pt + ')');
+  check(G.player.pt === pt - 3 && G.res.pool.fuoco === 2, 'conversione in 🔥: 1 PT per impulso + 1 PT una sola volta (PT ' + G.player.pt + ')');
   ex(G, { type: 'MANEUVER', kind: 'ranged', target: 'Z1' });
   check(hpOf(G, 'Z1') === 5, 'Colpo a Distanza: 1 Danno Fuoco');
   ex(G, { type: 'MANEUVER', kind: 'convert', to: 'forza' });
@@ -35,11 +43,14 @@ module.exports = function (TLN, check, section) {
   ex(G, { type: 'MANEUVER', kind: 'tactical' });
   check(G.player.pm === pm + 1, 'Movimento Tattico: +1 PM');
 
-  section('Movimento: primo passo da adiacente costa 2; PM Salto');
+  section('Movimento: ogni passo da adiacente costa 2 (Q12); PM Salto');
   G = H.custom(TLN, { player: [2, 4], enemies: [{ type: 'zombie', at: [3, 4] }], terrain: [{ type: 'column', at: [2, 3] }] });
   G.player.pm = 2;
   var reach = E.resolution.reachable(G);
   check(reach['1,4'] && reach['1,4'].pm === 2 && !reach['1,2'] && !reach['2,6'], 'da adiacente: 1 casella con 2 PM');
+  G.player.pm = 4;
+  reach = E.resolution.reachable(G);
+  check(reach['2,5'] && reach['2,5'].pm === 2 && reach['2,6'] && reach['2,6'].pm === 4, 'Q12: ogni passo che parte adiacente a un nemico costa 2 PM (2,6 = ' + (reach['2,6'] && reach['2,6'].pm) + ')');
   G.player.pm = 0; G.player.jump = 3;
   reach = E.resolution.reachable(G);
   check(!!reach['2,2'] && !reach['2,3'], 'PM Salto attraversa la colonna ma non ci si ferma');
@@ -72,6 +83,16 @@ module.exports = function (TLN, check, section) {
   check(G.seq[1].value === 4, 'Manipolazione Destino: dado sulla faccia scelta');
   ex(G, { type: 'FREE_CARD', card: H.give(TLN, G, 'cu'), dice: ['b', 'c'], dir: 5, dist: 4 });
   check(G.seq[1].state === 'consumed' && E.hex.same(G.player.pos, [5, 3]), 'Carica Furiosa: 4 caselle in linea retta (' + G.player.pos + ')');
+
+  // Q3: carte gratuite anche con un dado attivo, ma non con una carta aperta
+  G = H.custom(TLN, { player: [1, 1], enemies: [{ type: 'zombie', at: [8, 6] }] });
+  G.seq = [{ uid: 'x', kind: 'vigore', owner: 'P', value: 2, bonus: 0, state: 'active' }, { uid: 'a', kind: 'vigore', owner: 'P', value: 2, bonus: 0, state: 'pending' }];
+  G.res.active = true; G.res.cursor = 0; G.res.open = { fake: true };
+  var ie2 = H.give(TLN, G, 'ie');
+  check(!E.execute(G, { type: 'FREE_CARD', card: ie2, die: 'a' }).ok, 'Q3: carta gratuita rifiutata mentre una carta è aperta');
+  G.res.open = null;
+  check(E.execute(G, { type: 'FREE_CARD', card: ie2, die: 'a' }).ok && G.seq[1].kind === 'fuoco', 'Q3: carta gratuita giocabile con un dado attivo e nessuna carta aperta');
+  check(!E.execute(G, { type: 'FREE_CARD', card: H.give(TLN, G, 'md'), die: 'x', face: 3 }).ok, 'Q3: il dado attivo non è un bersaglio (non è "non risolto")');
 
   section('Attacco Poderoso, Attacco Strategico, Scatto');
   G = H.custom(TLN, { player: [2, 4], enemies: [{ type: 'zombie', at: [3, 4] }], pool: { forza: 3 } });

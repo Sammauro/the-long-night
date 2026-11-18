@@ -29,7 +29,8 @@
 
   function checkFree(G, c) {
     if (G.phase !== 'RISOLUZIONE') return 'Non è la Risoluzione';
-    if (G.res.active) return 'Le carte gratuite si giocano in una finestra libera';
+    // Q3: giocabili anche con un dado attivo, purché nessuna carta sia aperta
+    if (G.res.open) return 'Completa prima la carta aperta';
     var inst = E.cardFx.inHand(G, c.card);
     if (!inst) return 'Carta non in mano';
     var def = E.cards.def(inst);

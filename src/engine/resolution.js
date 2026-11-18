@@ -11,18 +11,19 @@
   function currentDie(G) { return G.res.active ? G.seq[G.res.cursor] : null; }
 
   // BRIEF 6.7 — caselle raggiungibili: { key: { cell, pm, jump, path:[{cell, how}] } }
-  // Se all'inizio sei adiacente a un nemico il primo passo costa 2 PM. I passi su caselle occupate
+  // Q12: ogni passo che parte da una casella adiacente a un nemico costa 2 PM. I passi su caselle occupate
   // (unità, ostacoli, trappole) si pagano solo con PM Salto e non fanno scattare nulla.
   function reachable(G) {
     var p = G.player, out = {}, startKey = hex.key(p.pos);
-    var firstCost = S.adjacentEnemies(G, p.pos).length ? 2 : 1;
+    // Q12: "un movimento" è la singola casella → ogni passo che parte da una casella adiacente a un nemico costa 2 PM
+    function stepCost(cell) { return S.adjacentEnemies(G, cell).length ? 2 : 1; }
     var seen = {}, queue = [{ cell: p.pos, n: 0, j: 0, path: [] }];
     seen[startKey + '|0|0'] = true;
     function better(a, b) { return !b || a.pm < b.pm || (a.pm === b.pm && a.jump < b.jump); }
     while (queue.length) {
       var st = queue.shift();
       if (st.path.length && st.path[st.path.length - 1].how === 'walkTrap') continue;
-      var cost = st.path.length ? 1 : firstCost;
+      var cost = stepCost(st.cell);
       G.grid.neighbors(st.cell).forEach(function (n) {
         if (hex.same(n, p.pos)) return;
         var occupied = !!S.unitAt(G, n) || S.blocking(G, n);
@@ -119,7 +120,7 @@
       } else if (c.kind === 'convert') {
         pool.presagio--; pool[c.to]++;
         S.changeRes(G, 'pt', -1, 'Conversione Oscura');
-        if (c.to === 'fuoco' && !G.res.convFire && !G.over) { G.res.convFire = true; S.changeRes(G, 'pt', 1, 'Conversione Oscura'); }
+        if (c.to === 'fuoco' && !G.res.convFire && !G.over) { G.res.convFire = true; S.changeRes(G, 'pt', -1, 'Conversione Oscura'); }
       }
       G.bus.emit('POOL', { pool: Object.assign({}, pool) });
     }

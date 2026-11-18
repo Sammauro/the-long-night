@@ -17,7 +17,7 @@
   function playable(G, inst) {
     var def = TLN.data.cards.byId[inst.id];
     if (G.phase !== 'RISOLUZIONE') return false;
-    if (def.free) return !G.res.active && E().cardFx.spotAfterClose(G, def) !== null;
+    if (def.free) return !G.res.open && E().cardFx.spotAfterClose(G, def) !== null; // Q3
     return !E().check(G, { type: 'OPEN_CARD', card: inst.uid });
   }
 

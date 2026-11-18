@@ -21,6 +21,7 @@
     },
     // D2 · cosa sopravvive tra le stanze. cooldown e luce: interruttori per esperimenti futuri (restano false)
     persist: { hp: true, pt: true, luce: false, cooldown: false },
+    soglia: { showEnemies: false },  // decisione 2026-11-18: alla Soglia solo un presagio, non i nemici
     sequence: ['r0', 'r1', 'r2', 'r3'],
     skipTutorialStart: 'r1',
     maxTurnsSafety: 99

@@ -39,8 +39,10 @@
     w.appendChild(u.h('div', 'lbl', 'Scegli ' + (n > 1 ? n + ' Soste diverse' : '1 Sosta')));
     w.appendChild(rs);
     w.appendChild(u.h('div', 'lbl', 'Ti aspetta: ' + u.esc(next.name) + (next.veglia ? ' · Veglia ' + next.veglia + ' turni' : '')));
-    var ens = u.h('div', 'sg-ens', Object.keys(counts).map(function (t) { return enemyCard(t, counts[t]); }).join(''));
-    w.appendChild(ens);
+    // Decisione Soglia: di base non si vedono i nemici, solo un presagio (runConfig.soglia.showEnemies per riattivarli)
+    var showEn = TLN.data.runConfig.soglia && TLN.data.runConfig.soglia.showEnemies;
+    if (showEn) w.appendChild(u.h('div', 'sg-ens', Object.keys(counts).map(function (t) { return enemyCard(t, counts[t]); }).join('')));
+    else if (next.omen) w.appendChild(u.h('div', 'sg-omen', '«' + u.esc(next.omen) + '»'));
     var b = UI.controls.btn('Attraversa la Soglia', 'main', function () {
       var rests = picked.slice(); picked = [];
       UI.send({ type: 'SOGLIA_CHOOSE', rests: rests });
