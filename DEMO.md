@@ -105,7 +105,7 @@ Decidere la difficoltà (la demo è più facile del previsto, vedi Sessione 2), 
   - Amplificazione Elementale dava +1 a ogni impulso; ora +1 una volta per attivazione della carta.
   - `ui/app.js`: avanzamento automatico che leggeva uno stato già chiuso (errore in console).
 - **Decisioni applicate** (dal foglio di Gianmarco):
-  - **Q1** Fine Turno: Rotazione Stati → **Rotazione CD** → Scarto → Eco (prima D5 metteva la Rotazione CD in fondo). Conseguenza: un Eco di rotazione non libera più uno slot nello stesso turno; accorcia solo i Cooldown lunghi. Testi dei suggerimenti aggiornati.
+  - **Q1** confermato l'ordine D5: Rotazione Stati → Scarto volontario ed Eco → escono le carte a 0° → le altre ruotano di 90°. Così un Eco di rotazione può portare una carta a 0° e liberare lo slot per la Selezione dello stesso turno. (Provato per un momento l'ordine inverso, scartato perché rendeva inutili gli Eco di rotazione sulle carte CD 1.)
   - **Q2** confermata: una carta si usa con un solo dado; si chiude passando al dado successivo.
   - **Q3** carte gratuite (Infusione, Manipolazione, Carica) giocabili anche con un dado attivo, purché nessuna carta sia aperta. Il dado attivo non è un bersaglio valido (non è "non risolto").
   - **Q12** "un movimento" è la singola casella: **ogni passo** che parte da una casella adiacente a un nemico costa 2 PM (prima solo il primo passo).
@@ -115,11 +115,11 @@ Decidere la difficoltà (la demo è più facile del previsto, vedi Sessione 2), 
 
 | Stanza | Vittorie | Turni (mediana) | Entro la Veglia |
 |---|---|---|---|
-| Cripta | 89% | 6 | 65% |
+| Cripta | 90% | 6 | 72% |
 | Corridoio dei Sussurri | 91% | 5 | 86% |
-| Sala del Custode | 82% | 6 | 66% |
+| Sala del Custode | 86% | 6 | 75% |
 
-  Run completa: **66%**. Più facile di quanto previsto dal design (52%) e un umano esperto farà meglio: difficoltà da decidere.
+  Run completa: **70%**. Più facile di quanto previsto dal design (52%) e un umano esperto farà meglio: difficoltà da decidere.
 - File toccati: `engine/turn_manager.js`, `engine/card_system.js`, `engine/card_effects.js`, `engine/card_effects_free.js`, `engine/resolution.js`, `engine/data/{hints,rooms,run_config}.js`, `ui/app.js`, `ui/combat/ui_cards.js`, `ui/run/ui_soglia.js`, `style_ui.css`, `tools/tests/case_tests2.js`, `tools/balance_agent.js` (nuovo).
 
 ### Inventario iniziale (M0)
@@ -150,7 +150,7 @@ Decidere la difficoltà (la demo è più facile del previsto, vedi Sessione 2), 
 - `SIMULATOR.md`: il brief dice che le fasi 2–5 sono sostituite dal brief, ma il file non esiste nel repo.
 
 ## Domande per Gianmarco
-**Risolte il 2026-11-18** (vedi Sessione 2). Q1, Q3 e Q12 cambiate; le altre confermate. La colonna qui sotto è la scelta originale della Sessione 1.
+**Risolte il 2026-11-18** (vedi Sessione 2). Q3 e Q12 cambiate; le altre confermate. La colonna qui sotto è la scelta originale della Sessione 1.
 
 | # | Domanda | Scelta fatta (prudente) | Dove |
 |---|---|---|---|
@@ -200,5 +200,5 @@ Decidere la difficoltà (la demo è più facile del previsto, vedi Sessione 2), 
 - Suggerimenti: "una volta sola" è inteso per browser (localStorage), non per run.
 - Telefono: le carte in mano non mostrano il testo delle Azioni (non ci sta); si legge nella carta aperta o con il tocco prolungato.
 - Il pannello Registro è un menu a tendina in alto (pulsanti "Registro" e "Copia") invece di un riquadro sempre aperto, per non coprire la griglia.
-- Sessione 2: regole cambiate rispetto al brief per decisione di Gianmarco — ordine Fine Turno (Q1), carte gratuite con dado attivo (Q3), costo 2 PM per ogni passo da adiacente (Q12), Soglia senza nemici; Conversione Oscura in 🔥 ora costa (il brief diceva "+1 PT" in modo ambiguo).
+- Sessione 2: regole cambiate rispetto al brief per decisione di Gianmarco — carte gratuite con dado attivo (Q3), costo 2 PM per ogni passo da adiacente (Q12), Soglia senza nemici; Conversione Oscura in 🔥 ora costa (il brief diceva "+1 PT" in modo ambiguo).
 - `src/manifest.js` elenca solo i file già scritti; cresce milestone per milestone, così la pagina non ha mai script mancanti.

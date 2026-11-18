@@ -36,14 +36,13 @@
     E.ai.applyArmor(G);
     E.dice.roll(G);
     if (G.turn === 1) { afterEndTurn(G); return; } // Fase 2 saltata al turno 1
-    // Fase 2 — Fine Turno (D5, decisione Q1): Rotazione Stati → Rotazione CD → Scarto → Eco
+    // Fase 2 — Fine Turno (D5, Q1 confermata 2026-11-18): Rotazione Stati → Scarto volontario ed Eco → escono le carte a 0° → le altre ruotano
     [G.player].concat(S.aliveEnemies(G)).forEach(S.rotateStatus);
     G.bus.emit('STATUS_ROTATED', {});
-    E.cards.cdRotation(G);
     setPhase(G, 'FINE_TURNO');
   }
 
-  // Dopo Scarto/Eco (la Rotazione CD è già avvenuta a inizio Fine Turno): Fase 3 Preparazione, poi Fase 4 Selezione
+  // Dopo Scarto/Eco (e Rotazione CD, fatta da ECO_DONE): Fase 3 Preparazione, poi Fase 4 Selezione
   function afterEndTurn(G) {
     if (G.over) return;
     setPhase(G, 'PREPARAZIONE');
