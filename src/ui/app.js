@@ -71,6 +71,7 @@
     if (ins) {
       mb.appendChild(u.h('span', '', ins));
       if (st.mode.step === 'path' && st.mode.path.length) mb.appendChild(UI.controls.btn('Conferma (' + st.mode.path.length + ' 🔮 + 1 PT)', 'main', UI.targeting.confirmPath));
+      UI.targeting.wallButtons().forEach(function (w) { var b = UI.controls.btn(w.label, 'main', function () { UI.targeting.onCell(w.cell); }); b.classList.add('wall-push'); mb.appendChild(b); });
       mb.appendChild(UI.controls.btn('Annulla', 'ghost', UI.targeting.cancel));
     }
     mb.classList.toggle('on', !!ins);

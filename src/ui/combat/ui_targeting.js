@@ -39,6 +39,17 @@
     var m = UI.st.mode; if (!m || m.step !== 'push') return [];
     return E().combat.pushOptions(G(), G().player.pos, S().unitById(G(), m.target));
   }
+  // Celle-muro della spinta: fuori griglia, quindi non cliccabili sulla scena; l'interfaccia le offre come pulsanti nella barra del modo (BUG-1)
+  function wallButtons() {
+    var g = G(), m = UI.st.mode; if (!g || !m || m.step !== 'push') return [];
+    var t = S().unitById(g, m.target), sc = TLN.render.scene, t0 = sc.cellToScreen(t.pos, 0);
+    var walls = pushCells().filter(function (o) { return o.status === 'wall'; });
+    return walls.map(function (o) {
+      var s = sc.cellToScreen(o.cell, 0), a = Math.atan2(s.y - t0.y, s.x - t0.x) * 180 / Math.PI;
+      var arrow = ['→', '↘', '↙', '←', '↖', '↗'][((Math.round(a / 60) % 6) + 6) % 6];
+      return { cell: o.cell, label: 'Collisione col muro' + (walls.length > 1 ? ' ' + arrow : '') };
+    });
+  }
   function coneDirFor(cell) {
     var g = G(), best = -1;
     for (var d = 0; d < 6; d++) if (g.grid.cone(g.player.pos, d, 3).some(function (c) { return c[0] === cell[0] && c[1] === cell[1]; })) {
@@ -199,6 +210,6 @@
     if (m && m.step === 'cone' && c) { var d = coneDirFor(c); if (d >= 0 && d !== m.dir) { m.dir = d; UI.refreshGrid(); } }
   }
 
-  UI.targeting = { start: start, cancel: cancel, startAction: startAction, highlights: highlights, onCell: onCell, onUnit: onUnit,
+  UI.targeting = { start: start, cancel: cancel, startAction: startAction, highlights: highlights, onCell: onCell, onUnit: onUnit, wallButtons: wallButtons,
     wantsDie: wantsDie, onDie: onDie, instructions: instructions, onHover: onHover, confirmPath: confirmPath, targets: targets };
 })(typeof window !== 'undefined' ? window : globalThis);

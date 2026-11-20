@@ -13,16 +13,15 @@ module.exports = async function (page, h) {
   await h.shot('sonda_spinta_opzioni');
   var wall = info.opts.filter(function (o) { return o.status === 'wall'; })[0];
   if (!wall) { console.log('nessuna opzione muro in questo stato'); return; }
-  // il giocatore vede l'etichetta "Collisione" nel punto dello schermo della casella-muro
-  var xy = await page.evaluate(function (cell) { var s = TLN.render.scene.cellToScreen(cell, 0.4); return { x: s.x, y: s.y, pick: TLN.render.scene.pick(s.x, s.y) }; }, wall.cell);
-  console.log('Etichetta Collisione a', JSON.stringify(xy));
-  await h.pressXY(xy.x, xy.y); await h.sleep(400);
-  var after = await page.evaluate(function () { var m = TLN.ui.st.mode; return m ? { step: m.step } : null; });
-  console.log('Dopo il clic sull\'etichetta: modalita', JSON.stringify(after));
+  // il muro si sceglie con il pulsante nella barra del modo (clic o tocco veri)
+  var btnN = await page.locator('#modebar .wall-push').count();
+  console.log('Pulsanti "Collisione col muro":', btnN);
+  if (!btnN) throw new Error('BUG-1: nessun pulsante per la Collisione col muro');
+  var hp0 = await page.evaluate(function () { return TLN.ui.st.G.enemies.map(function (e) { return e.hp; }); });
+  await h.shot('sonda_spinta_pulsante');
+  await h.press(page.locator('#modebar .wall-push').first()); await h.sleep(600);
+  var after = await page.evaluate(function () { var m = TLN.ui.st.mode; return { mode: m ? m.step : null, hp: TLN.ui.st.G.enemies.map(function (e) { return e.hp; }) }; });
+  console.log('Dopo il clic sul pulsante:', JSON.stringify(after), 'HP prima', JSON.stringify(hp0));
   await h.shot('sonda_spinta_dopo_clic');
-  // provo anche a cliccare in una griglia di punti attorno
-  var found = await page.evaluate(function (cell) { var out = []; for (var x = 300; x < 1200; x += 20) for (var y = 150; y < 600; y += 20) { var p = TLN.render.scene.pick(x, y); if (p && p[0] === cell[0] && p[1] === cell[1]) out.push([x, y]); } return out.length; }, wall.cell);
-  console.log('Punti dello schermo che selezionano la casella-muro con pick():', found);
-  var eng = await page.evaluate(function (cell) { var r = TLN.ui.targeting.onCell(cell); var m = TLN.ui.st.mode; return { modeAfterDirectCall: m ? m.step : null, hp: TLN.ui.st.G.enemies.map(function (e) { return e.hp; }) }; }, wall.cell);
-  console.log('Chiamata diretta onCell sulla casella-muro (solo per verifica):', JSON.stringify(eng));
+  if (after.mode) throw new Error('BUG-1: la spinta non e stata eseguita'); 
 };

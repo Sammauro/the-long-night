@@ -146,7 +146,10 @@ var issues = [], consoleErrs = [], shots = 0, seenKinds = {};
     await clickCell(tp, 'nemico ' + c.target); await sleep(150);
     m = await modeInfo();
     if (m && m.step === 'push') {
-      await shotOnce('mode:push', 'puntamento_push'); await clickCell(c.push, 'spinta'); await sleep(250); await idle();
+      await shotOnce('mode:push', 'puntamento_push');
+      // il muro è fuori griglia: si sceglie con il pulsante "Collisione col muro" nella barra del modo (clic o tocco veri)
+      var wi = await page.evaluate(function (p) { var g = TLN.ui.st.G; if (g.grid.inGrid(p)) return -1; return TLN.ui.targeting.wallButtons().map(function (w) { return w.cell.join(); }).indexOf(p.join()); }, c.push);
+      if (wi >= 0) await press(page.locator('#modebar .wall-push').nth(wi)); else await clickCell(c.push, 'spinta'); await sleep(250); await idle();
       var m2 = await modeInfo();
       if (m2) { var wall = await page.evaluate(function (p) { return !TLN.ui.st.G.grid.inGrid(p); }, c.push); issue('Spinta verso [' + c.push + ']: il clic non ha scelto la casella' + (wall ? ' (è il MURO, fuori griglia: non esiste una casella da toccare)' : '') + '; ripiego via bus'); await shot('push_bloccata_' + shots); await page.evaluate(function (cc) { TLN.ui.st.mode = null; return TLN.ui.send(cc); }, c); await idle(); }
       return;
