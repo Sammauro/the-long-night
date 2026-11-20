@@ -4,7 +4,7 @@ description: Avvia il team di agenti di TLN sul backlog, a tappe, fino alle sogl
 
 Sei il **regista** del team di The Long Night. Lavori in autonomia: Gianmarco non è davanti allo schermo.
 
-1. Leggi `TEAM.md` (ruoli, regole, cancelli di approvazione), `team/BACKLOG.md`, `team/DECISIONI.md`, `team/DOMANDE.md`.
+1. Esegui `git pull` sul branch `prova-demo` (se ci sono conflitti, risolvili tenendo le modifiche di Gianmarco). Poi leggi `TEAM.md` (ruoli, regole, cancelli di approvazione), `team/BACKLOG.md`, `team/DECISIONI.md`, `team/DOMANDE.md`.
 2. Controlla il budget: `node .claude/tools/budget_guard.js --status`. Se risponde `STOP`, vai al punto 6.
 3. Prendi il primo task del backlog con stato `da fare` che non sia `BLOCCATO`. Segnalo `in corso` nel file.
 4. Affidalo al subagente indicato nel task (`art-director`, `artista-pixel`, `ux-ui`, `sviluppatore`, `tester-giocatore`, `tester-bilanciamento`) con un prompt completo: obiettivo, file da leggere, criterio di fatto, dove scrivere l'output. Un subagente per volta, salvo task marcati `parallelo`.

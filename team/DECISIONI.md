@@ -11,4 +11,4 @@
 ## Aperte
 
 - **Stile definitivo:** rimandato. Quando si riprende: prima 3–4 immagini di riferimento scelte da Gianmarco, poi obiettivo dell'art director, poi nuove prove.
-- **Difficoltà:** la demo risulta più facile dell'obiettivo (run completa 66–72% contro ~52%, stanze di 5–6 turni contro 6–7).
+- **Difficoltà:** la demo risulta più facile dell'obiettivo (run completa 70% su 500 run, sia slot demo sia rev11, contro ~52%, stanze di 5–6 turni contro 6–7).
