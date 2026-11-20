@@ -29,7 +29,7 @@
   }
 
   // ── C: figure low-poly costruite in codice ──
-  function mat(c, e) { return new THREE.MeshLambertMaterial({ color: c, emissive: e || 0x000000, flatShading: true }); }
+  function mat(c, e) { return new THREE.MeshLambertMaterial({ color: c, emissive: e || 0x000000 }); }
   function part(g, geo, m, x, y, z, rx, rz) {
     var o = new THREE.Mesh(geo, m); o.position.set(x, y, z);
     if (rx) o.rotation.x = rx; if (rz) o.rotation.z = rz; g.add(o); return o;
