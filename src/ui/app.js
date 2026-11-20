@@ -62,7 +62,7 @@
   }
   function refresh() {
     var st = UI.st;
-    if (!st.G || st.run.phase === 'END') { if (UI.screens) UI.screens.render(); return; }
+    if (!st.G || st.run.phase === 'END') { if (st.G && UI.hud) UI.hud.render(); if (UI.screens) UI.screens.render(); return; }
     if (st.run.game !== st.G && st.run.phase === 'COMBAT') enterRoom();
     UI.hud.render(); UI.sequence.render(); UI.controls.render(); UI.plancia.render(); UI.cards.render(); UI.enemyPanel.render();
     refreshGrid();
