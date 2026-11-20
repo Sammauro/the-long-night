@@ -4,8 +4,8 @@ Stati: `da fare` · `in corso` · `fatto` · `da rifare` · `BLOCCATO (motivo)`
 
 | # | Task | Agente | Criterio di fatto | Stato |
 |---|---|---|---|---|
-| 1 | Partita completa (r1→r3) in stile attuale, B e C, desktop e telefono orizzontale | tester-giocatore | Report in `team/reviews/gioco_<data>.md` con bug riproducibili (seed) e punti di confusione | da fare |
-| 2 | Numeri di base della demo: 500 run complete, slot demo e rev11 | tester-bilanciamento | Tabella in `team/reviews/bilanciamento_<data>.md` confrontata con l'obiettivo (run ~52%, stanze 6–7 turni) | da fare · parallelo |
+| 1 | Partita completa (r1→r3) in stile attuale, B e C, desktop e telefono orizzontale | tester-giocatore | Report in `team/reviews/gioco_<data>.md` con bug riproducibili (seed) e punti di confusione | in corso |
+| 2 | Numeri di base della demo: 500 run complete, slot demo e rev11 | tester-bilanciamento | Tabella in `team/reviews/bilanciamento_<data>.md` confrontata con l'obiettivo (run ~52%, stanze 6–7 turni) | fatto · parallelo — run completa 70,0% (demo) e 70,8% (rev11) contro ~52%; turni 6/5/6; numeri della demo ricontrollati dal regista |
 | 3 | Revisione B contro C con le regole di leggibilità di TEAM.md §6, sulle schermate di `docs/style_test/` | art-director | `team/reviews/stile_<data>.md`: pro e contro per stile, problemi per gravità. Raccomanda, non decide | da fare |
 | 4 | Revisione layout HUD/sequenza/carte, soprattutto telefono orizzontale | ux-ui | Report per gravità; corretti i MEDIA/BASSA su CSS e `src/ui/`; smoke a 0 falliti; schermate prima/dopo | da fare |
 | 5 | Correggere i bug del task 1 che non dipendono da regole ambigue | sviluppatore | Un commit per bug; smoke a 0 falliti; domande in `team/DOMANDE.md` | da fare (dopo 1) |
