@@ -6,8 +6,9 @@
 - 2026-11-18 · Amplificazione: +1 una volta per carta, solo sull'attacco (Q6).
 - 2026-11-18 · Soglia: i nemici della stanza successiva non si vedono, solo un presagio.
 - 2026-11-18 · Blasphemous non è il riferimento visivo; in prova le direzioni B e C.
+- 2026-11-20 · Grafica rimandata: le prove B e C non convincono. Il team lavora solo nello stile attuale (bug, UX, bilanciamento). Niente generazioni PixelLab.
 
 ## Aperte
 
-- **Stile definitivo:** B (sprite su 3D) o C (low-poly con dithering).
+- **Stile definitivo:** rimandato. Quando si riprende: prima 3–4 immagini di riferimento scelte da Gianmarco, poi obiettivo dell'art director, poi nuove prove.
 - **Difficoltà:** la demo risulta più facile dell'obiettivo (run completa 66–72% contro ~52%, stanze di 5–6 turni contro 6–7).
