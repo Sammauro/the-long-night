@@ -108,7 +108,8 @@
   function toast(msg) {
     var el = $('toast'); if (!el) return;
     el.textContent = msg; el.classList.add('on');
-    clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('on'); }, 1800);
+    // durata legata alla lunghezza: i messaggi lunghi restano il tempo di leggerli (minimo 1,8 s)
+    clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('on'); }, Math.max(1800, String(msg).length * 60));
   }
   function banner(msg) {
     var el = $('banner'); if (!el) return;

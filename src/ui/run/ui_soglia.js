@@ -48,6 +48,9 @@
       UI.send({ type: 'SOGLIA_CHOOSE', rests: rests });
     }, picked.length !== n);
     w.appendChild(b);
+    // perché il pulsante è spento (punto di confusione 9a del report di gioco)
+    var miss = n - picked.length;
+    if (miss > 0) w.appendChild(u.h('div', 'sg-why', 'Scegli ancora ' + miss + (miss > 1 ? ' Soste' : ' Sosta') + ' per attraversare.'));
     box.appendChild(w);
   }
 

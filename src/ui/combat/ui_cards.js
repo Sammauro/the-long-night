@@ -21,12 +21,18 @@
     return !E().check(G, { type: 'OPEN_CARD', card: inst.uid });
   }
 
-  function onCard(inst) {
+  function onCard(inst, el) {
     var G = UI.st.G, def = TLN.data.cards.byId[inst.id];
     if (G.phase === 'FINE_TURNO') { stage(inst, def); return; }
-    if (G.phase !== 'RISOLUZIONE') return;
+    if (G.phase !== 'RISOLUZIONE') { nope(el, G.phase === 'SELEZIONE' ? 'Ora scegli i dadi: le carte si aprono in Risoluzione.' : null); return; }
     if (def.free) { UI.targeting.start({ kind: 'free', card: inst.uid, free: def.free }); return; }
     UI.send({ type: 'OPEN_CARD', card: inst.uid });
+  }
+
+  // carta non utilizzabile adesso: scossa breve + messaggio (BUG-7 del report di gioco 2026-11-20)
+  function nope(el, msg) {
+    if (el) { el.classList.remove('nope'); void el.offsetWidth; el.classList.add('nope'); }
+    if (msg) UI.toast(msg);
   }
 
   // ── Fine Turno: scelta degli scarti, nell'ordine in cui si toccano ──
@@ -58,7 +64,7 @@
       var cls = G.phase === 'FINE_TURNO' ? (si >= 0 ? 'staged' : 'discardable') : playable(G, inst) ? 'playable' : 'idle';
       var el = cardEl(def, { cls: cls });
       if (si >= 0) el.appendChild(u.h('span', 'order', String(si + 1)));
-      el.onclick = function () { if (el._long) { el._long = false; return; } onCard(inst); };
+      el.onclick = function () { if (el._long) { el._long = false; return; } onCard(inst, el); };
       // tocco prolungato (o tasto destro) = dettaglio della carta
       var t = null;
       el.addEventListener('pointerdown', function () { t = setTimeout(function () { el._long = true; showCard(def); }, 450); });

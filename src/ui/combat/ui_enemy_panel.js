@@ -14,7 +14,7 @@
     var d = G.seq.filter(function (x) { return x.owner === e.id; })[0];
     if (!d) return '';
     var a = TLN.data.enemies[e.type].actions[d.actionId];
-    return '<span class="int s-' + d.state + '" title="' + a.text + '">' + a.icon + ' ' + a.name + '</span>';
+    return '<span class="int s-' + d.state + '" title="' + a.text + '">' + a.icon + ' <span class="int-n">' + a.name + '</span></span>';
   }
 
   function render() {
@@ -24,7 +24,7 @@
     G.enemies.forEach(function (e) {
       var def = TLN.data.enemies[e.type];
       var el = u.h('div', 'en' + (e.alive ? '' : ' dead') + (UI.st.selectedEnemy === e.id ? ' sel' : '') + (targets.indexOf(e.id) >= 0 ? ' target' : ''));
-      el.innerHTML = '<img src="' + UI.sequence.portrait(e.type) + '"><div class="en-b"><div class="en-n">' + def.name + ' <b>' + e.id + '</b>' + (def.armor ? ' <small>Corazza ' + def.armor + '</small>' : '') + '</div>' +
+      el.innerHTML = '<img src="' + UI.sequence.portrait(e.type) + '"><div class="en-b"><div class="en-n"><span class="en-nm">' + def.name + '</span> <b>' + e.id + '</b>' + (def.armor ? ' <small>Corazza ' + def.armor + '</small>' : '') + '</div>' +
         '<div class="bar hp"><i style="width:' + (e.hp / e.hpMax * 100) + '%"></i></div>' +
         '<div class="en-s">' + e.hp + '/' + e.hpMax + ' ' + statuses(e) + ' ' + (e.alive ? intent(G, e) : '✝') + '</div></div>';
       if (e.alive) el.onclick = function () { UI.targeting.onUnit(e.id); if (!UI.st.mode) { UI.st.selectedEnemy = UI.st.selectedEnemy === e.id ? null : e.id; UI.refresh(); } };

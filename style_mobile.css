@@ -7,13 +7,17 @@
   #hud .pips { display:none; } #hud .row .v { flex:1; text-align:left; } #hud .bar + .v { flex:none; } .notch { width:7px; height:9px; } .veglia { margin-top:3px; } .veglia em, #hud .turn { font-size:9px; margin-top:2px; }
   #log { top:auto; bottom:4px; left:4px; width:auto; padding:0; z-index:11; } #log:not(.open) { display:none; }
   #enemies { width:160px; top:4px; right:4px; padding:4px; max-height:44vh; } #enemies .ttl { margin-bottom:2px; }
-  .en { padding:1px 2px; gap:4px; } .en img { width:18px; height:18px; } .en-n { font-size:10px; } .en-n small { display:none; } .en-s { font-size:9px; margin:0; }
-  .en .int { display:none; } .en.sel .int, .en.target .int { display:inline; }
+  /* riga nemico compatta: nome e HP sulla stessa riga, barra sottile; l'icona d'intento resta visibile, il nome dell'azione solo se selezionato */
+  .en { padding:1px 2px; gap:4px; align-items:center; } .en img { width:16px; height:16px; } .en-b { position:relative; min-width:0; }
+  .en-n { font-size:10px; display:flex; gap:3px; padding-right:56px; white-space:nowrap; } .en-nm { overflow:hidden; text-overflow:ellipsis; } .en-n small { display:none; }
+  .en-s { position:absolute; top:0; right:0; font-size:9px; margin:0; white-space:nowrap; line-height:13px; } .en .bar { height:4px; margin-top:1px; }
+  .en .int-n { display:none; } .en.sel .en-s, .en.target .en-s { position:static; } .en.sel .int-n, .en.target .int-n { display:inline; }
+  body:has(#open-card.on) #enemies { max-height:calc(100vh - 262px); }
   #enemy-sheet { top:50%; left:50%; right:auto; bottom:auto; transform:translate(-50%,-50%); width:260px; font-size:10px; max-height:86vh; overflow:auto; z-index:32; box-shadow:0 0 0 100vmax rgba(0,0,0,.45); }
   #seq-row { bottom:100px; max-width:calc(100vw - 330px); } #preview { font-size:10px; padding:2px 6px; max-width:420px; }
   #seq { gap:2px; padding:2px 3px; } .die { width:28px; height:28px; border-width:1px; font-size:9px; } .die .val { font-size:12px; } .die .ic { font-size:9px; }
-  .die .por { width:14px; height:14px; } .die.k-ai .val { margin-top:10px; font-size:10px; } .die .ai-act { font-size:8px; } .die .own { display:none; }
-  .die .lab { top:29px; font-size:7px; } .die .lab2 { display:none; } #seq:has(.lab) { padding-bottom:12px; } .dropped { display:none; }
+  .die .por { width:14px; height:14px; } .die.k-ai .val { margin-top:10px; font-size:10px; } .die .ai-act { font-size:8px; } .die .own { bottom:-11px; font-size:8px; } #seq:has(.own) { padding-bottom:11px; }
+  .die .labs { margin-top:2px; font-size:8px; line-height:1.05; } .die .lab2 { display:none; } #seq:has(.labs) { padding-bottom:22px; } .dropped { display:none; }
   #bottom { height:96px; min-height:0; }
   #plancia { left:4px; bottom:4px; width:148px; padding:3px 4px; } #plancia .ttl { display:none; } .pl-row { gap:2px; }
   .pl-spot { width:32px; height:38px; } .pl-card { width:26px; height:34px; font-size:5px; padding:1px; } .pl-card .glyph { font-size:10px; } .pl-card .cdv { font-size:6px; }
@@ -25,10 +29,12 @@
   #side { right:4px; bottom:4px; width:182px; gap:3px; } #controls { padding:4px; } #controls .sum { font-size:9px; margin-bottom:3px; }
   .man { gap:2px; margin-bottom:3px; } .man .btn { font-size:9px; padding:2px; } .man .btn small { display:none; }
   #controls .btn.main { padding:5px; margin-top:2px; } .auto, .hint-s { display:none; } .nav .btn.ghost { font-size:9px; }
-  #open-card { padding:4px; max-height:calc(100vh - 150px); overflow:auto; } .oc-t { font-size:10px; margin-bottom:2px; } .act-btn { font-size:9px; padding:3px; margin:1px 0; } .amp { font-size:9px; }
-  #coach { top:122px; left:4px; transform:none; width:150px; min-width:0; max-height:calc(100vh - 230px); overflow:auto; } .coach-box { font-size:10px; padding:4px 6px; line-height:1.25; }
+  /* la colonna destra non sale oltre l'elenco nemici (accorciato a carta aperta): la carta aperta scorre al suo interno (BUG-2) */
+  #side { max-height:calc(100vh - 150px); } #controls { flex:none; }
+  #open-card { padding:4px; flex:0 1 auto; min-height:0; max-height:none; overflow:auto; } .oc-t { font-size:10px; margin-bottom:2px; } .act-btn { font-size:9px; padding:3px; margin:1px 0; } .amp { font-size:9px; }
+  #coach { top:122px; left:4px; width:150px; max-height:calc(100vh - 230px); } .coach-box { font-size:10px; padding:4px 6px; line-height:1.25; }
   .coach-box .skip { float:none; display:block; margin:2px 0 0; } .coach-box p { margin:2px 0 3px; } .coach-box .ct { font-size:8px; }
-  #modebar { top:auto; bottom:136px; font-size:10px; padding:3px 6px; } body:has(#coach.on) #modebar { bottom:136px; }
+  #modebar { top:auto; bottom:136px; font-size:10px; padding:3px 6px; } .sel-tip { font-size:9px; margin:0 0 2px; } #controls .warn { font-size:10px; } .sg-why { font-size:10px; }
   #banner { font-size:15px; top:30%; } #toast { top:auto; bottom:140px; font-size:11px; }
   .mbox { padding:10px; max-width:80vw; font-size:12px; } .cl { font-size:9px; } .fx-num { font-size:14px; }
   .scr { padding:2vh 12px 0; } .scr.soglia h1 { font-size:18px; margin:0; } .scr .sub, .scr .note { font-size:11px; margin:3px 0; } .scr .lbl { margin:6px 0 3px; }

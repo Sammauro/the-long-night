@@ -44,8 +44,9 @@
 .die.s-off::after, .die.dead::after { content:'✕'; position:absolute; color:var(--red); font-size:26px; opacity:.8; }
 .die.peek { outline:2px solid #ff8080; } .die.pickable { outline:2px dashed var(--gold); animation:blink 1s infinite; }
 .die.kept { box-shadow:0 0 8px rgba(201,168,76,.6); } .die.dropping { opacity:.55; transform:scale(.9); }
-.die .lab, .die .lab2 { position:absolute; top:42px; font-size:9px; white-space:nowrap; color:var(--text); } .die .lab2 { top:52px; color:var(--text-muted); } .die .lab.bad { color:#ff6a5a; }
-#seq:has(.lab) { padding-bottom:28px; } .cursor { color:var(--gold); align-self:center; font-size:16px; }
+.die .labs { position:absolute; top:100%; margin-top:3px; left:-2px; right:-2px; text-align:center; font-size:10px; line-height:1.1; pointer-events:none; }
+.die .lab, .die .lab2 { display:block; color:var(--text); } .die .lab i { font-style:normal; color:var(--text-muted); display:block; } .die .lab2 { color:var(--text-muted); font-size:9px; margin-top:1px; } .die .lab.bad { color:#ff6a5a; }
+#seq:has(.labs) { padding-bottom:46px; } .cursor { color:var(--gold); align-self:center; font-size:16px; }
 .dropped { display:flex; gap:2px; align-items:center; margin-left:8px; opacity:.5; font-size:10px; } .mini { border:1px solid #444; padding:0 3px; }
 .die.rolling { animation:roll .35s ease-out; } @keyframes roll { 0% { transform:rotate(-180deg) scale(.4); opacity:0; } 100% { transform:none; opacity:1; } }
 @keyframes blink { 50% { outline-color:transparent; } }
@@ -106,9 +107,18 @@ body.pt-low #seq { animation:none; }
 .hist { margin:14px auto; border-collapse:collapse; } .hist td, .hist th { padding:4px 12px; border-bottom:1px solid var(--border); font-size:13px; } .hist th { color:var(--text-muted); font-weight:normal; }
 .scr .row { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; } .final.death h1, .final.madness h1 { color:var(--red); }
 /* Tutorial e suggerimenti */
-#coach { display:none; position:fixed; z-index:20; top:10px; left:50%; transform:translateX(-50%); width:min(520px, calc(100vw - 520px)); min-width:280px; flex-direction:column; gap:6px; }
+/* colonna sinistra sotto l'HUD: non copre la griglia; top e max-height li corregge ui_coach.js sull'altezza reale dell'HUD */
+#coach { display:none; position:fixed; z-index:20; top:206px; left:10px; width:236px; max-height:calc(100vh - 400px); overflow:auto; flex-direction:column; gap:6px; }
 #coach.on { display:flex; } .coach-box { background:rgba(24,20,10,.95); border:1px solid var(--gold); padding:8px 12px; font-size:14px; box-shadow:0 4px 20px rgba(0,0,0,.6); }
 .coach-box.hint { border-color:var(--blue); background:rgba(14,22,32,.95); } .coach-box p { margin:4px 0 6px; } .coach-box .ct { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--text-muted); }
 .coach-box .skip { float:right; font-size:11px; padding:2px 8px; margin-top:-2px; } .coach-box.shake { animation:shk .35s; }
 @keyframes shk { 25% { transform:translateX(-6px); } 75% { transform:translateX(6px); } }
-body:has(#coach.on) #modebar { top:auto; bottom:calc(25vh + 90px); }
+/* riscontri e avvisi brevi (report UX 2026-11-20) */
+.card.nope { animation:shk .3s; } .sel-tip { font-size:11px; color:#e0a040; margin:-2px 0 4px; }
+.sg-why { font-size:12px; color:#e0a040; margin-top:6px; }
+#enemies { background-image:linear-gradient(rgba(22,20,28,.95) 30%, rgba(22,20,28,0)), linear-gradient(rgba(22,20,28,0), rgba(22,20,28,.95) 70%), linear-gradient(rgba(0,0,0,0), rgba(201,168,76,.35)), linear-gradient(rgba(201,168,76,.35), rgba(0,0,0,0));
+  background-position:top, bottom, bottom, top; background-size:100% 14px, 100% 14px, 100% 6px, 100% 6px; background-repeat:no-repeat; background-attachment:local, local, scroll, scroll; }
+.en-n b { white-space:nowrap; }
+/* stile C: il retino del canvas non deve passare sotto testi e carte (M5 della revisione di stile) */
+html[data-style="c"] .panel, html[data-style="c"] #seq { background-color:#16141c; }
+html[data-style="c"] .card.idle { opacity:1; filter:brightness(.62); }

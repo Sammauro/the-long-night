@@ -32,9 +32,12 @@
     if (plan && d.kind !== 'ai') {
       var info = plan.dice[d.uid];
       el.classList.add(UI.st.G.sel.keep[d.uid] ? 'kept' : 'dropping');
-      var lab = UI.st.G.sel.keep[d.uid] ? info.label : 'scarta: ' + rewardText(TLN.data.dice.types[d.kind].discard);
-      el.appendChild(u.h('span', 'lab' + (info.label === 'nessuno slot' && UI.st.G.sel.keep[d.uid] ? ' bad' : ''), lab));
-      if (!UI.st.G.sel.keep[d.uid]) el.appendChild(u.h('span', 'lab2', 'tieni: ' + info.label));
+      // etichette impilate sotto il dado, larghe quanto il dado: non si sovrappongono ai vicini
+      var kept = UI.st.G.sel.keep[d.uid], labs = u.h('span', 'labs');
+      var lab = kept ? info.label : '<i>scarta</i> ' + rewardText(TLN.data.dice.types[d.kind].discard);
+      labs.appendChild(u.h('span', 'lab' + (info.label === 'nessuno slot' && kept ? ' bad' : ''), lab));
+      if (!kept) labs.appendChild(u.h('span', 'lab2', 'tieni: ' + info.label));
+      el.appendChild(labs);
     }
     if (UI.st.preview === d.uid) el.classList.add('peek');
     if (UI.targeting.wantsDie && UI.targeting.wantsDie(d)) el.classList.add('pickable');

@@ -42,9 +42,13 @@
   }
   function onEngineEvent(ev) {
     var G = UI.st.run && UI.st.run.game;
+    // un suggerimento non chiuso non passa alla stanza successiva (BUG-3): resta "visto", la coda riparte
+    if (ev.type === 'ROOM_START') { C.hint = null; C.hintQueue = []; }
     if (HINT_EVENTS[ev.type]) queueHint(HINT_EVENTS[ev.type]);
     if (ev.type === 'SELECTION_START' && G && !G.room.tutorial && ev.data.turn > 0) {
-      var cov = ev.data.coverage; if (Object.keys(cov).some(function (k) { return cov[k]; })) queueHint('slotCovered');
+      var cov = ev.data.coverage, any = Object.keys(cov).some(function (k) { return cov[k]; });
+      if (any) queueHint('slotCovered');
+      else if (C.hint === 'slotCovered') C.hint = null; // nessun dado bloccato: il suggerimento non serve più
     }
   }
   function checkStateHints() {
@@ -74,7 +78,18 @@
       hb.appendChild(ok); box.appendChild(hb);
     }
     box.classList.toggle('on', !!box.firstChild);
+    place(box);
   }
+  // Colonna sinistra, subito sotto l'HUD (la cui altezza cambia con gli stati) e sopra la Plancia (BUG-3)
+  function place(box) {
+    var hud = u.$('hud'), pl = u.$('plancia'), hb = hud && hud.getBoundingClientRect();
+    if (!box.classList.contains('on') || !hb || !hb.height) { box.style.top = ''; box.style.maxHeight = ''; return; }
+    var pb = pl && pl.getBoundingClientRect(), top = Math.round(hb.bottom + 6);
+    var bottom = pb && pb.height ? pb.top - 6 : window.innerHeight - 10;
+    box.style.top = top + 'px';
+    box.style.maxHeight = Math.max(80, Math.round(bottom - top)) + 'px';
+  }
+  if (typeof window !== 'undefined' && window.addEventListener) window.addEventListener('resize', function () { var b = u && u.$('coach'); if (b) place(b); });
   function flash(msg) {
     var b = document.querySelector('#coach .coach-box.tut');
     if (b) { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); }

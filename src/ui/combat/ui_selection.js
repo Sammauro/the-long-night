@@ -18,7 +18,11 @@
       'Luce <b>' + p.luce + '</b>' + (g.luce ? ' +' + g.luce : '') + (plan.cost ? ' −' + plan.cost : '') + ' = <b class="' + (plan.luceAfter < 0 ? 'bad' : '') + '">' + plan.luceAfter + '</b>' +
       ' · PM <b>' + (p.pm + g.pm) + '</b> · PT <b>' + (p.pt + g.pt) + '</b>'));
     var why = !plan.ok ? 'Troppi dadi per gli slot' : !plan.affordable ? 'Luce insufficiente' : '';
-    box.appendChild(btn('Conferma', 'main', function () { UI.send({ type: 'SEL_CONFIRM' }); }, !!why, why));
+    // nessun dado tenuto: lo diciamo prima della conferma (punto di confusione 1 del report di gioco)
+    var mine = G.seq.filter(function (d) { return d.kind !== 'ai'; });
+    var none = mine.length && !mine.some(function (d) { return G.sel.keep[d.uid]; });
+    if (none) box.appendChild(u.h('div', 'sel-tip', 'Tocca un dado per tenerlo. Quelli non tenuti si scartano.'));
+    box.appendChild(btn(none ? 'Conferma · scarti tutti i dadi' : 'Conferma', 'main', function () { UI.send({ type: 'SEL_CONFIRM' }); }, !!why, why));
     if (why) box.appendChild(u.h('div', 'warn', why));
   }
 
@@ -40,6 +44,7 @@
   }
   function endTurn(G, box) {
     box.appendChild(u.h('div', 'sum', 'Scegli le carte da scartare per il loro Eco.<br>Eco: <b>' + ecoSummary(G) + '</b>'));
+    if (UI.st.mode && UI.st.mode.kind === 'ecoRotate') box.appendChild(u.h('div', 'warn', 'Tocca in Plancia la carta da ruotare.'));
     box.appendChild(btn(UI.st.staged.length ? 'Scarta e prosegui' : 'Prosegui senza scartare', 'main', confirmDiscards));
   }
   function confirmDiscards() {
