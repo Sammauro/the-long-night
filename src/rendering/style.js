@@ -24,7 +24,7 @@
     def.glow = '';
   }
   function applyB() {
-    useStrip('indagatore', 'player_idle.png', [1, 2, 3, 2]); // il fotogramma 0 perde la lanterna (difetto AI)
+    useStrip('indagatore', 'player_idle.png', [0, 1, 2, 3]); // fotogramma 0 ricostruito a mano: lanterna ripresa dal fotogramma 3
     useStrip('zombie', 'zombie_idle.png', [0, 1, 2, 3]);
   }
 
