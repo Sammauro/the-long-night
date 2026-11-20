@@ -1,0 +1,8 @@
+{
+  "_nota": "Soglie del team di agenti. Percentuali del piano Max lette dalla statusline di Claude Code. Modificale liberamente.",
+  "max_five_hour": 85,
+  "max_seven_day": 60,
+  "max_week_points_this_session": 15,
+  "stale_minutes": 30,
+  "pixellab_max_generations_per_session": 15
+}
