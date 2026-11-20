@@ -47,6 +47,7 @@
       'src/rendering/sprites/sussurratore.js',
       'src/rendering/sprites/falena.js',
       'src/rendering/sprites/custode.js',
+      'src/rendering/style.js',
       'src/rendering/scene.js',
       'src/rendering/camera.js',
       'src/rendering/lights.js',

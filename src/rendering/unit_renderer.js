@@ -12,19 +12,24 @@
     var mat = new THREE.SpriteMaterial({ map: F.texture(name, 0, 'full'), transparent: true, alphaTest: 0.5, fog: false });
     var sp = new THREE.Sprite(mat);
     sp.center.set(0.5, 0);
-    sp.scale.set(def.w * th.pixel, def.h * th.pixel, 1);
+    var px = def.pixel || th.pixel;
+    sp.scale.set(def.w * px, def.h * px, 1);
     var gmat = new THREE.SpriteMaterial({ map: F.texture(name, 0, 'glow'), transparent: true, alphaTest: 0.5, fog: false, depthWrite: false });
     var gl = new THREE.Sprite(gmat);
     gl.center.set(0.5, 0); gl.scale.copy(sp.scale); gl.renderOrder = 2;
     var shadow = new THREE.Mesh(new THREE.CircleGeometry(0.5, 16), new THREE.MeshBasicMaterial({ color: th.shadow.color, transparent: true, opacity: th.shadow.opacity, depthWrite: false }));
     shadow.rotation.x = -Math.PI / 2;
-    shadow.scale.set(def.w * th.pixel * th.shadow.scale, def.w * th.pixel * 0.45, 1);
+    var sw = Math.min(def.w * px, 1.6);
+    shadow.scale.set(sw * th.shadow.scale, sw * 0.45, 1);
     var g = new THREE.Group();
     g.add(shadow); g.add(sp); g.add(gl);
     ctx.room.add(g);
     var p = R.cellToWorld(u.pos);
     var v = { id: u.id, name: name, def: def, group: g, sprite: sp, glow: gl, shadow: shadow,
       x: p.x, z: p.z, cell: u.pos.slice(), tween: null, flash: 0, alive: u.alive, fade: u.alive ? 1 : 0, phase: Math.random() * 6, lean: 0 };
+    // prova di stile C: figura low-poly al posto dello sprite
+    var fig = R.style && R.style.mode === 'c' ? R.style.figure(name) : null;
+    if (fig) { sp.visible = false; gl.visible = false; g.add(fig); v.body = fig; }
     g.visible = u.alive;
     return v;
   }
@@ -52,7 +57,7 @@
         if (k >= 1) { v.tween = null; if (tw.kind === 'lunge') { v.x = tw.x0; v.z = tw.z0; } }
       }
       if (!v.alive) { v.fade = Math.max(0, v.fade - dt / th.deathTime); if (v.fade <= 0) v.group.visible = false; }
-      var fr = Math.floor((t + v.phase) / th.frameTime) % v.def.frames.length;
+      var fr = Math.floor((t + v.phase) / (v.def.frameTime || th.frameTime)) % v.def.frames.length;
       if (fr !== v.frame || v.flash > 0 || v.flashWas) {
         v.frame = fr;
         var mode = v.flash > 0 ? 'white' : 'full';
@@ -71,7 +76,8 @@
       v.shadow.position.y = R.hexes.topY(v.cell) + 0.01;
       var sc = v.alive ? 1 : 0.8 + 0.2 * v.fade;
       v.sprite.material.opacity = v.fade; v.glow.material.opacity = v.fade; v.shadow.material.opacity = th.shadow.opacity * v.fade;
-      v.sprite.scale.set(v.def.w * th.pixel * sc, v.def.h * th.pixel * (v.alive ? 1 : 0.6 + 0.4 * v.fade), 1);
+      var px = v.def.pixel || th.pixel;
+      v.sprite.scale.set(v.def.w * px * sc, v.def.h * px * (v.alive ? 1 : 0.6 + 0.4 * v.fade), 1);
       // fuori dal raggio della lanterna: sagoma scura con gli occhi accesi
       var b = 1;
       if (id !== 'P' && pv) {
@@ -80,6 +86,25 @@
         b = Math.max(0.06, Math.min(1, 1 - d / 1.6));
       }
       v.sprite.material.color.copy(tint).lerp(white, b);
+      if (v.body) bodyUpdate(v, b, sc, t);
+    });
+  }
+
+  // figura low-poly: segue lo sprite (posizione, colpo, morte, buio)
+  function bodyUpdate(v, b, sc, t) {
+    var fig = v.body;
+    fig.position.y = R.hexes.topY(v.cell);
+    fig.rotation.y = Math.sin(t * 0.7 + v.phase) * 0.12;
+    fig.scale.set(sc, v.alive ? 1 + Math.sin(t * 1.6 + v.phase) * 0.015 : 0.3 + 0.7 * v.fade, sc);
+    fig.visible = v.fade > 0;
+    var flash = v.flash > 0;
+    fig.traverse(function (o) {
+      if (!o.material) return;
+      if (o.userData.e0 === undefined) { o.userData.e0 = o.material.emissive.getHex(); o.userData.c0 = o.material.color.clone(); }
+      if (flash) o.material.emissive.setHex(0xffffff);
+      else if (o.userData.e0) o.material.emissive.setHex(o.userData.e0);
+      else o.material.emissive.copy(o.userData.c0).multiplyScalar(0.5 * b + 0.25); // silhouette leggibile anche in ombra
+      o.material.color.copy(o.userData.c0).multiplyScalar(0.15 + 0.85 * b);
     });
   }
 

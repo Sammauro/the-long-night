@@ -39,6 +39,8 @@
   <div id="boot" class="boot">THE LONG NIGHT</div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- copia locale se il CDN non è raggiungibile (test offline / agenti nel cloud) -->
+  <script>window.THREE || document.write('<script src="vendor/three.r128.min.js"><\/script>');</script>
   <script src="src/manifest.js"></script>
   <script>
     // Carica gli script nell'ordine di src/manifest.js (script classici, funziona anche da file://).

@@ -36,6 +36,7 @@
     ctx.renderer.setSize(w, h, false);
     ctx.w = w; ctx.h = h;
     R.camera.fit(ctx);
+    if (R.style) R.style.resize(ctx);
   }
   function onUpdate(fn) { ctx.updaters.push(fn); }
   function loop() {
@@ -45,7 +46,7 @@
     ctx.frames++; ctx.fpsT += dt;
     if (ctx.fpsT >= 1) { ctx.fps = ctx.frames / ctx.fpsT; ctx.frames = 0; ctx.fpsT = 0; }
     for (var i = 0; i < ctx.updaters.length; i++) ctx.updaters[i](dt, ctx.t);
-    ctx.renderer.render(ctx.scene, ctx.camera);
+    if (R.style) R.style.render(ctx); else ctx.renderer.render(ctx.scene, ctx.camera);
   }
 
   // Costruisce la stanza dallo stato del motore (solo lettura)
