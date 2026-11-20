@@ -1,0 +1,77 @@
+{
+ "tag": "c_phone_s13",
+ "seed": 13,
+ "style": "c",
+ "phone": true,
+ "final": {
+  "phase": "COMBAT",
+  "result": null,
+  "seed": 13,
+  "history": [
+   {
+    "room": "r1",
+    "result": "win",
+    "turns": 4
+   }
+  ],
+  "screenText": ""
+ },
+ "issues": [
+  "Casella spinta [2,7] non raggiungibile con pick() vicino al centro (526,167)",
+  "Spinta verso [2,7]: il clic non ha scelto la casella (è il MURO, fuori griglia: non esiste una casella da toccare); ripiego via bus",
+  "Casella spinta [2,7] non raggiungibile con pick() vicino al centro (526,167)",
+  "Spinta verso [2,7]: il clic non ha scelto la casella (è il MURO, fuori griglia: non esiste una casella da toccare); ripiego via bus"
+ ],
+ "fallbacks": 0,
+ "consoleErrs": [
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material.",
+  "warning: THREE.MeshLambertMaterial: 'flatShading' is not a property of this material."
+ ],
+ "seconds": 548,
+ "planResult": "victory",
+ "planHistory": [
+  {
+   "room": "r1",
+   "result": "win",
+   "turns": 4
+  },
+  {
+   "room": "r2",
+   "result": "win",
+   "turns": 4
+  },
+  {
+   "room": "r3",
+   "result": "win",
+   "turns": 7
+  }
+ ]
+}

@@ -1,0 +1,57 @@
+{
+ "tag": "base_phone_s5",
+ "seed": 5,
+ "style": "base",
+ "phone": true,
+ "final": {
+  "phase": "END",
+  "result": "victory",
+  "seed": 5,
+  "history": [
+   {
+    "room": "r1",
+    "result": "win",
+    "turns": 6
+   },
+   {
+    "room": "r2",
+    "result": "win",
+    "turns": 6
+   },
+   {
+    "room": "r3",
+    "result": "win",
+    "turns": 4
+   }
+  ],
+  "screenText": "L'alba\n\nHai attraversato tutte le stanze.\n\nStanza\tEsito\tTurni\tSoste\nLa Cripta\tvinta\t6/6\tbendarsi, lanterna\nIl Corridoio dei Sussurri\tvinta\t6/6\tbendarsi, raccogliersi\nLa Sala del Custode\tvinta\t4/7\t—\n\nHP 2 · PT 3 · seed 5\n\nCopia riepilogo\nScarica log\nTorna al menu"
+ },
+ "issues": [],
+ "fallbacks": 0,
+ "consoleErrs": [
+  "warning: WebGL: CONTEXT_LOST_WEBGL: loseContext: context lost",
+  "warning: [.WebGL-0x1734003c7800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+  "warning: [.WebGL-0x1734003c7800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+  "warning: [.WebGL-0x1734003c7800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+  "warning: [.WebGL-0x1734003c7800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+ ],
+ "seconds": 1446,
+ "planResult": "victory",
+ "planHistory": [
+  {
+   "room": "r1",
+   "result": "win",
+   "turns": 6
+  },
+  {
+   "room": "r2",
+   "result": "win",
+   "turns": 6
+  },
+  {
+   "room": "r3",
+   "result": "win",
+   "turns": 4
+  }
+ ]
+}

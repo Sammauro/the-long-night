@@ -1,0 +1,35 @@
+{
+ "tag": "sonda_occlusione_phone",
+ "seed": 5,
+ "style": "base",
+ "phone": true,
+ "final": {
+  "phase": "COMBAT",
+  "result": null,
+  "seed": 5,
+  "history": [],
+  "screenText": ""
+ },
+ "issues": [],
+ "fallbacks": 0,
+ "consoleErrs": [],
+ "seconds": 17,
+ "planResult": "victory",
+ "planHistory": [
+  {
+   "room": "r1",
+   "result": "win",
+   "turns": 6
+  },
+  {
+   "room": "r2",
+   "result": "win",
+   "turns": 6
+  },
+  {
+   "room": "r3",
+   "result": "win",
+   "turns": 4
+  }
+ ]
+}

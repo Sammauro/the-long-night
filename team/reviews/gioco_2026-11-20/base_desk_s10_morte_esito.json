@@ -1,0 +1,31 @@
+{
+ "tag": "base_desk_s10_morte",
+ "seed": 10,
+ "style": "base",
+ "phone": false,
+ "final": {
+  "phase": "END",
+  "result": "death",
+  "seed": 10,
+  "history": [
+   {
+    "room": "r1",
+    "result": "death",
+    "turns": 3
+   }
+  ],
+  "screenText": "Morte\n\nLa notte ti ha preso in La Cripta.\n\nStanza\tEsito\tTurni\tSoste\nLa Cripta\tMorte\t3/6\t—\n\nHP 0 · PT 7 · seed 10\n\nCopia riepilogo\nScarica log\nTorna al menu"
+ },
+ "issues": [],
+ "fallbacks": 0,
+ "consoleErrs": [],
+ "seconds": 191,
+ "planResult": "death",
+ "planHistory": [
+  {
+   "room": "r1",
+   "result": "death",
+   "turns": 3
+  }
+ ]
+}

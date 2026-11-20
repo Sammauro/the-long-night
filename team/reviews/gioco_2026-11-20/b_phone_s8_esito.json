@@ -1,0 +1,41 @@
+{
+ "tag": "b_phone_s8",
+ "seed": 8,
+ "style": "b",
+ "phone": true,
+ "final": {
+  "phase": "COMBAT",
+  "result": null,
+  "seed": 8,
+  "history": [
+   {
+    "room": "r1",
+    "result": "win",
+    "turns": 4
+   }
+  ],
+  "screenText": ""
+ },
+ "issues": [],
+ "fallbacks": 0,
+ "consoleErrs": [],
+ "seconds": 649,
+ "planResult": "victory",
+ "planHistory": [
+  {
+   "room": "r1",
+   "result": "win",
+   "turns": 4
+  },
+  {
+   "room": "r2",
+   "result": "win",
+   "turns": 5
+  },
+  {
+   "room": "r3",
+   "result": "win",
+   "turns": 5
+  }
+ ]
+}

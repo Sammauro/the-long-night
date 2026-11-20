@@ -1,0 +1,35 @@
+{
+ "tag": "sonda_muro",
+ "seed": 1,
+ "style": "base",
+ "phone": false,
+ "final": {
+  "phase": "COMBAT",
+  "result": null,
+  "seed": 1,
+  "history": [],
+  "screenText": ""
+ },
+ "issues": [],
+ "fallbacks": 0,
+ "consoleErrs": [],
+ "seconds": 879,
+ "planResult": "victory",
+ "planHistory": [
+  {
+   "room": "r1",
+   "result": "win",
+   "turns": 7
+  },
+  {
+   "room": "r2",
+   "result": "win",
+   "turns": 5
+  },
+  {
+   "room": "r3",
+   "result": "win",
+   "turns": 6
+  }
+ ]
+}

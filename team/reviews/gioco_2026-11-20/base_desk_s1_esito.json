@@ -1,0 +1,56 @@
+{
+ "tag": "base_desk_s1",
+ "seed": 1,
+ "style": "base",
+ "phone": false,
+ "final": {
+  "phase": "END",
+  "result": "victory",
+  "seed": 1,
+  "history": [
+   {
+    "room": "r1",
+    "result": "win",
+    "turns": 7
+   },
+   {
+    "room": "r2",
+    "result": "win",
+    "turns": 5
+   },
+   {
+    "room": "r3",
+    "result": "win",
+    "turns": 6
+   }
+  ],
+  "screenText": "L'alba\n\nHai attraversato tutte le stanze.\n\nStanza\tEsito\tTurni\tSoste\nLa Cripta\tvinta\t7/6\tbendarsi\nIl Corridoio dei Sussurri\tvinta\t5/6\tbendarsi, raccogliersi\nLa Sala del Custode\tvinta\t6/7\t—\n\nHP 2 · PT 7 · seed 1\n\nCopia riepilogo\nScarica log\nTorna al menu"
+ },
+ "issues": [
+  "Casella spinta [0,5] non raggiungibile con pick() vicino al centro (815,500)",
+  "Spinta verso [0,5]: il clic non ha scelto la casella (è il MURO, fuori griglia: non esiste una casella da toccare); ripiego via bus",
+  "Casella spinta [0,5] non raggiungibile con pick() vicino al centro (815,500)",
+  "Spinta verso [0,5]: il clic non ha scelto la casella (è il MURO, fuori griglia: non esiste una casella da toccare); ripiego via bus"
+ ],
+ "fallbacks": 0,
+ "consoleErrs": [],
+ "seconds": 2014,
+ "planResult": "victory",
+ "planHistory": [
+  {
+   "room": "r1",
+   "result": "win",
+   "turns": 7
+  },
+  {
+   "room": "r2",
+   "result": "win",
+   "turns": 5
+  },
+  {
+   "room": "r3",
+   "result": "win",
+   "turns": 6
+  }
+ ]
+}
