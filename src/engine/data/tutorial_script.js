@@ -22,7 +22,7 @@
     // Movimento fissato: turno 1, Z2 percorre R5E4 → R4E4 → R3E4
     forcedPaths: { '1:Z2': [[4, 4], [3, 4]] },
     steps: [
-      { id: 1, text: 'Questa è la Sequenza. I tuoi dadi e quelli dei nemici si risolvono da sinistra a destra. Tocca un teschio per vedere cosa farà quel nemico.',
+      { id: 1, text: 'Questa è la Sequenza. I tuoi dadi e quelli dei nemici si risolvono da sinistra a destra. Tocca il dado di un nemico per vedere cosa farà.',
         phase: 'SELEZIONE', allow: [{ type: 'INSPECT_DIE', ai: true }], done: { cmd: 'INSPECT_DIE' } },
       { id: 2, text: 'Scegli quali dadi tenere. Hai un solo slot Fuoco: tieni il 🔥2. L\'altro si scarta e ti dà 1 Luce.',
         allow: [{ type: 'SEL_TOGGLE' }, { type: 'INSPECT_DIE' }], done: { keep: ['vigore:2', 'vigore:1', 'fuoco:2'] } },
