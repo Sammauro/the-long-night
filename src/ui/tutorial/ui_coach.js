@@ -69,6 +69,7 @@
       var w = u.h('div', 'coach-box tut');
       if (C.driver.due()) w.innerHTML = '<div class="ct">Tutorial · passo ' + s.id + '/' + C.driver.total + '</div><p>' + s.text + '</p>';
       else w.innerHTML = '<div class="ct">Tutorial</div><p>Gioca liberamente il resto del turno.</p>';
+      if (C.err && C.err.step === s) w.appendChild(u.h('p', 'tut-err', C.err.msg));
       var sk = u.h('button', 'btn ghost skip', 'Salta tutorial'); sk.onclick = skip; w.appendChild(sk);
       box.appendChild(w);
     }
@@ -90,14 +91,34 @@
     box.style.maxHeight = Math.max(80, Math.round(bottom - top)) + 'px';
   }
   if (typeof window !== 'undefined' && window.addEventListener) window.addEventListener('resize', function () { var b = u && u.$('coach'); if (b) place(b); });
+  // Comando rifiutato dal tutorial: prima scuoteva solo il riquadro, senza dire perché (segnalazione dal telefono)
   function flash(msg) {
     var b = document.querySelector('#coach .coach-box.tut');
-    if (b) { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); }
-    else UI.toast(msg);
+    if (b) {
+      b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
+      var e = b.querySelector('.tut-err') || b.insertBefore(u.h('p', 'tut-err', ''), b.querySelector('.skip'));
+      e.textContent = msg;
+    }
+    C.err = { msg: msg, step: C.driver && C.driver.step() };
+    UI.toast(msg);
+  }
+  // Dadi che il passo corrente chiede di tenere: uid → true (per evidenziarli nella Sequenza)
+  function wantedDice(G) {
+    var dr = C.driver; if (!dr || !dr.active || !dr.due()) return null;
+    var s = dr.step(), tokens = s.keepLocked || s.keepRequired || (s.done && s.done.keep);
+    if (!tokens) return null;
+    var left = tokens.slice(), out = {};
+    G.seq.forEach(function (x) { var k = x.kind + ':' + x.value, i = left.indexOf(k); if (x.kind !== 'ai' && i >= 0) { left.splice(i, 1); out[x.uid] = true; } });
+    return { want: out, exact: !!(s.keepLocked || (s.done && s.done.keep)) };
+  }
+  // Il passo chiede di toccare un dado nemico?
+  function wantsAiInspect() {
+    var dr = C.driver; if (!dr || !dr.active || !dr.due()) return false;
+    return (dr.step().allow || []).some(function (a) { return a.type === 'INSPECT_DIE' && a.ai; }) && dr.step().done && dr.step().done.cmd === 'INSPECT_DIE';
   }
 
   loadSeen();
   UI.onRunStart = onRunStart;
   UI.onEngineEvent = onEngineEvent;
-  UI.coach = { render: render, blocking: blocking, highlights: highlights, skip: skip, flash: flash, state: C };
+  UI.coach = { render: render, blocking: blocking, highlights: highlights, skip: skip, flash: flash, wantedDice: wantedDice, wantsAiInspect: wantsAiInspect, state: C };
 })(typeof window !== 'undefined' ? window : globalThis);

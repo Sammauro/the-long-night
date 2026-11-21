@@ -41,6 +41,16 @@
     }
     if (UI.st.preview === d.uid) el.classList.add('peek');
     if (UI.targeting.wantsDie && UI.targeting.wantsDie(d)) el.classList.add('pickable');
+    // tutorial: indica quali dadi toccare (prima non c'era modo di sapere quali fossero "i dadi indicati")
+    if (UI.coach && UI.coach.wantedDice) {
+      if (d.kind === 'ai' && UI.coach.wantsAiInspect()) el.classList.add('tut-want');
+      var w = d.kind !== 'ai' && UI.coach.wantedDice(G);
+      if (w) {
+        var keptNow = !!G.sel.keep[d.uid];
+        if (w.want[d.uid] && !keptNow) el.classList.add('tut-want');
+        else if (!w.want[d.uid] && keptNow && w.exact) el.classList.add('tut-no');
+      }
+    }
     el.onclick = function () { onDie(d); };
     el.onmouseenter = function () { if (d.kind === 'ai' && !UI.st.pinned) { UI.st.preview = d.uid; UI.refreshPreview(); } };
     el.onmouseleave = function () { if (d.kind === 'ai' && !UI.st.pinned && UI.st.preview === d.uid) { UI.st.preview = null; UI.refreshPreview(); } };

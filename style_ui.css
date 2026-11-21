@@ -43,7 +43,9 @@
 .die.s-active { box-shadow:0 0 10px var(--gold); transform:translateY(-4px); } .die.s-resolved, .die.s-off, .die.s-consumed, .die.s-void { opacity:.3; }
 .die.s-off::after, .die.dead::after { content:'✕'; position:absolute; color:var(--red); font-size:26px; opacity:.8; }
 .die.peek { outline:2px solid #ff8080; } .die.pickable { outline:2px dashed var(--gold); animation:blink 1s infinite; }
-.die.kept { box-shadow:0 0 8px rgba(201,168,76,.6); } .die.dropping { opacity:.55; transform:scale(.9); }
+.die.kept { box-shadow:0 0 8px rgba(201,168,76,.6); }
+.die.tut-want { outline:3px solid var(--gold); outline-offset:2px; animation:blink 0.9s infinite; } .die.tut-no { outline:2px dashed var(--red); outline-offset:2px; }
+.coach-box .tut-err { color:#ff8a7a; font-weight:bold; margin:6px 0 0; } .die.dropping { opacity:.55; transform:scale(.9); }
 .die .labs { position:absolute; top:100%; margin-top:3px; left:-2px; right:-2px; text-align:center; font-size:10px; line-height:1.1; pointer-events:none; }
 .die .lab, .die .lab2 { display:block; color:var(--text); } .die .lab i { font-style:normal; color:var(--text-muted); display:block; } .die .lab2 { color:var(--text-muted); font-size:9px; margin-top:1px; } .die .lab.bad { color:#ff6a5a; }
 #seq:has(.labs) { padding-bottom:46px; } .cursor { color:var(--gold); align-self:center; font-size:16px; }

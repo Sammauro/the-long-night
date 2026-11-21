@@ -59,7 +59,7 @@
       function show(pct, text) { fill.style.width = Math.min(100, pct) + '%'; label.textContent = text + '  ' + Math.round(pct) + '%'; }
       // durante il motore 3D la barra avanza piano fino al 30% (il browser non dà il progresso reale di uno script)
       var creepTimer = setInterval(function () { if (phase !== 'three') return; creep += (30 - creep) * 0.06; show(creep, 'La candela si accende…'); }, 200);
-      files.forEach(function (f) { var l = document.createElement('link'); l.rel = 'preload'; l.as = 'script'; l.href = f + '?v=8'; document.head.appendChild(l); });
+      files.forEach(function (f) { var l = document.createElement('link'); l.rel = 'preload'; l.as = 'script'; l.href = f + '?v=9'; document.head.appendChild(l); });
       var watchdog = setTimeout(function () { TLN_DIAG('Caricamento fermo (' + (phase === 'three' ? 'motore 3D' : done + '/' + N) + '). Se la rete è lenta, attendi ancora qualche secondo.'); }, 25000);
       function addScript(src, ok, ko) { var s = document.createElement('script'); s.src = src; s.async = false; s.onload = ok; s.onerror = ko; document.body.appendChild(s); }
       function loaded() {
@@ -71,7 +71,7 @@
       function gameScripts() {
         phase = 'game'; if (!window.THREE) TLN_DIAG('Three.js non caricato (né CDN né copia locale).');
         show(30, LINES[0]);
-        files.forEach(function (f) { addScript(f + '?v=8', loaded, function () { TLN_DIAG('Script mancante: ' + f); loaded(); }); });
+        files.forEach(function (f) { addScript(f + '?v=9', loaded, function () { TLN_DIAG('Script mancante: ' + f); loaded(); }); });
       }
       addScript(CDN, gameScripts, function () { addScript(LOCAL, gameScripts, gameScripts); });
     })();
