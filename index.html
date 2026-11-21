@@ -38,6 +38,14 @@
   <div id="rotate-hint">Ruota il telefono in orizzontale</div>
   <div id="boot" class="boot">THE LONG NIGHT</div>
 
+  <!-- Diagnostica a schermo: mostra avanzamento del caricamento ed eventuali errori (utile su telefono, dove non c'è console) -->
+  <div id="diag" style="display:none;position:fixed;left:8px;right:8px;bottom:8px;max-height:45%;overflow:auto;z-index:99999;background:#1c1a24;border:1px solid #b84040;color:#e8e0d0;font:12px/1.4 monospace;padding:8px;white-space:pre-wrap"></div>
+  <script>
+    window.TLN_DIAG = function (msg) { var d = document.getElementById('diag'); d.style.display = 'block'; d.textContent += msg + '\n'; };
+    window.addEventListener('error', function (e) { TLN_DIAG('ERRORE: ' + (e.message || e) + (e.filename ? ' @ ' + e.filename.split('/').slice(-2).join('/') + ':' + e.lineno : '')); });
+    window.addEventListener('unhandledrejection', function (e) { TLN_DIAG('ERRORE (promise): ' + (e.reason && e.reason.message || e.reason)); });
+    (function () { try { var c = document.createElement('canvas'); if (!(c.getContext('webgl') || c.getContext('experimental-webgl'))) TLN_DIAG('WebGL non disponibile in questo browser.'); } catch (e) { TLN_DIAG('Controllo WebGL fallito: ' + e.message); } })();
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <!-- copia locale se il CDN non è raggiungibile (test offline / agenti nel cloud) -->
   <script>window.THREE || document.write('<script src="vendor/three.r128.min.js"><\/script>');</script>
@@ -45,14 +53,22 @@
   <script>
     // Carica gli script nell'ordine di src/manifest.js (script classici, funziona anche da file://).
     (function () {
+      if (!window.THREE) TLN_DIAG('Three.js non caricato (né CDN né copia locale).');
       var files = TLN.manifest.all();
-      var i = 0;
+      var i = 0, boot = document.getElementById('boot');
+      // Se dopo 15 s il gioco non è partito, mostra dove si è fermato
+      var watchdog = setTimeout(function () { TLN_DIAG('Caricamento fermo a ' + i + '/' + files.length + (files[i - 1] ? ' (' + files[i - 1] + ')' : '')); }, 15000);
       function next() {
-        if (i >= files.length) { TLN.ui.boot(); return; }
+        if (i >= files.length) {
+          clearTimeout(watchdog);
+          try { TLN.ui.boot(); } catch (e) { TLN_DIAG('ERRORE all\'avvio: ' + e.message + '\n' + (e.stack || '').split('\n').slice(0, 4).join('\n')); }
+          return;
+        }
         var s = document.createElement('script');
-        s.src = files[i++] + '?v=5';
+        s.src = files[i++] + '?v=6';
+        boot.textContent = 'THE LONG NIGHT · ' + i + '/' + files.length;
         s.onload = next;
-        s.onerror = function () { console.error('Script mancante: ' + s.src); next(); };
+        s.onerror = function () { TLN_DIAG('Script mancante: ' + s.src); next(); };
         document.body.appendChild(s);
       }
       next();
