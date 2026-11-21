@@ -36,7 +36,7 @@
   <div id="toast"></div>
   <div id="modal"></div>
   <div id="rotate-hint">Ruota il telefono in orizzontale</div>
-  <div id="boot" class="boot">THE LONG NIGHT</div>
+  <div id="boot" class="boot"><div class="boot-title">THE LONG NIGHT</div><div class="boot-bar"><div class="boot-fill" id="boot-fill"></div></div><div class="boot-label" id="boot-label">La candela si accende…</div></div>
 
   <!-- Diagnostica a schermo: mostra avanzamento del caricamento ed eventuali errori (utile su telefono, dove non c'è console) -->
   <div id="diag" style="display:none;position:fixed;left:8px;right:8px;bottom:8px;max-height:45%;overflow:auto;z-index:99999;background:#1c1a24;border:1px solid #b84040;color:#e8e0d0;font:12px/1.4 monospace;padding:8px;white-space:pre-wrap"></div>
@@ -46,32 +46,34 @@
     window.addEventListener('unhandledrejection', function (e) { TLN_DIAG('ERRORE (promise): ' + (e.reason && e.reason.message || e.reason)); });
     (function () { try { var c = document.createElement('canvas'); if (!(c.getContext('webgl') || c.getContext('experimental-webgl'))) TLN_DIAG('WebGL non disponibile in questo browser.'); } catch (e) { TLN_DIAG('Controllo WebGL fallito: ' + e.message); } })();
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <!-- copia locale se il CDN non è raggiungibile (test offline / agenti nel cloud) -->
-  <script>window.THREE || document.write('<script src="vendor/three.r128.min.js"><\/script>');</script>
   <script src="src/manifest.js"></script>
   <script>
-    // Carica gli script nell'ordine di src/manifest.js (script classici, funziona anche da file://).
+    // Caricamento con barra di avanzamento (script classici, funziona anche da file://).
     (function () {
-      if (!window.THREE) TLN_DIAG('Three.js non caricato (né CDN né copia locale).');
-      var files = TLN.manifest.all();
-      var i = 0, boot = document.getElementById('boot');
-      // Se dopo 15 s il gioco non è partito, mostra dove si è fermato
-      var watchdog = setTimeout(function () { TLN_DIAG('Caricamento fermo a ' + i + '/' + files.length + (files[i - 1] ? ' (' + files[i - 1] + ')' : '')); }, 15000);
-      function next() {
-        if (i >= files.length) {
-          clearTimeout(watchdog);
-          try { TLN.ui.boot(); } catch (e) { TLN_DIAG('ERRORE all\'avvio: ' + e.message + '\n' + (e.stack || '').split('\n').slice(0, 4).join('\n')); }
-          return;
-        }
-        var s = document.createElement('script');
-        s.src = files[i++] + '?v=6';
-        boot.textContent = 'THE LONG NIGHT · ' + i + '/' + files.length;
-        s.onload = next;
-        s.onerror = function () { TLN_DIAG('Script mancante: ' + s.src); next(); };
-        document.body.appendChild(s);
+      // 1) motore 3D (Three.js r128) dal CDN, con copia locale se il CDN non risponde
+      // 2) script del gioco: scaricati in parallelo, eseguiti in ordine (async = false)
+      var CDN = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', LOCAL = 'vendor/three.r128.min.js';
+      var files = TLN.manifest.all(), N = files.length, done = 0, booted = false, phase = 'three', creep = 0;
+      var fill = document.getElementById('boot-fill'), label = document.getElementById('boot-label');
+      var LINES = ['Si contano i dadi…', 'Si mescolano le carte…', 'Qualcosa si muove nella cripta…'];
+      function show(pct, text) { fill.style.width = Math.min(100, pct) + '%'; label.textContent = text + '  ' + Math.round(pct) + '%'; }
+      // durante il motore 3D la barra avanza piano fino al 30% (il browser non dà il progresso reale di uno script)
+      var creepTimer = setInterval(function () { if (phase !== 'three') return; creep += (30 - creep) * 0.06; show(creep, 'La candela si accende…'); }, 200);
+      files.forEach(function (f) { var l = document.createElement('link'); l.rel = 'preload'; l.as = 'script'; l.href = f + '?v=8'; document.head.appendChild(l); });
+      var watchdog = setTimeout(function () { TLN_DIAG('Caricamento fermo (' + (phase === 'three' ? 'motore 3D' : done + '/' + N) + '). Se la rete è lenta, attendi ancora qualche secondo.'); }, 25000);
+      function addScript(src, ok, ko) { var s = document.createElement('script'); s.src = src; s.async = false; s.onload = ok; s.onerror = ko; document.body.appendChild(s); }
+      function loaded() {
+        done++; show(30 + 70 * done / N, LINES[Math.min(LINES.length - 1, Math.floor(done / N * LINES.length))]);
+        if (done < N || booted) return;
+        booted = true; clearTimeout(watchdog); clearInterval(creepTimer);
+        try { TLN.ui.boot(); } catch (e) { TLN_DIAG('ERRORE all\'avvio: ' + e.message + '\n' + (e.stack || '').split('\n').slice(0, 4).join('\n')); }
       }
-      next();
+      function gameScripts() {
+        phase = 'game'; if (!window.THREE) TLN_DIAG('Three.js non caricato (né CDN né copia locale).');
+        show(30, LINES[0]);
+        files.forEach(function (f) { addScript(f + '?v=8', loaded, function () { TLN_DIAG('Script mancante: ' + f); loaded(); }); });
+      }
+      addScript(CDN, gameScripts, function () { addScript(LOCAL, gameScripts, gameScripts); });
     })();
   </script>
 </body>

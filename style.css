@@ -5,8 +5,12 @@
 }
 html, body { margin:0; height:100%; background:var(--bg-deep); color:var(--text);
   font-family: Georgia, 'Times New Roman', serif; overflow:hidden; }
-.boot { position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-  letter-spacing:.3em; color:var(--text-muted); }
+.boot { position:fixed; inset:0; z-index:9000; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:18px; background:var(--bg-deep, #151519); color:var(--text-muted); }
+.boot-title { letter-spacing:.3em; color:var(--text, #e8e0d0); font-size:clamp(18px, 4vw, 30px); }
+.boot-bar { width:min(60vw, 360px); height:6px; border:1px solid var(--border, #2e2a3e); background:#0c0b10; }
+.boot-fill { height:100%; width:0; background:var(--gold, #c9a84c); box-shadow:0 0 10px rgba(201,168,76,.5); transition:width .2s ease-out; }
+.boot-label { font-size:12px; letter-spacing:.12em; min-height:1.4em; }
 #gc { position:fixed; inset:0; width:100vw; height:100vh; display:block; }
 #fx-layer { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:5; }
 .fx-num { position:absolute; left:0; top:0; font-weight:bold; font-size:20px; color:#fff;
