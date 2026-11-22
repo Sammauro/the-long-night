@@ -7,6 +7,7 @@
 - 2026-11-18 · Soglia: i nemici della stanza successiva non si vedono, solo un presagio.
 - 2026-11-18 · Blasphemous non è il riferimento visivo; in prova le direzioni B e C.
 - 2026-11-20 · Grafica rimandata: le prove B e C non convincono. Il team lavora solo nello stile attuale (bug, UX, bilanciamento). Niente generazioni PixelLab.
+- 2026-11-22 · Interfaccia da riscrivere da zero (creativa ma efficace, che esalti il gioco, non standard), poi tutorial più semplice e guidato. Team riorganizzato a batch: stratega (Fable), ricercatore UX, designer, sviluppatori, collaudatore, playtester con profili. Gianmarco approva i mockup prima dello sviluppo.
 
 ## Aperte
 

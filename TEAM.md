@@ -10,7 +10,7 @@
 3. **Strumenti per i tester:** `npm i -D playwright` e `npx playwright install chromium`. Per il server locale serve Python (`python -m http.server 8765`) oppure `npx http-server -p 8765`.
 4. **Avvio:** dalla cartella TLN `claude --model fable`. Alla prima apertura approva il server MCP `pixellab` del progetto.
 5. **Verifica:** in basso deve comparire `[Fable] 5h …% · settimana …%`. È la statusline che salva i consumi in `.claude/usage.json`: senza, le soglie non funzionano.
-6. **Parti:** scrivi `/avvia-team`. Per farlo andare senza chiederti conferme a ogni comando, avvia con `claude --model fable --permission-mode acceptEdits` e approva i comandi ricorrenti la prima volta ("non chiedere più"); la modalità automatica completa (`auto`) usala solo se la tua versione la offre e ti fidi del perimetro qui sotto.
+6. **Parti o riprendi:** scrivi `/avvia-team`. Per farlo andare senza chiederti conferme a ogni comando, avvia con `claude --model fable --permission-mode acceptEdits` e approva i comandi ricorrenti la prima volta ("non chiedere più"); la modalità automatica completa (`auto`) usala solo se la tua versione la offre e ti fidi del perimetro qui sotto.
 
 ## 2. Soglie di consumo
 
@@ -26,31 +26,46 @@ Come si fermano gli agenti:
 - **L'hook** in `.claude/settings.json` blocca l'avvio di nuovi subagenti oltre soglia, anche se il regista se ne dimentica.
 - **Il tetto rigido** resta il limite di spesa che imposti tu su claude.ai, in Impostazioni → Usage.
 
-## 3. Ruoli
+## 3. Processo a batch
+
+Il lavoro è diviso in **batch** (blocchi grossi con un obiettivo) e ogni batch in **passi** piccoli. Lo stato vive in `team/STATO.md`: dopo ogni passo si aggiorna, si fa commit e push. Se i crediti finiscono o la sessione si chiude, `/avvia-team` riparte dal primo passo non fatto.
+
+Ogni batch segue lo stesso schema:
+1. **Piano** (stratega/Fable): obiettivi misurabili, passi, cancello → `team/PIANO.md`.
+2. **Ricerca e user story** (ricercatore-ux) → `team/ricerca/`, `team/stories/`.
+3. **Design** (designer-ux-ui) → mockup e specifica in `team/design/`.
+4. **Sviluppo** (sviluppatore, anche più istanze in parallelo per story indipendenti).
+5. **Collaudo** delle story (collaudatore) → `team/collaudo/`.
+6. **Playtest** con profili (playtester) → `team/playtest/`.
+7. **Valutazione** (stratega): procedi, ripeti o fermati → `team/valutazioni/`.
+
+Non tutti i batch usano tutti i passi: li sceglie lo stratega nel piano.
+
+**Dove gira**
+- **Nel cloud** (dall'app Claude): un batch per volta; a fine batch o al cancello ci si ferma e Gianmarco scrive quando andare avanti. Niente soglie automatiche: il freno è il tetto di spesa su claude.ai.
+- **Sul PC** (`claude --model fable`, poi `/avvia-team`): le soglie automatiche della §2 fermano il lavoro e il report dice da dove riprendere.
+
+## 4. Ruoli
 
 | Agente | Modello | Fa | Non fa |
 |---|---|---|---|
-| Regista (sessione principale, `/avvia-team`) | Fable | Sceglie il task, scrive il prompt, verifica, fa commit, scrive il report | Non scrive codice né arte da sé |
-| `art-director` | Opus | Regole visive, brief, revisioni con schermate | Non sceglie lo stile definitivo |
-| `artista-pixel` | Sonnet | Sprite e animazioni con PixelLab, pulizia, integrazione in `assets/` | Non tocca la logica |
-| `ux-ui` | Opus | HUD, carte, sequenza, mobile; CSS e `src/ui/` | Mai `src/engine/` |
-| `sviluppatore` | Sonnet | Bug, integrazioni, feature decise | Non interpreta regole ambigue |
-| `tester-giocatore` | Sonnet | Gioca via Playwright, report da giocatore | Non modifica codice |
-| `tester-bilanciamento` | Haiku | Simulazioni, tabelle di numeri | Non cambia i dati |
+| Regista (sessione principale, `/avvia-team`) | Fable sul PC | Segue `team/STATO.md`, affida i passi, verifica, salva | Non esegue il lavoro |
+| `stratega` | Fable | Piano del batch, indicatori, valutazione ai cancelli | Non scrive codice né story |
+| `ricercatore-ux` | Opus | Ricerca con fonti, principi, user story con criteri | Non disegna né programma |
+| `designer-ux-ui` | Opus | Interfaccia da zero: mockup HTML, specifica | Non tocca `src/` |
+| `sviluppatore` | Sonnet | Implementa story e specifica; motore intatto | Non interpreta regole |
+| `collaudatore` | Sonnet | Verifica criterio per criterio con prove | Non giudica il gusto |
+| `playtester` | Opus | Gioca con un profilo, pensa ad alta voce, misura l'attrito | Non legge lo stato interno |
+| `tester-bilanciamento` | Haiku | Simulazioni, numeri | Non cambia i dati |
+| `art-director`, `artista-pixel` | Opus, Sonnet | In pausa: grafica rimandata | — |
 
-## 4. Cancelli: cosa decide solo Gianmarco
+**Cancelli in cui decide Gianmarco:** approvazione dei mockup (B1) e del percorso del tutorial (B4); stile grafico; difficoltà; ogni regola di gioco ambigua o da cambiare (va in `team/DOMANDE.md`); azioni non annullabili (merge su `main`, pubblicazione).
 
-Il team si ferma e scrive in `team/DOMANDE.md` invece di procedere quando:
-- serve scegliere lo stile (B o C) o la difficoltà;
-- una regola di gioco è ambigua o andrebbe cambiata (anche un numero su una carta);
-- un'azione non si può annullare: merge, cancellazioni, pubblicazione.
-
-Le decisioni prese stanno in `team/DECISIONI.md`.
-
-## 5. Fine lavoro: il report
+## 5. Fine sessione: il report
 
 Il regista scrive `team/reports/AAAA-MM-GG_HHMM.md` con:
-1. **Perché si è fermato:** soglia (con la riga di `budget_guard`), backlog finito, oppure tutto bloccato.
+1. **Perché si è fermato:** cancello, soglia (con la riga di `budget_guard`), fine batch, oppure tutto bloccato.
+   **Prossima azione:** il passo esatto da cui riprendere (lo stesso scritto in cima a `team/STATO.md`).
 2. **Fatto:** task, agente, commit, una riga di esito.
 3. **Non fatto o da rifare:** con il motivo.
 4. **Consumi:** 5 ore e settimana all'inizio e alla fine; generazioni PixelLab usate (da `team/art/pixellab_log.md`).
