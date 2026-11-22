@@ -4,7 +4,7 @@
 
 **Batch corrente:** B1 — Nuova interfaccia: ricerca, user story e design
 **Modalità:** cloud (Gianmarco dà il via a ogni batch) · sul PC: soglie automatiche
-**Prossima azione:** B1.3f (valutazione dei 4 concetti, stratega)
+**Prossima azione:** ⛔ cancello: Gianmarco sceglie il concetto (raccomandazione e 5 domande in `team/valutazioni/B1.3f_2026-11-22.md` §6–§7). Il B1.3d non parte prima delle risposte 1 (scheletro) e 2 (stanza ruotata e vista)
 
 | Passo | Cosa | Agente | Stato | Output |
 |---|---|---|---|---|
@@ -16,7 +16,7 @@
 | B1.3c | Concetto dell'interfaccia (direzione A ripensata): niente blocchi né cornici, dinamiche di zoom e messa a fuoco, principio guida, 2–3 schermate chiave con le dinamiche mostrate in sequenza | designer-ux-ui (Fable) | fatto | `team/design/ui/concetto/` (`CONCETTO.md`, `prototipo.html`, `fotogrammi/`) |
 | ⛔ | Cancello concetto "Il Lume": **non approvato** (22/11: luce intesa male, niente carte vere, organizzazione sempre uguale) | — | chiuso | — |
 | B1.3e | Esplorazione divergente: 4 concetti con organizzazioni diverse, dal flusso di gioco (brief in `team/design/ui/esplorazione/BRIEF.md`) | designer-ux-ui (Fable) ×4 in parallelo | fatto | `team/design/ui/esplorazione/` |
-| B1.3f | Valutazione dei 4 concetti sul flusso di gioco e sugli indicatori, raccomandazione | stratega | da fare | `team/valutazioni/B1.3f_*.md` |
+| B1.3f | Valutazione dei 4 concetti sul flusso di gioco e sugli indicatori, raccomandazione | stratega | fatto | `team/valutazioni/B1.3f_2026-11-22.md` |
 | ⛔ | **Cancello: Gianmarco sceglie il concetto** | — | in attesa | — |
 | B1.3d | Mockup completi e SPEC sul concetto approvato (riusa `bozze_B1.3b/strumenti/`) | designer-ux-ui (Opus) | da fare | `team/design/ui/` |
 | B1.4 | Valutazione del batch contro gli indicatori I1–I5 | stratega | da fare | `team/valutazioni/B1_*.md` |
@@ -42,3 +42,4 @@
 | 2026-11-22 | B1.3b | Sospeso per nuovo brief di Gianmarco sulla direzione A (si rifà il concetto nel B1.3c). Salvate le bozze in `team/design/ui/bozze_B1.3b/strumenti/`: estrazione dei dati dal motore (12 stati: seed 7 turni 1–3, seed 42 Soglia, seed 82 Buio e morte; anteprima in ordine di Sequenza DM1 verificata su SP1: Z1 −1, Z2 −2), token e componenti riusabili (`tln/`), layout e composizione A non ancora generati in HTML; nessun mockup né PNG prodotto | questo commit |
 | 2026-11-22 | B1.3c | Concetto "Il Lume": niente pannelli, una sola luce; tre strumenti (luce, filo, scala), quattro posti senza cornici, 6 dinamiche di messa a fuoco (D1–D6). Prototipo animato autonomo e 11 fotogrammi (Selezione A1–A4, dado nemico B1–B4, mio dado e carta C1–C3) con dati del motore (seed 7; Diniego Sismico su Z1 estratto oggi). Misura I3 con la funzione esistente: 11 su 11 senza elementi fuori soglia; contrasto minimo in penombra 3,2:1 (prima bozza 1,7, corretta). Non disegnati: Fine Turno, Soglia, Buio, slot coperti, desktop. Fonti dei riferimenti citate a memoria (rete chiusa). `misura_I3.js` ora esporta `misura` | questo commit |
 | 2026-11-22 | B1.3e | 4 concetti consegnati: la mano (8cd3c48), il rito (9f2dd33), il tavolo (e2fbfcb), il tempo "Le Ore" (013b29f) | vedi git log |
+| 2026-11-22 | B1.3f | Valutati i 4 concetti su 13 criteri: Il tavolo 51, Le Ore 51, Il rito 46, La mano 42. Tocchi ricontati sullo stesso turno: tutti fra 20 e 25 (dichiarati 18–25 su turni diversi), il layout non li distingue. Raccomandata una combinazione: scheletro del Tavolo, strato informativo delle Ore, carte della Mano, figura e Azione armata del Rito. Stanza ruotata: mezza giornata su 4 file di rendering; ma le caselle da 52×45 valgono solo con vista dall'alto (con tilt 50° circa 49×33). Test di lettura I1/I5 non ancora fatto da nessuno. Decisione: fermati al cancello, 5 domande per Gianmarco | questo commit |
