@@ -13,7 +13,7 @@ function face(fam, pkg, w, style) {
   return `@font-face{font-family:'${fam}';font-style:${style};font-weight:${w};font-display:block;src:url(data:font/woff2;base64,${b}) format('woff2');}`;
 }
 const FONTS = [
-  face('Grenze Gotisch', 'grenze-gotisch', 500, 'normal'), face('Grenze Gotisch', 'grenze-gotisch', 700, 'normal'),
+  face('Grenze Gotisch', 'grenze-gotisch', 700, 'normal'), face('Almendra', 'almendra', 400, 'normal'), face('Almendra', 'almendra', 700, 'normal'),
   face('Alegreya Sans', 'alegreya-sans', 400, 'normal'), face('Alegreya Sans', 'alegreya-sans', 500, 'normal'),
   face('Alegreya Sans', 'alegreya-sans', 700, 'normal'), face('Alegreya Sans', 'alegreya-sans', 800, 'normal'),
   face('Alegreya Sans', 'alegreya-sans', 400, 'italic'),
@@ -34,10 +34,10 @@ function dado(kind, value, opt = {}) {
   const stroke = 'stroke="#1b151a" stroke-width="1.6" stroke-linejoin="round"' + (s ? ' stroke-dasharray="3 2.5"' : '');
   let forma, ty = 23.5;
   if (kind === 'vigore') forma = `<rect x="3" y="3" width="28" height="28" rx="4" fill="${s ? 'none' : '#efe6d0'}" ${stroke}/>`;
-  if (kind === 'fuoco') { forma = `<polygon points="17,2 32.5,31 1.5,31" fill="${s ? 'none' : '#c8691f'}" ${stroke}/>`; ty = 27.5; }
+  if (kind === 'fuoco') { forma = `<polygon points="17,2 32.5,31 1.5,31" fill="${s ? 'rgba(200,105,31,.16)' : '#c8691f'}" ${stroke}/>`; ty = 27.5; }
   if (kind === 'terrore') forma = `<polygon points="17,1 33,17 17,33 1,17" fill="${s ? 'none' : '#4d3a72'}" ${stroke}/>`;
-  const col = s ? '#5a4c44' : (kind === 'terrore' ? '#efe6d0' : '#1b151a');
-  const barra = s ? '<path d="M5 30 29 5" stroke="#1b151a" stroke-width="1.4"/>' : '';
+  const col = s ? '#4a3d36' : (kind === 'terrore' ? '#efe6d0' : '#1b151a');
+  const barra = '';
   return `<svg class="dado" viewBox="0 0 34 34" width="34" height="34" aria-hidden="true">${forma}<text x="17" y="${ty}" text-anchor="middle" font-family="Grenze Gotisch" font-weight="700" font-size="${kind === 'fuoco' ? 17 : 20}" fill="${col}">${value}</text>${barra}</svg>`;
 }
 function sigillo(id, opt = {}) {
@@ -81,7 +81,7 @@ function stanza(d) {
   });
   (d.unita || []).forEach(u => {
     const [x, y] = centro(u.pos[0], u.pos[1]);
-    html += `<div class="un ${u.cls || ''}" style="left:${x}px;top:${y}px" data-tocco><span class="pd">${u.id}</span><span class="hp">${u.hp}</span></div>`;
+    html += `<div class="un ${u.cls || ''}" style="left:${x}px;top:${y}px" data-tocco><span class="pd">${u.id}</span><span class="hp">${u.hp} HP</span></div>`;
     if (u.cart) {
       const [dx, dy] = u.off || [20, -22];
       html += `<div class="cart ${u.cartCls || ''}" style="left:${x + dx}px;top:${y + dy}px">${u.cart}</div>`;
@@ -106,7 +106,7 @@ function rigo(marks) {
   return `<span class="rigo" aria-hidden="true">${out}</span>`;
 }
 function carta(c) {
-  const az = (c.azioni || []).map(a => `<p class="az${a.cls ? ' ' + a.cls : ''}">${a.costo ? `<span class="costo">${a.costo}</span>` : ''}${a.t}${a.nota ? `<span class="nota">${a.nota}</span>` : ''}</p>`).join('');
+  const az = (c.azioni || []).map(a => `<p class="az${a.cls ? ' ' + a.cls : ''}">${a.costo ? `<span class="costo">${a.costo}</span> ` : ''}${a.t}${a.nota ? `<span class="nota">${a.nota}</span>` : ''}</p>`).join('');
   return `<article class="carta fam-${c.family} ${c.cls || ''}" style="${c.style || ''}" data-tocco>
     ${rigo(c.rigo)}<span class="quando">${c.quando}</span>
     <h3>${c.nome}</h3>${c.pre ? `<p class="pre">${c.pre}</p>` : ''}
@@ -152,7 +152,7 @@ ${FONTS}
   --osso:#ebe2ce; --osso-spento:#9d95a8;
   --oro:#c6a24a; --oro-scuro:#7d6426; --verderame:#6fa397;
   --sangue:#8a1f2a; --sangue-chiaro:#d76470; --brace:#c8691f; --viola:#4d3a72; --viola-chiaro:#a58fd0;
-  --titoli:'Grenze Gotisch',serif; --testo:'Alegreya Sans',sans-serif;
+  --titoli:'Almendra',serif; --cifre:'Grenze Gotisch',serif; --testo:'Alegreya Sans',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:#000}
@@ -168,12 +168,12 @@ body::before{content:'';position:absolute;inset:0;background:radial-gradient(ell
 .carta-pagina{height:100px;display:flex;color:var(--inchiostro);clip-path:polygon(${bordoStrappato()});
   background:radial-gradient(ellipse 30% 90% at 9% 40%,rgba(122,92,40,.28),transparent 70%),radial-gradient(ellipse 22% 80% at 71% 85%,rgba(98,68,30,.24),transparent 70%),radial-gradient(ellipse 14% 60% at 44% 5%,rgba(98,68,30,.18),transparent 70%),linear-gradient(180deg,#d2c39d,#c6b68e 55%,#b5a379)}
 .testa{flex:0 0 98px;padding:3px 6px 0 8px;border-right:3px double rgba(27,21,26,.55);display:flex;flex-direction:column}
-.testa strong{font:700 19px/19px var(--titoli);letter-spacing:.2px}
+.testa strong{font:700 18px/19px var(--titoli)}
 .veglia{font-size:12px;line-height:13px;color:var(--inchiostro-tenue);font-weight:700}
 .pips{display:flex;gap:3px;margin:2px 0 3px}.pips i{width:9px;height:5px;border:1px solid var(--inchiostro);}.pips i.on{background:var(--inchiostro)}
 .risorse{display:grid;grid-template-columns:1fr 1fr;gap:0 4px}
 .ris{display:flex;align-items:baseline;gap:3px;white-space:nowrap}
-.ris small{font-size:12px;font-weight:700;color:var(--inchiostro-tenue)}.ris b{font:700 17px/16px var(--titoli)}
+.ris small{font-size:12px;font-weight:700;color:var(--inchiostro-tenue)}.ris b{font:700 17px/16px var(--cifre)}
 .ris.giu b{color:var(--sangue)}.ris.su b{color:#2f6b5e}.ris.fermo b{color:var(--inchiostro-tenue)}
 .statot{font-size:12px;line-height:13px;font-weight:800;color:var(--sangue);margin-top:1px}
 .battute{flex:1;display:flex}
@@ -181,9 +181,9 @@ body::before{content:'';position:absolute;inset:0;background:radial-gradient(ell
 .bat:last-child{border-right:0}
 .alto,.basso{height:36px;display:flex;align-items:center;justify-content:center;gap:2px;width:100%}
 .alto{align-items:flex-end}.basso{align-items:flex-start}
-.num{font:500 13px/14px var(--titoli);color:var(--inchiostro-tenue);height:15px;margin:1px 0}
+.num{font:700 13px/14px var(--cifre);color:var(--inchiostro-tenue);height:15px;margin:1px 0}
 .num em{font:800 12px/14px var(--testo);font-style:normal;color:var(--inchiostro)}
-.et{flex-direction:column;gap:0;font-size:12px;line-height:13px;text-align:center;color:var(--inchiostro-tenue);font-weight:500;white-space:nowrap}
+.et{flex-direction:column;align-items:center !important;gap:0;font-size:12px;line-height:13px;text-align:center;color:var(--inchiostro-tenue);font-weight:500;white-space:nowrap}
 .alto.et{justify-content:flex-end;padding-bottom:1px}.basso.et{justify-content:flex-start;padding-top:1px}
 .et b{color:var(--inchiostro);font-weight:800}.et b.dan{color:var(--sangue);font-size:14px}.et s{color:var(--inchiostro-tenue)}
 .et .ant{color:#2f6b5e;font-weight:800;border-bottom:1.5px dashed #2f6b5e}
@@ -194,7 +194,7 @@ body::before{content:'';position:absolute;inset:0;background:radial-gradient(ell
 .pool{font-size:12px;line-height:13px;font-weight:800;text-align:left;color:var(--inchiostro)}
 .pool small{display:block;font-weight:500;font-size:12px;color:var(--inchiostro-tenue)}
 .coda{flex:0 0 88px;padding:3px 4px 0 7px;border-left:3px double rgba(27,21,26,.55)}
-.codat{font:700 15px/16px var(--titoli);display:block}
+.codat{font:700 14px/16px var(--titoli);display:block}
 .coda .risorse{margin-top:2px}
 .codan{display:block;font-size:12px;line-height:12px;color:var(--inchiostro-tenue);font-style:italic;margin-top:1px}
 .codan b{color:var(--sangue);font-style:normal}
@@ -221,7 +221,7 @@ body::before{content:'';position:absolute;inset:0;background:radial-gradient(ell
 .un.mira .pd{box-shadow:0 0 0 2.5px var(--oro)}
 .un.fioco{opacity:.5}
 .cart{position:absolute;white-space:nowrap;background:linear-gradient(180deg,#d2c39d,#bcab82);color:var(--inchiostro);font-size:12px;line-height:14px;font-weight:700;padding:1px 5px 1px 3px;box-shadow:0 1px 3px rgba(0,0,0,.7);clip-path:polygon(0 0,100% 0,calc(100% - 3px) 50%,100% 100%,0 100%)}
-.cart i{font-style:normal;font:700 13px/14px var(--titoli);background:var(--inchiostro);color:var(--pergamena);padding:0 3px;margin-right:4px;display:inline-block}
+.cart i{font-style:normal;font:700 13px/14px var(--cifre);background:var(--inchiostro);color:var(--pergamena);padding:0 3px;margin-right:4px;display:inline-block}
 .cart b{color:var(--sangue);font-weight:800;font-size:13px}.cart s{color:var(--inchiostro-tenue);font-weight:500}
 .cart.lontano{background:#4a4353;color:#d5cde0;box-shadow:none}.cart.lontano i{background:#211e29;color:#d5cde0}
 .cart .ant{color:#245c50;font-weight:800;border-bottom:1.5px dashed #245c50}
@@ -229,10 +229,10 @@ body::before{content:'';position:absolute;inset:0;background:radial-gradient(ell
 .stato.oro{border-color:var(--oro);color:var(--oro)}.stato.rosso{border-color:var(--sangue-chiaro);color:var(--sangue-chiaro)}
 
 /* la mano */
-.guida{position:absolute;left:334px;top:105px;width:504px;font-size:13px;line-height:15px;color:var(--osso)}
+.guida{position:absolute;left:334px;top:104px;width:504px;font-size:13px;line-height:15px;color:var(--osso)}
 .guida b{color:var(--oro);font-weight:700}.guida .tenue{color:var(--osso-spento)}
-.mano{position:absolute;left:334px;top:142px;height:178px;display:flex;gap:6px}
-.carta{position:relative;width:96px;height:178px;flex:none;background:linear-gradient(170deg,#2a2532,#1d1a24 70%);border:1px solid var(--oro-scuro);box-shadow:inset 0 0 0 2px #1a1720,inset 0 0 0 3px rgba(198,162,74,.28),0 3px 6px rgba(0,0,0,.6);padding:6px 6px 5px 8px;display:flex;flex-direction:column;color:var(--osso)}
+.mano{position:absolute;left:334px;top:146px;height:188px;display:flex;gap:6px}
+.carta{position:relative;width:97px;height:188px;flex:none;background:linear-gradient(170deg,#2a2532,#1d1a24 70%);border:1px solid var(--oro-scuro);box-shadow:inset 0 0 0 2px #1a1720,inset 0 0 0 3px rgba(198,162,74,.28),0 3px 6px rgba(0,0,0,.6);padding:6px 6px 5px 8px;display:flex;flex-direction:column;color:var(--osso)}
 .carta::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--fam)}
 .fam-vigore{--fam:#d9cfb6}.fam-fuoco{--fam:var(--brace)}.fam-terrore{--fam:#7c63b0}.fam-free{--fam:var(--oro)}
 .rigo{display:flex;align-items:center;height:11px;gap:0}
@@ -244,14 +244,14 @@ body::before{content:'';position:absolute;inset:0;background:radial-gradient(ell
 .rg-x::after{width:7px;height:1px;border-radius:0;background:#6d667a}
 .rg.fin::before{content:'';position:absolute;left:-1px;top:0;width:2px;height:11px;background:var(--oro)}
 .quando{font-size:12px;line-height:13px;color:var(--oro);font-weight:700;white-space:nowrap}
-.carta h3{font:500 16px/15px var(--titoli);margin:2px 0 3px;color:var(--osso);letter-spacing:.2px}
+.carta h3{font:700 15px/15px var(--titoli);margin:2px 0 4px;color:var(--osso)}
 .pre{font-size:12px;line-height:13px;font-style:italic;color:var(--osso-spento);margin-bottom:2px}
 .azioni{flex:1;display:flex;flex-direction:column;gap:3px}
 .az{font-size:12px;line-height:13px;font-weight:500}
-.az .costo{font-weight:800;margin-right:3px;white-space:nowrap}
+.az .costo{font-weight:800;white-space:nowrap}
 .az .nota{display:block;color:var(--osso-spento);font-style:italic}
 .carta footer{border-top:1px solid rgba(198,162,74,.35);padding-top:2px;font-size:12px;line-height:13px;color:#cfc6b4;position:relative;min-height:28px}
-.ecol{font:500 13px/13px var(--titoli);color:var(--oro)}
+.ecol{font:700 12px/13px var(--titoli);color:var(--oro)}
 .cd{position:absolute;right:-3px;bottom:-2px;font-size:12px;font-weight:800;line-height:14px;color:var(--inchiostro);background:var(--oro);padding:0 3px}
 .carta.nuova::after{content:'nuova';position:absolute;right:3px;top:-8px;font-size:12px;line-height:13px;font-weight:700;background:var(--verderame);color:#0d1a17;padding:0 4px}
 
@@ -262,7 +262,7 @@ body::before{content:'';position:absolute;inset:0;background:radial-gradient(ell
 .posti i{width:20px;height:28px;border:1px dashed #5c566a;display:block}
 .posti i.fuoco{border-color:#8a4a1c}
 .posti i.piena{border:1px solid var(--oro-scuro);background:#2a2532;transform:rotate(-90deg)}
-.primario{position:absolute;right:8px;top:338px;height:48px;min-width:196px;padding:0 14px;background:linear-gradient(180deg,#d2ae52,#a98432);color:#1b140a;border:0;box-shadow:inset 0 0 0 1px #f0d68a,inset 0 0 0 3px #a98432,0 2px 6px rgba(0,0,0,.7);font:700 19px/18px var(--titoli);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.primario{position:absolute;right:8px;top:338px;height:48px;min-width:196px;padding:0 14px;background:linear-gradient(180deg,#d2ae52,#a98432);color:#1b140a;border:0;box-shadow:inset 0 0 0 1px #f0d68a,inset 0 0 0 3px #a98432,0 2px 6px rgba(0,0,0,.7);font:700 18px/19px var(--titoli);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .primario small{font:700 12px/13px var(--testo);color:#3a2a0c}
 `;
 
@@ -295,7 +295,7 @@ const sel = doc('Le Ore · Selezione (telefono 844×390)', [
       { kind: 'vigore', value: 2, et: '<b>Tieni</b>2 carte' },
       { loro: 1, id: 'Z5', et: 'Si scuda<b>+2 Scudi</b>' },
       { kind: 'terrore', value: 4, et: '<b>Tieni</b>1 carta' },
-      { kind: 'fuoco', value: 2, et: '<b>Tieni</b>1 carta' },
+      { kind: 'fuoco', value: 2, et: '<b>Tieni</b>3 carte' },
     ],
     codaTitolo: 'A fine turno',
     fine: [{ k: 'HP', v: 7, cls: 'giu' }, { k: 'PT', v: 6, cls: 'fermo' }, { k: 'PM', v: 2, cls: 'fermo' }, { k: 'Luce', v: 1, cls: 'su' }],
@@ -311,25 +311,25 @@ const sel = doc('Le Ore · Selezione (telefono 844×390)', [
     ],
     unita: [
       { id: 'Tu', hp: '10', pos: [1, 4], cls: 'tu' },
-      { id: 'Z1', hp: '6', pos: [4, 3], cart: '<i>1</i>Orda <b>−1</b>', off: [-34, 20] },
+      { id: 'Z1', hp: '6', pos: [4, 3], cart: '<i>1</i>Orda <b>−1</b>', off: [18, 6] },
       { id: 'Z2', hp: '6', pos: [4, 6], cart: '<i>4</i>Orda <b>−2</b>', off: [-78, -20] },
       { id: 'Z3', hp: '6', pos: [6, 2], cart: '<i>5</i>Orda, non arriva', cartCls: 'lontano', off: [-22, 22] },
       { id: 'Z4', hp: '6', pos: [6, 6], cart: '<i>6</i>Orda, non arriva', cartCls: 'lontano', off: [-40, -36] },
-      { id: 'Z5', hp: '6', pos: [7, 4], cart: '<i>8</i>Si scuda +2', cartCls: 'lontano', off: [-34, 22] },
+      { id: 'Z5', hp: '6', pos: [7, 4], cart: '<i>8</i>Si scuda +2', cartCls: 'lontano', off: [-36, -38] },
     ],
   }),
   `<p class="guida"><b>Scegli i dadi del turno.</b> Tocca un tuo dado nella pagina per tenerlo o scartarlo: nulla è perso finché non confermi. <span class="tenue">${FU}1 è scartato perché lo slot Fuoco è uno solo e lo occupa ${FU}2: toccalo per scambiarli.</span></p>`,
   `<section class="mano">` + [
     carta({ nome: 'Attacco di Fuoco', family: 'fuoco', cd: 1, cls: 'nuova', quando: 'al 10°', rigo: ['l', 'm', 'x', 'l', 'l', 'l', 'm', 'l', 'c', 'M'],
-      azioni: [{ costo: `1 ${FU}`, t: '2 Danni Fuoco a un adiacente' }, { costo: `1 ${FU}`, t: 'Vulnerabilità Fuoco a un adiacente' }], eco: '+1 PM<br>+1 Luce' }),
+      azioni: [{ costo: `1${FU}`, t: '2 Danni Fuoco' }, { costo: `1${FU}`, t: 'Vulnerabilità Fuoco', nota: 'a un adiacente' }], eco: '+1 PM<br>+1 Luce' }),
     carta({ nome: 'Diniego Sismico', family: 'vigore', cd: 1, cls: 'nuova', quando: 'al 2° e al 7°', rigo: ['l', 'M', 'x', 'l', 'l', 'l', 'M', 'l', 'c', 'c'],
-      azioni: [{ costo: `1 ${F}`, t: '1 Danno e Spingi 1 un adiacente' }], eco: '+1 PM<br>Ruota 1 CD' }),
+      azioni: [{ costo: `1${F}`, t: '1 Danno e Spingi 1', nota: 'a un adiacente' }], eco: '+1 PM<br>Ruota 1 CD' }),
     carta({ nome: 'Distorsione', family: 'terrore', cd: 1, cls: 'nuova', quando: 'al 9°', rigo: ['l', 'm', 'x', 'l', 'l', 'l', 'm', 'l', 'M', 'm'],
-      azioni: [{ costo: `X ${PR} + 1 PT`, t: 'sposta un’unità (non te) fino a X caselle. Trappole attive' }], eco: '+1 PM<br>Pesca 1' }),
+      azioni: [{ costo: `X${PR} + 1 PT:`, t: 'sposta un’unità (non te) fino a X caselle', nota: 'le trappole scattano' }], eco: '+1 PM<br>Pesca 1' }),
     carta({ nome: 'Parata', family: 'vigore', cls: 'nuova', quando: 'al 2° e al 7°', rigo: ['l', 'M', 'x', 'l', 'l', 'l', 'M', 'l', 'c', 'c'],
-      azioni: [{ costo: `1 ${F}`, t: '+1 Scudo' }, { costo: `1 ${F}`, t: 'pesca 1 carta' }], eco: '+1 Contrattacco' }),
+      azioni: [{ costo: `1${F}`, t: '+1 Scudo' }, { costo: `1${F}`, t: 'pesca 1 carta' }], eco: '+1 Contrattacco' }),
     carta({ nome: 'Carica Furiosa', family: 'free', cd: 2, cls: 'nuova', quando: 'prima del 9°', rigo: ['|l', '|m', 'x', '|l', '|l', '|l', '|m', '|l', '|M', 'M'],
-      azioni: [{ costo: 'Gratis', t: 'consuma i dadi 9° e 10°: corri in linea fino a 6 caselle. Se arrivi accanto a un nemico, danni = caselle' }], eco: '+1 Luce' }),
+      azioni: [{ costo: 'Gratis:', t: 'consuma i dadi 9° e 10°: corri in linea fino a 6 caselle. Danni = caselle, se arrivi a un nemico' }], eco: '+1 Luce' }),
   ].join('') + `</section>`,
   `<div class="plancia" style="left:334px"><span class="posti"><i></i><i></i><i></i><i class="fuoco"></i></span><span><b>Plancia vuota</b><br>Mazzo 11, scarti 0</span></div>`,
   `<button class="primario" data-tocco>Conferma 4 dadi<small>scarti 1 Fuoco: +1 Luce</small></button>`,
@@ -341,41 +341,43 @@ const sel = doc('Le Ore · Selezione (telefono 844×390)', [
 // =====================================================================
 const cssRis = `
 .guida{width:504px}
-.aperta{position:absolute;left:334px;top:140px;width:176px;height:246px;padding:7px 9px 7px 11px;border-color:var(--oro);box-shadow:inset 0 0 0 2px #1a1720,inset 0 0 0 3px rgba(198,162,74,.55),0 4px 12px rgba(0,0,0,.8)}
-.aperta h3{font-size:21px;line-height:20px;margin:1px 0 1px}
+.aperta{position:absolute;left:334px;top:138px;width:178px;height:249px;padding:7px 9px 7px 11px;border-color:var(--oro);box-shadow:inset 0 0 0 2px #1a1720,inset 0 0 0 3px rgba(198,162,74,.55),0 4px 12px rgba(0,0,0,.8)}
+.aperta h3{font-size:19px;line-height:20px;margin:1px 0 1px}
 .aperta .az{font-size:13px;line-height:14px;padding:3px 0 3px 7px;border-left:3px solid transparent}
 .aperta .az.ora{border-left-color:var(--oro);background:rgba(198,162,74,.1)}
 .aperta .az.chiusa{color:#8d8698}.aperta .az.chiusa .gl{opacity:.6}
 .aperta .az .nota{font-size:12px;line-height:13px}
 .aperta .az.ora .nota{color:var(--verderame);font-style:normal;font-weight:700}
-.chiudi{margin-top:auto;height:44px;border:1px solid var(--oro-scuro);background:#211d29;color:var(--osso);font:500 16px/15px var(--titoli);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.chiudi{margin-top:auto;flex:none;height:44px;border:1px solid var(--oro-scuro);background:#211d29;color:var(--osso);font:700 15px/16px var(--titoli);display:flex;flex-direction:column;align-items:center;justify-content:center}
 .chiudi small{font:500 12px/13px var(--testo);color:var(--osso-spento)}
 .norim{font-size:12px;line-height:13px;color:var(--osso-spento);font-style:italic;margin-top:3px}
-.attesa{position:absolute;left:520px;top:140px;font-size:12px;line-height:13px;color:var(--osso-spento);font-style:italic}
-.mano.chiusa{left:520px;top:158px;gap:0}
-.mano.chiusa .carta{margin-right:-20px;padding-right:24px;opacity:.62;filter:saturate(.6)}
+.attesa{position:absolute;left:522px;top:136px;font-size:12px;line-height:13px;color:var(--osso-spento);font-style:italic}
+.mano.chiusa{left:520px;top:150px;gap:0;height:188px}
+.mano.chiusa .carta{margin-right:-24px;padding-right:30px;filter:brightness(.8) saturate(.7);box-shadow:inset 0 0 0 2px #1a1720,inset 0 0 0 3px rgba(198,162,74,.28),-3px 0 6px rgba(0,0,0,.55)}
 .mano.chiusa .carta:last-child{margin-right:0;padding-right:6px}
-.mano.chiusa .carta footer .cd{right:17px}
-.primario{min-width:186px}
+.mano.chiusa .carta footer .cd{right:-3px}
+.mano.chiusa .carta:last-child footer .cd{right:-3px}
+.primario{min-width:160px;padding:0 6px;font-size:17px}
+.posti{gap:3px}.posti i{width:13px;height:22px}.posti i.piena{margin:0 5px}
 `;
 const ris = doc('Le Ore · Risoluzione, carta in uso (telefono 844×390)', [
   pagina({
     turno: 2, veglia: 2, vegliaMax: 6,
     adesso: [{ k: 'HP', v: 8 }, { k: 'PT', v: 5 }, { k: 'PM', v: 0 }, { k: 'Luce', v: 2 }],
-    statoTesta: 'Vulnerabile: danni ×2',
+    statoTesta: 'Vulnerabile ×2',
     battute: [
       { kind: 'vigore', value: 2, ora: 1, w: 142, et: '<b>Tocca a te</b>', extra: `<span class="pool">resta 1 ${glifo('forza', 'ink')}<small>di 2</small></span>` },
       { loro: 1, id: 'Z1', et: 'Orda<span><s>−6</s> <b class="ant">−4 HP</b></span>' },
       { loro: 1, id: 'Z2', et: '<s>Orda −6</s><b class="ant">salta</b>' },
-      { kind: 'fuoco', value: 1, et: '2 carte' },
-      { kind: 'terrore', value: 1, et: 'nessuna carta' },
+      { kind: 'fuoco', value: 1, et: '3 carte' },
+      { kind: 'terrore', value: 1, et: 'solo con<span>Conversione</span>' },
       { loro: 1, id: 'Z3', et: 'Morso<span>non arriva</span>' },
       { loro: 1, id: 'Z4', spento: 1, et: 'Stordito<b>salta</b>' },
       { loro: 1, id: 'Z5', et: 'Orda<span>non arriva</span>' },
     ],
     codaTitolo: 'A fine turno',
     fine: [{ k: 'HP', v: 4, cls: 'su' }, { k: 'PT', v: 5, cls: 'fermo' }, { k: 'PM', v: 0, cls: 'fermo' }, { k: 'Luce', v: 2, cls: 'fermo' }],
-    codaNota: 'senza: <b>morte al 3°</b>',
+    codaNota: 'se non confermi: <b>morte al 3°</b>',
   }),
   stanza({
     terreno: [{ at: [4, 5], tipo: 'column' }, { at: [6, 4], tipo: 'column' }],
@@ -390,35 +392,35 @@ const ris = doc('Le Ore · Risoluzione, carta in uso (telefono 844×390)', [
       { id: 'Z5', da: [7, 4], via: [[6, 5], [5, 4]] },
     ],
     unita: [
-      { id: 'Tu', hp: '8', pos: [3, 5], cls: 'tu', stati: [{ t: 'Vulnerabile ×2', cls: 'rosso' }], soff: [-104, -8] },
-      { id: 'Z2', hp: '4', pos: [2, 5], cls: 'mira', stati: [{ t: 'bersaglio', cls: 'oro' }], soff: [-30, 24] },
+      { id: 'Tu', hp: '8', pos: [3, 5], cls: 'tu', stati: [{ t: 'Vulnerabile', cls: 'rosso' }], soff: [-52, -38] },
+      { id: 'Z2', hp: '4', pos: [2, 5], cls: 'mira' },
       { id: 'Z4', hp: '5', pos: [4, 6], cart: '<i>7</i>Stordito: salta', cartCls: 'lontano', off: [18, -20] },
-      { id: 'Z1', hp: '3', pos: [5, 3], cart: '<i>2</i>Orda <s>−6</s> <b class="ant">−4</b>', off: [16, -24] },
+      { id: 'Z1', hp: '3', pos: [5, 3], cart: '<i>2</i>Orda <s>−6</s> <b class="ant">−4</b>', off: [18, 6] },
       { id: 'Z3', hp: '6', pos: [4, 2], cart: '<i>6</i>Morso, non arriva', cartCls: 'lontano', off: [-30, 22] },
-      { id: 'Z5', hp: '6', pos: [7, 4], cart: '<i>8</i>Orda, non arriva', cartCls: 'lontano', off: [-62, 22], stati: [{ t: '2 Scudi' }], soff: [-22, -38] },
+      { id: 'Z5', hp: '6', pos: [7, 4], cart: '<i>8</i>Orda, non arriva', cartCls: 'lontano', off: [-58, -56], stati: [{ t: '2 Scudi' }], soff: [-24, -39] },
     ],
   }),
   `<p class="guida"><b>Attacco Poderoso, seconda Azione su Z2.</b> Scegli dove spingerlo, poi conferma. <span class="tenue">Le scritte verdi tratteggiate sono l’anteprima: cosa cambia nel turno se confermi.</span></p>`,
   carta({ nome: 'Attacco Poderoso', family: 'vigore', cls: 'aperta', quando: 'in uso adesso, al 1° momento', rigo: ['M', 'l', 'l', 'c', 'c', 'l', 'l', 'l'],
     pre: 'Usarla ti rende Vulnerabile.',
     azioni: [
-      { cls: 'chiusa', costo: `1 ${F}`, t: '2 Danni a un adiacente.', nota: 'Non si torna a un’Azione precedente.' },
-      { cls: 'ora', costo: `1 ${F}`, t: 'Stordisci un adiacente + Spingi 1.', nota: 'Usata su Z4: Stordito, urto col muro, 1 danno.' },
+      { cls: 'chiusa', costo: `1${F}`, t: '2 Danni a un adiacente.', nota: 'Non si torna a un’Azione precedente.' },
+      { cls: 'ora', costo: `1${F}`, t: 'Stordisci un adiacente + Spingi 1.', nota: 'Usata su Z4: Stordito, urto col muro, 1 danno.' },
     ],
-    extra: `<button class="chiudi" data-tocco>Chiudi la carta<small>va in Plancia, riposa 2 turni</small></button><p class="norim">Non torna in mano: è già stata usata.</p>` }),
+    extra: `<button class="chiudi" data-tocco>Chiudi la carta<small>va in Plancia, riposa 2 turni</small></button><p class="norim">Già usata: non torna in mano.</p>` }),
   `<p class="attesa">Le altre carte aspettano: completa prima la carta aperta.</p>`,
   `<section class="mano chiusa">` + [
     carta({ nome: 'Carica Furiosa', family: 'free', cd: 2, quando: 'prima del 4°', rigo: ['m', '|l', '|l', '|M', 'M', 'l', 'l', 'l'],
-      azioni: [{ costo: 'Gratis', t: 'consuma i dadi 4° e 5°: corri in linea, danni = caselle' }], eco: '+1 Luce' }),
-    carta({ nome: 'Attacco Base', family: 'vigore', cls: 'nuova', quando: 'al 1°', rigo: ['M', 'l', 'l', 'c', 'c', 'l', 'l', 'l'],
-      azioni: [{ costo: 'Gratis', t: '1 Danno adiac.' }, { costo: `1 ${F}`, t: '1 Danno adiac.' }, { costo: `1 ${F}`, t: 'pesca 1' }], eco: '+1 PM<br>+1 Scudo' }),
-    carta({ nome: 'Tiro Mirato', family: 'vigore', cls: 'nuova', quando: 'al 1°', rigo: ['M', 'l', 'l', 'c', 'c', 'l', 'l', 'l'],
-      pre: 'Gittata 2.', azioni: [{ costo: `1 ${F}`, t: '+1 Gittata' }, { costo: `1 ${F}`, t: '1 Danno in gittata' }], eco: '+2 PM<br>Ruota 1 CD' }),
-    carta({ nome: 'Parata', family: 'vigore', cls: 'nuova', quando: 'al 1°', rigo: ['M', 'l', 'l', 'c', 'c', 'l', 'l', 'l'],
-      azioni: [{ costo: `1 ${F}`, t: '+1 Scudo' }, { costo: `1 ${F}`, t: 'pesca 1 carta' }], eco: '+1 Contrattacco' }),
+      azioni: [{ costo: 'Gratis:', t: 'usa i dadi 4° e 5°, corri in linea' }], eco: '+1 Luce' }),
+    carta({ nome: 'Attacco Base', family: 'vigore', quando: 'al 1°', rigo: ['M', 'l', 'l', 'c', 'c', 'l', 'l', 'l'],
+      azioni: [{ costo: 'Gratis:', t: '1 Danno' }, { costo: `1${F}`, t: '1 Danno' }, { costo: `1${F}`, t: 'pesca 1' }], eco: '+1 PM<br>+1 Scudo' }),
+    carta({ nome: 'Tiro Mirato', family: 'vigore', quando: 'al 1°', rigo: ['M', 'l', 'l', 'c', 'c', 'l', 'l', 'l'],
+      pre: 'Gittata 2.', azioni: [{ costo: `1${F}`, t: '+1 Gittata' }, { costo: `1${F}`, t: '1 Danno' }], eco: '+2 PM<br>Ruota 1 CD' }),
+    carta({ nome: 'Parata', family: 'vigore', quando: 'al 1°', rigo: ['M', 'l', 'l', 'c', 'c', 'l', 'l', 'l'],
+      azioni: [{ costo: `1${F}`, t: '+1 Scudo' }, { costo: `1${F}`, t: 'pesca 1 carta' }], eco: '+1 Contrattacco' }),
   ].join('') + `</section>`,
-  `<div class="plancia" style="left:520px;min-width:0"><span class="posti"><i class="piena"></i><i></i><i></i><i class="fuoco"></i></span><span><b>Plancia 1 di 3</b><br>Distorsione</span></div>`,
-  `<button class="primario" data-tocco>Conferma la spinta<small>Z2 stordito, spinto in R1 E5</small></button>`,
+  `<div class="plancia" style="left:520px;min-width:0;gap:5px"><span class="posti"><i class="piena"></i><i></i><i></i><i class="fuoco"></i></span><span><b>Plancia 1 di 3</b><br>Distorsione</span></div>`,
+  `<button class="primario" data-tocco>Conferma la spinta<small>Z2 stordito e spinto</small></button>`,
 ].join('\n'), cssRis);
 
 fs.writeFileSync(path.join(OUT, 'selezione_telefono.html'), sel);

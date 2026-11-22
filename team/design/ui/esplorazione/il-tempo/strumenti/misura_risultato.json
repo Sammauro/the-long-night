@@ -1,6 +1,6 @@
 {
   "selezione_telefono": {
-    "testi": 130,
+    "testi": 133,
     "testiSotto12": [],
     "bersagli": 22,
     "bersagliSotto44": [],
@@ -10,9 +10,7 @@
     "testi": 135,
     "testiSotto12": [],
     "bersagli": 24,
-    "bersagliSotto44": [
-      "chiudi Chiudi la cart 154×30"
-    ],
+    "bersagliSotto44": [],
     "fuoriSchermo": []
   }
 }

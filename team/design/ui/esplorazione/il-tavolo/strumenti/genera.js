@@ -75,12 +75,13 @@ b,strong{font-weight:800}
 .segno-attivo{top:59px;height:3px;background:var(--oro);border-radius:2px}
 
 /* ── gettoni delle risorse */
-.gettone{top:92px;width:59px;height:44px;display:flex;align-items:center;gap:4px}
+.gettoni{left:8px;top:92px;width:238px;height:44px;display:flex;justify-content:space-between}
+.gettone{height:44px;min-width:44px;display:flex;align-items:center;gap:4px}
 .gettone .disco{flex:none;width:25px;height:25px;border-radius:50%;display:grid;place-items:center;font-size:14px;
   box-shadow:inset 0 -2px 0 rgba(0,0,0,.35),0 2px 3px rgba(0,0,0,.6)}
 .gettone .n{font-size:17px;line-height:17px;font-weight:800;color:var(--osso);white-space:nowrap}
 .gettone .n small{font-size:12px;font-weight:500;color:var(--cenere)}
-.gettone .n .poi{color:var(--oro)}
+.gettone .n .poi{color:var(--oro);font-size:15px}
 .gettone .et{font-size:12px;line-height:12px;color:var(--cenere);margin-top:1px}
 .g-hp .disco{background:#6b1e1e;color:#f0c9c0}.g-pt .disco{background:#3c2d63;color:#d6c8f5}
 .g-pm .disco{background:#3b3a34;color:var(--osso)}.g-luce .disco{background:#4d4322;color:var(--luce)}
@@ -93,7 +94,7 @@ b,strong{font-weight:800}
 .vano .sede{flex:none;position:relative;width:44px;height:44px;border-radius:50%;background:#15101299;box-shadow:inset 0 2px 4px rgba(0,0,0,.8),0 1px 0 rgba(201,168,76,.16);display:grid;place-items:center}
 .vano .sede svg.sagoma{width:30px;height:30px;overflow:visible}
 .vano .sede .cartina{position:absolute;left:8px;top:2px;width:28px;height:40px;border-radius:2px;background:var(--carta);box-shadow:0 1px 3px rgba(0,0,0,.7);display:grid;place-items:center;color:var(--inchiostro);font-size:15px}
-.vano .sede .moneta{position:absolute;right:-5px;bottom:-3px;min-width:25px;height:17px;padding:0 3px;border-radius:9px;background:#15101a;border:1px solid var(--ottone);color:var(--luce);font-size:12px;font-weight:800;line-height:15px;text-align:center;white-space:nowrap}
+.vano .sede .moneta{position:absolute;left:-4px;bottom:-3px;min-width:25px;height:17px;padding:0 3px;border-radius:9px;background:#15101a;border:1px solid var(--ottone);color:var(--luce);font-size:12px;font-weight:800;line-height:15px;text-align:center;white-space:nowrap}
 .vano .sede .moneta.pagata{background:var(--luce);color:var(--inchiostro);border-color:var(--luce)}
 .vano .tx{min-width:0;font-size:12px;line-height:13px;color:var(--cenere);padding-top:1px}
 .vano .tx b{display:block;color:var(--osso);font-weight:700}
@@ -113,10 +114,10 @@ b,strong{font-weight:800}
 
 /* ── le carte */
 .mano{left:8px;top:250px;width:416px;height:140px}
-.carta{position:absolute;width:94px;height:132px;border-radius:5px;color:var(--inchiostro);
+.carta{position:absolute;width:94px;height:129px;border-radius:5px;color:var(--inchiostro);
   background:linear-gradient(175deg,#dccdab 0%,var(--carta) 45%,#c2b18b 100%);
-  box-shadow:inset 0 0 0 1px rgba(36,27,19,.35),inset 0 0 12px rgba(120,90,40,.25),-3px 2px 5px rgba(0,0,0,.55);transform-origin:50% 160%}
-.carta .testa{display:flex;gap:4px;padding:4px 4px 0 5px;height:33px}
+  box-shadow:inset 0 0 0 1px rgba(36,27,19,.35),inset 0 0 12px rgba(120,90,40,.25),-3px 2px 5px rgba(0,0,0,.55);transform-origin:50% 50%}
+.carta .testa{display:flex;gap:4px;padding:4px 4px 0 5px;height:32px}
 .carta .angolo{flex:none;width:22px;text-align:center;font-size:15px;line-height:15px}
 .carta .angolo small{display:block;font-size:12px;line-height:12px;font-weight:800;margin-top:2px;white-space:nowrap}
 .carta .nome{font-family:var(--f-titolo);font-size:13.5px;line-height:14px}
@@ -126,20 +127,20 @@ b,strong{font-weight:800}
 .carta .riga .ico{position:absolute;left:0;top:1px;font-size:13px}
 .carta .riga.gratis{padding-left:0}
 .carta .riga.gratis u{text-decoration:none;font-weight:800}
-.carta .eco{position:absolute;left:0;right:0;bottom:0;height:30px;border-radius:0 0 5px 5px;background:#2b2118;color:var(--carta);padding:2px 4px 0 6px;font-size:12px;line-height:13px}
+.carta .eco{position:absolute;left:0;right:0;bottom:0;height:30px;border-radius:0 0 5px 5px;background:#2b2118;color:var(--carta);padding:2px 16px 0 6px;font-size:12px;line-height:13px}
 .carta .eco b{font-family:var(--f-titolo);font-weight:400;font-size:12.5px;color:var(--oro);margin-right:3px}
 .carta.fam-fuoco .angolo{color:#a8480f}.carta.fam-terrore .angolo{color:#5a3aa8}.carta.fam-free .angolo{color:#6a5416}
 
 /* carta al centro: in gioco */
-.gioco{left:252px;top:92px;width:172px;height:248px;border-radius:7px;color:var(--inchiostro);
+.gioco{left:252px;top:92px;width:172px;height:250px;border-radius:7px;color:var(--inchiostro);
   background:linear-gradient(175deg,#e0d2b1 0%,var(--carta) 50%,#c4b38d 100%);
   box-shadow:inset 0 0 0 1px rgba(36,27,19,.4),inset 0 0 18px rgba(120,90,40,.28),0 0 0 2px rgba(201,168,76,.9),0 6px 14px rgba(0,0,0,.7)}
 .gioco .testa{display:flex;gap:7px;padding:7px 8px 0 9px;align-items:flex-start}
 .gioco .angolo{flex:none;width:26px;text-align:center;font-size:19px;line-height:19px}
 .gioco .angolo small{display:block;font-size:12px;line-height:12px;font-weight:800;margin-top:2px}
-.gioco .nome{font-family:var(--f-titolo);font-size:18px;line-height:19px}
-.gioco .pre{font-style:italic;font-size:12.5px;line-height:14px;padding:4px 9px 0}
-.gioco .az{margin:5px 6px 0;padding:4px 5px 4px 27px;position:relative;font-size:13px;line-height:14.5px;border-radius:3px}
+.gioco .nome{font-family:var(--f-titolo);font-size:17.5px;line-height:18px}
+.gioco .pre{font-style:italic;font-size:12.5px;line-height:14px;padding:3px 9px 0}
+.gioco .az{margin:4px 6px 0;padding:4px 4px 4px 27px;position:relative;font-size:12.5px;line-height:14px;border-radius:3px}
 .gioco .az .costo{position:absolute;left:4px;top:4px;width:19px;height:19px;border-radius:50%;background:var(--inchiostro);color:var(--carta);display:grid;place-items:center;font-size:12px}
 .gioco .az.chiusa{color:rgba(36,27,19,.62)}
 .gioco .az.chiusa .costo{background:rgba(36,27,19,.45)}
@@ -148,8 +149,8 @@ b,strong{font-weight:800}
 .gioco .az.ora{background:rgba(255,248,225,.55);box-shadow:inset 0 0 0 1.5px var(--inchiostro);min-height:44px}
 .gioco .az.ora .fai{display:block;font-size:12px;line-height:13px;font-weight:800;margin-top:3px}
 .gioco .az .speso{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:#8b7a55;color:#efe5c9;font-size:12px;vertical-align:-3px;margin-right:2px}
-.gioco .dopo{position:absolute;left:9px;right:8px;bottom:36px;font-size:12px;line-height:13px;color:rgba(36,27,19,.85)}
-.gioco .eco{position:absolute;left:0;right:0;bottom:0;height:31px;border-radius:0 0 7px 7px;background:#2b2118;color:#a5987c;padding:3px 8px 0 9px;font-size:12px;line-height:13px}
+.gioco .dopo{position:absolute;left:9px;right:6px;bottom:25px;font-size:12px;line-height:13px;color:rgba(36,27,19,.85)}
+.gioco .eco{position:absolute;left:0;right:0;bottom:0;height:21px;border-radius:0 0 7px 7px;background:#2b2118;color:#a5987c;padding:3px 8px 0 9px;font-size:12px;line-height:13px}
 .gioco .eco b{font-family:var(--f-titolo);font-weight:400;color:#93803f;margin-right:3px}
 
 /* zona liberata dalla mano abbassata */
@@ -158,7 +159,7 @@ b,strong{font-weight:800}
 .impulsi b{color:var(--oro)}
 .cronaca{left:10px;top:298px;width:236px;font-size:12px;line-height:13.5px;color:var(--cenere)}
 .cronaca b{color:var(--osso);font-weight:700}
-.mano.bassa{top:344px}
+.mano.bassa{top:347px}
 .mano.bassa .carta{filter:brightness(.72)}
 .nota-mano{left:10px;top:330px;width:236px;font-size:12px;color:var(--cenere);font-style:italic}
 
@@ -268,16 +269,14 @@ function tabellone(st, extra) {
     extra.spinte.forEach((s) => {
       if (s.status === 'free') {
         const [x, y] = P(s.cell);
-        g += `<polygon points="${esa(x, y, S - 3)}" fill="rgba(201,168,76,.26)" stroke="#c9a84c" stroke-width="2" data-tocco="spinta"/>`;
-        g += `<line x1="${f1(x0 + (x - x0) * .42)}" y1="${f1(y0 + (y - y0) * .42)}" x2="${f1(x0 + (x - x0) * .8)}" y2="${f1(y0 + (y - y0) * .8)}" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" marker-end="url(#freccia-oro)"/>`;
-        g += `<text x="${f1(x + 2)}" y="${f1(y + 16)}" text-anchor="middle" font-size="12" font-weight="800" fill="#f0dc9a">qui</text>`;
+        g += `<polygon points="${esa(x, y, S - 1)}" fill="rgba(201,168,76,.16)" stroke="#c9a84c" stroke-width="2" data-tocco="spinta"/>`;
+        g += `<line x1="${f1(x0 + (x - x0) * .5)}" y1="${f1(y0 + (y - y0) * .5)}" x2="${f1(x0 + (x - x0) * .86)}" y2="${f1(y0 + (y - y0) * .86)}" stroke="#e3c66a" stroke-width="3.500" stroke-linecap="round" marker-end="url(#freccia-oro)"/>`;
       } else {
         // muro: fuori griglia, sotto la colonna; bersaglio di tocco 52×44 che sale sopra il bordo
         const x = cx(s.cell[0]), yb = cy(s.cell[0], 6) + H / 2;
         g += `<rect x="${f1(x - 26)}" y="${f1(yb - 18)}" width="52" height="44" fill="transparent" data-tocco="spinta-muro"/>`;
-        g += `<rect x="${f1(x - 31)}" y="${f1(yb + 2)}" width="62" height="23" rx="3" fill="#3a2a16" stroke="#c9a84c" stroke-width="2"/>`;
-        g += `<line x1="${f1(x0)}" y1="${f1(y0 + 13)}" x2="${f1(x)}" y2="${f1(yb - 3)}" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" marker-end="url(#freccia-oro)"/>`;
-        g += `<text x="${f1(x)}" y="${f1(yb + 18)}" text-anchor="middle" font-size="12" font-weight="800" fill="#f0dc9a">muro: +1 danno</text>`;
+        g += `<polygon points="${f1(x - 13)},${f1(yb + 2)} ${f1(x + 13)},${f1(yb + 2)} ${f1(x + 25)},${f1(yb + 23)} ${f1(x - 25)},${f1(yb + 23)}" fill="#4a3513" stroke="#c9a84c" stroke-width="2" stroke-linejoin="round"/>`;
+        g += `<text x="${f1(x)}" y="${f1(yb + 19)}" text-anchor="middle" font-size="12" font-weight="800" fill="#f6e3a4">muro +1</text>`;
       }
     });
   }
@@ -294,7 +293,8 @@ function tabellone(st, extra) {
     }
     const fin = punti[punti.length - 1];
     if (a.reach) {
-      const mx = fin[0] + (px - fin[0]) * .5, my = fin[1] + (py - fin[1]) * .5;
+      // il danno previsto è un cartellino in alto a sinistra di chi colpisce (a destra c'è la goccia degli HP)
+      const mx = fin[0] - 17, my = fin[1] - 17;
       g += `<line x1="${f1(fin[0])}" y1="${f1(fin[1])}" x2="${f1(fin[0] + (px - fin[0]) * .62)}" y2="${f1(fin[1] + (py - fin[1]) * .62)}" stroke="#b84040" stroke-width="3" stroke-linecap="round" marker-end="url(#freccia-sangue)"/>`;
       if (punti.length > 1) g += `<circle cx="${f1(fin[0])}" cy="${f1(fin[1])}" r="10" fill="#4a1818" stroke="#b84040" stroke-width="1.500"/><text x="${f1(fin[0])}" y="${f1(fin[1] + 4.500)}" text-anchor="middle" font-size="12.500" fill="#e8e0d0" style="font-family:'IM Fell English',serif">${ROMANI[a.owner]}</text>`;
       a._badge = [mx, my];
@@ -306,10 +306,10 @@ function tabellone(st, extra) {
   st.nemici.forEach((n) => {
     const [x, y] = P(n.pos);
     const a = st.anteprima.find((q) => q.owner === n.id) || {};
-    g += `<g data-tocco="nemico"><circle cx="${f1(x - 9)}" cy="${f1(y - 3)}" r="13.500" fill="#000" opacity=".5" transform="translate(1.500 2)"/><circle cx="${f1(x - 9)}" cy="${f1(y - 3)}" r="13.500" fill="#4a1818" stroke="#b84040" stroke-width="2"/>
-<text x="${f1(x - 9)}" y="${f1(y + 2)}" text-anchor="middle" font-size="14" fill="#e8e0d0" style="font-family:'IM Fell English',serif">${ROMANI[n.id]}</text>
-<svg x="${f1(x + 5)}" y="${f1(y - 19)}" width="21" height="21" viewBox="0 0 24 24" fill="#7a1f1f"><use href="#i-hp"/></svg>
-<text x="${f1(x + 15.500)}" y="${f1(y - 2.500)}" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">${n.hp}</text></g>`;
+    g += `<g data-tocco="nemico"><circle cx="${f1(x - 2)}" cy="${f1(y - 3)}" r="13.500" fill="#000" opacity=".5" transform="translate(1.500 2)"/><circle cx="${f1(x - 2)}" cy="${f1(y - 3)}" r="13.500" fill="#4a1818" stroke="#b84040" stroke-width="2"/>
+<text x="${f1(x - 2)}" y="${f1(y + 2)}" text-anchor="middle" font-size="14" fill="#e8e0d0" style="font-family:'IM Fell English',serif">${ROMANI[n.id]}</text>
+<svg x="${f1(x + 7)}" y="${f1(y - 22)}" width="21" height="21" viewBox="0 0 24 24" fill="#8a2020" stroke="#12090a" stroke-width="1"><use href="#i-hp"/></svg>
+<text x="${f1(x + 17.500)}" y="${f1(y - 5.500)}" text-anchor="middle" font-size="12.500" font-weight="800" fill="#fff">${n.hp}</text></g>`;
     // stati sotto la pedina
     const st2 = [];
     const sh = (n.stati.shield || [0, 0]).reduce((s, v) => s + v, 0) + (a.action === 'incassare' && !a.spento ? 0 : 0);
@@ -317,11 +317,11 @@ function tabellone(st, extra) {
     if (n.stati.vulnFire) st2.push(['vuln', '#e08945', '']);
     if (n.stati.vuln) st2.push(['vuln', '#e8e0d0', '']);
     if (n.stati.stun) st2.push(['stordito', '#f0dc9a', '']);
-    let sx = x - (st2.length * 11) + (st2.length > 1 ? 0 : 2);
+    let sx = x - 2 - (st2.reduce((w, q) => w + (q[2] !== '' ? 23 : 14), 0)) / 2;
     st2.forEach((s) => {
-      g += `<svg x="${f1(sx)}" y="${f1(y + 9)}" width="13" height="13" viewBox="0 0 24 24" fill="${s[1]}"><use href="#i-${s[0]}"/></svg>`;
+      g += `<svg x="${f1(sx)}" y="${f1(y + 10)}" width="13" height="13" viewBox="0 0 24 24" fill="${s[1]}"><use href="#i-${s[0]}"/></svg>`;
       if (s[2] !== '') g += `<text x="${f1(sx + 14)}" y="${f1(y + 20)}" font-size="12" font-weight="800" fill="${s[1]}">${s[2]}</text>`;
-      sx += 24;
+      sx += s[2] !== '' ? 23 : 14;
     });
     if (a.action === 'incassare' && !a.spento) {
       g += `<rect x="${f1(x - 21)}" y="${f1(y + 8)}" width="42" height="15" rx="7.500" fill="#16324a" stroke="#4a8fbd"/><svg x="${f1(x - 17)}" y="${f1(y + 9.500)}" width="12" height="12" viewBox="0 0 24 24" fill="#8cc4ea"><use href="#i-scudo"/></svg><text x="${f1(x + 6)}" y="${f1(y + 20)}" text-anchor="middle" font-size="12" font-weight="800" fill="#cfe6f7">+2</text>`;
@@ -355,7 +355,7 @@ function gettoni(g, poi) {
     ['pm', 'pm', v('pm', g.pm), 'PM'],
     ['luce', 'luce', v('luce', g.luce), 'Luce'],
   ];
-  return el.map((e, i) => `<div class="gettone g-${e[0]}" style="left:${8 + 59 * i}px" data-tocco="risorsa"><span class="disco">${ico(e[1])}</span><span><div class="n">${e[2]}</div><div class="et">${e[3]}</div></span></div>`).join('');
+  return '<div class="gettoni">' + el.map((e) => `<div class="gettone g-${e[0]}" data-tocco="risorsa"><span class="disco">${ico(e[1])}</span><span><div class="n">${e[2]}</div><div class="et">${e[3]}</div></span></div>`).join('') + '</div>';
 }
 
 function sagoma(tipo, pieno, val) {
@@ -385,7 +385,7 @@ const BREVE = {
   cu: { righe: [['gratis', 'usa 2 dadi vicini: corri dritto, danni = caselle']] },
   ab: { righe: [['gratis', '1 Danno'], ['forza', '1 Danno'], ['forza', 'Pesca 1']] },
   tm: { pre: 'Gittata 2', righe: [['forza', '+1 Gittata'], ['forza', '1 Danno a gittata']] },
-  ap: { pre: 'Ti rende Vulnerabile', righe: [['forza', '2 Danni'], ['forza', 'Stordisci + Spingi 1']] },
+  ap: { pre: 'Tu: Vulnerabile', righe: [['forza', '2 Danni'], ['forza', 'Stordisci + Spingi 1']] },
   pa: { righe: [['forza', '+1 Scudo'], ['forza', 'Pesca 1']] },
 };
 const ecoTesto = (e) => e.replace(/ · /g, ', ').replace('Ruota', 'ruota');
@@ -404,8 +404,8 @@ function mano(carte, bassa) {
   const n = carte.length, passo = 80.5;
   return `<div class="mano ${bassa ? 'bassa' : ''}">` + carte.map((c, i) => {
     const k = i - (n - 1) / 2;
-    const rot = k * 2.2, giu = Math.abs(k) * Math.abs(k) * 1.1;
-    return `<div class="carta fam-${c.family}" style="left:${(passo * i).toFixed(1)}px;top:${(3 + giu).toFixed(1)}px;transform:rotate(${rot.toFixed(1)}deg);z-index:${i + 1}" data-tocco="carta">${carta(c)}</div>`;
+    const rot = k * 1.6, giu = k * k * 0.9;
+    return `<div class="carta fam-${c.family}" style="left:${(passo * i).toFixed(1)}px;top:${(2 + giu).toFixed(1)}px;transform:rotate(${rot.toFixed(1)}deg);z-index:${i + 1}" data-tocco="carta">${carta(c)}</div>`;
   }).join('') + '</div>';
 }
 
@@ -434,14 +434,14 @@ function selezione() {
     d20: { r1: '<span class="num">III</span> Morso', r2: 'non arriva' },
     d17: { r1: '<span class="num">IV</span> Incassa', r2: '+2 Scudi' },
     d16: { r1: '<span class="num">V</span> Orda', r2: 'non arriva' },
-    d11: { r1: 'scarto: <b>+1 PM</b>', r2: 'tenerlo: 2 Luce', fantasma: true },
-    d14: { r1: 'scarto: <b>+1 Luce</b>', r2: 'nessuno slot', fantasma: true },
+    d11: { r1: 'dà <b>+1 PM</b>', r2: 'tieni: 2 Luce', fantasma: true },
+    d14: { r1: 'dà <b>+1 Luce</b>', r2: 'nessuno slot', fantasma: true },
   };
   const vani = [
-    { slot: 1, die: 'vigore', cost: 2, carta: 'Distorsione', fam: 'terrore', riga: 'esce a fine turno' },
+    { slot: 1, die: 'vigore', cost: 2, carta: 'Distorsione', fam: 'terrore', riga: 'non usato' },
     { slot: 2, die: 'terrore', dado: 1, riga: 'dado tenuto', rigaCls: 'qui' },
     { slot: 3, die: 'vigore', dado: 2, riga: 'dado tenuto', rigaCls: 'qui' },
-    { slot: 4, die: 'fuoco', cost: 1, carta: 'Att. di Fuoco', fam: 'fuoco', pagato: true, riga: 'pagato: dado tenuto', rigaCls: 'qui' },
+    { slot: 4, die: 'fuoco', cost: 1, carta: 'Att. di Fuoco', fam: 'fuoco', pagato: true, riga: 'pagato 1 Luce', rigaCls: 'qui' },
   ];
   const corpo = `
 <div class="piastra"><div class="dove">La Cripta, turno ${st.turno} di ${st.stanza ? st.stanza.veglia : 6}</div><div class="fase">Selezione</div><div class="cosa">Tocca un tuo dado per tenerlo o scartarlo.</div></div>
@@ -473,10 +473,10 @@ function risoluzione() {
     d16: { r1: '<span class="num">V</span> Orda', r2: 'non arriva' },
   };
   const vani = [
-    { slot: 1, die: 'vigore', cost: 2, carta: 'Distorsione', fam: 'terrore', riga: 'esce a fine turno' },
-    { slot: 2, die: 'terrore', dado: 1, riga: 'dado in Sequenza', rigaCls: '' },
+    { slot: 1, die: 'vigore', cost: 2, carta: 'Distorsione', fam: 'terrore', riga: 'coperto' },
+    { slot: 2, die: 'terrore', dado: 1, riga: 'in Sequenza', rigaCls: '' },
     { slot: 3, die: 'vigore', dado: 2, riga: 'dado attivo', rigaCls: 'qui' },
-    { slot: 4, die: 'fuoco', dado: 1, riga: 'dado in Sequenza', rigaCls: '' },
+    { slot: 4, die: 'fuoco', dado: 1, riga: 'in Sequenza', rigaCls: '' },
   ];
   const a = st.aperta;
   const corpo = `
@@ -488,9 +488,9 @@ ${plancia(vani)}
   <div class="testa"><span class="angolo">${ico('forza')}<small>CD2</small></span><span class="nome">Attacco Poderoso</span></div>
   <div class="pre">Usarla ti rende Vulnerabile.</div>
   <div class="az chiusa" data-tocco="azione"><span class="costo">${ico('forza')}</span><s>2 Danni a un adiacente.</s><span class="perche">${a.azioni[0].motivo}.</span></div>
-  <div class="az ora" data-tocco="azione"><span class="costo">${ico('forza')}</span>Stordisci un adiacente + Spingi 1.<span class="fai"><span class="speso">${ico('forza')}</span>usata 1 volta su IV. Puoi ripeterla: resta 1 impulso.</span></div>
-  <div class="dopo">Quando la chiudi va in Plancia per 2 turni.</div>
-  <div class="eco"><b>Eco</b>+1 PM, +1 Luce<br>non in questo turno: è in gioco</div>
+  <div class="az ora" data-tocco="azione"><span class="costo">${ico('forza')}</span>Stordisci un adiacente + Spingi 1.<span class="fai"><span class="speso">${ico('forza')}</span>già usata 1 volta.<br>Ora su IV: scegli la spinta. Contro il muro: Collisione, +1 danno.</span></div>
+  <div class="dopo">Chiusa, va in Plancia per 2 turni.</div>
+  <div class="eco"><b>Eco</b>+1 PM, +1 Luce</div>
 </div>
 <div class="impulsi"><span class="pedina">${ico('forza')}</span><span><b>1 impulso di Forza</b> dal tuo dado.<br>Se passi oltre, va perso.</span></div>
 <div class="cronaca"><b>Appena successo:</b> IV stordito e spinto contro il muro. Collisione, 1 danno. Tu sei Vulnerabile: i danni che subisci raddoppiano.</div>
