@@ -1,0 +1,170 @@
+{
+  "data": "2026-11-22",
+  "viewport": "844×390 touch",
+  "risultati": {
+    "direzione_A · proposta": {
+      "testo": {
+        "nodi": 119,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 25,
+        "sotto44": 0,
+        "minW": 44,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 388,
+        "quotaAltezza": "69%",
+        "casellaMaggiore": 58,
+        "casellaMinore": 42,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 9
+      },
+      "pannelli": {
+        "pannelli": 5,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 10,
+        "latoMinimo": 44,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 20,
+        "unaRiga": true
+      }
+    },
+    "direzione_A · rifiuto": {
+      "testo": {
+        "nodi": 119,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 25,
+        "sotto44": 0,
+        "minW": 44,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 388,
+        "quotaAltezza": "69%",
+        "casellaMaggiore": 58,
+        "casellaMinore": 42,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 9
+      },
+      "pannelli": {
+        "pannelli": 5,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 10,
+        "latoMinimo": 44,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 20,
+        "unaRiga": true
+      }
+    },
+    "direzione_B · proposta": {
+      "testo": {
+        "nodi": 118,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 25,
+        "sotto44": 0,
+        "minW": 75,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 197,
+        "larghezza": 497,
+        "quotaAltezza": "51%",
+        "casellaMaggiore": 77,
+        "casellaMinore": 29,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 9
+      },
+      "pannelli": {
+        "pannelli": 5,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 10,
+        "latoMinimo": 44,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 22,
+        "unaRiga": true
+      }
+    },
+    "direzione_B · rifiuto": {
+      "testo": {
+        "nodi": 117,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 25,
+        "sotto44": 0,
+        "minW": 75,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 197,
+        "larghezza": 497,
+        "quotaAltezza": "51%",
+        "casellaMaggiore": 77,
+        "casellaMinore": 29,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 9
+      },
+      "pannelli": {
+        "pannelli": 5,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 10,
+        "latoMinimo": 44,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 22,
+        "unaRiga": true
+      }
+    }
+  }
+}

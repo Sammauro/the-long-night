@@ -1,0 +1,384 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=844">
+<title>TLN · Direzione A · Il Rosario · Selezione (telefono 844×390)</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700;800&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --notte:#151519; --scheda:#16141c; --pietra:#1c1a24; --filo:#2e2a3e;
+  --osso:#e8e0d0; --cenere:#9a90a8; --oro:#c9a84c; --sangue:#b84040; --scudo:#4a8fbd;
+  /* estensioni */
+  --sangue-vivo:#e2705f;   /* rosso per testo piccolo su fondo scuro (contrasto >= 4.5) */
+  --oro-cupo:#7d6526;      /* oro ossidato: bordi, filo del rosario */
+  --carta:#cdbd97;         /* carta consunta delle carte in mano */
+  --carta-scura:#b3a27b;   /* matrice dell'Eco */
+  --inchiostro:#2a2017;    /* inchiostro su carta */
+  --vigore:#e8e0d0; --fuoco:#e58a45; --terrore:#a68ae0;
+  --f-titolo:'IM Fell English', 'Lora', Georgia, serif;
+  --f-testo:'Alegreya Sans', 'Inter', system-ui, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0c0b0e}
+body{font-family:var(--f-testo);font-variant-numeric:lining-nums tabular-nums;color:var(--osso);-webkit-font-smoothing:antialiased}
+.palco{position:relative;width:844px;height:390px;overflow:hidden;background:var(--notte);margin:0 auto}
+.num{font-family:var(--f-testo)}
+*{font-variant-numeric:lining-nums!important}
+.ico{display:inline-block;width:1em;height:1em;vertical-align:-0.14em;fill:currentColor}
+
+.orienta{position:absolute;left:0;top:0;width:844px;height:30px;display:flex;align-items:baseline;gap:8px;padding:6px 10px 0;border-bottom:1px solid var(--filo);background:linear-gradient(#1b1920,#151519)}
+.orienta .turno{font-family:var(--f-titolo);font-size:16px;color:var(--oro)}
+.orienta .fase{font-family:var(--f-titolo);font-size:16px}
+.orienta .istr{font-size:13px;color:var(--osso);margin-left:6px}
+.st-rifiuto .orienta .istr{color:var(--sangue-vivo)}
+.veglia{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--osso);align-self:center;margin-top:-4px}
+.veglia .posta{color:var(--cenere)}
+.candela .cera{fill:#d9cfb6}.candela .arsa{fill:#3a3340}.candela .fiamma{fill:var(--oro)}
+
+.colonna-sx{position:absolute;left:0;top:30px;width:104px;height:272px;padding:8px 8px 0 10px;border-right:1px solid var(--filo)}
+.ris{display:grid;grid-template-columns:18px 1fr auto;align-items:center;height:23px;font-size:12px;color:var(--cenere)}
+.ris .ico{width:15px;height:15px}
+.ris b{font-size:17px;color:var(--osso);font-weight:800}
+.ris .max{font-size:12px;color:var(--cenere);font-weight:500}
+.ris.hp .ico{color:var(--sangue-vivo)}.ris.pt .ico{color:var(--terrore)}.ris.pm .ico{color:var(--osso)}.ris.salto .ico{color:var(--cenere)}.ris.luce .ico{color:var(--oro)}
+.ris.luce b{color:var(--oro)}.ris .poi{color:var(--oro)}
+.plancia{margin-top:6px}
+.plancia .tit{font-family:var(--f-titolo);font-style:italic;font-size:13px;color:var(--cenere)}
+.nicchie{display:grid;grid-template-columns:44px 44px;gap:3px;margin-top:3px}
+.nicchia{position:relative;height:44px;border:1px dashed #4a4258;display:flex;align-items:center;justify-content:center;color:#6d6380}
+.nicchia .n{position:absolute;left:3px;top:1px;font-size:12px}
+.nicchia .tipo{width:16px;height:16px;position:absolute;right:3px;top:3px}
+.nicchia.piena{border:1px solid var(--oro-cupo);background:#211d17;color:var(--oro)}
+.nicchia.piena b{font-size:20px;font-weight:800;color:var(--osso);margin-top:8px}
+.nicchia.k-fuoco .tipo{color:var(--fuoco)}.nicchia.k-terrore .tipo{color:var(--terrore)}
+
+#mappa{position:absolute;left:104px;top:30px;width:442px;height:272px}
+#mappa .mappa-svg{position:absolute;left:-104px;top:-30px;pointer-events:none}
+.casella{fill:#1d1b22;stroke:#34303f;stroke-width:1}
+.trappola{fill:none;stroke:#6b5a3a;stroke-width:1.2;stroke-dasharray:3 2}
+.ico-trappola{fill:#8b7448}
+.colonna ellipse{fill:#0e0d10}.colonna rect{fill:#3b3644;stroke:#4c4656}
+.arrivo{fill:none;stroke:#7d7290;stroke-width:1.5;stroke-dasharray:4 3}
+.arrivo.colpisce{stroke:var(--sangue-vivo);fill:rgba(184,64,64,.16)}
+.arrivo-l{font:700 12px var(--f-testo);fill:#a59bb5}
+.arrivo-l.colpisce{fill:var(--sangue-vivo)}
+.percorso{fill:none;stroke:#8a7f9a;stroke-width:1.6;stroke-dasharray:2 4;stroke-linecap:round}
+.percorso.colpisce{stroke:var(--sangue-vivo)}
+.aggancio{stroke:#5d5468;stroke-width:1}
+.figura .ombra{fill:#000;opacity:.55}
+.zombie .corpo{fill:#3d4a38}.zombie .testa{fill:#4c5a45}.zombie .occhio{fill:#ff5a4a}
+.giocatore .corpo{fill:#4b4560}.giocatore .testa{fill:#d8c7a8}.giocatore .cappello{fill:#25222e}.giocatore .lanterna{fill:#f3c45b}
+.alone{fill:url(#lume)}
+.pip{fill:#b84040}
+
+.minaccia{position:absolute;width:104px;padding:3px 5px 3px 4px;background:rgba(18,16,22,.94);border-left:3px solid #6b6178;line-height:1}
+.minaccia.forte{border-left-color:var(--sangue-vivo);background:rgba(40,16,18,.95)}
+.minaccia .m1{display:flex;align-items:center;gap:4px;height:24px}
+.minaccia .m1 .ico{width:14px;height:14px;color:#b9aec8}
+.minaccia .az{font-size:13px;font-weight:700}
+.minaccia .m2{font-size:12px;height:15px;display:flex;align-items:baseline;gap:4px;padding-left:2px}
+.minaccia .danno{font-size:15px;font-weight:800;color:var(--sangue-vivo)}
+.minaccia .a-te{color:#d9a39a}
+.minaccia .manca{color:var(--cenere)}
+.minaccia .scudi{color:#8cc0e6}.minaccia .scudi .ico{width:12px;height:12px}
+.sigillo{flex:none}
+.sigillo .forma>*{fill:#3a1616;stroke:var(--sangue-vivo);stroke-width:1.3}
+.sigillo text{font:800 12px var(--f-testo);fill:#f1d6cf}
+.minaccia.debole .sigillo .forma>*{fill:#241f2b;stroke:#8a7f9a}
+.minaccia.debole .sigillo text{fill:var(--osso)}
+.legenda{margin-top:5px;font-size:12px;color:var(--cenere);font-style:italic;line-height:13px}
+
+.mano{position:absolute;left:552px;top:31px;width:288px;height:270px;display:flex;flex-direction:column;gap:2px}
+.striscia{position:relative;height:52px;display:flex;background:var(--carta);color:var(--inchiostro);clip-path:polygon(0 0,100% 0,100% 100%,3px 100%,0 92%,2px 70%,0 45%,2px 20%);filter:brightness(.82)}
+.striscia .corpo{flex:1;padding:3px 6px 0 9px;min-width:0}
+.striscia h3{font-family:var(--f-titolo);font-weight:400;font-size:14px;line-height:16px;display:flex;justify-content:space-between}
+.striscia .cd{font-family:var(--f-testo);font-size:12px;font-weight:700;color:#5b4a33}
+.azione{font-size:12px;line-height:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-terrore .azione,.f-free .azione{white-space:normal}
+.costo{display:inline-flex;align-items:center;gap:1px;font-weight:800;padding:0 3px;margin-right:2px;border:1px solid #6e5b3e;border-radius:2px;line-height:12px}
+.costo .ico{width:12px;height:12px}
+.c-fuoco .ico{color:#b3501c}.c-forza .ico{color:#3b2f22}.c-presagio .ico{color:#5d3f9e}
+.costo.gratis{font-weight:700;font-style:italic}
+.costo.pt{color:#5d3f9e;border-color:#8c79b8}
+.matrice{width:74px;border-left:1px dashed #7a6748;background:var(--carta-scura);padding:3px 5px;font-size:12px;line-height:14px;position:relative}
+.matrice .ico{width:12px;height:12px;color:#5b4a33}
+.matrice .eco-t{font-style:italic;color:#4e3f2b;margin-left:2px}
+.matrice .eco{display:block;font-weight:700}
+
+.rosario{position:absolute;left:0;top:302px;width:844px;height:88px;background:linear-gradient(#121116,#0e0d11);border-top:1px solid var(--oro-cupo)}
+.filo{position:absolute;left:10px;width:574px;top:43px;height:2px;background:var(--oro-cupo)}
+.perle{position:absolute;left:8px;top:0;display:flex;gap:2px}
+.perla{position:relative;width:56px;height:88px;display:flex;flex-direction:column;align-items:center}
+.perla .t-su,.perla .t-giu{font-size:12px;line-height:14px;height:16px;white-space:nowrap;display:flex;align-items:center}
+.perla .t-su{margin-top:2px}
+.faccia{position:relative;width:48px;height:48px;display:flex;align-items:center;justify-content:center;margin:2px 0}
+.faccia b{font-size:28px;font-weight:800;line-height:1}
+.faccia .angolo{position:absolute;right:3px;top:3px;width:13px;height:13px}
+.mio .faccia{background:radial-gradient(circle at 35% 30%,#f3ecdd,#cfc3a8);color:#1b1610;border-radius:9px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+.mio.k-fuoco .faccia .angolo{color:#b3501c}.mio.k-terrore .faccia .angolo{color:#5d3f9e}.mio.k-vigore .faccia .angolo{color:#3b2f22}
+.mio.tenuto{transform:translateY(-3px)}
+.mio.tenuto .faccia{outline:2px solid var(--oro);outline-offset:1px}
+.mio.tenuto .t-su{color:var(--oro);font-weight:700}
+.mio .t-giu.spento{color:#5f566c;text-decoration:line-through}
+.mio.scartato{transform:translateY(5px)}
+.mio.scartato .faccia{background:repeating-linear-gradient(135deg,#6e6656 0 3px,#575041 3px 6px);color:#d9d0bd;box-shadow:none}
+.mio.scartato .t-su{color:#6d6380}
+.mio .t-giu.resa{color:var(--oro);font-weight:700}
+.mio.conflitto .faccia{outline:2px solid var(--sangue-vivo);outline-offset:1px}
+.t-su.errore{color:var(--sangue-vivo)!important;font-weight:700}
+.nem .faccia{background:#2a1517;border:1.5px solid #6a2b2b;color:#e9c9c2;border-radius:3px;width:44px;height:44px;margin:4px 0}
+.nem.colpisce .faccia{border-color:var(--sangue-vivo)}
+.nem .faccia .angolo{color:#c98f86}
+.nem .t-giu.rosso{color:var(--sangue-vivo);font-weight:700}
+.nem .t-giu.grigio{color:var(--cenere)}
+.sigillo.piccolo text{font-size:12px}
+.nem:not(.colpisce) .sigillo .forma>*{fill:#241f2b;stroke:#8a7f9a}
+.nem:not(.colpisce) .sigillo text{fill:var(--osso)}
+.sigillo-fine{position:absolute;left:596px;top:6px;width:240px;height:78px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px}
+.primario{width:240px;height:60px;border:0;background:var(--oro);color:#1a140a;font:700 17px var(--f-testo);display:flex;flex-direction:column;align-items:center;justify-content:center;clip-path:polygon(10px 0,100% 0,100% 100%,10px 100%,0 50%)}
+.primario small{font-size:12px;font-weight:500}
+.primario.spento{background:#2c2833;color:#9a90a8;height:44px;flex:none}
+.motivo{font-size:12px;line-height:14px;color:#f0c2b9;background:#2a1517;border-left:3px solid var(--sangue-vivo);padding:2px 6px}
+.motivo .ico{width:12px;height:12px;color:var(--fuoco)}
+
+.didascalia{width:844px;margin:14px auto 6px;font:500 13px var(--f-testo);color:#9a90a8}
+body.solo .didascalia{display:none} body.solo .palco{display:none} body.solo .palco.vis{display:block}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-forza" viewBox="0 0 24 24"><rect x="5" y="4.5" width="3.6" height="8" rx="1.8"/><rect x="9.1" y="3.5" width="3.6" height="9" rx="1.8"/><rect x="13.2" y="4" width="3.6" height="8.5" rx="1.8"/><rect x="17.3" y="5.5" width="3.4" height="7.5" rx="1.7"/><path d="M4.6 11.5h16.2v3.2c0 4.1-3 6.8-7 6.8h-1.6c-4.3 0-7.6-2.9-7.6-6.6z"/><path d="M3.2 11.2c0-1.1.9-1.7 1.9-1.6l6.6.9c1.1.2 1.6 1 1.5 2l-.2 1.1c-.2.9-1 1.4-1.9 1.3L5 14.1c-1.1-.2-1.8-1.2-1.8-2.3z" fill-opacity=".72"/></symbol>
+<symbol id="i-fuoco" viewBox="0 0 24 24"><path d="M12.6 2c.6 3.4 5.9 5.6 5.9 11.4A6.5 6.5 0 0 1 5.5 14c0-3 1.7-4.9 3-6.6.2 2.4 1.2 3.6 2.4 4 .5-3.5-.2-6.6 1.7-9.4z"/><path d="M12 21c-1.9 0-3.2-1.3-3.2-3.1 0-1.7 1.2-2.6 2.1-3.8.2 1.4.9 2 1.6 2.2.4-1 .3-1.9.9-2.8 1 1.3 1.9 2.6 1.9 4 0 2.1-1.4 3.5-3.3 3.5z" fill="#000" fill-opacity=".35"/></symbol>
+<symbol id="i-presagio" viewBox="0 0 24 24"><path d="M1.5 12C4.3 7 8 4.8 12 4.8S19.7 7 22.5 12c-2.8 5-6.5 7.2-10.5 7.2S4.3 17 1.5 12z"/><circle cx="12" cy="12" r="4.4" fill="#000" fill-opacity=".55"/><circle cx="12" cy="12" r="1.9"/></symbol>
+<symbol id="i-artigli" viewBox="0 0 24 24"><path d="M5 3.5c3.2 4.6 4.3 10 3.2 17l-1.5.2C7.3 14 6.6 8.6 5 3.5zM11.2 2.5c3 5 3.8 11.2 2.4 18.6l-1.6.1c.9-7.2.6-13.3-.8-18.7zM17.3 4c2.6 4.5 3.1 9.8 1.6 15.8l-1.5 0c1-5.7.8-10.9-.1-15.8z"/></symbol>
+<symbol id="i-scudo" viewBox="0 0 24 24"><path d="M12 2.2l8.2 3v6.1c0 5.2-3.4 9-8.2 10.6-4.8-1.6-8.2-5.4-8.2-10.6V5.2z"/></symbol>
+<symbol id="i-hp" viewBox="0 0 24 24"><path d="M12 2.5c3.3 5 6.6 8.6 6.6 12.4A6.6 6.6 0 0 1 5.4 14.9C5.4 11.1 8.7 7.5 12 2.5z"/></symbol>
+<symbol id="i-pt" viewBox="0 0 24 24"><path d="M12 3.2a8.8 8.8 0 1 0 8.8 8.8h-2.2A6.6 6.6 0 1 1 12 5.4c2.7 0 4.8 2 4.8 4.6 0 2-1.6 3.6-3.6 3.6-1.5 0-2.6-1.1-2.6-2.5 0-1.1.8-1.9 1.8-1.9V7c-2.3 0-4 1.8-4 4.1 0 2.6 2.1 4.7 4.8 4.7 3.2 0 5.8-2.6 5.8-5.8C19 6.2 15.9 3.2 12 3.2z"/></symbol>
+<symbol id="i-pm" viewBox="0 0 24 24"><path d="M8.2 3c1.8 0 2.8 1.9 2.8 4.4 0 2.3-.9 4-1 5.6H5.6C5.4 11 5 9.5 5 7.6 5 5 6.3 3 8.2 3zM5.7 14.4h4.1c0 1.6-.6 3-2 3-1.4 0-2.1-1.3-2.1-3zM15.8 7c1.9 0 3.2 2 3.2 4.6 0 1.9-.4 3.4-.6 5.4h-4.4c-.1-1.6-1-3.3-1-5.6C13 8.9 14 7 15.8 7zM14.2 18.4h4.1c0 1.7-.7 3-2.1 3s-2-1.4-2-3z"/></symbol>
+<symbol id="i-luce" viewBox="0 0 24 24"><path d="M9 2.5h6v2H9zM7.5 5.5h9l1.2 3.2v9.3l-1.7 3.5H8l-1.7-3.5V8.7z" fill-opacity=".35"/><path d="M12 8.3c.6 2 2.6 3 2.6 5.6a2.6 2.6 0 0 1-5.2 0c0-1.6 1-2.4 1.6-3.4.3 1 .6 1.4 1 1.5.1-1.3-.4-2.4 0-3.7z"/></symbol>
+<symbol id="i-salto" viewBox="0 0 24 24"><path d="M3 18.5c3.2-9.5 13.8-9.5 18 0l-2 .4C15.8 11.6 8.2 11.6 5 18.9z"/><path d="M17.2 13.2l4.3 5.3-6.5.9z"/></symbol>
+<symbol id="i-colonna" viewBox="0 0 24 24"><path d="M5 3h14v2.5H5zM6.5 6h11v1.8h-11zM7.6 8.3h1.9v10.4H7.6zM11 8.3h2v10.4h-2zM14.5 8.3h1.9v10.4h-1.9zM6.5 19.2h11V21h-11zM5 21.3h14V23H5z"/></symbol>
+<symbol id="i-trappola" viewBox="0 0 24 24"><path d="M2 16l3-7 2.4 4.2L10 6l2 6.8L14 6l2.6 7.2L19 9l3 7z"/><path d="M2 17h20v2.4H2z"/></symbol>
+<symbol id="i-eco" viewBox="0 0 24 24"><path d="M12 4a8 8 0 1 0 8 8h-2.4A5.6 5.6 0 1 1 12 6.4V9l4-3.6L12 1.8z"/></symbol>
+</defs></svg>
+<p class="didascalia">Stato iniziale della Selezione (SP1): proposta già fatta, nessun dado con slot libero è scartato.</p>
+<div class="palco st-proposta" id="proposta">
+  <header class="orienta" data-pannello="orientamento">
+    <span class="turno">Turno <span class="num">1</span></span><span class="fase">Selezione</span>
+    <span class="istr">Scegli quali dadi tenere: tocca un dado per tenerlo o scartarlo.</span>
+    <span class="veglia"><svg class="candela" width="76" height="16" viewBox="0 0 76 16"><rect x="4" y="5" width="11" height="7" class="arsa"/><rect x="16" y="5" width="11" height="7" class="cera"/><rect x="28" y="5" width="11" height="7" class="cera"/><rect x="40" y="5" width="11" height="7" class="cera"/><rect x="52" y="5" width="11" height="7" class="cera"/><rect x="64" y="5" width="11" height="7" class="cera"/><path d="M70 2c2 2 3 4 1 7-1 1-3 1-3-1 0-2 2-3 2-6z" class="fiamma"/></svg>
+      <span>Veglia 1/6</span><span class="posta">entro la Veglia: 2 Soste</span></span>
+  </header>
+  <aside class="colonna-sx" data-pannello="risorse">
+    <div class="ris hp"><svg class="ico " aria-hidden="true"><use href="#i-hp"/></svg><span class="l">HP</span><b>10<span class="max">/10</span></b></div>
+    <div class="ris pt"><svg class="ico " aria-hidden="true"><use href="#i-pt"/></svg><span class="l">PT</span><b>6</b></div>
+    <div class="ris pm"><svg class="ico " aria-hidden="true"><use href="#i-pm"/></svg><span class="l">PM</span><b>2</b></div>
+    <div class="ris salto"><svg class="ico " aria-hidden="true"><use href="#i-salto"/></svg><span class="l">Salto</span><b>0</b></div>
+    <div class="ris luce"><svg class="ico " aria-hidden="true"><use href="#i-luce"/></svg><span class="l">Luce</span><b>0<span class="poi"> → 1</span></b></div>
+    <div class="plancia"><span class="tit">Plancia</span><div class="nicchie"><div class="nicchia piena k-vigore" data-tocco="slot 1">
+      <span class="n">1</span><svg class="ico tipo" aria-hidden="true"><use href="#i-forza"/></svg><b>1</b></div><div class="nicchia piena k-terrore" data-tocco="slot 2">
+      <span class="n">2</span><svg class="ico tipo" aria-hidden="true"><use href="#i-presagio"/></svg><b>4</b></div><div class="nicchia piena k-vigore" data-tocco="slot 3">
+      <span class="n">3</span><svg class="ico tipo" aria-hidden="true"><use href="#i-forza"/></svg><b>2</b></div><div class="nicchia piena k-fuoco" data-tocco="slot 4">
+      <span class="n">4</span><svg class="ico tipo" aria-hidden="true"><use href="#i-fuoco"/></svg><b>2</b></div></div></div>
+    <p class="legenda">Danni sulla mappa: se nulla cambia prima del loro turno</p>
+  </aside>
+  <div id="mappa" data-pannello="mappa"><svg class="mappa-svg" width="844" height="390" viewBox="0 0 844 390">
+    <defs>
+      <marker id="frecciaR" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#e2705f"/></marker>
+      <marker id="frecciaG" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8a7f9a"/></marker>
+      <radialGradient id="lume" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#c9a84c" stop-opacity=".28"/><stop offset="1" stop-color="#c9a84c" stop-opacity="0"/></radialGradient>
+    </defs>
+    <g class="celle"><polygon class="casella" data-casella="R8E1" points="160.0,31.6 189.1,42.0 189.1,62.9 160.0,73.3 130.9,62.9 130.9,42.0"/><polygon class="casella" data-casella="R8E2" points="220.0,31.6 249.1,42.0 249.1,62.9 220.0,73.3 190.9,62.9 190.9,42.0"/><polygon class="casella" data-casella="R8E3" points="280.0,31.6 309.1,42.0 309.1,62.9 280.0,73.3 250.9,62.9 250.9,42.0"/><polygon class="casella" data-casella="R8E4" points="340.0,31.6 369.1,42.0 369.1,62.9 340.0,73.3 310.9,62.9 310.9,42.0"/><polygon class="casella" data-casella="R8E5" points="400.0,31.6 429.1,42.0 429.1,62.9 400.0,73.3 370.9,62.9 370.9,42.0"/><polygon class="casella" data-casella="R8E6" points="460.0,31.6 489.1,42.0 489.1,62.9 460.0,73.3 430.9,62.9 430.9,42.0"/><polygon class="casella" data-casella="R7E1" points="190.0,63.8 219.1,74.3 219.1,95.1 190.0,105.6 160.9,95.1 160.9,74.3"/><polygon class="casella" data-casella="R7E2" points="250.0,63.8 279.1,74.3 279.1,95.1 250.0,105.6 220.9,95.1 220.9,74.3"/><polygon class="casella" data-casella="R7E3" points="310.0,63.8 339.1,74.3 339.1,95.1 310.0,105.6 280.9,95.1 280.9,74.3"/><polygon class="casella" data-casella="R7E4" points="370.0,63.8 399.1,74.3 399.1,95.1 370.0,105.6 340.9,95.1 340.9,74.3"/><polygon class="casella" data-casella="R7E5" points="430.0,63.8 459.1,74.3 459.1,95.1 430.0,105.6 400.9,95.1 400.9,74.3"/><polygon class="casella" data-casella="R7E6" points="490.0,63.8 519.1,74.3 519.1,95.1 490.0,105.6 460.9,95.1 460.9,74.3"/><polygon class="casella" data-casella="R6E1" points="160.0,96.1 189.1,106.5 189.1,127.3 160.0,137.8 130.9,127.3 130.9,106.5"/><polygon class="casella" data-casella="R6E2" points="220.0,96.1 249.1,106.5 249.1,127.3 220.0,137.8 190.9,127.3 190.9,106.5"/><polygon class="casella" data-casella="R6E3" points="280.0,96.1 309.1,106.5 309.1,127.3 280.0,137.8 250.9,127.3 250.9,106.5"/><polygon class="casella" data-casella="R6E4" points="340.0,96.1 369.1,106.5 369.1,127.3 340.0,137.8 310.9,127.3 310.9,106.5"/><polygon class="casella" data-casella="R6E5" points="400.0,96.1 429.1,106.5 429.1,127.3 400.0,137.8 370.9,127.3 370.9,106.5"/><polygon class="casella" data-casella="R6E6" points="460.0,96.1 489.1,106.5 489.1,127.3 460.0,137.8 430.9,127.3 430.9,106.5"/><polygon class="casella" data-casella="R5E1" points="190.0,128.3 219.1,138.7 219.1,159.6 190.0,170.0 160.9,159.6 160.9,138.7"/><polygon class="casella" data-casella="R5E2" points="250.0,128.3 279.1,138.7 279.1,159.6 250.0,170.0 220.9,159.6 220.9,138.7"/><polygon class="casella" data-casella="R5E3" points="310.0,128.3 339.1,138.7 339.1,159.6 310.0,170.0 280.9,159.6 280.9,138.7"/><polygon class="casella" data-casella="R5E4" points="370.0,128.3 399.1,138.7 399.1,159.6 370.0,170.0 340.9,159.6 340.9,138.7"/><polygon class="casella" data-casella="R5E5" points="430.0,128.3 459.1,138.7 459.1,159.6 430.0,170.0 400.9,159.6 400.9,138.7"/><polygon class="casella" data-casella="R5E6" points="490.0,128.3 519.1,138.7 519.1,159.6 490.0,170.0 460.9,159.6 460.9,138.7"/><polygon class="casella" data-casella="R4E1" points="160.0,160.5 189.1,170.9 189.1,191.8 160.0,202.2 130.9,191.8 130.9,170.9"/><polygon class="casella" data-casella="R4E2" points="220.0,160.5 249.1,170.9 249.1,191.8 220.0,202.2 190.9,191.8 190.9,170.9"/><polygon class="casella" data-casella="R4E3" points="280.0,160.5 309.1,170.9 309.1,191.8 280.0,202.2 250.9,191.8 250.9,170.9"/><polygon class="casella" data-casella="R4E4" points="340.0,160.5 369.1,170.9 369.1,191.8 340.0,202.2 310.9,191.8 310.9,170.9"/><polygon class="casella" data-casella="R4E5" points="400.0,160.5 429.1,170.9 429.1,191.8 400.0,202.2 370.9,191.8 370.9,170.9"/><polygon class="casella" data-casella="R4E6" points="460.0,160.5 489.1,170.9 489.1,191.8 460.0,202.2 430.9,191.8 430.9,170.9"/><polygon class="casella" data-casella="R3E1" points="190.0,192.7 219.1,203.1 219.1,224.0 190.0,234.4 160.9,224.0 160.9,203.1"/><polygon class="casella" data-casella="R3E2" points="250.0,192.7 279.1,203.1 279.1,224.0 250.0,234.4 220.9,224.0 220.9,203.1"/><polygon class="casella" data-casella="R3E3" points="310.0,192.7 339.1,203.1 339.1,224.0 310.0,234.4 280.9,224.0 280.9,203.1"/><polygon class="casella" data-casella="R3E4" points="370.0,192.7 399.1,203.1 399.1,224.0 370.0,234.4 340.9,224.0 340.9,203.1"/><polygon class="casella" data-casella="R3E5" points="430.0,192.7 459.1,203.1 459.1,224.0 430.0,234.4 400.9,224.0 400.9,203.1"/><polygon class="casella" data-casella="R3E6" points="490.0,192.7 519.1,203.1 519.1,224.0 490.0,234.4 460.9,224.0 460.9,203.1"/><polygon class="casella" data-casella="R2E1" points="160.0,224.9 189.1,235.3 189.1,256.2 160.0,266.6 130.9,256.2 130.9,235.3"/><polygon class="casella" data-casella="R2E2" points="220.0,224.9 249.1,235.3 249.1,256.2 220.0,266.6 190.9,256.2 190.9,235.3"/><polygon class="casella" data-casella="R2E3" points="280.0,224.9 309.1,235.3 309.1,256.2 280.0,266.6 250.9,256.2 250.9,235.3"/><polygon class="casella" data-casella="R2E4" points="340.0,224.9 369.1,235.3 369.1,256.2 340.0,266.6 310.9,256.2 310.9,235.3"/><polygon class="casella" data-casella="R2E5" points="400.0,224.9 429.1,235.3 429.1,256.2 400.0,266.6 370.9,256.2 370.9,235.3"/><polygon class="casella" data-casella="R2E6" points="460.0,224.9 489.1,235.3 489.1,256.2 460.0,266.6 430.9,256.2 430.9,235.3"/><polygon class="casella" data-casella="R1E1" points="190.0,257.1 219.1,267.6 219.1,288.4 190.0,298.8 160.9,288.4 160.9,267.6"/><polygon class="casella" data-casella="R1E2" points="250.0,257.1 279.1,267.6 279.1,288.4 250.0,298.8 220.9,288.4 220.9,267.6"/><polygon class="casella" data-casella="R1E3" points="310.0,257.1 339.1,267.6 339.1,288.4 310.0,298.8 280.9,288.4 280.9,267.6"/><polygon class="casella" data-casella="R1E4" points="370.0,257.1 399.1,267.6 399.1,288.4 370.0,298.8 340.9,288.4 340.9,267.6"/><polygon class="casella" data-casella="R1E5" points="430.0,257.1 459.1,267.6 459.1,288.4 430.0,298.8 400.9,288.4 400.9,267.6"/><polygon class="casella" data-casella="R1E6" points="490.0,257.1 519.1,267.6 519.1,288.4 490.0,298.8 460.9,288.4 460.9,267.6"/></g><polygon class="trappola" points="310.0,131.4 334.8,140.2 334.8,158.0 310.0,166.9 285.2,158.0 285.2,140.2"/><use href="#i-trappola" class="ico-trappola" x="301" y="141.12586507619744" width="18" height="18"/><g class="colonna"><ellipse cx="400" cy="183.34201009697856" rx="15" ry="6"/><rect x="391" y="147.34201009697856" width="18" height="36" rx="2"/><rect x="388" y="143.34201009697856" width="24" height="6"/></g><g class="colonna"><ellipse cx="340" cy="118.90972005541632" rx="15" ry="6"/><rect x="331" y="82.90972005541632" width="18" height="36" rx="2"/><rect x="328" y="78.90972005541632" width="24" height="6"/></g><polygon class="arrivo colpisce" points="340.0,226.8 366.5,236.3 366.5,255.3 340.0,264.8 313.5,255.3 313.5,236.3"/><text class="arrivo-l colpisce" x="340" y="258.77430013854075" text-anchor="middle">Z1</text><polygon class="arrivo colpisce" points="400.0,226.8 426.5,236.3 426.5,255.3 400.0,264.8 373.5,255.3 373.5,236.3"/><text class="arrivo-l colpisce" x="400" y="258.77430013854075" text-anchor="middle">Z2</text><polygon class="arrivo " points="310.0,130.1 336.5,139.6 336.5,158.6 310.0,168.1 283.5,158.6 283.5,139.6"/><text class="arrivo-l " x="310" y="162.12586507619744" text-anchor="middle">Z3</text><polygon class="arrivo " points="370.0,130.1 396.5,139.6 396.5,158.6 370.0,168.1 343.5,158.6 343.5,139.6"/><text class="arrivo-l " x="370" y="162.12586507619744" text-anchor="middle">Z4</text><polyline class="percorso colpisce" points="280.0,179.3 310.0,211.6 340.0,243.8" marker-end="url(#frecciaR)"/><polyline class="percorso colpisce" points="460.0,179.3 430.0,211.6 400.0,243.8" marker-end="url(#frecciaR)"/><polyline class="percorso " points="220.0,114.9 250.0,147.1 310.0,147.1" marker-end="url(#frecciaG)"/><polyline class="percorso " points="460.0,114.9 430.0,147.1 370.0,147.1" marker-end="url(#frecciaG)"/><line class="aggancio" x1="246" y1="163" x2="280" y2="161.34201009697856"/><line class="aggancio" x1="460" y1="213" x2="460" y2="161.34201009697856"/><line class="aggancio" x1="202" y1="113" x2="220" y2="96.90972005541632"/><line class="aggancio" x1="460" y1="72" x2="460" y2="96.90972005541632"/><line class="aggancio" x1="350" y1="70" x2="370" y2="64.6935750346352"/><g class="figura zombie" transform="translate(280,181.34201009697856) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g><rect x="265" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="270" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="275" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="280" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="285" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="290" y="187.34201009697856" width="4" height="3" class="pip"/><g class="figura zombie" transform="translate(460,181.34201009697856) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g><rect x="445" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="450" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="455" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="460" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="465" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="470" y="187.34201009697856" width="4" height="3" class="pip"/><g class="figura zombie" transform="translate(220,116.90972005541632) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g><rect x="205" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="210" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="215" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="220" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="225" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="230" y="122.90972005541632" width="4" height="3" class="pip"/><g class="figura zombie" transform="translate(460,116.90972005541632) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g><rect x="445" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="450" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="455" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="460" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="465" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="470" y="122.90972005541632" width="4" height="3" class="pip"/><g class="figura zombie" transform="translate(370,84.6935750346352) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g><rect x="355" y="90.6935750346352" width="4" height="3" class="pip"/><rect x="360" y="90.6935750346352" width="4" height="3" class="pip"/><rect x="365" y="90.6935750346352" width="4" height="3" class="pip"/><rect x="370" y="90.6935750346352" width="4" height="3" class="pip"/><rect x="375" y="90.6935750346352" width="4" height="3" class="pip"/><rect x="380" y="90.6935750346352" width="4" height="3" class="pip"/><circle cx="381" cy="265.9904451593219" r="26" class="alone"/><g class="figura giocatore" transform="translate(370,277.9904451593219) scale(1)">
+      <ellipse cx="0" cy="0" rx="15" ry="5" class="ombra"/>
+      <path d="M-7 0 L-8 -22 Q-8 -28 -3 -29 L3 -29 Q8 -28 8 -22 L7 0z" class="corpo"/>
+      <circle cx="0" cy="-33" r="5" class="testa"/>
+      <path d="M-9 -36 H9 V-38 H5 V-44 H-5 V-38 H-9z" class="cappello"/>
+      <circle cx="11" cy="-12" r="3.4" class="lanterna"/>
+    </g></svg><div class="minaccia forte" style="left:46px;top:116px" data-tocco="nemico Z1">
+      <div class="m1"><svg class="sigillo " width="24" height="24" viewBox="0 0 24 24" aria-label="Z1"><g class="forma"><circle cx="12" cy="12" r="10.8"/></g><text x="12" y="16.3" text-anchor="middle">Z1</text></svg><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg><span class="az">Orda</span></div>
+      <div class="m2"><b class="danno">−1 HP</b><span class="a-te">a te</span></div></div><div class="minaccia forte" style="left:338px;top:166px" data-tocco="nemico Z2">
+      <div class="m1"><svg class="sigillo " width="24" height="24" viewBox="0 0 24 24" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="20.4" height="20.4"/></g><text x="12" y="16.3" text-anchor="middle">Z2</text></svg><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg><span class="az">Orda</span></div>
+      <div class="m2"><b class="danno">−1 HP</b><span class="a-te">a te</span></div></div><div class="minaccia debole" style="left:2px;top:66px" data-tocco="nemico Z3">
+      <div class="m1"><svg class="sigillo " width="24" height="24" viewBox="0 0 24 24" aria-label="Z3"><g class="forma"><path d="M12 0.8L23.2 12L12 23.2L0.8 12z"/></g><text x="12" y="16.3" text-anchor="middle">Z3</text></svg><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg><span class="az">Orda</span></div>
+      <div class="m2"><span class="manca">non ti raggiunge</span></div></div><div class="minaccia debole" style="left:316px;top:8px" data-tocco="nemico Z4">
+      <div class="m1"><svg class="sigillo " width="24" height="24" viewBox="0 0 24 24" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H22.5V13C22.5 20 15 23 12 23.2C9 23 1.5 20 1.5 13z"/></g><text x="12" y="16.3" text-anchor="middle">Z4</text></svg><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg><span class="az">Orda</span></div>
+      <div class="m2"><span class="manca">non ti raggiunge</span></div></div><div class="minaccia debole" style="left:150px;top:6px" data-tocco="nemico Z5">
+      <div class="m1"><svg class="sigillo " width="24" height="24" viewBox="0 0 24 24" aria-label="Z5"><g class="forma"><path d="M6 1.5H18L23.2 12L18 22.5H6L0.8 12z"/></g><text x="12" y="16.3" text-anchor="middle">Z5</text></svg><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg><span class="az">Incassare</span></div>
+      <div class="m2"><span class="scudi"><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg> +2 Scudi</span></div></div></div>
+  <section class="mano" data-pannello="mano">
+    <article class="striscia f-fuoco" data-tocco="carta Attacco di Fuoco">
+      <div class="corpo"><h3>Attacco di Fuoco<span class="cd" title="Cooldown">CD 1</span></h3>
+        <p class="azione"><span class="costo c-fuoco">1<svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span> 2 Danni Fuoco, adiacente</p><p class="azione"><span class="costo c-fuoco">1<svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span> Vulnerabilità Fuoco, adiacente</p></div>
+      <div class="matrice"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg><span class="eco-t">Eco</span><span class="eco">+1 PM<br>+1 Luce</span></div>
+    </article>
+    <article class="striscia f-vigore" data-tocco="carta Diniego Sismico">
+      <div class="corpo"><h3>Diniego Sismico<span class="cd" title="Cooldown">CD 1</span></h3>
+        <p class="azione"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> 1 Danno e Spingi 1, adiacente</p></div>
+      <div class="matrice"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg><span class="eco-t">Eco</span><span class="eco">+1 PM<br>Ruota 1 CD</span></div>
+    </article>
+    <article class="striscia f-terrore" data-tocco="carta Distorsione">
+      <div class="corpo"><h3>Distorsione<span class="cd" title="Cooldown">CD 1</span></h3>
+        <p class="azione"><span class="costo c-presagio">X<svg class="ico " aria-hidden="true"><use href="#i-presagio"/></svg></span><span class="costo pt">+1 PT</span> sposta un'unità (non te) fino a X caselle; trappole attive</p></div>
+      <div class="matrice"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg><span class="eco-t">Eco</span><span class="eco">+1 PM<br>Pesca 1</span></div>
+    </article>
+    <article class="striscia f-vigore" data-tocco="carta Parata">
+      <div class="corpo"><h3>Parata<span class="cd" title="Cooldown">CD 0</span></h3>
+        <p class="azione"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> +1 Scudo</p><p class="azione"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> Pesca 1 carta</p></div>
+      <div class="matrice"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg><span class="eco-t">Eco</span><span class="eco">+1 Contrattacco</span></div>
+    </article>
+    <article class="striscia f-free" data-tocco="carta Carica Furiosa">
+      <div class="corpo"><h3>Carica Furiosa<span class="cd" title="Cooldown">CD 2</span></h3>
+        <p class="azione"><span class="costo gratis">Gratis</span> 2 dadi vicini in Sequenza: carica in linea retta, danno = caselle</p></div>
+      <div class="matrice"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg><span class="eco-t">Eco</span><span class="eco">+1 Luce</span></div>
+    </article></section>
+  <section class="rosario" data-pannello="sequenza"><div class="filo"></div><div class="perle"><div class="perla nem colpisce" data-tocco="dado Z1">
+        <span class="t-su"><svg class="sigillo piccolo" width="22" height="22" viewBox="0 0 22 22" aria-label="Z1"><g class="forma"><circle cx="11" cy="11" r="9.8"/></g><text x="11" y="15.3" text-anchor="middle">Z1</text></svg></span>
+        <span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="t-giu rosso">Orda −1</span></div><div class="perla mio tenuto  k-vigore" data-tocco="dado d2" role="button" aria-pressed="true">
+      <span class="t-su">Slot 1</span><span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-forza"/></svg></span><span class="t-giu spento">+1 PM</span></div><div class="perla mio scartato  k-fuoco" data-tocco="dado d4" role="button" aria-pressed="false">
+      <span class="t-su spento">nessuno slot</span><span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-fuoco"/></svg></span><span class="t-giu resa">+1 Luce</span></div><div class="perla nem colpisce" data-tocco="dado Z2">
+        <span class="t-su"><svg class="sigillo piccolo" width="22" height="22" viewBox="0 0 22 22" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="18.4" height="18.4"/></g><text x="11" y="15.3" text-anchor="middle">Z2</text></svg></span>
+        <span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="t-giu rosso">Orda −1</span></div><div class="perla nem " data-tocco="dado Z3">
+        <span class="t-su"><svg class="sigillo piccolo" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg></span>
+        <span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="t-giu grigio">Orda</span></div><div class="perla nem " data-tocco="dado Z4">
+        <span class="t-su"><svg class="sigillo piccolo" width="22" height="22" viewBox="0 0 22 22" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H20.5V12C20.5 18 14 21 11 21.2C8 21 1.5 18 1.5 12z"/></g><text x="11" y="15.3" text-anchor="middle">Z4</text></svg></span>
+        <span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="t-giu grigio">Orda</span></div><div class="perla mio tenuto  k-vigore" data-tocco="dado d1" role="button" aria-pressed="true">
+      <span class="t-su">Slot 3</span><span class="faccia"><b>2</b><svg class="ico angolo" aria-hidden="true"><use href="#i-forza"/></svg></span><span class="t-giu spento">+1 PM</span></div><div class="perla nem " data-tocco="dado Z5">
+        <span class="t-su"><svg class="sigillo piccolo" width="22" height="22" viewBox="0 0 22 22" aria-label="Z5"><g class="forma"><path d="M5.5 1.5H16.5L21.2 11L16.5 20.5H5.5L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z5</text></svg></span>
+        <span class="faccia"><b>4</b><svg class="ico angolo" aria-hidden="true"><use href="#i-scudo"/></svg></span><span class="t-giu grigio">Incassare</span></div><div class="perla mio tenuto  k-terrore" data-tocco="dado d5" role="button" aria-pressed="true">
+      <span class="t-su">Slot 2</span><span class="faccia"><b>4</b><svg class="ico angolo" aria-hidden="true"><use href="#i-presagio"/></svg></span><span class="t-giu spento">+1 PT</span></div><div class="perla mio tenuto  k-fuoco" data-tocco="dado d3" role="button" aria-pressed="true">
+      <span class="t-su">Slot 4</span><span class="faccia"><b>2</b><svg class="ico angolo" aria-hidden="true"><use href="#i-fuoco"/></svg></span><span class="t-giu spento">+1 Luce</span></div></div><div class="sigillo-fine"><button class="primario" data-tocco="conferma" data-primario>Conferma i dadi<small>tieni 4, scarti 1: +1 Luce</small></button></div></section>
+</div>
+<p class="didascalia">Dopo un tocco sul dado Fuoco 1: due dadi Fuoco per uno slot, Conferma spento con il motivo.</p>
+<div class="palco st-rifiuto" id="rifiuto">
+  <header class="orienta" data-pannello="orientamento">
+    <span class="turno">Turno <span class="num">1</span></span><span class="fase">Selezione</span>
+    <span class="istr">Due dadi Fuoco e un solo slot Fuoco: scartane uno.</span>
+    <span class="veglia"><svg class="candela" width="76" height="16" viewBox="0 0 76 16"><rect x="4" y="5" width="11" height="7" class="arsa"/><rect x="16" y="5" width="11" height="7" class="cera"/><rect x="28" y="5" width="11" height="7" class="cera"/><rect x="40" y="5" width="11" height="7" class="cera"/><rect x="52" y="5" width="11" height="7" class="cera"/><rect x="64" y="5" width="11" height="7" class="cera"/><path d="M70 2c2 2 3 4 1 7-1 1-3 1-3-1 0-2 2-3 2-6z" class="fiamma"/></svg>
+      <span>Veglia 1/6</span><span class="posta">entro la Veglia: 2 Soste</span></span>
+  </header>
+  <aside class="colonna-sx" data-pannello="risorse">
+    <div class="ris hp"><svg class="ico " aria-hidden="true"><use href="#i-hp"/></svg><span class="l">HP</span><b>10<span class="max">/10</span></b></div>
+    <div class="ris pt"><svg class="ico " aria-hidden="true"><use href="#i-pt"/></svg><span class="l">PT</span><b>6</b></div>
+    <div class="ris pm"><svg class="ico " aria-hidden="true"><use href="#i-pm"/></svg><span class="l">PM</span><b>2</b></div>
+    <div class="ris salto"><svg class="ico " aria-hidden="true"><use href="#i-salto"/></svg><span class="l">Salto</span><b>0</b></div>
+    <div class="ris luce"><svg class="ico " aria-hidden="true"><use href="#i-luce"/></svg><span class="l">Luce</span><b>0</b></div>
+    <div class="plancia"><span class="tit">Plancia</span><div class="nicchie"><div class="nicchia piena k-vigore" data-tocco="slot 1">
+      <span class="n">1</span><svg class="ico tipo" aria-hidden="true"><use href="#i-forza"/></svg><b>1</b></div><div class="nicchia piena k-terrore" data-tocco="slot 2">
+      <span class="n">2</span><svg class="ico tipo" aria-hidden="true"><use href="#i-presagio"/></svg><b>4</b></div><div class="nicchia piena k-vigore" data-tocco="slot 3">
+      <span class="n">3</span><svg class="ico tipo" aria-hidden="true"><use href="#i-forza"/></svg><b>2</b></div><div class="nicchia piena k-fuoco" data-tocco="slot 4">
+      <span class="n">4</span><svg class="ico tipo" aria-hidden="true"><use href="#i-fuoco"/></svg><b>1</b></div></div></div>
+    <p class="legenda">Danni sulla mappa: se nulla cambia prima del loro turno</p>
+  </aside>
+  <div id="mappa" data-pannello="mappa"><svg class="mappa-svg" width="844" height="390" viewBox="0 0 844 390">
+    <defs>
+      <marker id="frecciaR" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#e2705f"/></marker>
+      <marker id="frecciaG" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8a7f9a"/></marker>
+      <radialGradient id="lume" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#c9a84c" stop-opacity=".28"/><stop offset="1" stop-color="#c9a84c" stop-opacity="0"/></radialGradient>
+    </defs>
+    <g class="celle"><polygon class="casella" data-casella="R8E1" points="160.0,31.6 189.1,42.0 189.1,62.9 160.0,73.3 130.9,62.9 130.9,42.0"/><polygon class="casella" data-casella="R8E2" points="220.0,31.6 249.1,42.0 249.1,62.9 220.0,73.3 190.9,62.9 190.9,42.0"/><polygon class="casella" data-casella="R8E3" points="280.0,31.6 309.1,42.0 309.1,62.9 280.0,73.3 250.9,62.9 250.9,42.0"/><polygon class="casella" data-casella="R8E4" points="340.0,31.6 369.1,42.0 369.1,62.9 340.0,73.3 310.9,62.9 310.9,42.0"/><polygon class="casella" data-casella="R8E5" points="400.0,31.6 429.1,42.0 429.1,62.9 400.0,73.3 370.9,62.9 370.9,42.0"/><polygon class="casella" data-casella="R8E6" points="460.0,31.6 489.1,42.0 489.1,62.9 460.0,73.3 430.9,62.9 430.9,42.0"/><polygon class="casella" data-casella="R7E1" points="190.0,63.8 219.1,74.3 219.1,95.1 190.0,105.6 160.9,95.1 160.9,74.3"/><polygon class="casella" data-casella="R7E2" points="250.0,63.8 279.1,74.3 279.1,95.1 250.0,105.6 220.9,95.1 220.9,74.3"/><polygon class="casella" data-casella="R7E3" points="310.0,63.8 339.1,74.3 339.1,95.1 310.0,105.6 280.9,95.1 280.9,74.3"/><polygon class="casella" data-casella="R7E4" points="370.0,63.8 399.1,74.3 399.1,95.1 370.0,105.6 340.9,95.1 340.9,74.3"/><polygon class="casella" data-casella="R7E5" points="430.0,63.8 459.1,74.3 459.1,95.1 430.0,105.6 400.9,95.1 400.9,74.3"/><polygon class="casella" data-casella="R7E6" points="490.0,63.8 519.1,74.3 519.1,95.1 490.0,105.6 460.9,95.1 460.9,74.3"/><polygon class="casella" data-casella="R6E1" points="160.0,96.1 189.1,106.5 189.1,127.3 160.0,137.8 130.9,127.3 130.9,106.5"/><polygon class="casella" data-casella="R6E2" points="220.0,96.1 249.1,106.5 249.1,127.3 220.0,137.8 190.9,127.3 190.9,106.5"/><polygon class="casella" data-casella="R6E3" points="280.0,96.1 309.1,106.5 309.1,127.3 280.0,137.8 250.9,127.3 250.9,106.5"/><polygon class="casella" data-casella="R6E4" points="340.0,96.1 369.1,106.5 369.1,127.3 340.0,137.8 310.9,127.3 310.9,106.5"/><polygon class="casella" data-casella="R6E5" points="400.0,96.1 429.1,106.5 429.1,127.3 400.0,137.8 370.9,127.3 370.9,106.5"/><polygon class="casella" data-casella="R6E6" points="460.0,96.1 489.1,106.5 489.1,127.3 460.0,137.8 430.9,127.3 430.9,106.5"/><polygon class="casella" data-casella="R5E1" points="190.0,128.3 219.1,138.7 219.1,159.6 190.0,170.0 160.9,159.6 160.9,138.7"/><polygon class="casella" data-casella="R5E2" points="250.0,128.3 279.1,138.7 279.1,159.6 250.0,170.0 220.9,159.6 220.9,138.7"/><polygon class="casella" data-casella="R5E3" points="310.0,128.3 339.1,138.7 339.1,159.6 310.0,170.0 280.9,159.6 280.9,138.7"/><polygon class="casella" data-casella="R5E4" points="370.0,128.3 399.1,138.7 399.1,159.6 370.0,170.0 340.9,159.6 340.9,138.7"/><polygon class="casella" data-casella="R5E5" points="430.0,128.3 459.1,138.7 459.1,159.6 430.0,170.0 400.9,159.6 400.9,138.7"/><polygon class="casella" data-casella="R5E6" points="490.0,128.3 519.1,138.7 519.1,159.6 490.0,170.0 460.9,159.6 460.9,138.7"/><polygon class="casella" data-casella="R4E1" points="160.0,160.5 189.1,170.9 189.1,191.8 160.0,202.2 130.9,191.8 130.9,170.9"/><polygon class="casella" data-casella="R4E2" points="220.0,160.5 249.1,170.9 249.1,191.8 220.0,202.2 190.9,191.8 190.9,170.9"/><polygon class="casella" data-casella="R4E3" points="280.0,160.5 309.1,170.9 309.1,191.8 280.0,202.2 250.9,191.8 250.9,170.9"/><polygon class="casella" data-casella="R4E4" points="340.0,160.5 369.1,170.9 369.1,191.8 340.0,202.2 310.9,191.8 310.9,170.9"/><polygon class="casella" data-casella="R4E5" points="400.0,160.5 429.1,170.9 429.1,191.8 400.0,202.2 370.9,191.8 370.9,170.9"/><polygon class="casella" data-casella="R4E6" points="460.0,160.5 489.1,170.9 489.1,191.8 460.0,202.2 430.9,191.8 430.9,170.9"/><polygon class="casella" data-casella="R3E1" points="190.0,192.7 219.1,203.1 219.1,224.0 190.0,234.4 160.9,224.0 160.9,203.1"/><polygon class="casella" data-casella="R3E2" points="250.0,192.7 279.1,203.1 279.1,224.0 250.0,234.4 220.9,224.0 220.9,203.1"/><polygon class="casella" data-casella="R3E3" points="310.0,192.7 339.1,203.1 339.1,224.0 310.0,234.4 280.9,224.0 280.9,203.1"/><polygon class="casella" data-casella="R3E4" points="370.0,192.7 399.1,203.1 399.1,224.0 370.0,234.4 340.9,224.0 340.9,203.1"/><polygon class="casella" data-casella="R3E5" points="430.0,192.7 459.1,203.1 459.1,224.0 430.0,234.4 400.9,224.0 400.9,203.1"/><polygon class="casella" data-casella="R3E6" points="490.0,192.7 519.1,203.1 519.1,224.0 490.0,234.4 460.9,224.0 460.9,203.1"/><polygon class="casella" data-casella="R2E1" points="160.0,224.9 189.1,235.3 189.1,256.2 160.0,266.6 130.9,256.2 130.9,235.3"/><polygon class="casella" data-casella="R2E2" points="220.0,224.9 249.1,235.3 249.1,256.2 220.0,266.6 190.9,256.2 190.9,235.3"/><polygon class="casella" data-casella="R2E3" points="280.0,224.9 309.1,235.3 309.1,256.2 280.0,266.6 250.9,256.2 250.9,235.3"/><polygon class="casella" data-casella="R2E4" points="340.0,224.9 369.1,235.3 369.1,256.2 340.0,266.6 310.9,256.2 310.9,235.3"/><polygon class="casella" data-casella="R2E5" points="400.0,224.9 429.1,235.3 429.1,256.2 400.0,266.6 370.9,256.2 370.9,235.3"/><polygon class="casella" data-casella="R2E6" points="460.0,224.9 489.1,235.3 489.1,256.2 460.0,266.6 430.9,256.2 430.9,235.3"/><polygon class="casella" data-casella="R1E1" points="190.0,257.1 219.1,267.6 219.1,288.4 190.0,298.8 160.9,288.4 160.9,267.6"/><polygon class="casella" data-casella="R1E2" points="250.0,257.1 279.1,267.6 279.1,288.4 250.0,298.8 220.9,288.4 220.9,267.6"/><polygon class="casella" data-casella="R1E3" points="310.0,257.1 339.1,267.6 339.1,288.4 310.0,298.8 280.9,288.4 280.9,267.6"/><polygon class="casella" data-casella="R1E4" points="370.0,257.1 399.1,267.6 399.1,288.4 370.0,298.8 340.9,288.4 340.9,267.6"/><polygon class="casella" data-casella="R1E5" points="430.0,257.1 459.1,267.6 459.1,288.4 430.0,298.8 400.9,288.4 400.9,267.6"/><polygon class="casella" data-casella="R1E6" points="490.0,257.1 519.1,267.6 519.1,288.4 490.0,298.8 460.9,288.4 460.9,267.6"/></g><polygon class="trappola" points="310.0,131.4 334.8,140.2 334.8,158.0 310.0,166.9 285.2,158.0 285.2,140.2"/><use href="#i-trappola" class="ico-trappola" x="301" y="141.12586507619744" width="18" height="18"/><g class="colonna"><ellipse cx="400" cy="183.34201009697856" rx="15" ry="6"/><rect x="391" y="147.34201009697856" width="18" height="36" rx="2"/><rect x="388" y="143.34201009697856" width="24" height="6"/></g><g class="colonna"><ellipse cx="340" cy="118.90972005541632" rx="15" ry="6"/><rect x="331" y="82.90972005541632" width="18" height="36" rx="2"/><rect x="328" y="78.90972005541632" width="24" height="6"/></g><polygon class="arrivo colpisce" points="340.0,226.8 366.5,236.3 366.5,255.3 340.0,264.8 313.5,255.3 313.5,236.3"/><text class="arrivo-l colpisce" x="340" y="258.77430013854075" text-anchor="middle">Z1</text><polygon class="arrivo colpisce" points="400.0,226.8 426.5,236.3 426.5,255.3 400.0,264.8 373.5,255.3 373.5,236.3"/><text class="arrivo-l colpisce" x="400" y="258.77430013854075" text-anchor="middle">Z2</text><polygon class="arrivo " points="310.0,130.1 336.5,139.6 336.5,158.6 310.0,168.1 283.5,158.6 283.5,139.6"/><text class="arrivo-l " x="310" y="162.12586507619744" text-anchor="middle">Z3</text><polygon class="arrivo " points="370.0,130.1 396.5,139.6 396.5,158.6 370.0,168.1 343.5,158.6 343.5,139.6"/><text class="arrivo-l " x="370" y="162.12586507619744" text-anchor="middle">Z4</text><polyline class="percorso colpisce" points="280.0,179.3 310.0,211.6 340.0,243.8" marker-end="url(#frecciaR)"/><polyline class="percorso colpisce" points="460.0,179.3 430.0,211.6 400.0,243.8" marker-end="url(#frecciaR)"/><polyline class="percorso " points="220.0,114.9 250.0,147.1 310.0,147.1" marker-end="url(#frecciaG)"/><polyline class="percorso " points="460.0,114.9 430.0,147.1 370.0,147.1" marker-end="url(#frecciaG)"/><line class="aggancio" x1="246" y1="163" x2="280" y2="161.34201009697856"/><line class="aggancio" x1="460" y1="213" x2="460" y2="161.34201009697856"/><line class="aggancio" x1="202" y1="113" x2="220" y2="96.90972005541632"/><line class="aggancio" x1="460" y1="72" x2="460" y2="96.90972005541632"/><line class="aggancio" x1="350" y1="70" x2="370" y2="64.6935750346352"/><g class="figura zombie" transform="translate(280,181.34201009697856) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g><rect x="265" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="270" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="275" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="280" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="285" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="290" y="187.34201009697856" width="4" height="3" class="pip"/><g class="figura zombie" transform="translate(460,181.34201009697856) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g><rect x="445" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="450" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="455" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="460" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="465" y="187.34201009697856" width="4" height="3" class="pip"/><rect x="470" y="187.34201009697856" width="4" height="3" class="pip"/><g class="figura zombie" transform="translate(220,116.90972005541632) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g><rect x="205" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="210" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="215" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="220" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="225" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="230" y="122.90972005541632" width="4" height="3" class="pip"/><g class="figura zombie" transform="translate(460,116.90972005541632) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g><rect x="445" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="450" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="455" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="460" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="465" y="122.90972005541632" width="4" height="3" class="pip"/><rect x="470" y="122.90972005541632" width="4" height="3" class="pip"/><g class="figura zombie" transform="translate(370,84.6935750346352) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g><rect x="355" y="90.6935750346352" width="4" height="3" class="pip"/><rect x="360" y="90.6935750346352" width="4" height="3" class="pip"/><rect x="365" y="90.6935750346352" width="4" height="3" class="pip"/><rect x="370" y="90.6935750346352" width="4" height="3" class="pip"/><rect x="375" y="90.6935750346352" width="4" height="3" class="pip"/><rect x="380" y="90.6935750346352" width="4" height="3" class="pip"/><circle cx="381" cy="265.9904451593219" r="26" class="alone"/><g class="figura giocatore" transform="translate(370,277.9904451593219) scale(1)">
+      <ellipse cx="0" cy="0" rx="15" ry="5" class="ombra"/>
+      <path d="M-7 0 L-8 -22 Q-8 -28 -3 -29 L3 -29 Q8 -28 8 -22 L7 0z" class="corpo"/>
+      <circle cx="0" cy="-33" r="5" class="testa"/>
+      <path d="M-9 -36 H9 V-38 H5 V-44 H-5 V-38 H-9z" class="cappello"/>
+      <circle cx="11" cy="-12" r="3.4" class="lanterna"/>
+    </g></svg><div class="minaccia forte" style="left:46px;top:116px" data-tocco="nemico Z1">
+      <div class="m1"><svg class="sigillo " width="24" height="24" viewBox="0 0 24 24" aria-label="Z1"><g class="forma"><circle cx="12" cy="12" r="10.8"/></g><text x="12" y="16.3" text-anchor="middle">Z1</text></svg><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg><span class="az">Orda</span></div>
+      <div class="m2"><b class="danno">−1 HP</b><span class="a-te">a te</span></div></div><div class="minaccia forte" style="left:338px;top:166px" data-tocco="nemico Z2">
+      <div class="m1"><svg class="sigillo " width="24" height="24" viewBox="0 0 24 24" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="20.4" height="20.4"/></g><text x="12" y="16.3" text-anchor="middle">Z2</text></svg><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg><span class="az">Orda</span></div>
+      <div class="m2"><b class="danno">−1 HP</b><span class="a-te">a te</span></div></div><div class="minaccia debole" style="left:2px;top:66px" data-tocco="nemico Z3">
+      <div class="m1"><svg class="sigillo " width="24" height="24" viewBox="0 0 24 24" aria-label="Z3"><g class="forma"><path d="M12 0.8L23.2 12L12 23.2L0.8 12z"/></g><text x="12" y="16.3" text-anchor="middle">Z3</text></svg><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg><span class="az">Orda</span></div>
+      <div class="m2"><span class="manca">non ti raggiunge</span></div></div><div class="minaccia debole" style="left:316px;top:8px" data-tocco="nemico Z4">
+      <div class="m1"><svg class="sigillo " width="24" height="24" viewBox="0 0 24 24" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H22.5V13C22.5 20 15 23 12 23.2C9 23 1.5 20 1.5 13z"/></g><text x="12" y="16.3" text-anchor="middle">Z4</text></svg><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg><span class="az">Orda</span></div>
+      <div class="m2"><span class="manca">non ti raggiunge</span></div></div><div class="minaccia debole" style="left:150px;top:6px" data-tocco="nemico Z5">
+      <div class="m1"><svg class="sigillo " width="24" height="24" viewBox="0 0 24 24" aria-label="Z5"><g class="forma"><path d="M6 1.5H18L23.2 12L18 22.5H6L0.8 12z"/></g><text x="12" y="16.3" text-anchor="middle">Z5</text></svg><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg><span class="az">Incassare</span></div>
+      <div class="m2"><span class="scudi"><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg> +2 Scudi</span></div></div></div>
+  <section class="mano" data-pannello="mano">
+    <article class="striscia f-fuoco" data-tocco="carta Attacco di Fuoco">
+      <div class="corpo"><h3>Attacco di Fuoco<span class="cd" title="Cooldown">CD 1</span></h3>
+        <p class="azione"><span class="costo c-fuoco">1<svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span> 2 Danni Fuoco, adiacente</p><p class="azione"><span class="costo c-fuoco">1<svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span> Vulnerabilità Fuoco, adiacente</p></div>
+      <div class="matrice"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg><span class="eco-t">Eco</span><span class="eco">+1 PM<br>+1 Luce</span></div>
+    </article>
+    <article class="striscia f-vigore" data-tocco="carta Diniego Sismico">
+      <div class="corpo"><h3>Diniego Sismico<span class="cd" title="Cooldown">CD 1</span></h3>
+        <p class="azione"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> 1 Danno e Spingi 1, adiacente</p></div>
+      <div class="matrice"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg><span class="eco-t">Eco</span><span class="eco">+1 PM<br>Ruota 1 CD</span></div>
+    </article>
+    <article class="striscia f-terrore" data-tocco="carta Distorsione">
+      <div class="corpo"><h3>Distorsione<span class="cd" title="Cooldown">CD 1</span></h3>
+        <p class="azione"><span class="costo c-presagio">X<svg class="ico " aria-hidden="true"><use href="#i-presagio"/></svg></span><span class="costo pt">+1 PT</span> sposta un'unità (non te) fino a X caselle; trappole attive</p></div>
+      <div class="matrice"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg><span class="eco-t">Eco</span><span class="eco">+1 PM<br>Pesca 1</span></div>
+    </article>
+    <article class="striscia f-vigore" data-tocco="carta Parata">
+      <div class="corpo"><h3>Parata<span class="cd" title="Cooldown">CD 0</span></h3>
+        <p class="azione"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> +1 Scudo</p><p class="azione"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> Pesca 1 carta</p></div>
+      <div class="matrice"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg><span class="eco-t">Eco</span><span class="eco">+1 Contrattacco</span></div>
+    </article>
+    <article class="striscia f-free" data-tocco="carta Carica Furiosa">
+      <div class="corpo"><h3>Carica Furiosa<span class="cd" title="Cooldown">CD 2</span></h3>
+        <p class="azione"><span class="costo gratis">Gratis</span> 2 dadi vicini in Sequenza: carica in linea retta, danno = caselle</p></div>
+      <div class="matrice"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg><span class="eco-t">Eco</span><span class="eco">+1 Luce</span></div>
+    </article></section>
+  <section class="rosario" data-pannello="sequenza"><div class="filo"></div><div class="perle"><div class="perla nem colpisce" data-tocco="dado Z1">
+        <span class="t-su"><svg class="sigillo piccolo" width="22" height="22" viewBox="0 0 22 22" aria-label="Z1"><g class="forma"><circle cx="11" cy="11" r="9.8"/></g><text x="11" y="15.3" text-anchor="middle">Z1</text></svg></span>
+        <span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="t-giu rosso">Orda −1</span></div><div class="perla mio tenuto  k-vigore" data-tocco="dado d2" role="button" aria-pressed="true">
+      <span class="t-su">Slot 1</span><span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-forza"/></svg></span><span class="t-giu spento">+1 PM</span></div><div class="perla mio tenuto  k-fuoco" data-tocco="dado d4" role="button" aria-pressed="true">
+      <span class="t-su">Slot 4</span><span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-fuoco"/></svg></span><span class="t-giu spento">+1 Luce</span></div><div class="perla nem colpisce" data-tocco="dado Z2">
+        <span class="t-su"><svg class="sigillo piccolo" width="22" height="22" viewBox="0 0 22 22" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="18.4" height="18.4"/></g><text x="11" y="15.3" text-anchor="middle">Z2</text></svg></span>
+        <span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="t-giu rosso">Orda −1</span></div><div class="perla nem " data-tocco="dado Z3">
+        <span class="t-su"><svg class="sigillo piccolo" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg></span>
+        <span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="t-giu grigio">Orda</span></div><div class="perla nem " data-tocco="dado Z4">
+        <span class="t-su"><svg class="sigillo piccolo" width="22" height="22" viewBox="0 0 22 22" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H20.5V12C20.5 18 14 21 11 21.2C8 21 1.5 18 1.5 12z"/></g><text x="11" y="15.3" text-anchor="middle">Z4</text></svg></span>
+        <span class="faccia"><b>1</b><svg class="ico angolo" aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="t-giu grigio">Orda</span></div><div class="perla mio tenuto  k-vigore" data-tocco="dado d1" role="button" aria-pressed="true">
+      <span class="t-su">Slot 3</span><span class="faccia"><b>2</b><svg class="ico angolo" aria-hidden="true"><use href="#i-forza"/></svg></span><span class="t-giu spento">+1 PM</span></div><div class="perla nem " data-tocco="dado Z5">
+        <span class="t-su"><svg class="sigillo piccolo" width="22" height="22" viewBox="0 0 22 22" aria-label="Z5"><g class="forma"><path d="M5.5 1.5H16.5L21.2 11L16.5 20.5H5.5L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z5</text></svg></span>
+        <span class="faccia"><b>4</b><svg class="ico angolo" aria-hidden="true"><use href="#i-scudo"/></svg></span><span class="t-giu grigio">Incassare</span></div><div class="perla mio tenuto  k-terrore" data-tocco="dado d5" role="button" aria-pressed="true">
+      <span class="t-su">Slot 2</span><span class="faccia"><b>4</b><svg class="ico angolo" aria-hidden="true"><use href="#i-presagio"/></svg></span><span class="t-giu spento">+1 PT</span></div><div class="perla mio tenuto conflitto k-fuoco" data-tocco="dado d3" role="button" aria-pressed="true">
+      <span class="t-su errore">nessuno slot</span><span class="faccia"><b>2</b><svg class="ico angolo" aria-hidden="true"><use href="#i-fuoco"/></svg></span><span class="t-giu spento">+1 Luce</span></div></div><div class="sigillo-fine"><div class="motivo" role="status">Troppi dadi per gli slot: il dado Fuoco 2 non ha uno slot. Scarta uno dei due dadi Fuoco.</div>
+       <button class="primario spento" data-tocco="conferma" data-primario aria-disabled="true">Conferma i dadi<small>non disponibile</small></button></div></section>
+</div>
+<script>(function(){var q=new URLSearchParams(location.search).get('stato');if(q){document.body.classList.add('solo');var e=document.getElementById(q);if(e)e.classList.add('vis');}})();</script>
+</body></html>
