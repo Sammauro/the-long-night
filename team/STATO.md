@@ -4,12 +4,12 @@
 
 **Batch corrente:** B1 — Nuova interfaccia: ricerca, user story e design
 **Modalità:** cloud (Gianmarco dà il via a ogni batch) · sul PC: soglie automatiche
-**Prossima azione:** B1.2a (piano in `team/PIANO.md`)
+**Prossima azione:** B1.2b — user story della nuova interfaccia (input: `team/ricerca/ui_2026-11-22.md`; piano in `team/PIANO.md`)
 
 | Passo | Cosa | Agente | Stato | Output |
 |---|---|---|---|---|
 | B1.1 | Piano del batch: obiettivi misurabili, passi, cancello | stratega | fatto | `team/PIANO.md` |
-| B1.2a | Ricerca UX: mappa del turno, principi, riferimenti, tabella dei problemi | ricercatore-ux | da fare | `team/ricerca/ui_2026-11-22.md` |
+| B1.2a | Ricerca UX: mappa del turno, principi, riferimenti, tabella dei problemi | ricercatore-ux | fatto | `team/ricerca/ui_2026-11-22.md` |
 | B1.2b | User story della nuova interfaccia (15–22, max 12 Must, 13 temi) | ricercatore-ux | da fare | `team/stories/ui/` |
 | B1.3a | Due direzioni della Selezione su telefono e scelta motivata | designer-ux-ui | da fare | `team/design/ui/DIREZIONE.md` |
 | B1.3b | Mockup completi (8 schermate × telefono e desktop) e specifica | designer-ux-ui | da fare | `team/design/ui/` |
@@ -30,3 +30,4 @@
 | Data | Passo | Esito | Commit |
 |---|---|---|---|
 | 2026-11-22 | B1.1 | Piano scritto: 5 indicatori, passi B1.2a/b e B1.3a/b, cancello sui mockup | questo commit |
+| 2026-11-22 | B1.2a | Ricerca scritta: 5 fasi mappate con dati del motore, 7 principi, 9 riferimenti con fonti, 18 problemi (C1–C12, A1, A2, B5, T1–T3) + 5 nuovi, 3 dati richiesti al motore; schermate in `team/ricerca/shots/` | dopo fdb284f (vedi git log) |
