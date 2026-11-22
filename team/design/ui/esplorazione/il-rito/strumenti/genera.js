@@ -73,21 +73,21 @@ text.got{font-family:'Grenze Gotisch','Grenze',serif}
 #voce i{color:var(--gesso-spento)}
 .tasca{position:absolute;font-size:12px;line-height:13.5px;color:var(--gesso-spento);font-style:italic}
 /* lato destro: plancia, carte, sigillo */
-#plancia{position:absolute;left:566px;top:6px;width:272px;height:40px;display:flex;align-items:center;gap:6px}
-#plancia .et{width:92px;font-size:12px;line-height:13.5px;color:var(--gesso-spento)}
+#plancia{position:absolute;left:566px;top:3px;width:272px;height:44px;display:flex;align-items:center;gap:5px}
+#plancia .et{width:76px;font-size:12px;line-height:13.5px;color:var(--gesso-spento)}
 #plancia .et b{display:block;color:var(--gesso);font-weight:500;font-size:13px}
-.posto{width:39px;height:40px;border:1.2px dashed #55505f;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#7d7788;position:relative;font-size:12px;line-height:12px}
+.posto{width:44px;height:44px;border:1.2px dashed #55505f;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#7d7788;position:relative;font-size:12px;line-height:12px}
 .posto .sg{width:14px;height:14px}
 .posto.pieno{border:1.2px solid var(--carta-ombra);color:var(--gesso)}
-.posto.pieno i.mini{position:absolute;left:8px;top:13px;width:22px;height:15px;background:var(--carta);border-radius:1.5px;box-shadow:0 1px 0 #0008}
+.posto.pieno i.mini{position:absolute;left:11px;top:15px;width:22px;height:15px;background:var(--carta);border-radius:1.5px;box-shadow:0 1px 0 #0008}
 .posto.pieno b{position:relative;z-index:1;color:var(--inchiostro);font-size:12px;margin-top:1px}
 .posto.futuro{border:1.2px dashed var(--oro);color:var(--oro)}
 .posto small{font-size:12px;font-style:normal}
 .carta{position:absolute;width:90px;height:134px;background:linear-gradient(168deg,#e6dabe 0,var(--carta) 45%,#cfc09f 100%);color:var(--inchiostro);border-radius:3px;box-shadow:0 0 0 1px #0009,2px 3px 0 #0007,inset 0 0 14px #8a744533;padding:5px 5px 0 6px;display:flex;flex-direction:column;overflow:hidden}
 .carta::before{content:'';position:absolute;left:0;top:0;right:0;height:3px;background:var(--fam)}
 .carta h3{font-size:13.5px;line-height:13.5px;font-weight:700;margin-top:2px;min-height:14px}
-.carta .cd{float:right;margin-left:3px;font-size:12px;font-weight:700;line-height:14px;height:15px;padding:0 3px;border:1.2px solid var(--inchiostro);border-radius:2px;transform:rotate(90deg) translate(1px,-1px)}
-.carta .cd.c2{transform:rotate(180deg)}
+.carta .cd{float:right;margin:0 0 1px 3px;font-size:12px;font-weight:700;line-height:12px;width:19px;height:14px;text-align:center;border:1.2px solid var(--inchiostro);border-radius:2px;background:#efe5cc}
+.carta .cd.c2{box-shadow:2px -2px 0 -0.5px #efe5cc,2px -2px 0 0.8px var(--inchiostro)}
 .carta ul{list-style:none;margin-top:4px;flex:1}
 .carta li{font-size:12px;line-height:13px;padding-left:17px;position:relative;margin-bottom:3px}
 .carta li .pip{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--inchiostro);color:var(--fam);display:flex;align-items:center;justify-content:center}
@@ -103,7 +103,7 @@ text.got{font-family:'Grenze Gotisch','Grenze',serif}
 .dorso i::after{content:'';position:absolute;inset:6px;border:1px solid #6d5f3a;border-radius:50%}
 .dorso p{position:absolute;left:0;right:0;bottom:0;text-align:center;font-size:12px;color:var(--gesso-spento)}
 .dorso p b{color:var(--gesso);font-weight:700}
-#sigillo{position:absolute;left:566px;top:336px;width:272px;height:48px;background:linear-gradient(180deg,#dfbc5c,var(--oro) 60%,#b08f38);color:#1c1608;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px);display:flex;flex-direction:column;align-items:center;justify-content:center;border:0}
+#sigillo{position:absolute;left:566px;top:336px;width:272px;height:48px;background:linear-gradient(180deg,#dfbc5c,var(--oro) 60%,#b08f38);color:#1c1608;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px);display:flex;flex-direction:column;align-items:center;justify-content:center;border:0;font-family:inherit}
 #sigillo b{font-family:'Grenze Gotisch';font-weight:700;font-size:21px;line-height:21px}
 #sigillo span{font-size:12px;line-height:14px;font-weight:500}
 #sigillo.secondo{background:none;color:var(--gesso);box-shadow:inset 0 0 0 1.4px var(--gesso-spento);clip-path:none;border-radius:2px;top:292px;height:44px}
@@ -147,7 +147,7 @@ function dadoMio(d, x, y, o) {
   const ty = d.kind === 'fuoco' ? 13 : 7;
   if (o.vuoto) return `<g transform="translate(${f1(x)},${f1(y)}) scale(${s})" fill="none" stroke="${col}" stroke-width="1.4" stroke-dasharray="3 4" opacity=".75">${forma}<text class="got" y="${ty}" text-anchor="middle" font-size="20" font-weight="500" fill="${col}" stroke="none">${d.value}</text></g>`;
   const spento = o.spento ? ' opacity=".38"' : '';
-  const alone = o.attivo ? `<circle r="36" fill="none" stroke="var(--oro)" stroke-width="2.2"/><circle r="41" fill="none" stroke="var(--oro)" stroke-width="1" opacity=".5"/>` : '';
+  const alone = o.attivo ? `<g transform="scale(1.24)" fill="#d2ae4f33" stroke="var(--oro)" stroke-width="2.2">${forma}</g>` : '';
   const g = KIND[d.kind];
   const gy = d.kind === 'fuoco' ? -8 : d.kind === 'terrore' ? -20 : -19, gx = d.kind === 'vigore' ? -18 : -5;
   return `<g transform="translate(${f1(x)},${f1(y)})"${spento}>${alone}<g transform="scale(${s})"><g fill="${col}" stroke="#0b0a0d" stroke-width="1.5">${forma}</g>` +
@@ -172,7 +172,7 @@ function dadoNemico(d, x, y, ant, o) {
 
 // ---------- la ruota (Sequenza attorno all'officiante) ----------
 function ruota(S, modo) {
-  const seq = S.seq, n = seq.length, passo = 180 / (n - 1);
+  const seq = S.seq, n = seq.length, A0 = 5, passo = (180 - 2 * A0) / (n - 1);
   const ant = {}; (S.anteprima || []).forEach(a => ant[a.uid] = a);
   let s = '';
   // cerchio di gesso: confine tra Sequenza (fuori) e ciò che è stato scartato per sé (dentro)
@@ -180,13 +180,13 @@ function ruota(S, modo) {
   // verso orario: tre tacche a freccia sul cerchio
   [10, 70, 130].forEach(a => { const [x, y] = pol(RC, a + passo / 2 * 0 + 10); s += `<path transform="translate(${f1(x)},${f1(y)}) rotate(${a + 10})" d="M-4,-4 L3,0 L-4,4" fill="none" stroke="var(--gesso)" stroke-width="1.4" opacity=".6"/>`; });
   seq.forEach((d, i) => {
-    const a = i * passo, [x, y] = pol(R, a), [ix, iy] = pol(RI, a);
+    const a = A0 + i * passo, [x, y] = pol(R, a), [ix, iy] = pol(RI, a);
     if (d.kind === 'ai') { s += dadoNemico(d, x, y, ant[d.uid]); return; }
     if (modo === 'selezione') {
       const p = S.selezione.plan.dice[d.uid];
       if (p.kept) {
         s += dadoMio(d, x, y);
-        s += `<g transform="translate(${f1(ix)},${f1(iy)})"><circle r="18" fill="none" stroke="var(--${d.kind})" stroke-width="1" stroke-dasharray="2 3" opacity=".7"/><text y="-1" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--${d.kind})">+1</text><text y="11" text-anchor="middle" font-size="12" fill="var(--${d.kind})">${GAIN[d.kind]}</text></g>`;
+        s += `<g transform="translate(${f1(ix)},${f1(iy)})"><circle r="16.5" fill="none" stroke="var(--${d.kind})" stroke-width="1" stroke-dasharray="2 3" opacity=".7"/><text y="-1" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--${d.kind})">+1</text><text y="11" text-anchor="middle" font-size="12" fill="var(--${d.kind})">${GAIN[d.kind]}</text></g>`;
       } else {
         s += dadoMio(d, x, y, { vuoto: true });
         s += dadoMio(d, ix, iy, { scala: .74 });
@@ -194,7 +194,8 @@ function ruota(S, modo) {
     } else {
       const attivo = d.state === 'active';
       if (attivo) { const [bx, by] = pol(RH + 2, a), [ex, ey] = pol(R - 40, a); s += `<path d="M${f1(bx)},${f1(by)} L${f1(ex)},${f1(ey)}" stroke="var(--oro)" stroke-width="2.4" stroke-linecap="round"/><path transform="translate(${f1(ex)},${f1(ey)}) rotate(${a - 90})" d="M-6,-5 L3,0 L-6,5 Z" fill="var(--oro)"/>`; }
-      s += dadoMio(d, x, y, { attivo, scala: attivo ? 1.08 : 1 });
+      s += dadoMio(d, x, y, { attivo });
+      if (attivo && S.res) { const n = S.res.pool[KIND[d.kind]]; s += `<g transform="translate(${f1(ix + 4)},${f1(iy - 8)})"><rect x="-34" y="-10" width="68" height="20" rx="2" fill="#17161b" stroke="var(--oro)"/><text x="-8" y="4.5" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--oro)">resta ${n}</text><svg x="16" y="-6.5" width="13" height="13" viewBox="0 0 16 16" color="var(--oro)"><use href="#g-${KIND[d.kind]}"/></svg></g>`; }
     }
   });
   return s;
@@ -231,7 +232,7 @@ function mappa(S, o) {
     const [x, y] = hc([r, e]), t = terr[r + ',' + e], k = oro[r + ',' + e];
     if (t === 'column') s += `<g transform="translate(${x},${y})"><polygon points="${HEXP}" fill="#0e0d11" stroke="#4a4652" stroke-width="1.2"/><circle r="12" fill="#3b3842" stroke="#6a6573" stroke-width="1.2"/><circle r="6.5" fill="none" stroke="#6a6573"/></g>`;
     else s += `<g transform="translate(${x},${y})"><polygon points="${HEXP}" fill="${k ? '#5a4a1c' : 'var(--lastra)'}" stroke="${k ? 'var(--oro)' : 'var(--lastra-bordo)'}" stroke-width="${k ? 2 : 1}"/>` +
-      (t === 'trap' ? `<path d="M-9,-9 L9,9 M9,-9 L-9,9" stroke="var(--sangue)" stroke-width="2"/><text y="20" text-anchor="middle" font-size="12" fill="var(--sangue-chiaro)">trappola 3</text>` : '') +
+      (t === 'trap' ? `<path d="M-7,-16 L7,-4 M7,-16 L-7,-4" stroke="var(--sangue)" stroke-width="2"/><text y="10" text-anchor="middle" font-size="12" fill="var(--sangue-chiaro)">trappola</text>` : '') +
       (k ? `<text y="4" text-anchor="middle" font-size="13" font-weight="700" fill="var(--oro)">${k.testo}</text>` : '') + `</g>`;
   }
   // muro fuori griglia toccabile (spinta contro il muro)
@@ -254,7 +255,7 @@ function mappa(S, o) {
   });
   // tu
   s += `<g transform="translate(${px},${py})"><circle r="16" fill="#15131a" stroke="var(--oro)" stroke-width="2.2"/><text class="got" y="5.5" text-anchor="middle" font-size="16" font-weight="700" fill="var(--gesso)">Tu</text>` +
-    (S.giocatore.stati && S.giocatore.stati.vuln ? `<g transform="translate(15,-15)"><rect x="-11" y="-8" width="22" height="16" rx="2" fill="var(--sangue)"/><text y="4.5" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">×2</text></g>` : '') + `</g>`;
+    (S.giocatore.stati && S.giocatore.stati.vuln ? `<g transform="translate(0,24)"><rect x="-13" y="-8" width="26" height="16" rx="2" fill="var(--sangue)" stroke="#0c0b0e"/><text y="4.5" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">×2</text></g>` : '') + `</g>`;
   // nemici
   const ant = {}; (S.anteprima || []).forEach(a => ant[a.owner] = a);
   S.nemici.forEach(n => {
@@ -262,8 +263,8 @@ function mappa(S, o) {
     const bers = (o.bersagli || {})[n.id];
     let b = '';
     if (bers) b += `<polygon points="${HEXP}" fill="none" stroke="var(--oro)" stroke-width="${bers === 'scelto' ? 3 : 1.6}" ${bers === 'scelto' ? '' : 'stroke-dasharray="4 3"'}/>`;
-    b += `<circle cx="-8" cy="3" r="14.5" fill="${st.stun ? '#8f897b' : '#d3c9ae'}" stroke="#0c0b0e" stroke-width="1.5"/><text x="-8" y="8" text-anchor="middle" font-size="14" font-weight="700" fill="#1b1512">${n.id}</text>`;
-    b += `<svg x="12" y="-5" width="10" height="10" viewBox="0 0 16 16" color="var(--sangue-chiaro)"><use href="#g-hp"/></svg><text x="17" y="17" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--gesso)">${n.hp}</text>`;
+    b += `<circle cx="0" cy="4" r="17" fill="${st.stun ? '#8f897b' : '#d3c9ae'}" stroke="#0c0b0e" stroke-width="1.5"/><text x="0" y="2" text-anchor="middle" font-size="13" font-weight="700" fill="#1b1512">${n.id}</text>`;
+    b += `<svg x="-11" y="5" width="10" height="10" viewBox="0 0 16 16" color="#8f231f"><use href="#g-hp"/></svg><text x="5" y="15" text-anchor="middle" font-size="13" font-weight="700" fill="#1b1512">${n.hp}</text>`;
     // intento sopra la casella
     let txt, fill = '#221316', col = 'var(--gesso-spento)', gl = ACT[a.action] || 'orda';
     if (a.spento) { txt = 'salta'; gl = 'stordito'; }
@@ -271,12 +272,12 @@ function mappa(S, o) {
     else if (a.dmg > 0) { txt = '−' + a.dmg; fill = 'var(--sangue)'; col = '#fff'; }
     else txt = '0';
     const w = txt.length > 2 ? 46 : 34;
-    b += `<g transform="translate(-2,-21)"><rect x="${-w / 2}" y="-8.5" width="${w}" height="17" rx="2" fill="${fill}" stroke="${fill === '#221316' ? '#5d5560' : '#0c0b0e'}"/><svg x="${-w / 2 + 3}" y="-6" width="12" height="12" viewBox="0 0 16 16" color="${col}"><use href="#g-${gl}"/></svg><text x="${-w / 2 + 17}" y="4.5" font-size="12.5" font-weight="700" fill="${col}">${txt}</text></g>`;
+    b += `<g transform="translate(0,-21)"><rect x="${-w / 2}" y="-8.5" width="${w}" height="17" rx="2" fill="${fill}" stroke="${fill === '#221316' ? '#5d5560' : '#0c0b0e'}"/><svg x="${-w / 2 + 3}" y="-6" width="12" height="12" viewBox="0 0 16 16" color="${col}"><use href="#g-${gl}"/></svg><text x="${-w / 2 + 17}" y="4.5" font-size="12.5" font-weight="700" fill="${col}">${txt}</text></g>`;
     // stati sotto la casella
     const chip = [];
     if (st.shield) chip.push(['scudo', st.shield[0] + st.shield[1], 'var(--scudo)']);
     if (st.vulnFire) chip.push(['fuoco', '×2', 'var(--fuoco)']);
-    chip.forEach((c, i) => { b += `<g transform="translate(${-6 + i * 30},23)"><rect x="-15" y="-8" width="30" height="16" rx="2" fill="#17161b" stroke="${c[2]}"/><svg x="-13" y="-6" width="12" height="12" viewBox="0 0 16 16" color="${c[2]}"><use href="#g-${c[0]}"/></svg><text x="6" y="4.5" text-anchor="middle" font-size="12.5" font-weight="700" fill="${c[2]}">${c[1]}</text></g>`; });
+    chip.forEach((c, i) => { b += `<g transform="translate(${i * 30},27)"><rect x="-15" y="-8" width="30" height="16" rx="2" fill="#17161b" stroke="${c[2]}"/><svg x="-13" y="-6" width="12" height="12" viewBox="0 0 16 16" color="${c[2]}"><use href="#g-${c[0]}"/></svg><text x="6" y="4.5" text-anchor="middle" font-size="12.5" font-weight="700" fill="${c[2]}">${c[1]}</text></g>`; });
     s += `<g transform="translate(${x},${y})">${b}</g>`;
   });
   return s;
@@ -306,12 +307,11 @@ function pip(cost) {
   const g = { forza: 'forza', fuoco: 'fuoco', presagio: 'presagio' }[k[0]];
   return `<span class="pip">${sg(g)}</span>`;
 }
-const LIBERE = { cu: 'Senza dado. Consuma 2 dadi vicini in Sequenza: corri dritto, <em>danni = caselle</em>.' };
+const LIBERE = { cu: 'Senza dado. Consuma 2 dadi vicini: corri dritto, <em>danni = caselle</em>.' };
 function carta(c, x, y, rot) {
   const righe = c.azioni.length ? c.azioni.map(a => {
-    const extra = a.cost.presagio === 'X' ? `<b>X</b> ` : '';
-    const pt = a.cost.pt ? ` <b>−${a.cost.pt} PT</b>` : '';
-    return `<li>${pip(a.cost)}${extra}${breve(a)}${pt}</li>`;
+    const extra = a.cost.presagio === 'X' ? `<b>X</b>${a.cost.pt ? ` e <b>${a.cost.pt} PT</b>` : ''}: ` : '';
+    return `<li>${pip(a.cost)}${extra}${breve(a)}</li>`;
   }).join('') : `<li class="lib">${LIBERE[c.id] || c.pre}</li>`;
   const cd = c.cd ? `<span class="cd${c.cd === 2 ? ' c2' : ''}">${c.cd}</span>` : '';
   return `<div class="carta" style="left:${x}px;top:${y}px;transform:rotate(${rot}deg);--fam:${FAM[c.family]}"><h3>${cd}${c.nome}</h3><ul>${righe}</ul><div class="eco"><i>Eco</i>${c.eco.replace(/ · /g, ', ')}</div>${c.nuova ? '<span class="nuova"></span>' : ''}</div>`;
@@ -330,7 +330,7 @@ const grana = `<svg class="strato" style="opacity:.5;mix-blend-mode:overlay;poin
   const S = DATI.stati.sel_proposta;
   const gi = { g: 'forza' }, slot = S.plancia.slot.map(p => ({ g: KIND[p.die] }));
   const m = S.mano;
-  const X0 = 566, pos = [[X0, 54, -1.6], [X0 + 94, 55, .8], [X0 + 188, 54, 1.7], [X0, 195, 1.2], [X0 + 94, 194, -1.3]];
+  const X0 = 563, pos = [[X0, 54, -1.6], [X0 + 93, 55, .8], [X0 + 186, 54, 1.4], [X0, 195, 1.2], [X0 + 93, 194, -1.3]];
   const corpo = grana +
     `<svg class="strato" viewBox="0 0 844 390">${mappa(S)}${ruota(S, 'selezione')}${officiante(S, { arrivo: '−3 in arrivo', lucePiu: 1 })}</svg>` +
     `<div id="domanda"><b>Quali dadi tieni?</b><span>La Cripta, turno 1 di 6 di Veglia</span></div>` +
@@ -339,7 +339,7 @@ const grana = `<svg class="strato" style="opacity:.5;mix-blend-mode:overlay;poin
     `<div id="voce">In arrivo se nulla cambia: <span class="r">Z1 −1, Z2 −2</span> <i>(Orda: +1 con Z1 accanto)</i>.<br>Prima di Z2 hai ${sg('forza')} 1. Il ${sg('fuoco')} 1 è scartato: c'è un solo slot ${sg('fuoco')}.</div>` +
     plancia(slot, 'tutti i posti liberi') +
     m.map((c, i) => carta(c, pos[i][0], pos[i][1], pos[i][2])).join('') +
-    `<div class="dorso" style="left:${X0 + 188}px;top:194px"><i style="left:6px;top:2px;transform:rotate(-3deg)"></i><i style="left:9px;top:5px;transform:rotate(1deg)"></i><i style="left:8px;top:8px;transform:rotate(3deg)"></i><p>Mazzo <b>${S.mazzo}</b>, scarti <b>${S.scarti}</b></p></div>` +
+    `<div class="dorso" style="left:${X0 + 186}px;top:194px"><i style="left:6px;top:2px;transform:rotate(-3deg)"></i><i style="left:9px;top:5px;transform:rotate(1deg)"></i><i style="left:8px;top:8px;transform:rotate(3deg)"></i><p>Mazzo <b>${S.mazzo}</b>, scarti <b>${S.scarti}</b></p></div>` +
     `<button id="sigillo"><b>Conferma i dadi</b><span>4 in Sequenza, 1 scartato: +1 Luce</span></button>`;
   fs.writeFileSync(path.join(OUT, 'selezione_telefono.html'), pagina('Il Rito · Selezione', corpo));
 })();
@@ -351,7 +351,7 @@ const grana = `<svg class="strato" style="opacity:.5;mix-blend-mode:overlay;poin
   const oro = spinta.filter(c => c.status === 'free').map(c => ({ cell: c.cell, testo: 'qui' }));
   const muro = spinta.filter(c => c.status === 'wall').map(c => ({ cell: c.cell, testo: '1 danno' }));
   const posti = [
-    { g: 'forza', cls: 'pieno', mini: 1, rot: 0, t: '' },
+    { g: 'forza', cls: 'pieno', mini: 1, rot: 90, t: '' },
     { g: 'presagio', cls: 'futuro', t: '2 t.' },
     { g: 'forza' }, { g: 'fuoco' }];
   const altre = S.mano;
@@ -359,8 +359,7 @@ const grana = `<svg class="strato" style="opacity:.5;mix-blend-mode:overlay;poin
     `<svg class="strato" viewBox="0 0 844 390">${mappa(S, { oro, muro, bersagli: { Z4: 'scelto', Z2: 'valido' } })}${ruota(S, 'risoluzione')}${officiante(S, { arrivo: '−12 in arrivo' })}` +
     // i due dadi scartati in Selezione restano visibili dentro il cerchio (valori illustrativi: il JSON non li riporta)
     `${dadoMio({ kind: 'vigore', value: 1 }, ...pol(RI, 64), { scala: .7 })}${dadoMio({ kind: 'fuoco', value: 2 }, ...pol(RI, 116), { scala: .7 })}` +
-    `<text x="64" y="72" font-size="12.5" font-weight="700" fill="var(--oro)">resta 1</text><svg x="106" y="61" width="13" height="13" viewBox="0 0 16 16" color="var(--oro)"><use href="#g-forza"/></svg>` +
-    `</svg>` +
+        `</svg>` +
     `<div id="domanda"><b>Dove spingi Z4?</b><span>turno 2 di 6 di Veglia</span></div>` +
     `<div id="voce"><span class="o">Fatto:</span> Z4 stordito e spinto contro il muro, Collisione 1 danno.<br><span class="r">Sei Vulnerabile (×2): Z1 e Z2 ti farebbero 6 danni ciascuno.</span></div>` +
     plancia(posti, 'Distorsione esce a fine turno') +
