@@ -4,14 +4,16 @@
 
 **Batch corrente:** B1 — Nuova interfaccia: ricerca, user story e design
 **Modalità:** cloud (Gianmarco dà il via a ogni batch) · sul PC: soglie automatiche
-**Prossima azione:** B1.1
+**Prossima azione:** B1.2a (piano in `team/PIANO.md`)
 
 | Passo | Cosa | Agente | Stato | Output |
 |---|---|---|---|---|
-| B1.1 | Piano del batch: obiettivi misurabili, passi, cancello | stratega | da fare | `team/PIANO.md` |
-| B1.2 | Ricerca UX e user story della nuova interfaccia | ricercatore-ux | da fare | `team/ricerca/`, `team/stories/ui/` |
-| B1.3 | Design da zero: mockup desktop e telefono, specifica | designer-ux-ui | da fare | `team/design/ui/` |
-| B1.4 | Valutazione del batch contro gli indicatori | stratega | da fare | `team/valutazioni/B1_*.md` |
+| B1.1 | Piano del batch: obiettivi misurabili, passi, cancello | stratega | fatto | `team/PIANO.md` |
+| B1.2a | Ricerca UX: mappa del turno, principi, riferimenti, tabella dei problemi | ricercatore-ux | da fare | `team/ricerca/ui_2026-11-22.md` |
+| B1.2b | User story della nuova interfaccia (15–22, max 12 Must, 13 temi) | ricercatore-ux | da fare | `team/stories/ui/` |
+| B1.3a | Due direzioni della Selezione su telefono e scelta motivata | designer-ux-ui | da fare | `team/design/ui/DIREZIONE.md` |
+| B1.3b | Mockup completi (8 schermate × telefono e desktop) e specifica | designer-ux-ui | da fare | `team/design/ui/` |
+| B1.4 | Valutazione del batch contro gli indicatori I1–I5 | stratega | da fare | `team/valutazioni/B1_*.md` |
 | ⛔ | **Cancello: Gianmarco approva i mockup** | — | in attesa | — |
 
 ## Batch successivi (bozza, li dettaglia lo stratega)
@@ -27,3 +29,4 @@
 
 | Data | Passo | Esito | Commit |
 |---|---|---|---|
+| 2026-11-22 | B1.1 | Piano scritto: 5 indicatori, passi B1.2a/b e B1.3a/b, cancello sui mockup | questo commit |
