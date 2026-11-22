@@ -4,7 +4,7 @@
 
 **Batch corrente:** B1 — Nuova interfaccia: ricerca, user story e design
 **Modalità:** cloud (Gianmarco dà il via a ogni batch) · sul PC: soglie automatiche
-**Prossima azione:** B1.3b — mockup completi (8 schermate × telefono e desktop) e `SPEC.md` sulla direzione A "Il Rosario" con i tre innesti dalla B (input: `team/design/ui/DIREZIONE.md`, tutte le story Must e Should; piano in `team/PIANO.md`)
+**Prossima azione:** B1.3c (concetto, su Fable)
 
 | Passo | Cosa | Agente | Stato | Output |
 |---|---|---|---|---|
@@ -13,6 +13,9 @@
 | B1.2b | User story della nuova interfaccia (15–22, max 12 Must, 13 temi) | ricercatore-ux | fatto | `team/stories/ui/` |
 | B1.3a | Due direzioni della Selezione su telefono e scelta motivata | designer-ux-ui | fatto | `team/design/ui/DIREZIONE.md` |
 | B1.3b | Mockup completi (8 schermate × telefono e desktop) e specifica | designer-ux-ui | sospeso (nuovo brief del 22/11, vedi B1.3c) | bozze in `team/design/ui/bozze_B1.3b/` |
+| B1.3c | Concetto dell'interfaccia (direzione A ripensata): niente blocchi né cornici, dinamiche di zoom e messa a fuoco, principio guida, 2–3 schermate chiave con le dinamiche mostrate in sequenza | designer-ux-ui (Fable) | da fare | `team/design/ui/concetto/` |
+| ⛔ | **Cancello: Gianmarco approva il concetto** | — | in attesa | — |
+| B1.3d | Mockup completi e SPEC sul concetto approvato (riusa `bozze_B1.3b/strumenti/`) | designer-ux-ui (Opus) | da fare | `team/design/ui/` |
 | B1.4 | Valutazione del batch contro gli indicatori I1–I5 | stratega | da fare | `team/valutazioni/B1_*.md` |
 | ⛔ | **Cancello: Gianmarco approva i mockup** | — | in attesa | — |
 
