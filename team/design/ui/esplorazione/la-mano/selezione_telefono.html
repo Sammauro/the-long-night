@@ -1,0 +1,144 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=844,initial-scale=1"><title>The Long Night · La mano · Selezione</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Asap+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Grenze+Gotisch:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
+:root{
+  --rame-nero:#0b1110; --tavolo:#121b19; --tavolo-chiaro:#1b2825; --riga:#2f423d;
+  --osso:#ece2c8; --spento:#98a69f;
+  --ottone:#c8a655; --ottone-scuro:#6e5b2c; --verderame:#6cbca8;
+  --sangue:#ec6249; --putrido:#bccb62;
+  --fuoco:#f08d3e; --terrore:#b094ee; --luce:#f7efb6;
+  --carta:#e6dcc2; --carta-ombra:#cdc1a2; --inchiostro:#1a1714;
+  --f-nome:'Grenze Gotisch','IM Fell English',Georgia,serif;
+  --f-testo:'Asap Condensed','Arial Narrow',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#050807}
+body{font-family:var(--f-testo);font-size:13px;line-height:1.15;color:var(--osso);font-variant-numeric:lining-nums;-webkit-font-smoothing:antialiased}
+.palco{position:relative;width:844px;height:390px;overflow:hidden;margin:0 auto;
+  background:radial-gradient(120% 90% at 30% 110%, #1c2a26 0%, var(--tavolo) 45%, var(--rame-nero) 100%)}
+.palco::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(94deg,rgba(255,255,255,.012) 0 2px,transparent 2px 7px);pointer-events:none}
+.ico{width:1em;height:1em;fill:currentColor;vertical-align:-.12em;flex:none}
+i,em{font-style:normal}
+
+/* riga di orientamento */
+.dove{position:absolute;left:12px;top:5px;height:24px;display:flex;align-items:baseline;gap:10px;white-space:nowrap}
+.dove h1{font-family:var(--f-nome);font-weight:600;font-size:21px;line-height:24px;color:var(--osso);letter-spacing:.2px}
+.dove .turno{font-size:13px;color:var(--spento)}
+.dove .fai{font-size:13px;color:var(--osso)}
+.risorse{position:absolute;top:6px;height:22px;display:flex;gap:12px;align-items:center;white-space:nowrap}
+.ris{display:inline-flex;align-items:baseline;gap:3px;font-size:13px}
+.ris .ico{font-size:13px;align-self:center}
+.ris b{font-size:16px;font-weight:700}
+.ris i{font-size:12px;color:var(--spento)}
+.ris u{text-decoration:none;color:var(--luce);margin-left:3px}
+.r-hp .ico{color:var(--sangue)} .r-pt .ico{color:var(--terrore)} .r-pm .ico{color:var(--osso)} .r-luce .ico{color:var(--luce)}
+.r-stato b{font-size:13px;color:var(--sangue)} .r-stato i{color:var(--sangue)}
+
+/* dadi */
+.dado{display:block;overflow:visible}
+.dado text{font-family:var(--f-testo);font-weight:700}
+.d-vigore rect{fill:var(--osso);stroke:#fff8e2;stroke-width:1}
+.d-vigore text,.d-vigore svg{fill:var(--inchiostro)}
+.d-fuoco>path{fill:var(--fuoco);stroke:#ffc58a;stroke-width:1}
+.d-fuoco text,.d-fuoco svg{fill:var(--inchiostro)}
+.d-terrore>path{fill:#3b2c66;stroke:var(--terrore);stroke-width:1.500}
+.d-terrore text{fill:#f1eaff}
+.d-nemico>path{fill:#070a09;stroke:var(--putrido);stroke-width:1.500}
+.d-nemico text{fill:var(--putrido)}
+.d-nemico .croce{stroke:var(--spento);stroke-width:2;fill:none}
+.d-nemico.saltato>path{stroke:var(--spento);stroke-dasharray:3 3}
+.d-nemico.saltato text{fill:var(--spento)}
+.dado.scartato rect,.dado.scartato>path{fill:none;stroke:var(--spento);stroke-dasharray:4 3;stroke-width:1.500}
+.dado.scartato text,.dado.scartato svg{fill:var(--spento)}
+
+/* Sequenza Vincolata */
+.sequenza{position:absolute;left:12px;display:flex}
+.posto{position:relative;flex:none;text-align:center;white-space:nowrap}
+.posto .su,.posto .giu{position:absolute;left:-4px;right:-4px;font-size:12px;line-height:14px}
+.posto .dado{position:absolute;left:50%;transform:translateX(-50%)}
+
+.fase-sel .sequenza{top:34px;height:118px}
+.fase-sel .posto{width:71px;height:118px}
+.fase-sel .posto .su{top:0} .fase-sel .posto .giu{top:102px}
+.fase-sel .mio .dado{top:17px}
+.fase-sel .mio.via .dado{top:38px;transform:translateX(-50%) rotate(-9deg)}
+.fase-sel .mio .su{color:var(--verderame);font-weight:600}
+.fase-sel .mio .giu{color:var(--spento)}
+.fase-sel .mio.via .su{color:var(--sangue);font-weight:500}
+.fase-sel .mio.via .giu{color:var(--inchiostro);font-weight:700}
+.fase-sel .mio.via .giu span{background:var(--luce);padding:0 5px;display:inline-block}
+.fase-sel .mio:not(.via)::after{content:"";position:absolute;left:8px;right:8px;top:77px;height:3px;background:var(--verderame)}
+.fase-sel .loro .dado{top:26px}
+.fase-sel .loro .su{color:var(--putrido);font-weight:600}
+.fase-sel .loro .giu{font-size:14px;font-weight:700;color:var(--sangue)}
+.fase-sel .loro .giu.no{font-size:12px;font-weight:500;color:var(--spento)}
+.fase-sel .loro .giu.sc{font-size:12px;font-weight:600;color:var(--verderame)}
+.verso{position:absolute;left:12px;top:153px;font-size:12px;color:var(--spento);white-space:nowrap}
+
+/* pulsante primario: uno solo per schermata */
+.primo{position:absolute;display:block;border:0;font-family:var(--f-testo);color:var(--inchiostro);background:var(--ottone);
+  clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);text-align:left;padding:9px 10px 8px 12px}
+.primo strong{display:block;font-family:var(--f-nome);font-weight:700;font-size:21px;line-height:22px}
+.primo span{display:block;font-size:13px;line-height:15px;font-weight:600;margin-top:4px}
+.secondo{position:absolute;display:block;background:none;border:1.500px solid var(--ottone-scuro);color:var(--osso);font-family:var(--f-testo);font-size:14px;font-weight:600;text-align:center}
+
+/* carte: carta chiara stampata, Eco sempre al piede */
+.carta{position:absolute;background:var(--carta);color:var(--inchiostro);border-radius:5px;display:flex;flex-direction:column;
+  box-shadow:0 0 0 1px #000,0 3px 0 #000,0 10px 18px rgba(0,0,0,.55);overflow:hidden}
+.carta::after{content:"";position:absolute;inset:3px;border:1px solid rgba(26,23,20,.28);border-radius:3px;pointer-events:none}
+.carta header,.carta footer{flex:none}
+.carta header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:3px 4px;padding:6px 7px 5px 6px}
+.carta .sigillo{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--inchiostro);color:var(--carta);font-size:12px;flex:none;margin-top:1px}
+.carta h3{font-family:var(--f-nome);font-weight:600;font-size:17px;line-height:16px;flex:none;width:100%;letter-spacing:.1px}
+.carta .cd{font-size:12px;font-weight:700;line-height:13px;border:1px solid var(--inchiostro);padding:1px 3px;white-space:nowrap;flex:none}
+.carta .corpo{flex:1;padding:0 6px;display:flex;flex-direction:column;gap:5px}
+.carta .pre{font-size:12px;line-height:13.500px;font-style:italic}
+.carta .az{display:flex;gap:5px;align-items:flex-start;font-size:12.500px;line-height:13.500px}
+.carta .costo{flex:none;min-width:25px;display:inline-flex;flex-direction:column;gap:1px}
+.carta .costo b{display:inline-flex;align-items:center;justify-content:center;gap:1px;height:17px;padding:0 3px;font-size:13px;font-weight:700;color:var(--carta);background:var(--inchiostro)}
+.carta .costo .ico{font-size:11px}
+.carta .costo .c-fuoco{background:#a8480f} .carta .costo .c-presagio,.carta .costo .c-pt{background:#4a3684}
+.carta .costo.gratis{height:17px;align-items:center;justify-content:center;border:1px solid var(--inchiostro);font-size:13px;font-weight:700}
+.carta .eff{flex:1;font-weight:500}
+.carta footer{background:#1b2a27;color:var(--osso);padding:4px 6px 5px;display:flex;flex-wrap:wrap;gap:1px 7px;align-items:baseline;font-size:12.500px;line-height:14px;position:relative}
+.carta footer i{font-family:var(--f-nome);font-size:14px;color:var(--ottone);width:100%;line-height:13px}
+.carta footer b{font-weight:600;white-space:nowrap}
+.f-fuoco .sigillo{background:#a8480f} .f-terrore .sigillo{background:#4a3684} .f-libera .sigillo{background:#1b2a27;color:var(--luce)}
+.f-fuoco{background:linear-gradient(#ecd3b2,var(--carta) 46px)} .f-terrore{background:linear-gradient(#d9cfe6,var(--carta) 46px)} .f-libera{background:linear-gradient(#d3ddd0,var(--carta) 46px)}
+
+/* la mano a ventaglio */
+.mano .carta{width:110px;height:208px;transform-origin:50% 100%}
+
+/* la stanza: finestra piccola che cresce quando serve */
+.stanza{position:absolute;background:#070b0a;border:1px solid var(--ottone-scuro);box-shadow:inset 0 0 0 3px #070b0a,inset 0 0 0 4px rgba(200,166,85,.18)}
+.stanza .targa{position:absolute;left:8px;right:8px;display:flex;justify-content:space-between;align-items:baseline;white-space:nowrap}
+.stanza .targa h2{font-family:var(--f-nome);font-weight:500;font-size:16px;color:var(--osso)}
+.stanza .targa span{font-size:12px;color:var(--ottone)}
+.mappa{position:absolute;left:0;top:0}
+.mappa text{font-family:var(--f-testo)}
+.t12{font-size:12px} .t13{font-size:13px} .t14{font-size:14px} .forte{font-weight:700}
+.scuro{fill:var(--inchiostro)} .ottone{fill:var(--ottone)} .sangue{fill:var(--sangue)}
+.cas{fill:#16211e;stroke:#2a3b36;stroke-width:1}
+.cas.column{fill:#39413c;stroke:#6b756e}
+.cas.trap{fill:#2a1d18;stroke:#8a4a3a}
+.trappola{fill:var(--sangue)}
+.tu{fill:var(--osso);stroke:#fff;stroke-width:1.500}
+.nem circle{fill:#070a09;stroke:var(--putrido);stroke-width:1.500}
+.nem text{fill:var(--putrido)}
+.nem.colpisce circle{stroke:var(--sangue);stroke-width:2.500}
+.nem .hp{fill:var(--osso)}
+.nem.lontano{opacity:.62}
+.nem .alone{fill:rgba(200,166,85,.2);stroke:var(--ottone);stroke-width:2.500}
+.nem.scelto circle{stroke:var(--ottone);stroke-width:2.500}
+.stato rect{fill:#0b1110;stroke:var(--spento);stroke-width:1}
+.stato path{fill:var(--osso)} .stato text{fill:var(--osso)}
+.stato.vf path{fill:var(--fuoco)} .stato.sc path{fill:var(--verderame)}
+.danno rect{fill:var(--sangue)} .danno text{fill:#190806}
+.percorso{fill:none;stroke:var(--putrido);stroke-width:1.500;stroke-dasharray:2 4;opacity:.75}
+.percorso.colpisce{stroke:var(--sangue);stroke-dasharray:none;stroke-width:2;opacity:1}
+.arrivo{fill:#0b1110;stroke:var(--putrido);stroke-width:1.500;stroke-dasharray:2 2}
+.arrivo.colpisce{stroke:var(--sangue);stroke-dasharray:none;stroke-width:2}
+.spinta.libera{fill:rgba(200,166,85,.22);stroke:var(--ottone);stroke-width:2.500}
+.spinta.muro{fill:url(#tratteggio);stroke:var(--ottone);stroke-width:2.500}
+.mappa.grande .cas{stroke:#33463f}
+
+.nota-pie{position:absolute;font-size:12px;color:var(--spento);white-space:nowrap}
+.fase-sel .dove .fai{margin-left:4px}</style></head><body><main class="palco fase-sel"><div class="dove"><h1>Selezione</h1><span class="turno">turno 1, Veglia fino al 6</span><span class="fai">Tocca un tuo dado per tenerlo o scartarlo.</span><span class="turno">Mazzo 11, Plancia vuota</span></div><div class="risorse" style="right:12px"><span class="ris r-hp"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 21S3.5 15.6 3.5 9.6A4.7 4.700 0 0112 6.900a4.700 4.700 0 018.500 2.700C20.500 15.600 12 21 12 21z"/></svg><b>10/10</b><i>HP</i></span><span class="ris r-pt"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 3.200a6.800 6.800 0 016.800 6.800h-2.600A4.200 4.200 0 1012 16.200v2.600a6.800 6.800 0 010-13.600zm0 5a1.800 1.800 0 110 3.600 1.800 1.800 0 010-3.600z"/></svg><b>6</b><i>PT</i></span><span class="ris r-pm"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M3 5h4.5l6 7-6 7H3l6-7zm8.5 0H16l6 7-6 7h-4.500l6-7z"/></svg><b>2</b><i>PM</i></span><span class="ris r-luce"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 1l2.2 8.8L23 12l-8.8 2.2L12 23l-2.2-8.8L1 12l8.8-2.2z"/></svg><b>0<u>→ 1</u></b><i>Luce</i></span></div><div class="sequenza"><div class="posto loro"><div class="su">Orda</div><svg class="dado d-nemico " width="46" height="52" viewBox="0 0 46 52"><path d="M2 50 V21.16 a21 21 0 0 1 42 0 V50 Z"/><text x="23" y="35.36" text-anchor="middle" font-size="19.32">Z1</text></svg><div class="giu">−1 HP</div></div><div class="posto mio "><div class="su">slot 1 libero</div><svg class="dado d-vigore " width="56" height="56" viewBox="0 0 56 56"><rect x="2" y="2" width="52" height="52" rx="6.72"/><text x="20.72" y="37.52" text-anchor="middle" font-size="31.360000000000003">1</text><svg x="34.72" y="33.6" width="17.36" height="17.36" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M3.200 9.500a2 2 0 014 0V12h.700V8a2 2 0 014 0v4h.700V8.300a2 2 0 014 0V12h.700v-1.700a1.850 1.850 0 013.700 0v5.200a6 6 0 01-6 6H9.200a6 6 0 01-6-6z"/></svg></svg><div class="giu"><span>scarto +1 PM</span></div></div><div class="posto mio via"><div class="su">nessuno slot</div><svg class="dado d-fuoco scartato" width="56" height="56" viewBox="0 0 56 56"><path d="M28 2 L54.5 53 L1.500 53 Z" stroke-linejoin="round"/><text x="28" y="45.919999999999995" text-anchor="middle" font-size="26.88">1</text><svg x="33.6" y="33.6" width="11.200000000000001" height="11.200000000000001" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2c1 4 5.5 5.5 5.5 11a5.5 5.5 0 01-11 0c0-2 1-3.6 2.2-4.6.3 1.6 1 2.4 2 2.6C10.3 8 11 4.6 12 2z"/></svg></svg><div class="giu"><span>scarto +1 Luce</span></div></div><div class="posto loro"><div class="su">Orda</div><svg class="dado d-nemico " width="46" height="52" viewBox="0 0 46 52"><path d="M2 50 V21.16 a21 21 0 0 1 42 0 V50 Z"/><text x="23" y="35.36" text-anchor="middle" font-size="19.32">Z2</text></svg><div class="giu">−2 HP</div></div><div class="posto loro"><div class="su">Orda</div><svg class="dado d-nemico " width="46" height="52" viewBox="0 0 46 52"><path d="M2 50 V21.16 a21 21 0 0 1 42 0 V50 Z"/><text x="23" y="35.36" text-anchor="middle" font-size="19.32">Z3</text></svg><div class="giu no">non arriva</div></div><div class="posto loro"><div class="su">Orda</div><svg class="dado d-nemico " width="46" height="52" viewBox="0 0 46 52"><path d="M2 50 V21.16 a21 21 0 0 1 42 0 V50 Z"/><text x="23" y="35.36" text-anchor="middle" font-size="19.32">Z4</text></svg><div class="giu no">non arriva</div></div><div class="posto mio "><div class="su">slot 3 libero</div><svg class="dado d-vigore " width="56" height="56" viewBox="0 0 56 56"><rect x="2" y="2" width="52" height="52" rx="6.72"/><text x="20.72" y="37.52" text-anchor="middle" font-size="31.360000000000003">2</text><svg x="34.72" y="33.6" width="17.36" height="17.36" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M3.200 9.500a2 2 0 014 0V12h.700V8a2 2 0 014 0v4h.700V8.300a2 2 0 014 0V12h.700v-1.700a1.850 1.850 0 013.700 0v5.200a6 6 0 01-6 6H9.200a6 6 0 01-6-6z"/></svg></svg><div class="giu"><span>scarto +1 PM</span></div></div><div class="posto loro"><div class="su">Incassare</div><svg class="dado d-nemico " width="46" height="52" viewBox="0 0 46 52"><path d="M2 50 V21.16 a21 21 0 0 1 42 0 V50 Z"/><text x="23" y="35.36" text-anchor="middle" font-size="19.32">Z5</text></svg><div class="giu sc">+2 Scudi</div></div><div class="posto mio "><div class="su">slot 2 libero</div><svg class="dado d-terrore " width="56" height="56" viewBox="0 0 56 56"><path d="M28 1.500 L54.5 28 L28 54.5 L1.500 28 Z" stroke-linejoin="round"/><text x="28" y="35.84" text-anchor="middle" font-size="25.76">4</text></svg><div class="giu"><span>scarto +1 PT</span></div></div><div class="posto mio "><div class="su">slot 4 libero</div><svg class="dado d-fuoco " width="56" height="56" viewBox="0 0 56 56"><path d="M28 2 L54.5 53 L1.500 53 Z" stroke-linejoin="round"/><text x="28" y="45.919999999999995" text-anchor="middle" font-size="26.88">2</text><svg x="33.6" y="33.6" width="11.200000000000001" height="11.200000000000001" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2c1 4 5.5 5.5 5.5 11a5.5 5.5 0 01-11 0c0-2 1-3.6 2.2-4.6.3 1.6 1 2.4 2 2.6C10.3 8 11 4.6 12 2z"/></svg></svg><div class="giu"><span>scarto +1 Luce</span></div></div></div><button class="primo" style="left:734px;top:44px;width:100px;height:98px"><strong>Conferma</strong><span>tieni 4, scarti 1</span><span>+1 Luce</span></button><div class="mano"><article class="carta f-fuoco " style="left:20px;top:177px;transform:rotate(-4deg)"><header><span class="sigillo"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2c1 4 5.5 5.5 5.5 11a5.5 5.5 0 01-11 0c0-2 1-3.6 2.2-4.6.3 1.6 1 2.4 2 2.6C10.3 8 11 4.6 12 2z"/></svg></span><span class="cd" title="Cooldown">CD 1</span><h3>Attacco di Fuoco</h3></header><div class="corpo"><div class="az "><span class="costo"><b class="c-fuoco">1<svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2c1 4 5.5 5.5 5.5 11a5.5 5.5 0 01-11 0c0-2 1-3.6 2.2-4.6.3 1.6 1 2.4 2 2.6C10.3 8 11 4.6 12 2z"/></svg></b></span><span class="eff">2 Danni Fuoco a un adiacente.</span></div><div class="az "><span class="costo"><b class="c-fuoco">1<svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2c1 4 5.5 5.5 5.5 11a5.5 5.5 0 01-11 0c0-2 1-3.6 2.2-4.6.3 1.6 1 2.4 2 2.6C10.3 8 11 4.6 12 2z"/></svg></b></span><span class="eff">Vulnerabilità Fuoco a un adiacente.</span></div></div><footer><i>Eco</i><b>+1 PM</b><b>+1 Luce</b></footer></article><article class="carta f-vigore " style="left:130px;top:171px;transform:rotate(-2deg)"><header><span class="sigillo"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M3.200 9.500a2 2 0 014 0V12h.700V8a2 2 0 014 0v4h.700V8.300a2 2 0 014 0V12h.700v-1.700a1.850 1.850 0 013.700 0v5.200a6 6 0 01-6 6H9.200a6 6 0 01-6-6z"/></svg></span><span class="cd" title="Cooldown">CD 1</span><h3>Diniego Sismico</h3></header><div class="corpo"><div class="az "><span class="costo"><b class="c-forza">1<svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M3.200 9.500a2 2 0 014 0V12h.700V8a2 2 0 014 0v4h.700V8.300a2 2 0 014 0V12h.700v-1.700a1.850 1.850 0 013.700 0v5.200a6 6 0 01-6 6H9.200a6 6 0 01-6-6z"/></svg></b></span><span class="eff">1 Danno + Spingi 1 un adiacente.</span></div></div><footer><i>Eco</i><b>+1 PM</b><b>Ruota 1 CD</b></footer></article><article class="carta f-terrore " style="left:240px;top:168px;transform:rotate(0deg)"><header><span class="sigillo"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M1.5 12S5.3 5.5 12 5.5 22.5 12 22.5 12 18.7 18.5 12 18.5 1.5 12 1.5 12zm10.5 3.4a3.4 3.4 0 100-6.8 3.4 3.4 0 000 6.8z"/></svg></span><span class="cd" title="Cooldown">CD 1</span><h3>Distorsione</h3></header><div class="corpo"><div class="az "><span class="costo"><b class="c-presagio">X<svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M1.5 12S5.3 5.5 12 5.5 22.5 12 22.5 12 18.7 18.5 12 18.5 1.5 12 1.5 12zm10.5 3.4a3.4 3.4 0 100-6.8 3.4 3.4 0 000 6.8z"/></svg></b><b class="c-pt">1<svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 3.200a6.800 6.800 0 016.800 6.800h-2.600A4.200 4.200 0 1012 16.200v2.600a6.800 6.800 0 010-13.600zm0 5a1.800 1.800 0 110 3.600 1.800 1.800 0 010-3.600z"/></svg></b></span><span class="eff">Sposta un'unità (non te) fino a X caselle. Trappole attive.</span></div></div><footer><i>Eco</i><b>+1 PM</b><b>Pesca 1</b></footer></article><article class="carta f-vigore " style="left:350px;top:171px;transform:rotate(2deg)"><header><span class="sigillo"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M3.200 9.500a2 2 0 014 0V12h.700V8a2 2 0 014 0v4h.700V8.300a2 2 0 014 0V12h.700v-1.700a1.850 1.850 0 013.700 0v5.200a6 6 0 01-6 6H9.200a6 6 0 01-6-6z"/></svg></span><span class="cd" title="Cooldown">CD 0</span><h3>Parata</h3></header><div class="corpo"><div class="az "><span class="costo"><b class="c-forza">1<svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M3.200 9.500a2 2 0 014 0V12h.700V8a2 2 0 014 0v4h.700V8.300a2 2 0 014 0V12h.700v-1.700a1.850 1.850 0 013.700 0v5.200a6 6 0 01-6 6H9.200a6 6 0 01-6-6z"/></svg></b></span><span class="eff">+1 Scudo.</span></div><div class="az "><span class="costo"><b class="c-forza">1<svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M3.200 9.500a2 2 0 014 0V12h.700V8a2 2 0 014 0v4h.700V8.300a2 2 0 014 0V12h.700v-1.700a1.850 1.850 0 013.700 0v5.200a6 6 0 01-6 6H9.200a6 6 0 01-6-6z"/></svg></b></span><span class="eff">Pesca 1 carta.</span></div></div><footer><i>Eco</i><b>+1 Contrattacco</b></footer></article><article class="carta f-libera " style="left:460px;top:177px;transform:rotate(4deg)"><header><span class="sigillo"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 1l2.2 8.8L23 12l-8.8 2.2L12 23l-2.2-8.8L1 12l8.8-2.2z"/></svg></span><span class="cd" title="Cooldown">CD 2</span><h3>Carica Furiosa</h3></header><div class="corpo"><p class="pre">Gratis, senza nemici adiacenti. Consuma 2 tuoi dadi vicini: corri dritto fino alla loro somma. Danni = caselle.</p></div><footer><i>Eco</i><b>+1 Luce</b></footer></article></div><section class="stanza" style="left:588px;top:162px;width:246px;height:222px"><svg class="mappa piccola" width="246" height="222" viewBox="0 0 246 222"><defs><pattern id="tratteggio" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#1d190f"/><rect width="2" height="6" fill="#4a3f2b"/></pattern></defs><polygon class="cas " points="51.9,56.6 44.1,70.0 28.6,70.0 20.9,56.6 28.6,43.1 44.1,43.1"/><polygon class="cas " points="51.9,85.2 44.1,98.6 28.6,98.6 20.9,85.2 28.6,71.7 44.1,71.7"/><polygon class="cas " points="51.9,113.7 44.1,127.2 28.6,127.2 20.9,113.7 28.6,100.3 44.1,100.3"/><polygon class="cas " points="51.9,142.3 44.1,155.7 28.6,155.7 20.9,142.3 28.6,128.9 44.1,128.9"/><polygon class="cas " points="51.9,170.9 44.1,184.3 28.6,184.3 20.9,170.9 28.6,157.5 44.1,157.5"/><polygon class="cas " points="51.9,199.5 44.1,212.9 28.6,212.9 20.9,199.5 28.6,186.0 44.1,186.0"/><polygon class="cas " points="76.6,42.3 68.9,55.7 53.4,55.7 45.6,42.3 53.4,28.9 68.9,28.9"/><polygon class="cas " points="76.6,70.9 68.9,84.3 53.4,84.3 45.6,70.9 53.4,57.4 68.9,57.4"/><polygon class="cas " points="76.6,99.4 68.9,112.9 53.4,112.9 45.6,99.4 53.4,86.0 68.9,86.0"/><polygon class="cas " points="76.6,128.0 68.9,141.5 53.4,141.5 45.6,128.0 53.4,114.6 68.9,114.6"/><polygon class="cas " points="76.6,156.6 68.9,170.0 53.4,170.0 45.6,156.6 53.4,143.2 68.9,143.2"/><polygon class="cas " points="76.6,185.2 68.9,198.6 53.4,198.6 45.6,185.2 53.4,171.8 68.9,171.8"/><polygon class="cas " points="101.4,56.6 93.6,70.0 78.1,70.0 70.4,56.6 78.1,43.1 93.6,43.1"/><polygon class="cas " points="101.4,85.2 93.6,98.6 78.1,98.6 70.4,85.2 78.1,71.7 93.6,71.7"/><polygon class="cas " points="101.4,113.7 93.6,127.2 78.1,127.2 70.4,113.7 78.1,100.3 93.6,100.3"/><polygon class="cas " points="101.4,142.3 93.6,155.7 78.1,155.7 70.4,142.3 78.1,128.9 93.6,128.9"/><polygon class="cas " points="101.4,170.9 93.6,184.3 78.1,184.3 70.4,170.9 78.1,157.5 93.6,157.5"/><polygon class="cas " points="101.4,199.5 93.6,212.9 78.1,212.9 70.4,199.5 78.1,186.0 93.6,186.0"/><polygon class="cas " points="126.1,42.3 118.4,55.7 102.9,55.7 95.1,42.3 102.9,28.9 118.4,28.9"/><polygon class="cas " points="126.1,70.9 118.4,84.3 102.9,84.3 95.1,70.9 102.9,57.4 118.4,57.4"/><polygon class="cas " points="126.1,99.4 118.4,112.9 102.9,112.9 95.1,99.4 102.9,86.0 118.4,86.0"/><polygon class="cas " points="126.1,128.0 118.4,141.5 102.9,141.5 95.1,128.0 102.9,114.6 118.4,114.6"/><polygon class="cas column" points="126.1,156.6 118.4,170.0 102.9,170.0 95.1,156.6 102.9,143.2 118.4,143.2"/><polygon class="cas " points="126.1,185.2 118.4,198.6 102.9,198.6 95.1,185.2 102.9,171.8 118.4,171.8"/><polygon class="cas " points="150.9,56.6 143.1,70.0 127.6,70.0 119.9,56.6 127.6,43.1 143.1,43.1"/><polygon class="cas " points="150.9,85.2 143.1,98.6 127.6,98.6 119.9,85.2 127.6,71.7 143.1,71.7"/><polygon class="cas trap" points="150.9,113.7 143.1,127.2 127.6,127.2 119.9,113.7 127.6,100.3 143.1,100.3"/><path class="trappola" d="M130.095 118.68651497465943 L135.375 107.79651497465943 L140.655 118.68651497465943 Z"/><polygon class="cas " points="150.9,142.3 143.1,155.7 127.6,155.7 119.9,142.3 127.6,128.9 143.1,128.9"/><polygon class="cas " points="150.9,170.9 143.1,184.3 127.6,184.3 119.9,170.9 127.6,157.5 143.1,157.5"/><polygon class="cas " points="150.9,199.5 143.1,212.9 127.6,212.9 119.9,199.5 127.6,186.0 143.1,186.0"/><polygon class="cas " points="175.6,42.3 167.9,55.7 152.4,55.7 144.6,42.3 152.4,28.9 167.9,28.9"/><polygon class="cas " points="175.6,70.9 167.9,84.3 152.4,84.3 144.6,70.9 152.4,57.4 167.9,57.4"/><polygon class="cas " points="175.6,99.4 167.9,112.9 152.4,112.9 144.6,99.4 152.4,86.0 167.9,86.0"/><polygon class="cas column" points="175.6,128.0 167.9,141.5 152.4,141.5 144.6,128.0 152.4,114.6 167.9,114.6"/><polygon class="cas " points="175.6,156.6 167.9,170.0 152.4,170.0 144.6,156.6 152.4,143.2 167.9,143.2"/><polygon class="cas " points="175.6,185.2 167.9,198.6 152.4,198.6 144.6,185.2 152.4,171.8 167.9,171.8"/><polygon class="cas " points="200.4,56.6 192.6,70.0 177.1,70.0 169.4,56.6 177.1,43.1 192.6,43.1"/><polygon class="cas " points="200.4,85.2 192.6,98.6 177.1,98.6 169.4,85.2 177.1,71.7 192.6,71.7"/><polygon class="cas " points="200.4,113.7 192.6,127.2 177.1,127.2 169.4,113.7 177.1,100.3 192.6,100.3"/><polygon class="cas " points="200.4,142.3 192.6,155.7 177.1,155.7 169.4,142.3 177.1,128.9 192.6,128.9"/><polygon class="cas " points="200.4,170.9 192.6,184.3 177.1,184.3 169.4,170.9 177.1,157.5 192.6,157.5"/><polygon class="cas " points="200.4,199.5 192.6,212.9 177.1,212.9 169.4,199.5 177.1,186.0 192.6,186.0"/><polygon class="cas " points="225.1,42.3 217.4,55.7 201.9,55.7 194.1,42.3 201.9,28.9 217.4,28.9"/><polygon class="cas " points="225.1,70.9 217.4,84.3 201.9,84.3 194.1,70.9 201.9,57.4 217.4,57.4"/><polygon class="cas " points="225.1,99.4 217.4,112.9 201.9,112.9 194.1,99.4 201.9,86.0 217.4,86.0"/><polygon class="cas " points="225.1,128.0 217.4,141.5 201.9,141.5 194.1,128.0 201.9,114.6 217.4,114.6"/><polygon class="cas " points="225.1,156.6 217.4,170.0 201.9,170.0 194.1,156.6 201.9,143.2 217.4,143.2"/><polygon class="cas " points="225.1,185.2 217.4,198.6 201.9,198.6 194.1,185.2 201.9,171.8 217.4,171.8"/><polyline class="percorso colpisce" points="110.6,99.4 85.9,113.7 61.1,128.0"/><circle class="arrivo colpisce" cx="61.125" cy="128.02593413710264" r="5"/><polyline class="percorso colpisce" points="110.6,185.2 85.9,170.9 61.1,156.6"/><circle class="arrivo colpisce" cx="61.125" cy="156.6047724619891" r="5"/><polyline class="percorso " points="160.1,70.9 135.4,56.6 110.6,70.9"/><circle class="arrivo " cx="110.625" cy="70.86825748732971" r="5"/><polyline class="percorso " points="160.1,185.2 135.4,170.9 110.6,185.2"/><circle class="arrivo " cx="110.625" cy="185.1836107868756" r="5"/><circle class="tu" cx="36.375" cy="142.31535329954588" r="11"/><text class="t12 forte scuro" x="36.375" y="146.31535329954588" text-anchor="middle">Tu</text><g class="nem colpisce  "><circle cx="110.625" cy="99.44709581221619" r="11"/><text class="t12 forte" x="110.625" y="103.44709581221619" text-anchor="middle">Z1</text></g><g class="nem colpisce  "><circle cx="110.625" cy="185.1836107868756" r="11"/><text class="t12 forte" x="110.625" y="189.1836107868756" text-anchor="middle">Z2</text></g><g class="nem   "><circle cx="160.125" cy="70.86825748732971" r="11"/><text class="t12 forte" x="160.125" y="74.86825748732971" text-anchor="middle">Z3</text></g><g class="nem   "><circle cx="160.125" cy="185.1836107868756" r="11"/><text class="t12 forte" x="160.125" y="189.1836107868756" text-anchor="middle">Z4</text></g><g class="nem   "><circle cx="184.875" cy="142.31535329954588" r="11"/><text class="t12 forte" x="184.875" y="146.31535329954588" text-anchor="middle">Z5</text></g></svg><div class="targa" style="top:4px"><h2>La Cripta</h2><span><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M3 3h7v2.500H7.200l4 4-1.700 1.700-4-4V10H3zm18 18h-7v-2.500h2.800l-4-4 1.700-1.700 4 4V14H21z"/></svg> tocca per ingrandire</span></div></section></main></body></html>
