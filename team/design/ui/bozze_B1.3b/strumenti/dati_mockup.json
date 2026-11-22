@@ -1,0 +1,7972 @@
+{
+ "origine": "estrai_dati.js · motore src/engine · 2026-11-22",
+ "stati": {
+  "sel_proposta": {
+   "turno": 1,
+   "fase": "SELEZIONE",
+   "stanza": {
+    "id": "r1",
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "giocatore": {
+    "pos": [
+     1,
+     4
+    ],
+    "hp": 10,
+    "hpMax": 10,
+    "pt": 6,
+    "pm": 2,
+    "salto": 0,
+    "luce": 0,
+    "stati": {}
+   },
+   "nemici": [
+    {
+     "id": "Z1",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      3
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z3",
+     "tipo": "zombie",
+     "pos": [
+      6,
+      2
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "tipo": "zombie",
+     "pos": [
+      6,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z5",
+     "tipo": "zombie",
+     "pos": [
+      7,
+      4
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      5,
+      3
+     ],
+     "tipo": "trap"
+    }
+   ],
+   "seq": [
+    {
+     "uid": "d8",
+     "owner": "Z1",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d2",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d4",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d9",
+     "owner": "Z2",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d10",
+     "owner": "Z3",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d6",
+     "owner": "Z4",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d1",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d7",
+     "owner": "Z5",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d5",
+     "owner": "P",
+     "kind": "terrore",
+     "value": 4,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d3",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    }
+   ],
+   "mano": [
+    {
+     "uid": "c9",
+     "id": "af",
+     "nome": "Attacco di Fuoco",
+     "cd": 1,
+     "family": "fuoco",
+     "fireSlot": true,
+     "eco": "+1 PM · +1 Luce",
+     "azioni": [
+      {
+       "cost": {
+        "fuoco": 1
+       },
+       "kind": "attack",
+       "dmg": 2,
+       "target": "adj",
+       "testo": "1 🔥: 2 Danni Fuoco a un adiacente."
+      },
+      {
+       "cost": {
+        "fuoco": 1
+       },
+       "kind": "vulnFire",
+       "target": "adj",
+       "testo": "1 🔥: Vulnerabilità Fuoco a un adiacente."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c8",
+     "id": "ds",
+     "nome": "Diniego Sismico",
+     "cd": 1,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "push": 1,
+       "target": "adj",
+       "testo": "1 ✊: 1 Danno + Spingi 1 un adiacente."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c12",
+     "id": "di",
+     "nome": "Distorsione",
+     "cd": 1,
+     "family": "terrore",
+     "fireSlot": false,
+     "eco": "+1 PM · Pesca 1",
+     "azioni": [
+      {
+       "cost": {
+        "presagio": "X",
+        "pt": 1
+       },
+       "kind": "distort",
+       "target": "unit",
+       "testo": "X 🔮 + 1 PT: sposta un'unità (non te) fino a X caselle. Trappole attive."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c4",
+     "id": "pa",
+     "nome": "Parata",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 Contrattacco",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "shield",
+       "n": 1,
+       "testo": "1 ✊: +1 Scudo."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "draw",
+       "n": 1,
+       "testo": "1 ✊: pesca 1 carta."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c15",
+     "id": "cu",
+     "nome": "Carica Furiosa",
+     "cd": 2,
+     "family": "free",
+     "fireSlot": false,
+     "eco": "+1 Luce",
+     "azioni": [],
+     "pre": "Gratis, finestra libera, non adiacente a nemici. Consuma 2 dadi adiacenti in Sequenza: muovi in linea retta fino alla loro somma; se finisci adiacente a un nemico, danni = caselle percorse.",
+     "post": null,
+     "baseRange": null,
+     "free": "charge",
+     "nuova": true
+    }
+   ],
+   "mazzo": 11,
+   "scarti": 0,
+   "plancia": {
+    "voci": [],
+    "copertura": {
+     "1": false,
+     "2": false,
+     "3": false,
+     "4": false
+    },
+    "slot": [
+     {
+      "slot": 1,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 2,
+      "die": "terrore",
+      "cost": 1,
+      "kind": "standard"
+     },
+     {
+      "slot": 3,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 4,
+      "die": "fuoco",
+      "cost": 1,
+      "kind": "fire"
+     }
+    ]
+   },
+   "selezione": {
+    "keep": {
+     "d1": true,
+     "d2": true,
+     "d3": true,
+     "d5": true
+    },
+    "plan": {
+     "ok": true,
+     "cost": 0,
+     "gains": {
+      "pm": 0,
+      "luce": 1,
+      "pt": 0
+     },
+     "dice": {
+      "d2": {
+       "kept": true,
+       "slot": 1,
+       "cost": 0,
+       "label": "libero"
+      },
+      "d1": {
+       "kept": true,
+       "slot": 3,
+       "cost": 0,
+       "label": "libero"
+      },
+      "d4": {
+       "kept": false,
+       "gain": {
+        "luce": 1
+       },
+       "label": "nessuno slot"
+      },
+      "d3": {
+       "kept": true,
+       "slot": 4,
+       "cost": 0,
+       "label": "libero"
+      },
+      "d5": {
+       "kept": true,
+       "slot": 2,
+       "cost": 0,
+       "label": "libero"
+      }
+     },
+     "slots": [
+      {
+       "slot": 1,
+       "type": "vigore",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      },
+      {
+       "slot": 3,
+       "type": "vigore",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      },
+      {
+       "slot": 4,
+       "type": "fuoco",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      },
+      {
+       "slot": 2,
+       "type": "terrore",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      }
+     ],
+     "luceAfter": 1,
+     "affordable": true
+    },
+    "motivo": null
+   },
+   "anteprima": [
+    {
+     "uid": "d8",
+     "owner": "Z1",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      4,
+      3
+     ],
+     "path": [
+      [
+       3,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     "end": [
+      2,
+      4
+     ],
+     "reach": true,
+     "raw": 1,
+     "dmg": 1,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d9",
+     "owner": "Z2",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      4,
+      6
+     ],
+     "path": [
+      [
+       3,
+       5
+      ],
+      [
+       2,
+       5
+      ]
+     ],
+     "end": [
+      2,
+      5
+     ],
+     "reach": true,
+     "raw": 2,
+     "dmg": 2,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1,
+     "orda": [
+      "Z1"
+     ]
+    },
+    {
+     "uid": "d10",
+     "owner": "Z3",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      6,
+      2
+     ],
+     "path": [
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     "end": [
+      4,
+      2
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d6",
+     "owner": "Z4",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      6,
+      6
+     ],
+     "path": [
+      [
+       5,
+       5
+      ],
+      [
+       4,
+       6
+      ]
+     ],
+     "end": [
+      4,
+      6
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d7",
+     "owner": "Z5",
+     "action": "incassare",
+     "name": "Incassare",
+     "value": 4,
+     "from": [
+      7,
+      4
+     ],
+     "path": [],
+     "end": [
+      7,
+      4
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 2,
+     "base": 0
+    }
+   ],
+   "nota": "SP1 con la proposta iniziale applicata (US-04 opzione b)"
+  },
+  "sel_rifiuto": {
+   "turno": 1,
+   "fase": "SELEZIONE",
+   "stanza": {
+    "id": "r1",
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "giocatore": {
+    "pos": [
+     1,
+     4
+    ],
+    "hp": 10,
+    "hpMax": 10,
+    "pt": 6,
+    "pm": 2,
+    "salto": 0,
+    "luce": 0,
+    "stati": {}
+   },
+   "nemici": [
+    {
+     "id": "Z1",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      3
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z3",
+     "tipo": "zombie",
+     "pos": [
+      6,
+      2
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "tipo": "zombie",
+     "pos": [
+      6,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z5",
+     "tipo": "zombie",
+     "pos": [
+      7,
+      4
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      5,
+      3
+     ],
+     "tipo": "trap"
+    }
+   ],
+   "seq": [
+    {
+     "uid": "d8",
+     "owner": "Z1",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d2",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d4",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d9",
+     "owner": "Z2",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d10",
+     "owner": "Z3",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d6",
+     "owner": "Z4",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d1",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d7",
+     "owner": "Z5",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d5",
+     "owner": "P",
+     "kind": "terrore",
+     "value": 4,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d3",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    }
+   ],
+   "mano": [
+    {
+     "uid": "c9",
+     "id": "af",
+     "nome": "Attacco di Fuoco",
+     "cd": 1,
+     "family": "fuoco",
+     "fireSlot": true,
+     "eco": "+1 PM · +1 Luce",
+     "azioni": [
+      {
+       "cost": {
+        "fuoco": 1
+       },
+       "kind": "attack",
+       "dmg": 2,
+       "target": "adj",
+       "testo": "1 🔥: 2 Danni Fuoco a un adiacente."
+      },
+      {
+       "cost": {
+        "fuoco": 1
+       },
+       "kind": "vulnFire",
+       "target": "adj",
+       "testo": "1 🔥: Vulnerabilità Fuoco a un adiacente."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c8",
+     "id": "ds",
+     "nome": "Diniego Sismico",
+     "cd": 1,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "push": 1,
+       "target": "adj",
+       "testo": "1 ✊: 1 Danno + Spingi 1 un adiacente."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c12",
+     "id": "di",
+     "nome": "Distorsione",
+     "cd": 1,
+     "family": "terrore",
+     "fireSlot": false,
+     "eco": "+1 PM · Pesca 1",
+     "azioni": [
+      {
+       "cost": {
+        "presagio": "X",
+        "pt": 1
+       },
+       "kind": "distort",
+       "target": "unit",
+       "testo": "X 🔮 + 1 PT: sposta un'unità (non te) fino a X caselle. Trappole attive."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c4",
+     "id": "pa",
+     "nome": "Parata",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 Contrattacco",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "shield",
+       "n": 1,
+       "testo": "1 ✊: +1 Scudo."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "draw",
+       "n": 1,
+       "testo": "1 ✊: pesca 1 carta."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c15",
+     "id": "cu",
+     "nome": "Carica Furiosa",
+     "cd": 2,
+     "family": "free",
+     "fireSlot": false,
+     "eco": "+1 Luce",
+     "azioni": [],
+     "pre": "Gratis, finestra libera, non adiacente a nemici. Consuma 2 dadi adiacenti in Sequenza: muovi in linea retta fino alla loro somma; se finisci adiacente a un nemico, danni = caselle percorse.",
+     "post": null,
+     "baseRange": null,
+     "free": "charge",
+     "nuova": true
+    }
+   ],
+   "mazzo": 11,
+   "scarti": 0,
+   "plancia": {
+    "voci": [],
+    "copertura": {
+     "1": false,
+     "2": false,
+     "3": false,
+     "4": false
+    },
+    "slot": [
+     {
+      "slot": 1,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 2,
+      "die": "terrore",
+      "cost": 1,
+      "kind": "standard"
+     },
+     {
+      "slot": 3,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 4,
+      "die": "fuoco",
+      "cost": 1,
+      "kind": "fire"
+     }
+    ]
+   },
+   "selezione": {
+    "keep": {
+     "d2": true,
+     "d4": true,
+     "d1": true,
+     "d5": true,
+     "d3": true
+    },
+    "plan": {
+     "ok": false,
+     "cost": 0,
+     "gains": {
+      "pm": 0,
+      "luce": 0,
+      "pt": 0
+     },
+     "dice": {
+      "d2": {
+       "kept": true,
+       "slot": 1,
+       "cost": 0,
+       "label": "libero"
+      },
+      "d1": {
+       "kept": true,
+       "slot": 3,
+       "cost": 0,
+       "label": "libero"
+      },
+      "d4": {
+       "kept": true,
+       "slot": 4,
+       "cost": 0,
+       "label": "libero"
+      },
+      "d3": {
+       "kept": true,
+       "label": "nessuno slot",
+       "slot": null
+      },
+      "d5": {
+       "kept": true,
+       "slot": 2,
+       "cost": 0,
+       "label": "libero"
+      }
+     },
+     "slots": [
+      {
+       "slot": 1,
+       "type": "vigore",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      },
+      {
+       "slot": 3,
+       "type": "vigore",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      },
+      {
+       "slot": 4,
+       "type": "fuoco",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      },
+      {
+       "slot": 2,
+       "type": "terrore",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      }
+     ],
+     "luceAfter": 0,
+     "affordable": false
+    },
+    "motivo": "Troppi dadi per gli slot"
+   },
+   "anteprima": [
+    {
+     "uid": "d8",
+     "owner": "Z1",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      4,
+      3
+     ],
+     "path": [
+      [
+       3,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     "end": [
+      2,
+      4
+     ],
+     "reach": true,
+     "raw": 1,
+     "dmg": 1,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d9",
+     "owner": "Z2",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      4,
+      6
+     ],
+     "path": [
+      [
+       3,
+       5
+      ],
+      [
+       2,
+       5
+      ]
+     ],
+     "end": [
+      2,
+      5
+     ],
+     "reach": true,
+     "raw": 2,
+     "dmg": 2,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1,
+     "orda": [
+      "Z1"
+     ]
+    },
+    {
+     "uid": "d10",
+     "owner": "Z3",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      6,
+      2
+     ],
+     "path": [
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     "end": [
+      4,
+      2
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d6",
+     "owner": "Z4",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      6,
+      6
+     ],
+     "path": [
+      [
+       5,
+       5
+      ],
+      [
+       4,
+       6
+      ]
+     ],
+     "end": [
+      4,
+      6
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d7",
+     "owner": "Z5",
+     "action": "incassare",
+     "name": "Incassare",
+     "value": 4,
+     "from": [
+      7,
+      4
+     ],
+     "path": [],
+     "end": [
+      7,
+      4
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 2,
+     "base": 0
+    }
+   ],
+   "nota": "SP1, tenuti tutti e 5: due dadi Fuoco per lo slot 4",
+   "toccato": "d4"
+  },
+  "sel_guida": {
+   "turno": 2,
+   "fase": "SELEZIONE",
+   "stanza": {
+    "id": "r1",
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "giocatore": {
+    "pos": [
+     1,
+     4
+    ],
+    "hp": 8,
+    "hpMax": 10,
+    "pt": 5,
+    "pm": 4,
+    "salto": 0,
+    "luce": 1,
+    "stati": {}
+   },
+   "nemici": [
+    {
+     "id": "Z1",
+     "tipo": "zombie",
+     "pos": [
+      5,
+      3
+     ],
+     "hp": 3,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      5
+     ],
+     "hp": 4,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "vulnFire": [
+       0,
+       1
+      ]
+     }
+    },
+    {
+     "id": "Z3",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      2
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z5",
+     "tipo": "zombie",
+     "pos": [
+      7,
+      4
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "shield": [
+       0,
+       2
+      ]
+     }
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    }
+   ],
+   "seq": [
+    {
+     "uid": "d12",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d19",
+     "owner": "Z1",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d18",
+     "owner": "Z2",
+     "kind": "ai",
+     "value": 2,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d13",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d15",
+     "owner": "P",
+     "kind": "terrore",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d20",
+     "owner": "Z3",
+     "kind": "ai",
+     "value": 3,
+     "action": "morso",
+     "nome": "Morso Rigenerante",
+     "state": "pending"
+    },
+    {
+     "uid": "d17",
+     "owner": "Z4",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d16",
+     "owner": "Z5",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d11",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d14",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    }
+   ],
+   "mano": [
+    {
+     "uid": "c8",
+     "id": "ds",
+     "nome": "Diniego Sismico",
+     "cd": 1,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "push": 1,
+       "target": "adj",
+       "testo": "1 ✊: 1 Danno + Spingi 1 un adiacente."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": false
+    },
+    {
+     "uid": "c15",
+     "id": "cu",
+     "nome": "Carica Furiosa",
+     "cd": 2,
+     "family": "free",
+     "fireSlot": false,
+     "eco": "+1 Luce",
+     "azioni": [],
+     "pre": "Gratis, finestra libera, non adiacente a nemici. Consuma 2 dadi adiacenti in Sequenza: muovi in linea retta fino alla loro somma; se finisci adiacente a un nemico, danni = caselle percorse.",
+     "post": null,
+     "baseRange": null,
+     "free": "charge",
+     "nuova": false
+    },
+    {
+     "uid": "c2",
+     "id": "ab",
+     "nome": "Attacco Base",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · +1 Scudo",
+     "azioni": [
+      {
+       "cost": {},
+       "kind": "attack",
+       "dmg": 1,
+       "target": "adj",
+       "testo": "Gratis: 1 Danno a un adiacente."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "target": "adj",
+       "testo": "1 ✊: 1 Danno a un adiacente."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "draw",
+       "n": 1,
+       "testo": "1 ✊: pesca 1 carta."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c6",
+     "id": "tm",
+     "nome": "Tiro Mirato",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+2 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "range",
+       "n": 1,
+       "testo": "1 ✊: +1 Gittata."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "target": "range",
+       "testo": "1 ✊: 1 Danno in gittata."
+      }
+     ],
+     "pre": "Gittata 2.",
+     "post": null,
+     "baseRange": 2,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c13",
+     "id": "ap",
+     "nome": "Attacco Poderoso",
+     "cd": 2,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · +1 Luce",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 2,
+       "target": "adj",
+       "testo": "1 ✊: 2 Danni a un adiacente."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "stunPush",
+       "push": 1,
+       "target": "adj",
+       "testo": "1 ✊: Stordisci un adiacente + Spingi 1."
+      }
+     ],
+     "pre": "Usarla ti rende Vulnerabile.",
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    }
+   ],
+   "mazzo": 9,
+   "scarti": 0,
+   "plancia": {
+    "voci": [
+     {
+      "pid": "pl1",
+      "id": "di",
+      "nome": "Distorsione",
+      "cd": 0,
+      "max": 1,
+      "posto": "std",
+      "slot": 1
+     },
+     {
+      "pid": "pl2",
+      "id": "af",
+      "nome": "Attacco di Fuoco",
+      "cd": 0,
+      "max": 1,
+      "posto": "fire",
+      "slot": 4
+     }
+    ],
+    "copertura": {
+     "1": true,
+     "2": false,
+     "3": false,
+     "4": true
+    },
+    "slot": [
+     {
+      "slot": 1,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 2,
+      "die": "terrore",
+      "cost": 1,
+      "kind": "standard"
+     },
+     {
+      "slot": 3,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 4,
+      "die": "fuoco",
+      "cost": 1,
+      "kind": "fire"
+     }
+    ]
+   },
+   "selezione": {
+    "keep": {
+     "d12": true,
+     "d15": true
+    },
+    "plan": {
+     "ok": true,
+     "cost": 0,
+     "gains": {
+      "pm": 1,
+      "luce": 2,
+      "pt": 0
+     },
+     "dice": {
+      "d12": {
+       "kept": true,
+       "slot": 3,
+       "cost": 0,
+       "label": "libero"
+      },
+      "d11": {
+       "kept": false,
+       "gain": {
+        "pm": 1
+       },
+       "label": "2 Luce"
+      },
+      "d13": {
+       "kept": false,
+       "gain": {
+        "luce": 1
+       },
+       "label": "1 Luce"
+      },
+      "d14": {
+       "kept": false,
+       "gain": {
+        "luce": 1
+       },
+       "label": "1 Luce"
+      },
+      "d15": {
+       "kept": true,
+       "slot": 2,
+       "cost": 0,
+       "label": "libero"
+      }
+     },
+     "slots": [
+      {
+       "slot": 3,
+       "type": "vigore",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      },
+      {
+       "slot": 1,
+       "type": "vigore",
+       "covered": true,
+       "cost": 2,
+       "used": false
+      },
+      {
+       "slot": 4,
+       "type": "fuoco",
+       "covered": true,
+       "cost": 1,
+       "used": false
+      },
+      {
+       "slot": 2,
+       "type": "terrore",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      }
+     ],
+     "luceAfter": 3,
+     "affordable": true
+    },
+    "motivo": null
+   },
+   "anteprima": [
+    {
+     "uid": "d19",
+     "owner": "Z1",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      5,
+      3
+     ],
+     "path": [
+      [
+       4,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     "end": [
+      3,
+      3
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d18",
+     "owner": "Z2",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 2,
+     "from": [
+      2,
+      5
+     ],
+     "path": [],
+     "end": [
+      2,
+      5
+     ],
+     "reach": true,
+     "raw": 1,
+     "dmg": 1,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d20",
+     "owner": "Z3",
+     "action": "morso",
+     "name": "Morso Rigenerante",
+     "value": 3,
+     "from": [
+      4,
+      2
+     ],
+     "path": [
+      [
+       3,
+       2
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     "end": [
+      2,
+      3
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 2
+    },
+    {
+     "uid": "d17",
+     "owner": "Z4",
+     "action": "incassare",
+     "name": "Incassare",
+     "value": 4,
+     "from": [
+      4,
+      6
+     ],
+     "path": [],
+     "end": [
+      4,
+      6
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 2,
+     "base": 0
+    },
+    {
+     "uid": "d16",
+     "owner": "Z5",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      7,
+      4
+     ],
+     "path": [
+      [
+       6,
+       5
+      ],
+      [
+       5,
+       4
+      ]
+     ],
+     "end": [
+      5,
+      4
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    }
+   ],
+   "nota": "SP10: Plancia con Distorsione e Attacco di Fuoco a 0°, slot 1 e 4 coperti; proposta iniziale",
+   "guida": "Dado bloccato: paga Luce, aspetta, oppure scarta una carta con Eco di rotazione."
+  },
+  "sel_coperto": {
+   "turno": 2,
+   "fase": "SELEZIONE",
+   "stanza": {
+    "id": "r1",
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "giocatore": {
+    "pos": [
+     1,
+     4
+    ],
+    "hp": 8,
+    "hpMax": 10,
+    "pt": 5,
+    "pm": 4,
+    "salto": 0,
+    "luce": 1,
+    "stati": {}
+   },
+   "nemici": [
+    {
+     "id": "Z1",
+     "tipo": "zombie",
+     "pos": [
+      5,
+      3
+     ],
+     "hp": 3,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      5
+     ],
+     "hp": 4,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "vulnFire": [
+       0,
+       1
+      ]
+     }
+    },
+    {
+     "id": "Z3",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      2
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z5",
+     "tipo": "zombie",
+     "pos": [
+      7,
+      4
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "shield": [
+       0,
+       2
+      ]
+     }
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    }
+   ],
+   "seq": [
+    {
+     "uid": "d12",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d19",
+     "owner": "Z1",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d18",
+     "owner": "Z2",
+     "kind": "ai",
+     "value": 2,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d13",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d15",
+     "owner": "P",
+     "kind": "terrore",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d20",
+     "owner": "Z3",
+     "kind": "ai",
+     "value": 3,
+     "action": "morso",
+     "nome": "Morso Rigenerante",
+     "state": "pending"
+    },
+    {
+     "uid": "d17",
+     "owner": "Z4",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d16",
+     "owner": "Z5",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d11",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d14",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    }
+   ],
+   "mano": [
+    {
+     "uid": "c8",
+     "id": "ds",
+     "nome": "Diniego Sismico",
+     "cd": 1,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "push": 1,
+       "target": "adj",
+       "testo": "1 ✊: 1 Danno + Spingi 1 un adiacente."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": false
+    },
+    {
+     "uid": "c15",
+     "id": "cu",
+     "nome": "Carica Furiosa",
+     "cd": 2,
+     "family": "free",
+     "fireSlot": false,
+     "eco": "+1 Luce",
+     "azioni": [],
+     "pre": "Gratis, finestra libera, non adiacente a nemici. Consuma 2 dadi adiacenti in Sequenza: muovi in linea retta fino alla loro somma; se finisci adiacente a un nemico, danni = caselle percorse.",
+     "post": null,
+     "baseRange": null,
+     "free": "charge",
+     "nuova": false
+    },
+    {
+     "uid": "c2",
+     "id": "ab",
+     "nome": "Attacco Base",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · +1 Scudo",
+     "azioni": [
+      {
+       "cost": {},
+       "kind": "attack",
+       "dmg": 1,
+       "target": "adj",
+       "testo": "Gratis: 1 Danno a un adiacente."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "target": "adj",
+       "testo": "1 ✊: 1 Danno a un adiacente."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "draw",
+       "n": 1,
+       "testo": "1 ✊: pesca 1 carta."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c6",
+     "id": "tm",
+     "nome": "Tiro Mirato",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+2 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "range",
+       "n": 1,
+       "testo": "1 ✊: +1 Gittata."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "target": "range",
+       "testo": "1 ✊: 1 Danno in gittata."
+      }
+     ],
+     "pre": "Gittata 2.",
+     "post": null,
+     "baseRange": 2,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c13",
+     "id": "ap",
+     "nome": "Attacco Poderoso",
+     "cd": 2,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · +1 Luce",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 2,
+       "target": "adj",
+       "testo": "1 ✊: 2 Danni a un adiacente."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "stunPush",
+       "push": 1,
+       "target": "adj",
+       "testo": "1 ✊: Stordisci un adiacente + Spingi 1."
+      }
+     ],
+     "pre": "Usarla ti rende Vulnerabile.",
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    }
+   ],
+   "mazzo": 9,
+   "scarti": 0,
+   "plancia": {
+    "voci": [
+     {
+      "pid": "pl1",
+      "id": "di",
+      "nome": "Distorsione",
+      "cd": 0,
+      "max": 1,
+      "posto": "std",
+      "slot": 1
+     },
+     {
+      "pid": "pl2",
+      "id": "af",
+      "nome": "Attacco di Fuoco",
+      "cd": 0,
+      "max": 1,
+      "posto": "fire",
+      "slot": 4
+     }
+    ],
+    "copertura": {
+     "1": true,
+     "2": false,
+     "3": false,
+     "4": true
+    },
+    "slot": [
+     {
+      "slot": 1,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 2,
+      "die": "terrore",
+      "cost": 1,
+      "kind": "standard"
+     },
+     {
+      "slot": 3,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 4,
+      "die": "fuoco",
+      "cost": 1,
+      "kind": "fire"
+     }
+    ]
+   },
+   "selezione": {
+    "keep": {
+     "d12": true,
+     "d15": true,
+     "d11": true,
+     "d13": true
+    },
+    "plan": {
+     "ok": true,
+     "cost": 3,
+     "gains": {
+      "pm": 0,
+      "luce": 1,
+      "pt": 0
+     },
+     "dice": {
+      "d12": {
+       "kept": true,
+       "slot": 3,
+       "cost": 0,
+       "label": "libero"
+      },
+      "d11": {
+       "kept": true,
+       "slot": 1,
+       "cost": 2,
+       "label": "2 Luce"
+      },
+      "d13": {
+       "kept": true,
+       "slot": 4,
+       "cost": 1,
+       "label": "1 Luce"
+      },
+      "d14": {
+       "kept": false,
+       "gain": {
+        "luce": 1
+       },
+       "label": "nessuno slot"
+      },
+      "d15": {
+       "kept": true,
+       "slot": 2,
+       "cost": 0,
+       "label": "libero"
+      }
+     },
+     "slots": [
+      {
+       "slot": 3,
+       "type": "vigore",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      },
+      {
+       "slot": 1,
+       "type": "vigore",
+       "covered": true,
+       "cost": 2,
+       "used": true
+      },
+      {
+       "slot": 4,
+       "type": "fuoco",
+       "covered": true,
+       "cost": 1,
+       "used": true
+      },
+      {
+       "slot": 2,
+       "type": "terrore",
+       "covered": false,
+       "cost": 0,
+       "used": true
+      }
+     ],
+     "luceAfter": -1,
+     "affordable": false
+    },
+    "motivo": "Luce insufficiente"
+   },
+   "anteprima": [
+    {
+     "uid": "d19",
+     "owner": "Z1",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      5,
+      3
+     ],
+     "path": [
+      [
+       4,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     "end": [
+      3,
+      3
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d18",
+     "owner": "Z2",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 2,
+     "from": [
+      2,
+      5
+     ],
+     "path": [],
+     "end": [
+      2,
+      5
+     ],
+     "reach": true,
+     "raw": 1,
+     "dmg": 1,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d20",
+     "owner": "Z3",
+     "action": "morso",
+     "name": "Morso Rigenerante",
+     "value": 3,
+     "from": [
+      4,
+      2
+     ],
+     "path": [
+      [
+       3,
+       2
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     "end": [
+      2,
+      3
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 2
+    },
+    {
+     "uid": "d17",
+     "owner": "Z4",
+     "action": "incassare",
+     "name": "Incassare",
+     "value": 4,
+     "from": [
+      4,
+      6
+     ],
+     "path": [],
+     "end": [
+      4,
+      6
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 2,
+     "base": 0
+    },
+    {
+     "uid": "d16",
+     "owner": "Z5",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      7,
+      4
+     ],
+     "path": [
+      [
+       6,
+       5
+      ],
+      [
+       5,
+       4
+      ]
+     ],
+     "end": [
+      5,
+      4
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    }
+   ],
+   "nota": "SP10 dopo due tocchi: tenuti anche il secondo ✊ (Slot 1 coperto, 2 Luce) e un 🔥 (Slot 4 coperto, 1 Luce)"
+  },
+  "dado_giocatore": {
+   "turno": 1,
+   "fase": "RISOLUZIONE",
+   "stanza": {
+    "id": "r1",
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "giocatore": {
+    "pos": [
+     1,
+     4
+    ],
+    "hp": 9,
+    "hpMax": 10,
+    "pt": 6,
+    "pm": 2,
+    "salto": 0,
+    "luce": 1,
+    "stati": {}
+   },
+   "nemici": [
+    {
+     "id": "Z1",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      4
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z3",
+     "tipo": "zombie",
+     "pos": [
+      6,
+      2
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "tipo": "zombie",
+     "pos": [
+      6,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z5",
+     "tipo": "zombie",
+     "pos": [
+      7,
+      4
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      5,
+      3
+     ],
+     "tipo": "trap"
+    }
+   ],
+   "seq": [
+    {
+     "uid": "d8",
+     "owner": "Z1",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "resolved"
+    },
+    {
+     "uid": "d2",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "active"
+    },
+    {
+     "uid": "d9",
+     "owner": "Z2",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d10",
+     "owner": "Z3",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d6",
+     "owner": "Z4",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d1",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d7",
+     "owner": "Z5",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d5",
+     "owner": "P",
+     "kind": "terrore",
+     "value": 4,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d3",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    }
+   ],
+   "mano": [
+    {
+     "uid": "c9",
+     "id": "af",
+     "nome": "Attacco di Fuoco",
+     "cd": 1,
+     "family": "fuoco",
+     "fireSlot": true,
+     "eco": "+1 PM · +1 Luce",
+     "azioni": [
+      {
+       "cost": {
+        "fuoco": 1
+       },
+       "kind": "attack",
+       "dmg": 2,
+       "target": "adj",
+       "testo": "1 🔥: 2 Danni Fuoco a un adiacente."
+      },
+      {
+       "cost": {
+        "fuoco": 1
+       },
+       "kind": "vulnFire",
+       "target": "adj",
+       "testo": "1 🔥: Vulnerabilità Fuoco a un adiacente."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "motivo": "Serve un dado attivo con impulsi adatti",
+     "nuova": true
+    },
+    {
+     "uid": "c8",
+     "id": "ds",
+     "nome": "Diniego Sismico",
+     "cd": 1,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "push": 1,
+       "target": "adj",
+       "testo": "1 ✊: 1 Danno + Spingi 1 un adiacente."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "motivo": null,
+     "nuova": true
+    },
+    {
+     "uid": "c12",
+     "id": "di",
+     "nome": "Distorsione",
+     "cd": 1,
+     "family": "terrore",
+     "fireSlot": false,
+     "eco": "+1 PM · Pesca 1",
+     "azioni": [
+      {
+       "cost": {
+        "presagio": "X",
+        "pt": 1
+       },
+       "kind": "distort",
+       "target": "unit",
+       "testo": "X 🔮 + 1 PT: sposta un'unità (non te) fino a X caselle. Trappole attive."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "motivo": "Serve un dado attivo con impulsi adatti",
+     "nuova": true
+    },
+    {
+     "uid": "c4",
+     "id": "pa",
+     "nome": "Parata",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 Contrattacco",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "shield",
+       "n": 1,
+       "testo": "1 ✊: +1 Scudo."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "draw",
+       "n": 1,
+       "testo": "1 ✊: pesca 1 carta."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "motivo": null,
+     "nuova": true
+    },
+    {
+     "uid": "c15",
+     "id": "cu",
+     "nome": "Carica Furiosa",
+     "cd": 2,
+     "family": "free",
+     "fireSlot": false,
+     "eco": "+1 Luce",
+     "azioni": [],
+     "pre": "Gratis, finestra libera, non adiacente a nemici. Consuma 2 dadi adiacenti in Sequenza: muovi in linea retta fino alla loro somma; se finisci adiacente a un nemico, danni = caselle percorse.",
+     "post": null,
+     "baseRange": null,
+     "free": "charge",
+     "motivo": "Sei adiacente a un nemico",
+     "motivoFree": "Sei adiacente a un nemico",
+     "nuova": true
+    }
+   ],
+   "mazzo": 11,
+   "scarti": 0,
+   "plancia": {
+    "voci": [],
+    "copertura": {
+     "1": false,
+     "2": false,
+     "3": false,
+     "4": false
+    },
+    "slot": [
+     {
+      "slot": 1,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 2,
+      "die": "terrore",
+      "cost": 1,
+      "kind": "standard"
+     },
+     {
+      "slot": 3,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 4,
+      "die": "fuoco",
+      "cost": 1,
+      "kind": "fire"
+     }
+    ]
+   },
+   "res": {
+    "cursor": 1,
+    "active": true,
+    "pool": {
+     "forza": 1,
+     "fuoco": 0,
+     "presagio": 0
+    },
+    "lastMove": false
+   },
+   "anteprima": [
+    {
+     "uid": "d9",
+     "owner": "Z2",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      4,
+      6
+     ],
+     "path": [
+      [
+       3,
+       5
+      ],
+      [
+       2,
+       5
+      ]
+     ],
+     "end": [
+      2,
+      5
+     ],
+     "reach": true,
+     "raw": 2,
+     "dmg": 2,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1,
+     "orda": [
+      "Z1"
+     ]
+    },
+    {
+     "uid": "d10",
+     "owner": "Z3",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      6,
+      2
+     ],
+     "path": [
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     "end": [
+      4,
+      2
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d6",
+     "owner": "Z4",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      6,
+      6
+     ],
+     "path": [
+      [
+       5,
+       5
+      ],
+      [
+       4,
+       6
+      ]
+     ],
+     "end": [
+      4,
+      6
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d7",
+     "owner": "Z5",
+     "action": "incassare",
+     "name": "Incassare",
+     "value": 4,
+     "from": [
+      7,
+      4
+     ],
+     "path": [],
+     "end": [
+      7,
+      4
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 2,
+     "base": 0
+    }
+   ],
+   "raggiungibili": [
+    {
+     "cell": [
+      1,
+      5
+     ],
+     "pm": 2,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      1,
+      3
+     ],
+     "pm": 2,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      2,
+      5
+     ],
+     "pm": 2,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        2,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1"
+       ]
+      }
+     ]
+    }
+   ],
+   "adiacenti": [
+    "Z1"
+   ],
+   "manovre": {
+    "tactical": null,
+    "ranged": "Serve 1 🔥",
+    "convert": "Serve 1 🔮"
+   },
+   "nota": "SP3: Z1 ha agito, primo dado del giocatore (✊1) attivo",
+   "ultimi": [
+    {
+     "type": "RESOURCE",
+     "data": {
+      "res": "luce",
+      "old": 0,
+      "value": 1,
+      "delta": 1,
+      "cause": "Scarto dado"
+     }
+    },
+    {
+     "type": "DAMAGE",
+     "data": {
+      "target": "P",
+      "source": "Z1",
+      "amount": 1,
+      "final": 1,
+      "absorbed": 0,
+      "hpLoss": 1,
+      "dtype": "normal",
+      "direct": false,
+      "cause": "Attacco Orda"
+     }
+    },
+    {
+     "type": "RESOURCE",
+     "data": {
+      "res": "hp",
+      "old": 10,
+      "value": 9,
+      "delta": -1,
+      "cause": "Attacco Orda"
+     }
+    }
+   ],
+   "cellaToccata": [
+    1,
+    3
+   ]
+  },
+  "carta_aperta": {
+   "turno": 2,
+   "fase": "RISOLUZIONE",
+   "stanza": {
+    "id": "r1",
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "giocatore": {
+    "pos": [
+     3,
+     5
+    ],
+    "hp": 8,
+    "hpMax": 10,
+    "pt": 5,
+    "pm": 0,
+    "salto": 0,
+    "luce": 2,
+    "stati": {
+     "vuln": [
+      1,
+      0
+     ]
+    }
+   },
+   "nemici": [
+    {
+     "id": "Z1",
+     "tipo": "zombie",
+     "pos": [
+      5,
+      3
+     ],
+     "hp": 3,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      5
+     ],
+     "hp": 4,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "vulnFire": [
+       0,
+       1
+      ]
+     }
+    },
+    {
+     "id": "Z3",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      2
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      6
+     ],
+     "hp": 5,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "stun": [
+       1,
+       0
+      ]
+     }
+    },
+    {
+     "id": "Z5",
+     "tipo": "zombie",
+     "pos": [
+      7,
+      4
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "shield": [
+       0,
+       2
+      ]
+     }
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    }
+   ],
+   "seq": [
+    {
+     "uid": "d12",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "active"
+    },
+    {
+     "uid": "d19",
+     "owner": "Z1",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d18",
+     "owner": "Z2",
+     "kind": "ai",
+     "value": 2,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d13",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d15",
+     "owner": "P",
+     "kind": "terrore",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d20",
+     "owner": "Z3",
+     "kind": "ai",
+     "value": 3,
+     "action": "morso",
+     "nome": "Morso Rigenerante",
+     "state": "pending"
+    },
+    {
+     "uid": "d17",
+     "owner": "Z4",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d16",
+     "owner": "Z5",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    }
+   ],
+   "mano": [
+    {
+     "uid": "c15",
+     "id": "cu",
+     "nome": "Carica Furiosa",
+     "cd": 2,
+     "family": "free",
+     "fireSlot": false,
+     "eco": "+1 Luce",
+     "azioni": [],
+     "pre": "Gratis, finestra libera, non adiacente a nemici. Consuma 2 dadi adiacenti in Sequenza: muovi in linea retta fino alla loro somma; se finisci adiacente a un nemico, danni = caselle percorse.",
+     "post": null,
+     "baseRange": null,
+     "free": "charge",
+     "motivo": "Completa prima la carta aperta",
+     "motivoFree": "Completa prima la carta aperta",
+     "nuova": false
+    },
+    {
+     "uid": "c2",
+     "id": "ab",
+     "nome": "Attacco Base",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · +1 Scudo",
+     "azioni": [
+      {
+       "cost": {},
+       "kind": "attack",
+       "dmg": 1,
+       "target": "adj",
+       "testo": "Gratis: 1 Danno a un adiacente."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "target": "adj",
+       "testo": "1 ✊: 1 Danno a un adiacente."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "draw",
+       "n": 1,
+       "testo": "1 ✊: pesca 1 carta."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "motivo": null,
+     "nuova": true
+    },
+    {
+     "uid": "c6",
+     "id": "tm",
+     "nome": "Tiro Mirato",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+2 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "range",
+       "n": 1,
+       "testo": "1 ✊: +1 Gittata."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "target": "range",
+       "testo": "1 ✊: 1 Danno in gittata."
+      }
+     ],
+     "pre": "Gittata 2.",
+     "post": null,
+     "baseRange": 2,
+     "free": null,
+     "motivo": null,
+     "nuova": true
+    },
+    {
+     "uid": "c3",
+     "id": "pa",
+     "nome": "Parata",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 Contrattacco",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "shield",
+       "n": 1,
+       "testo": "1 ✊: +1 Scudo."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "draw",
+       "n": 1,
+       "testo": "1 ✊: pesca 1 carta."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "motivo": null,
+     "nuova": true
+    }
+   ],
+   "mazzo": 10,
+   "scarti": 0,
+   "plancia": {
+    "voci": [
+     {
+      "pid": "pl1",
+      "id": "di",
+      "nome": "Distorsione",
+      "cd": 0,
+      "max": 1,
+      "posto": "std",
+      "slot": 1
+     }
+    ],
+    "copertura": {
+     "1": true,
+     "2": false,
+     "3": false,
+     "4": false
+    },
+    "slot": [
+     {
+      "slot": 1,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 2,
+      "die": "terrore",
+      "cost": 1,
+      "kind": "standard"
+     },
+     {
+      "slot": 3,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 4,
+      "die": "fuoco",
+      "cost": 1,
+      "kind": "fire"
+     }
+    ]
+   },
+   "res": {
+    "cursor": 0,
+    "active": true,
+    "pool": {
+     "forza": 1,
+     "fuoco": 0,
+     "presagio": 0
+    },
+    "lastMove": false
+   },
+   "anteprima": [
+    {
+     "uid": "d19",
+     "owner": "Z1",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      5,
+      3
+     ],
+     "path": [
+      [
+       4,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     "end": [
+      3,
+      4
+     ],
+     "reach": true,
+     "raw": 3,
+     "dmg": 6,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1,
+     "orda": [
+      "Z2",
+      "Z4"
+     ]
+    },
+    {
+     "uid": "d18",
+     "owner": "Z2",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 2,
+     "from": [
+      2,
+      5
+     ],
+     "path": [],
+     "end": [
+      2,
+      5
+     ],
+     "reach": true,
+     "raw": 3,
+     "dmg": 6,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1,
+     "orda": [
+      "Z1",
+      "Z4"
+     ]
+    },
+    {
+     "uid": "d20",
+     "owner": "Z3",
+     "action": "morso",
+     "name": "Morso Rigenerante",
+     "value": 3,
+     "from": [
+      4,
+      2
+     ],
+     "path": [
+      [
+       3,
+       2
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     "end": [
+      2,
+      3
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 2
+    },
+    {
+     "uid": "d17",
+     "owner": "Z4",
+     "spento": "stordito",
+     "action": "incassare",
+     "name": "Incassare"
+    },
+    {
+     "uid": "d16",
+     "owner": "Z5",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      7,
+      4
+     ],
+     "path": [
+      [
+       6,
+       5
+      ],
+      [
+       5,
+       4
+      ]
+     ],
+     "end": [
+      5,
+      4
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    }
+   ],
+   "raggiungibili": [],
+   "adiacenti": [
+    "Z2",
+    "Z4"
+   ],
+   "manovre": {
+    "tactical": null,
+    "ranged": "Serve 1 🔥",
+    "convert": "Serve 1 🔮"
+   },
+   "nota": "Turno 2: mosso in R3E5, aperto Attacco Poderoso col ✊2, usata una volta l'Azione 2 su Z4 contro il muro",
+   "aperta": {
+    "id": "ap",
+    "next": 1,
+    "usedAny": true,
+    "azioni": [
+     {
+      "i": 0,
+      "testo": "1 ✊: 2 Danni a un adiacente.",
+      "motivo": "Non si torna a un'Azione precedente"
+     },
+     {
+      "i": 1,
+      "testo": "1 ✊: Stordisci un adiacente + Spingi 1.",
+      "motivo": null
+     }
+    ],
+    "rimetti": "La carta è già stata usata",
+    "bersagli": [
+     {
+      "id": "Z1",
+      "motivo": "Il bersaglio deve essere adiacente"
+     },
+     {
+      "id": "Z2",
+      "motivo": null
+     },
+     {
+      "id": "Z3",
+      "motivo": "Il bersaglio deve essere adiacente"
+     },
+     {
+      "id": "Z4",
+      "motivo": null
+     },
+     {
+      "id": "Z5",
+      "motivo": "Il bersaglio deve essere adiacente"
+     }
+    ],
+    "spinta": [
+     {
+      "cell": [
+       4,
+       7
+      ],
+      "status": "wall",
+      "contro": null
+     },
+     {
+      "cell": [
+       5,
+       5
+      ],
+      "status": "free",
+      "contro": null
+     },
+     {
+      "cell": [
+       5,
+       6
+      ],
+      "status": "free",
+      "contro": null
+     }
+    ],
+    "bersaglio": "Z4",
+    "usata": [
+     {
+      "type": "POOL",
+      "data": {
+       "pool": {
+        "forza": 1,
+        "fuoco": 0,
+        "presagio": 0
+       }
+      }
+     },
+     {
+      "type": "CARD_ACTION",
+      "data": {
+       "card": "c13",
+       "id": "ap",
+       "action": 1,
+       "target": "Z4",
+       "payer": "forza",
+       "n": 1
+      }
+     },
+     {
+      "type": "STATUS",
+      "data": {
+       "unit": "P",
+       "status": "vuln",
+       "delta": 1,
+       "total": 1,
+       "cause": "Attacco Poderoso"
+      }
+     },
+     {
+      "type": "STATUS",
+      "data": {
+       "unit": "Z4",
+       "status": "stun",
+       "delta": 1,
+       "total": 1,
+       "cause": "Attacco Poderoso"
+      }
+     },
+     {
+      "type": "PUSH",
+      "data": {
+       "source": "P",
+       "target": "Z4",
+       "to": [
+        4,
+        7
+       ],
+       "collision": true
+      }
+     },
+     {
+      "type": "COLLISION",
+      "data": {
+       "target": "Z4",
+       "against": "wall",
+       "at": [
+        4,
+        7
+       ]
+      }
+     },
+     {
+      "type": "DAMAGE",
+      "data": {
+       "target": "Z4",
+       "source": "P",
+       "amount": 1,
+       "final": 1,
+       "absorbed": 0,
+       "hpLoss": 1,
+       "dtype": "normal",
+       "direct": false,
+       "cause": "Collisione"
+      }
+     }
+    ]
+   }
+  },
+  "nemico_anteprima": {
+   "turno": 3,
+   "fase": "RISOLUZIONE",
+   "stanza": {
+    "id": "r1",
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "giocatore": {
+    "pos": [
+     1,
+     4
+    ],
+    "hp": 7,
+    "hpMax": 10,
+    "pt": 5,
+    "pm": 9,
+    "salto": 0,
+    "luce": 3,
+    "stati": {
+     "shield": [
+      1,
+      0
+     ],
+     "counter": [
+      1,
+      0
+     ]
+    }
+   },
+   "nemici": [
+    {
+     "id": "Z1",
+     "tipo": "zombie",
+     "pos": [
+      3,
+      3
+     ],
+     "hp": 2,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      5
+     ],
+     "hp": 4,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z3",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      3
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "shield": [
+       0,
+       2
+      ]
+     }
+    },
+    {
+     "id": "Z5",
+     "tipo": "zombie",
+     "pos": [
+      5,
+      4
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    }
+   ],
+   "seq": [
+    {
+     "uid": "d30",
+     "owner": "Z1",
+     "kind": "ai",
+     "value": 3,
+     "action": "morso",
+     "nome": "Morso Rigenerante",
+     "state": "pending"
+    },
+    {
+     "uid": "d23",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d28",
+     "owner": "Z2",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d22",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d27",
+     "owner": "Z3",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d29",
+     "owner": "Z4",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d25",
+     "owner": "P",
+     "kind": "terrore",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d26",
+     "owner": "Z5",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d21",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    }
+   ],
+   "mano": [
+    {
+     "uid": "c15",
+     "id": "cu",
+     "nome": "Carica Furiosa",
+     "cd": 2,
+     "family": "free",
+     "fireSlot": false,
+     "eco": "+1 Luce",
+     "azioni": [],
+     "pre": "Gratis, finestra libera, non adiacente a nemici. Consuma 2 dadi adiacenti in Sequenza: muovi in linea retta fino alla loro somma; se finisci adiacente a un nemico, danni = caselle percorse.",
+     "post": null,
+     "baseRange": null,
+     "free": "charge",
+     "motivo": "Sei adiacente a un nemico",
+     "motivoFree": "Sei adiacente a un nemico",
+     "nuova": false
+    },
+    {
+     "uid": "c6",
+     "id": "tm",
+     "nome": "Tiro Mirato",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+2 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "range",
+       "n": 1,
+       "testo": "1 ✊: +1 Gittata."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "target": "range",
+       "testo": "1 ✊: 1 Danno in gittata."
+      }
+     ],
+     "pre": "Gittata 2.",
+     "post": null,
+     "baseRange": 2,
+     "free": null,
+     "motivo": "Serve un dado attivo con impulsi adatti",
+     "nuova": false
+    },
+    {
+     "uid": "c13",
+     "id": "ap",
+     "nome": "Attacco Poderoso",
+     "cd": 2,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · +1 Luce",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 2,
+       "target": "adj",
+       "testo": "1 ✊: 2 Danni a un adiacente."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "stunPush",
+       "push": 1,
+       "target": "adj",
+       "testo": "1 ✊: Stordisci un adiacente + Spingi 1."
+      }
+     ],
+     "pre": "Usarla ti rende Vulnerabile.",
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "motivo": "Serve un dado attivo con impulsi adatti",
+     "nuova": false
+    },
+    {
+     "uid": "c11",
+     "id": "ie",
+     "nome": "Infusione Elementale",
+     "cd": 1,
+     "family": "free",
+     "fireSlot": true,
+     "eco": "+1 PM · Ruota 1 CD",
+     "azioni": [],
+     "pre": "Gratis, finestra libera: un tuo dado non-Terrore non risolto diventa Fuoco e +1 impulso.",
+     "post": null,
+     "baseRange": null,
+     "free": "infuse",
+     "motivo": "Serve un tuo dado non-Terrore non risolto",
+     "motivoFree": null,
+     "nuova": true
+    },
+    {
+     "uid": "c5",
+     "id": "sc",
+     "nome": "Scatto",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+2 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "jump",
+       "n": 1,
+       "testo": "1 ✊: +1 PM Salto."
+      }
+     ],
+     "pre": "All'attivazione: pesca 1 carta.",
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "motivo": "Serve un dado attivo con impulsi adatti",
+     "nuova": true
+    }
+   ],
+   "mazzo": 11,
+   "scarti": 0,
+   "plancia": {
+    "voci": [],
+    "copertura": {
+     "1": false,
+     "2": false,
+     "3": false,
+     "4": false
+    },
+    "slot": [
+     {
+      "slot": 1,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 2,
+      "die": "terrore",
+      "cost": 1,
+      "kind": "standard"
+     },
+     {
+      "slot": 3,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 4,
+      "die": "fuoco",
+      "cost": 1,
+      "kind": "fire"
+     }
+    ]
+   },
+   "res": {
+    "cursor": 0,
+    "active": false,
+    "pool": {
+     "forza": 0,
+     "fuoco": 0,
+     "presagio": 0
+    },
+    "lastMove": false
+   },
+   "anteprima": [
+    {
+     "uid": "d30",
+     "owner": "Z1",
+     "action": "morso",
+     "name": "Morso Rigenerante",
+     "value": 3,
+     "from": [
+      3,
+      3
+     ],
+     "path": [
+      [
+       2,
+       4
+      ]
+     ],
+     "end": [
+      2,
+      4
+     ],
+     "reach": true,
+     "raw": 2,
+     "dmg": 1,
+     "absorbed": 1,
+     "shield": 0,
+     "base": 2,
+     "cura": 1,
+     "contrattacco": 1
+    },
+    {
+     "uid": "d28",
+     "owner": "Z2",
+     "action": "incassare",
+     "name": "Incassare",
+     "value": 4,
+     "from": [
+      2,
+      5
+     ],
+     "path": [],
+     "end": [
+      2,
+      5
+     ],
+     "reach": true,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 2,
+     "base": 0
+    },
+    {
+     "uid": "d27",
+     "owner": "Z3",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      2,
+      3
+     ],
+     "path": [
+      [
+       1,
+       3
+      ]
+     ],
+     "end": [
+      1,
+      3
+     ],
+     "reach": true,
+     "raw": 3,
+     "dmg": 3,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1,
+     "orda": [
+      "Z1",
+      "Z2"
+     ],
+     "contrattacco": 3
+    },
+    {
+     "uid": "d29",
+     "owner": "Z4",
+     "action": "incassare",
+     "name": "Incassare",
+     "value": 4,
+     "from": [
+      4,
+      6
+     ],
+     "path": [],
+     "end": [
+      4,
+      6
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 2,
+     "base": 0
+    },
+    {
+     "uid": "d26",
+     "owner": "Z5",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      5,
+      4
+     ],
+     "path": [
+      [
+       4,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     "end": [
+      3,
+      4
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    }
+   ],
+   "raggiungibili": [
+    {
+     "cell": [
+      1,
+      5
+     ],
+     "pm": 2,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      1,
+      3
+     ],
+     "pm": 2,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      2,
+      4
+     ],
+     "pm": 2,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        2,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      1,
+      6
+     ],
+     "pm": 4,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      2,
+      6
+     ],
+     "pm": 4,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      1,
+      2
+     ],
+     "pm": 4,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      3,
+      4
+     ],
+     "pm": 4,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        2,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2",
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      3,
+      5
+     ],
+     "pm": 6,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      3,
+      6
+     ],
+     "pm": 6,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      1,
+      1
+     ],
+     "pm": 6,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        1
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      2,
+      2
+     ],
+     "pm": 6,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      4,
+      4
+     ],
+     "pm": 6,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        2,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2",
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        4,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      2,
+      1
+     ],
+     "pm": 7,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        1
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        1
+       ],
+       "how": "walk",
+       "costo": 1,
+       "accanto": []
+      }
+     ]
+    },
+    {
+     "cell": [
+      3,
+      1
+     ],
+     "pm": 8,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        1
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      3,
+      2
+     ],
+     "pm": 8,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      4,
+      3
+     ],
+     "pm": 8,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        2,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2",
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        4,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        4,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z5"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      5,
+      3
+     ],
+     "pm": 8,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        2,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2",
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        4,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        5,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z5"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      4,
+      1
+     ],
+     "pm": 9,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        1
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        4,
+        1
+       ],
+       "how": "walk",
+       "costo": 1,
+       "accanto": []
+      }
+     ]
+    },
+    {
+     "cell": [
+      4,
+      2
+     ],
+     "pm": 9,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        1
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        4,
+        2
+       ],
+       "how": "walk",
+       "costo": 1,
+       "accanto": []
+      }
+     ]
+    }
+   ],
+   "adiacenti": [
+    "Z2"
+   ],
+   "nota": "Turno 3, il primo dado è di Z1",
+   "tocca": "Z1"
+  },
+  "nemico_esito": {
+   "turno": 3,
+   "fase": "RISOLUZIONE",
+   "stanza": {
+    "id": "r1",
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "giocatore": {
+    "pos": [
+     1,
+     4
+    ],
+    "hp": 6,
+    "hpMax": 10,
+    "pt": 5,
+    "pm": 9,
+    "salto": 0,
+    "luce": 3,
+    "stati": {
+     "counter": [
+      1,
+      0
+     ]
+    }
+   },
+   "nemici": [
+    {
+     "id": "Z1",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      4
+     ],
+     "hp": 2,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      5
+     ],
+     "hp": 4,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z3",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      3
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "shield": [
+       0,
+       2
+      ]
+     }
+    },
+    {
+     "id": "Z5",
+     "tipo": "zombie",
+     "pos": [
+      5,
+      4
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    }
+   ],
+   "seq": [
+    {
+     "uid": "d30",
+     "owner": "Z1",
+     "kind": "ai",
+     "value": 3,
+     "action": "morso",
+     "nome": "Morso Rigenerante",
+     "state": "resolved"
+    },
+    {
+     "uid": "d23",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d28",
+     "owner": "Z2",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d22",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d27",
+     "owner": "Z3",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d29",
+     "owner": "Z4",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d25",
+     "owner": "P",
+     "kind": "terrore",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d26",
+     "owner": "Z5",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d21",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    }
+   ],
+   "mano": [
+    {
+     "uid": "c15",
+     "id": "cu",
+     "nome": "Carica Furiosa",
+     "cd": 2,
+     "family": "free",
+     "fireSlot": false,
+     "eco": "+1 Luce",
+     "azioni": [],
+     "pre": "Gratis, finestra libera, non adiacente a nemici. Consuma 2 dadi adiacenti in Sequenza: muovi in linea retta fino alla loro somma; se finisci adiacente a un nemico, danni = caselle percorse.",
+     "post": null,
+     "baseRange": null,
+     "free": "charge",
+     "motivo": "Sei adiacente a un nemico",
+     "motivoFree": "Sei adiacente a un nemico",
+     "nuova": false
+    },
+    {
+     "uid": "c6",
+     "id": "tm",
+     "nome": "Tiro Mirato",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+2 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "range",
+       "n": 1,
+       "testo": "1 ✊: +1 Gittata."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "target": "range",
+       "testo": "1 ✊: 1 Danno in gittata."
+      }
+     ],
+     "pre": "Gittata 2.",
+     "post": null,
+     "baseRange": 2,
+     "free": null,
+     "motivo": "Serve un dado attivo con impulsi adatti",
+     "nuova": false
+    },
+    {
+     "uid": "c13",
+     "id": "ap",
+     "nome": "Attacco Poderoso",
+     "cd": 2,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · +1 Luce",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 2,
+       "target": "adj",
+       "testo": "1 ✊: 2 Danni a un adiacente."
+      },
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "stunPush",
+       "push": 1,
+       "target": "adj",
+       "testo": "1 ✊: Stordisci un adiacente + Spingi 1."
+      }
+     ],
+     "pre": "Usarla ti rende Vulnerabile.",
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "motivo": "Serve un dado attivo con impulsi adatti",
+     "nuova": false
+    },
+    {
+     "uid": "c11",
+     "id": "ie",
+     "nome": "Infusione Elementale",
+     "cd": 1,
+     "family": "free",
+     "fireSlot": true,
+     "eco": "+1 PM · Ruota 1 CD",
+     "azioni": [],
+     "pre": "Gratis, finestra libera: un tuo dado non-Terrore non risolto diventa Fuoco e +1 impulso.",
+     "post": null,
+     "baseRange": null,
+     "free": "infuse",
+     "motivo": "Serve un tuo dado non-Terrore non risolto",
+     "motivoFree": null,
+     "nuova": true
+    },
+    {
+     "uid": "c5",
+     "id": "sc",
+     "nome": "Scatto",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+2 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "jump",
+       "n": 1,
+       "testo": "1 ✊: +1 PM Salto."
+      }
+     ],
+     "pre": "All'attivazione: pesca 1 carta.",
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "motivo": "Serve un dado attivo con impulsi adatti",
+     "nuova": true
+    }
+   ],
+   "mazzo": 11,
+   "scarti": 0,
+   "plancia": {
+    "voci": [],
+    "copertura": {
+     "1": false,
+     "2": false,
+     "3": false,
+     "4": false
+    },
+    "slot": [
+     {
+      "slot": 1,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 2,
+      "die": "terrore",
+      "cost": 1,
+      "kind": "standard"
+     },
+     {
+      "slot": 3,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 4,
+      "die": "fuoco",
+      "cost": 1,
+      "kind": "fire"
+     }
+    ]
+   },
+   "res": {
+    "cursor": 1,
+    "active": false,
+    "pool": {
+     "forza": 0,
+     "fuoco": 0,
+     "presagio": 0
+    },
+    "lastMove": false
+   },
+   "anteprima": [
+    {
+     "uid": "d28",
+     "owner": "Z2",
+     "action": "incassare",
+     "name": "Incassare",
+     "value": 4,
+     "from": [
+      2,
+      5
+     ],
+     "path": [],
+     "end": [
+      2,
+      5
+     ],
+     "reach": true,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 2,
+     "base": 0
+    },
+    {
+     "uid": "d27",
+     "owner": "Z3",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      2,
+      3
+     ],
+     "path": [
+      [
+       1,
+       3
+      ]
+     ],
+     "end": [
+      1,
+      3
+     ],
+     "reach": true,
+     "raw": 3,
+     "dmg": 3,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1,
+     "orda": [
+      "Z1",
+      "Z2"
+     ],
+     "contrattacco": 3
+    },
+    {
+     "uid": "d29",
+     "owner": "Z4",
+     "action": "incassare",
+     "name": "Incassare",
+     "value": 4,
+     "from": [
+      4,
+      6
+     ],
+     "path": [],
+     "end": [
+      4,
+      6
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 2,
+     "base": 0
+    },
+    {
+     "uid": "d26",
+     "owner": "Z5",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      5,
+      4
+     ],
+     "path": [
+      [
+       4,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     "end": [
+      3,
+      4
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    }
+   ],
+   "raggiungibili": [
+    {
+     "cell": [
+      1,
+      5
+     ],
+     "pm": 2,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      1,
+      3
+     ],
+     "pm": 2,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      1,
+      6
+     ],
+     "pm": 4,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      2,
+      6
+     ],
+     "pm": 4,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      1,
+      2
+     ],
+     "pm": 4,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      3,
+      5
+     ],
+     "pm": 6,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      3,
+      6
+     ],
+     "pm": 6,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      1,
+      1
+     ],
+     "pm": 6,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        1
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      2,
+      2
+     ],
+     "pm": 6,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      3,
+      4
+     ],
+     "pm": 8,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        6
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        5
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        4
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z2",
+        "Z4"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      2,
+      1
+     ],
+     "pm": 7,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        1
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        1
+       ],
+       "how": "walk",
+       "costo": 1,
+       "accanto": []
+      }
+     ]
+    },
+    {
+     "cell": [
+      3,
+      1
+     ],
+     "pm": 8,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        1
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      3,
+      2
+     ],
+     "pm": 8,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      }
+     ]
+    },
+    {
+     "cell": [
+      4,
+      1
+     ],
+     "pm": 9,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        1
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        4,
+        1
+       ],
+       "how": "walk",
+       "costo": 1,
+       "accanto": []
+      }
+     ]
+    },
+    {
+     "cell": [
+      4,
+      2
+     ],
+     "pm": 9,
+     "salto": 0,
+     "trap": false,
+     "passi": [
+      {
+       "cell": [
+        1,
+        3
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z2"
+       ]
+      },
+      {
+       "cell": [
+        1,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z1",
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        2,
+        2
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        3,
+        1
+       ],
+       "how": "walk",
+       "costo": 2,
+       "accanto": [
+        "Z3"
+       ]
+      },
+      {
+       "cell": [
+        4,
+        2
+       ],
+       "how": "walk",
+       "costo": 1,
+       "accanto": []
+      }
+     ]
+    }
+   ],
+   "adiacenti": [
+    "Z1",
+    "Z2"
+   ],
+   "nota": "Turno 3, dopo il dado di Z1",
+   "tocca": "Z1",
+   "esito": [
+    {
+     "type": "DIE_ACTIVE",
+     "data": {
+      "die": "d30",
+      "kind": "ai",
+      "enemy": "Z1"
+     }
+    },
+    {
+     "type": "AI_ACTION",
+     "data": {
+      "enemy": "Z1",
+      "type": "zombie",
+      "action": "morso",
+      "name": "Morso Rigenerante",
+      "value": 3
+     }
+    },
+    {
+     "type": "MOVE",
+     "data": {
+      "unit": "Z1",
+      "from": [
+       3,
+       3
+      ],
+      "to": [
+       2,
+       4
+      ],
+      "how": "walk"
+     }
+    },
+    {
+     "type": "DAMAGE",
+     "data": {
+      "target": "P",
+      "source": "Z1",
+      "amount": 2,
+      "final": 2,
+      "absorbed": 1,
+      "hpLoss": 1,
+      "dtype": "normal",
+      "direct": false,
+      "cause": "Morso Rigenerante"
+     }
+    },
+    {
+     "type": "RESOURCE",
+     "data": {
+      "res": "hp",
+      "old": 7,
+      "value": 6,
+      "delta": -1,
+      "cause": "Morso Rigenerante"
+     }
+    },
+    {
+     "type": "DAMAGE",
+     "data": {
+      "target": "Z1",
+      "source": "P",
+      "amount": 1,
+      "final": 1,
+      "absorbed": 0,
+      "hpLoss": 1,
+      "dtype": "normal",
+      "direct": false,
+      "cause": "Contrattacco"
+     }
+    },
+    {
+     "type": "HEAL",
+     "data": {
+      "unit": "Z1",
+      "amount": 1,
+      "cause": "Morso Rigenerante"
+     }
+    },
+    {
+     "type": "DIE_RESOLVED",
+     "data": {
+      "die": "d30"
+     }
+    }
+   ]
+  },
+  "fine_turno": {
+   "turno": 2,
+   "fase": "FINE_TURNO",
+   "stanza": {
+    "id": "r1",
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "giocatore": {
+    "pos": [
+     1,
+     4
+    ],
+    "hp": 8,
+    "hpMax": 10,
+    "pt": 5,
+    "pm": 4,
+    "salto": 0,
+    "luce": 1,
+    "stati": {}
+   },
+   "nemici": [
+    {
+     "id": "Z1",
+     "tipo": "zombie",
+     "pos": [
+      5,
+      3
+     ],
+     "hp": 3,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      5
+     ],
+     "hp": 4,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "vulnFire": [
+       0,
+       1
+      ]
+     }
+    },
+    {
+     "id": "Z3",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      2
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      6
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    },
+    {
+     "id": "Z5",
+     "tipo": "zombie",
+     "pos": [
+      7,
+      4
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {
+      "shield": [
+       0,
+       2
+      ]
+     }
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    }
+   ],
+   "seq": [
+    {
+     "uid": "d12",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d19",
+     "owner": "Z1",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d18",
+     "owner": "Z2",
+     "kind": "ai",
+     "value": 2,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d13",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d15",
+     "owner": "P",
+     "kind": "terrore",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d20",
+     "owner": "Z3",
+     "kind": "ai",
+     "value": 3,
+     "action": "morso",
+     "nome": "Morso Rigenerante",
+     "state": "pending"
+    },
+    {
+     "uid": "d17",
+     "owner": "Z4",
+     "kind": "ai",
+     "value": 4,
+     "action": "incassare",
+     "nome": "Incassare",
+     "state": "pending"
+    },
+    {
+     "uid": "d16",
+     "owner": "Z5",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d11",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d14",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    }
+   ],
+   "mano": [
+    {
+     "uid": "c8",
+     "id": "ds",
+     "nome": "Diniego Sismico",
+     "cd": 1,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+1 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "attack",
+       "dmg": 1,
+       "push": 1,
+       "target": "adj",
+       "testo": "1 ✊: 1 Danno + Spingi 1 un adiacente."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c15",
+     "id": "cu",
+     "nome": "Carica Furiosa",
+     "cd": 2,
+     "family": "free",
+     "fireSlot": false,
+     "eco": "+1 Luce",
+     "azioni": [],
+     "pre": "Gratis, finestra libera, non adiacente a nemici. Consuma 2 dadi adiacenti in Sequenza: muovi in linea retta fino alla loro somma; se finisci adiacente a un nemico, danni = caselle percorse.",
+     "post": null,
+     "baseRange": null,
+     "free": "charge",
+     "nuova": true
+    }
+   ],
+   "mazzo": 11,
+   "scarti": 1,
+   "plancia": {
+    "voci": [
+     {
+      "pid": "pl1",
+      "id": "di",
+      "nome": "Distorsione",
+      "cd": 1,
+      "max": 1,
+      "posto": "std",
+      "slot": 1
+     },
+     {
+      "pid": "pl2",
+      "id": "af",
+      "nome": "Attacco di Fuoco",
+      "cd": 1,
+      "max": 1,
+      "posto": "fire",
+      "slot": 4
+     }
+    ],
+    "copertura": {
+     "1": true,
+     "2": false,
+     "3": false,
+     "4": true
+    },
+    "slot": [
+     {
+      "slot": 1,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 2,
+      "die": "terrore",
+      "cost": 1,
+      "kind": "standard"
+     },
+     {
+      "slot": 3,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 4,
+      "die": "fuoco",
+      "cost": 1,
+      "kind": "fire"
+     }
+    ]
+   },
+   "anteprima": [
+    {
+     "uid": "d19",
+     "owner": "Z1",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      5,
+      3
+     ],
+     "path": [
+      [
+       4,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     "end": [
+      3,
+      3
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d18",
+     "owner": "Z2",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 2,
+     "from": [
+      2,
+      5
+     ],
+     "path": [],
+     "end": [
+      2,
+      5
+     ],
+     "reach": true,
+     "raw": 1,
+     "dmg": 1,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    },
+    {
+     "uid": "d20",
+     "owner": "Z3",
+     "action": "morso",
+     "name": "Morso Rigenerante",
+     "value": 3,
+     "from": [
+      4,
+      2
+     ],
+     "path": [
+      [
+       3,
+       2
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     "end": [
+      2,
+      3
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 2
+    },
+    {
+     "uid": "d17",
+     "owner": "Z4",
+     "action": "incassare",
+     "name": "Incassare",
+     "value": 4,
+     "from": [
+      4,
+      6
+     ],
+     "path": [],
+     "end": [
+      4,
+      6
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 2,
+     "base": 0
+    },
+    {
+     "uid": "d16",
+     "owner": "Z5",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      7,
+      4
+     ],
+     "path": [
+      [
+       6,
+       5
+      ],
+      [
+       5,
+       4
+      ]
+     ],
+     "end": [
+      5,
+      4
+     ],
+     "reach": false,
+     "raw": 0,
+     "dmg": 0,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    }
+   ],
+   "nota": "SP5: turno 2, Fine Turno",
+   "ruotati": 1,
+   "fineTurno": {
+    "scelta": [
+     "c8"
+    ],
+    "ecoScelta": "+1 PM · Ruota 1 CD",
+    "opzioni": [
+     {
+      "pid": "pl1",
+      "id": "di",
+      "nome": "Distorsione",
+      "dopo": {
+       "voci": [
+        {
+         "pid": "pl2",
+         "id": "af",
+         "nome": "Attacco di Fuoco",
+         "cd": 0,
+         "max": 1,
+         "posto": "fire",
+         "slot": 4
+        }
+       ],
+       "copertura": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": true
+       },
+       "slot": [
+        {
+         "slot": 1,
+         "die": "vigore",
+         "cost": 2,
+         "kind": "standard"
+        },
+        {
+         "slot": 2,
+         "die": "terrore",
+         "cost": 1,
+         "kind": "standard"
+        },
+        {
+         "slot": 3,
+         "die": "vigore",
+         "cost": 2,
+         "kind": "standard"
+        },
+        {
+         "slot": 4,
+         "die": "fuoco",
+         "cost": 1,
+         "kind": "fire"
+        }
+       ]
+      },
+      "pmDopo": 5
+     },
+     {
+      "pid": "pl2",
+      "id": "af",
+      "nome": "Attacco di Fuoco",
+      "dopo": {
+       "voci": [
+        {
+         "pid": "pl1",
+         "id": "di",
+         "nome": "Distorsione",
+         "cd": 0,
+         "max": 1,
+         "posto": "std",
+         "slot": 1
+        }
+       ],
+       "copertura": {
+        "1": true,
+        "2": false,
+        "3": false,
+        "4": false
+       },
+       "slot": [
+        {
+         "slot": 1,
+         "die": "vigore",
+         "cost": 2,
+         "kind": "standard"
+        },
+        {
+         "slot": 2,
+         "die": "terrore",
+         "cost": 1,
+         "kind": "standard"
+        },
+        {
+         "slot": 3,
+         "die": "vigore",
+         "cost": 2,
+         "kind": "standard"
+        },
+        {
+         "slot": 4,
+         "die": "fuoco",
+         "cost": 1,
+         "kind": "fire"
+        }
+       ]
+      },
+      "pmDopo": 5
+     }
+    ],
+    "senzaScarti": {
+     "voci": [
+      {
+       "pid": "pl1",
+       "id": "di",
+       "nome": "Distorsione",
+       "cd": 0,
+       "max": 1,
+       "posto": "std",
+       "slot": 1
+      },
+      {
+       "pid": "pl2",
+       "id": "af",
+       "nome": "Attacco di Fuoco",
+       "cd": 0,
+       "max": 1,
+       "posto": "fire",
+       "slot": 4
+      }
+     ],
+     "copertura": {
+      "1": true,
+      "2": false,
+      "3": false,
+      "4": true
+     },
+     "slot": [
+      {
+       "slot": 1,
+       "die": "vigore",
+       "cost": 2,
+       "kind": "standard"
+      },
+      {
+       "slot": 2,
+       "die": "terrore",
+       "cost": 1,
+       "kind": "standard"
+      },
+      {
+       "slot": 3,
+       "die": "vigore",
+       "cost": 2,
+       "kind": "standard"
+      },
+      {
+       "slot": 4,
+       "die": "fuoco",
+       "cost": 1,
+       "kind": "fire"
+      }
+     ]
+    },
+    "statiRuotati": [
+     {
+      "type": "STATUS",
+      "data": {
+       "unit": "Z5",
+       "status": "shield",
+       "delta": 2,
+       "total": 2,
+       "cause": "Incassare"
+      }
+     },
+     {
+      "type": "STATUS",
+      "data": {
+       "unit": "Z2",
+       "status": "vulnFire",
+       "delta": 1,
+       "total": 1,
+       "cause": "Attacco di Fuoco"
+      }
+     },
+     {
+      "type": "STATUS",
+      "data": {
+       "unit": "Z4",
+       "status": "shield",
+       "delta": 2,
+       "total": 2,
+       "cause": "anteprima"
+      }
+     }
+    ]
+   }
+  },
+  "soglia": {
+   "nota": "seed 42, agente di bilanciamento: Cripta vinta entro la Veglia",
+   "soglia": {
+    "from": "r1",
+    "inVeglia": true,
+    "rests": 2,
+    "hp": 5,
+    "pt": 11,
+    "next": {
+     "id": "r2",
+     "name": "Il Corridoio dei Sussurri",
+     "veglia": 6,
+     "enemies": [
+      "zombie",
+      "zombie",
+      "zombie",
+      "sussurratore",
+      "sussurratore"
+     ]
+    }
+   },
+   "storia": {
+    "room": "r1",
+    "name": "La Cripta",
+    "turns": 5,
+    "veglia": 6,
+    "inVeglia": true,
+    "result": "win",
+    "rests": [],
+    "lightPaid": 7
+   },
+   "carry": {
+    "hp": 5,
+    "pt": 11,
+    "luce": 0
+   },
+   "ptCap": 6,
+   "hpMax": 10,
+   "soste": [
+    {
+     "id": "bendarsi",
+     "nome": "Bendarsi",
+     "testo": "+3 HP (max 10)",
+     "dopo": {
+      "hp": 8,
+      "ptIngresso": 6,
+      "luceIngresso": 0
+     }
+    },
+    {
+     "id": "raccogliersi",
+     "nome": "Raccogliersi",
+     "testo": "+2 PT (max 6)",
+     "dopo": {
+      "hp": 5,
+      "ptIngresso": 6,
+      "luceIngresso": 0
+     }
+    },
+    {
+     "id": "lanterna",
+     "nome": "Alimentare la lanterna",
+     "testo": "+2 Luce a inizio della prossima stanza",
+     "dopo": {
+      "hp": 5,
+      "ptIngresso": 6,
+      "luceIngresso": 2
+     }
+    }
+   ],
+   "nessuna": {
+    "hp": 5,
+    "ptIngresso": 6,
+    "luceIngresso": 0
+   },
+   "scelte": [
+    "bendarsi"
+   ],
+   "motivo": "Scegli 2 Soste diverse",
+   "prossima": {
+    "nome": "Il Corridoio dei Sussurri",
+    "veglia": 6,
+    "presagio": "Oltre la porta qualcuno ripete il tuo nome, sottovoce."
+   },
+   "nemiciUccisi": 5,
+   "nemici": 5,
+   "plancia": 3
+  },
+  "fine_turno_buio": {
+   "turno": 7,
+   "fase": "FINE_TURNO",
+   "stanza": {
+    "id": "r1",
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "giocatore": {
+    "pos": [
+     1,
+     2
+    ],
+    "hp": 1,
+    "hpMax": 10,
+    "pt": 11,
+    "pm": 4,
+    "salto": 0,
+    "luce": 0,
+    "stati": {}
+   },
+   "nemici": [
+    {
+     "id": "Z1",
+     "tipo": "zombie",
+     "pos": [
+      3,
+      5
+     ],
+     "hp": 0,
+     "hpMax": 6,
+     "vivo": false,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "tipo": "zombie",
+     "pos": [
+      4,
+      6
+     ],
+     "hp": 0,
+     "hpMax": 6,
+     "vivo": false,
+     "stati": {}
+    },
+    {
+     "id": "Z3",
+     "tipo": "zombie",
+     "pos": [
+      1,
+      3
+     ],
+     "hp": 0,
+     "hpMax": 6,
+     "vivo": false,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "tipo": "zombie",
+     "pos": [
+      2,
+      3
+     ],
+     "hp": 0,
+     "hpMax": 6,
+     "vivo": false,
+     "stati": {}
+    },
+    {
+     "id": "Z5",
+     "tipo": "zombie",
+     "pos": [
+      1,
+      3
+     ],
+     "hp": 6,
+     "hpMax": 6,
+     "vivo": true,
+     "stati": {}
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      5,
+      3
+     ],
+     "tipo": "trap"
+    }
+   ],
+   "seq": [
+    {
+     "uid": "d56",
+     "owner": "Z5",
+     "kind": "ai",
+     "value": 1,
+     "action": "orda",
+     "nome": "Attacco Orda",
+     "state": "pending"
+    },
+    {
+     "uid": "d52",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d54",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d53",
+     "owner": "P",
+     "kind": "fuoco",
+     "value": 1,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d51",
+     "owner": "P",
+     "kind": "vigore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    },
+    {
+     "uid": "d55",
+     "owner": "P",
+     "kind": "terrore",
+     "value": 2,
+     "action": null,
+     "nome": null,
+     "state": "pending"
+    }
+   ],
+   "mano": [
+    {
+     "uid": "c5",
+     "id": "sc",
+     "nome": "Scatto",
+     "cd": 0,
+     "family": "vigore",
+     "fireSlot": false,
+     "eco": "+2 PM · Ruota 1 CD",
+     "azioni": [
+      {
+       "cost": {
+        "forza": 1
+       },
+       "kind": "jump",
+       "n": 1,
+       "testo": "1 ✊: +1 PM Salto."
+      }
+     ],
+     "pre": "All'attivazione: pesca 1 carta.",
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    },
+    {
+     "uid": "c9",
+     "id": "af",
+     "nome": "Attacco di Fuoco",
+     "cd": 1,
+     "family": "fuoco",
+     "fireSlot": true,
+     "eco": "+1 PM · +1 Luce",
+     "azioni": [
+      {
+       "cost": {
+        "fuoco": 1
+       },
+       "kind": "attack",
+       "dmg": 2,
+       "target": "adj",
+       "testo": "1 🔥: 2 Danni Fuoco a un adiacente."
+      },
+      {
+       "cost": {
+        "fuoco": 1
+       },
+       "kind": "vulnFire",
+       "target": "adj",
+       "testo": "1 🔥: Vulnerabilità Fuoco a un adiacente."
+      }
+     ],
+     "pre": null,
+     "post": null,
+     "baseRange": null,
+     "free": null,
+     "nuova": true
+    }
+   ],
+   "mazzo": 10,
+   "scarti": 2,
+   "plancia": {
+    "voci": [
+     {
+      "pid": "pl3",
+      "id": "ap",
+      "nome": "Attacco Poderoso",
+      "cd": 0,
+      "max": 2,
+      "posto": "std",
+      "slot": 1
+     },
+     {
+      "pid": "pl4",
+      "id": "cf",
+      "nome": "Cono di Fuoco",
+      "cd": 1,
+      "max": 1,
+      "posto": "fire",
+      "slot": 4
+     }
+    ],
+    "copertura": {
+     "1": true,
+     "2": false,
+     "3": false,
+     "4": true
+    },
+    "slot": [
+     {
+      "slot": 1,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 2,
+      "die": "terrore",
+      "cost": 1,
+      "kind": "standard"
+     },
+     {
+      "slot": 3,
+      "die": "vigore",
+      "cost": 2,
+      "kind": "standard"
+     },
+     {
+      "slot": 4,
+      "die": "fuoco",
+      "cost": 1,
+      "kind": "fire"
+     }
+    ]
+   },
+   "anteprima": [
+    {
+     "uid": "d56",
+     "owner": "Z5",
+     "action": "orda",
+     "name": "Attacco Orda",
+     "value": 1,
+     "from": [
+      1,
+      3
+     ],
+     "path": [],
+     "end": [
+      1,
+      3
+     ],
+     "reach": true,
+     "raw": 1,
+     "dmg": 1,
+     "absorbed": 0,
+     "shield": 0,
+     "base": 1
+    }
+   ],
+   "nota": "seed 82, agente: primo turno di Buio (SP8), Fine Turno del turno 7",
+   "buio": {
+    "res": "pt",
+    "old": 12,
+    "value": 11,
+    "delta": -1,
+    "cause": "Buio"
+   }
+  },
+  "fine_partita": {
+   "nota": "seed 82, agente di bilanciamento: morte nella Cripta al turno 7 (Buio)",
+   "defeat": {
+    "result": "death",
+    "turn": 7,
+    "inVeglia": false,
+    "player": {
+     "hp": 0,
+     "pt": 12,
+     "luce": 1,
+     "pm": 6
+    }
+   },
+   "stanza": {
+    "nome": "La Cripta",
+    "veglia": 6
+   },
+   "ultimi": [
+    {
+     "turno": 7,
+     "fonte": "Z5",
+     "causa": "Attacco Orda",
+     "amount": 1,
+     "final": 1,
+     "absorbed": 0,
+     "hpLoss": 1,
+     "hp": [
+      1,
+      0
+     ]
+    },
+    {
+     "turno": 7,
+     "fonte": null,
+     "causa": "Buio",
+     "pt": [
+      12,
+      11
+     ]
+    },
+    {
+     "turno": 5,
+     "fonte": "Z4",
+     "causa": "Morso Rigenerante",
+     "amount": 2,
+     "final": 4,
+     "absorbed": 0,
+     "hpLoss": 4,
+     "hp": [
+      5,
+      1
+     ]
+    }
+   ],
+   "giocatore": {
+    "hp": 0,
+    "pt": 12,
+    "luce": 1
+   },
+   "nemiciUccisi": 4,
+   "nemici": 5,
+   "vivi": [
+    {
+     "id": "Z5",
+     "hp": 6,
+     "pos": [
+      1,
+      3
+     ]
+    }
+   ],
+   "pos": [
+    1,
+    2
+   ],
+   "nemiciPos": [
+    {
+     "id": "Z1",
+     "pos": [
+      3,
+      5
+     ],
+     "vivo": false,
+     "hp": 0,
+     "hpMax": 6,
+     "stati": {}
+    },
+    {
+     "id": "Z2",
+     "pos": [
+      4,
+      6
+     ],
+     "vivo": false,
+     "hp": 0,
+     "hpMax": 6,
+     "stati": {}
+    },
+    {
+     "id": "Z3",
+     "pos": [
+      1,
+      3
+     ],
+     "vivo": false,
+     "hp": 0,
+     "hpMax": 6,
+     "stati": {}
+    },
+    {
+     "id": "Z4",
+     "pos": [
+      2,
+      3
+     ],
+     "vivo": false,
+     "hp": 0,
+     "hpMax": 6,
+     "stati": {}
+    },
+    {
+     "id": "Z5",
+     "pos": [
+      1,
+      3
+     ],
+     "vivo": true,
+     "hp": 6,
+     "hpMax": 6,
+     "stati": {}
+    }
+   ],
+   "terreno": [
+    {
+     "at": [
+      4,
+      5
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      6,
+      4
+     ],
+     "tipo": "column"
+    },
+    {
+     "at": [
+      5,
+      3
+     ],
+     "tipo": "trap"
+    }
+   ]
+  }
+ },
+ "verificaDM1_SP1": [
+  "Z1 Attacco Orda −1",
+  "Z2 Attacco Orda −2"
+ ],
+ "previewMotoreSP1": [
+  "Z1 Attacco Orda dmg 1",
+  "Z2 Attacco Orda dmg 1",
+  "Z3 Attacco Orda dmg 0",
+  "Z4 Attacco Orda dmg 0",
+  "Z5 Incassare dmg 0"
+ ],
+ "carte": [
+  {
+   "id": "ab",
+   "nome": "Attacco Base",
+   "cd": 0,
+   "family": "vigore",
+   "eco": "+1 PM · +1 Scudo",
+   "pre": null,
+   "post": null,
+   "baseRange": null,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {},
+     "kind": "attack",
+     "dmg": 1,
+     "target": "adj",
+     "testo": "Gratis: 1 Danno a un adiacente."
+    },
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "attack",
+     "dmg": 1,
+     "target": "adj",
+     "testo": "1 ✊: 1 Danno a un adiacente."
+    },
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "draw",
+     "n": 1,
+     "testo": "1 ✊: pesca 1 carta."
+    }
+   ]
+  },
+  {
+   "id": "pa",
+   "nome": "Parata",
+   "cd": 0,
+   "family": "vigore",
+   "eco": "+1 Contrattacco",
+   "pre": null,
+   "post": null,
+   "baseRange": null,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "shield",
+     "n": 1,
+     "testo": "1 ✊: +1 Scudo."
+    },
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "draw",
+     "n": 1,
+     "testo": "1 ✊: pesca 1 carta."
+    }
+   ]
+  },
+  {
+   "id": "sc",
+   "nome": "Scatto",
+   "cd": 0,
+   "family": "vigore",
+   "eco": "+2 PM · Ruota 1 CD",
+   "pre": "All'attivazione: pesca 1 carta.",
+   "post": null,
+   "baseRange": null,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "jump",
+     "n": 1,
+     "testo": "1 ✊: +1 PM Salto."
+    }
+   ]
+  },
+  {
+   "id": "tm",
+   "nome": "Tiro Mirato",
+   "cd": 0,
+   "family": "vigore",
+   "eco": "+2 PM · Ruota 1 CD",
+   "pre": "Gittata 2.",
+   "post": null,
+   "baseRange": 2,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "range",
+     "n": 1,
+     "testo": "1 ✊: +1 Gittata."
+    },
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "attack",
+     "dmg": 1,
+     "target": "range",
+     "testo": "1 ✊: 1 Danno in gittata."
+    }
+   ]
+  },
+  {
+   "id": "pm",
+   "nome": "Profondità Mente",
+   "cd": 0,
+   "family": "terrore",
+   "eco": "+1 PM · Ruota 1 CD",
+   "pre": null,
+   "post": null,
+   "baseRange": null,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {
+      "presagio": "X",
+      "pt": "X"
+     },
+     "kind": "direct",
+     "target": "any",
+     "testo": "X 🔮 + X PT: X Danni Diretti ovunque."
+    }
+   ]
+  },
+  {
+   "id": "ds",
+   "nome": "Diniego Sismico",
+   "cd": 1,
+   "family": "vigore",
+   "eco": "+1 PM · Ruota 1 CD",
+   "pre": null,
+   "post": null,
+   "baseRange": null,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "attack",
+     "dmg": 1,
+     "push": 1,
+     "target": "adj",
+     "testo": "1 ✊: 1 Danno + Spingi 1 un adiacente."
+    }
+   ]
+  },
+  {
+   "id": "af",
+   "nome": "Attacco di Fuoco",
+   "cd": 1,
+   "family": "fuoco",
+   "eco": "+1 PM · +1 Luce",
+   "pre": null,
+   "post": null,
+   "baseRange": null,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {
+      "fuoco": 1
+     },
+     "kind": "attack",
+     "dmg": 2,
+     "target": "adj",
+     "dtype": "fire",
+     "testo": "1 🔥: 2 Danni Fuoco a un adiacente."
+    },
+    {
+     "cost": {
+      "fuoco": 1
+     },
+     "kind": "vulnFire",
+     "target": "adj",
+     "testo": "1 🔥: Vulnerabilità Fuoco a un adiacente."
+    }
+   ]
+  },
+  {
+   "id": "cf",
+   "nome": "Cono di Fuoco",
+   "cd": 1,
+   "family": "fuoco",
+   "eco": "+1 Luce",
+   "pre": null,
+   "post": null,
+   "baseRange": null,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {
+      "fuoco": 2
+     },
+     "kind": "cone",
+     "dmg": 2,
+     "range": 3,
+     "dtype": "fire",
+     "testo": "2 🔥: 2 Danni Fuoco a ogni nemico nel cono (gittata 3)."
+    }
+   ]
+  },
+  {
+   "id": "ie",
+   "nome": "Infusione Elementale",
+   "cd": 1,
+   "family": "free",
+   "eco": "+1 PM · Ruota 1 CD",
+   "pre": "Gratis, finestra libera: un tuo dado non-Terrore non risolto diventa Fuoco e +1 impulso.",
+   "post": null,
+   "baseRange": null,
+   "free": "infuse",
+   "azioni": []
+  },
+  {
+   "id": "di",
+   "nome": "Distorsione",
+   "cd": 1,
+   "family": "terrore",
+   "eco": "+1 PM · Pesca 1",
+   "pre": null,
+   "post": null,
+   "baseRange": null,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {
+      "presagio": "X",
+      "pt": 1
+     },
+     "kind": "distort",
+     "target": "unit",
+     "testo": "X 🔮 + 1 PT: sposta un'unità (non te) fino a X caselle. Trappole attive."
+    }
+   ]
+  },
+  {
+   "id": "ap",
+   "nome": "Attacco Poderoso",
+   "cd": 2,
+   "family": "vigore",
+   "eco": "+1 PM · +1 Luce",
+   "pre": "Usarla ti rende Vulnerabile.",
+   "post": null,
+   "baseRange": null,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "attack",
+     "dmg": 2,
+     "target": "adj",
+     "testo": "1 ✊: 2 Danni a un adiacente."
+    },
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "stunPush",
+     "push": 1,
+     "target": "adj",
+     "testo": "1 ✊: Stordisci un adiacente + Spingi 1."
+    }
+   ]
+  },
+  {
+   "id": "as",
+   "nome": "Attacco Strategico",
+   "cd": 2,
+   "family": "vigore",
+   "eco": "+1 PM",
+   "pre": null,
+   "post": "Alla chiusura: per ogni danno agli HP, +1 PM o +1 Scudo.",
+   "baseRange": null,
+   "free": null,
+   "azioni": [
+    {
+     "cost": {
+      "forza": 1
+     },
+     "kind": "attack",
+     "dmg": 1,
+     "target": "adj",
+     "testo": "1 ✊: 1 Danno a un adiacente."
+    }
+   ]
+  },
+  {
+   "id": "cu",
+   "nome": "Carica Furiosa",
+   "cd": 2,
+   "family": "free",
+   "eco": "+1 Luce",
+   "pre": "Gratis, finestra libera, non adiacente a nemici. Consuma 2 dadi adiacenti in Sequenza: muovi in linea retta fino alla loro somma; se finisci adiacente a un nemico, danni = caselle percorse.",
+   "post": null,
+   "baseRange": null,
+   "free": "charge",
+   "azioni": []
+  },
+  {
+   "id": "md",
+   "nome": "Manipolazione Destino",
+   "cd": 2,
+   "family": "free",
+   "eco": "Ruota tutte le CD",
+   "pre": "Gratis, finestra libera. 1 PT: metti un tuo dado non risolto sulla faccia che vuoi.",
+   "post": null,
+   "baseRange": null,
+   "free": "fate",
+   "azioni": []
+  }
+ ],
+ "nemici": {
+  "id": "zombie",
+  "name": "Zombie",
+  "letter": "Z",
+  "hp": 6,
+  "mov": 2,
+  "range": 1,
+  "d4": {
+   "1": "orda",
+   "2": "orda",
+   "3": "morso",
+   "4": "incassare"
+  },
+  "actions": {
+   "orda": {
+    "name": "Attacco Orda",
+    "icon": "✋",
+    "move": "approach",
+    "dmg": 1,
+    "hordeBonus": 1,
+    "text": "Muove. Se adiacente: 1 Danno, +1 per ogni altro Zombie adiacente a te."
+   },
+   "morso": {
+    "name": "Morso Rigenerante",
+    "icon": "🦷",
+    "move": "approach",
+    "dmg": 2,
+    "lifesteal": true,
+    "text": "Muove. Se adiacente: 2 Danni; si cura di 1 per danno agli HP."
+   },
+   "incassare": {
+    "name": "Incassare",
+    "icon": "🛡",
+    "move": null,
+    "shield": 2,
+    "text": "Fermo. +2 Scudi."
+   }
+  }
+ },
+ "equip": [
+  {
+   "slot": 1,
+   "kind": "standard",
+   "die": "vigore",
+   "order": 1,
+   "cost": 2
+  },
+  {
+   "slot": 2,
+   "kind": "standard",
+   "die": "terrore",
+   "order": 2,
+   "cost": 1
+  },
+  {
+   "slot": 3,
+   "kind": "standard",
+   "die": "vigore",
+   "order": 3,
+   "cost": 2
+  },
+  {
+   "slot": 4,
+   "kind": "fire",
+   "die": "fuoco",
+   "order": null,
+   "cost": 1
+  }
+ ]
+}
