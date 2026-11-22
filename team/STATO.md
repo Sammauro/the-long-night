@@ -4,7 +4,7 @@
 
 **Batch corrente:** B1 — Nuova interfaccia: ricerca, user story e design
 **Modalità:** cloud (Gianmarco dà il via a ogni batch) · sul PC: soglie automatiche
-**Prossima azione:** cancello del concetto: Gianmarco guarda `team/design/ui/concetto/` (prototipo e fotogrammi) e risponde alle 5 domande di `CONCETTO.md` §9; poi B1.3d
+**Prossima azione:** B1.3e (esplorazione divergente, 4 concetti in parallelo), poi B1.3f valutazione sul flusso
 
 | Passo | Cosa | Agente | Stato | Output |
 |---|---|---|---|---|
@@ -14,7 +14,10 @@
 | B1.3a | Due direzioni della Selezione su telefono e scelta motivata | designer-ux-ui | fatto | `team/design/ui/DIREZIONE.md` |
 | B1.3b | Mockup completi (8 schermate × telefono e desktop) e specifica | designer-ux-ui | sospeso (nuovo brief del 22/11, vedi B1.3c) | bozze in `team/design/ui/bozze_B1.3b/` |
 | B1.3c | Concetto dell'interfaccia (direzione A ripensata): niente blocchi né cornici, dinamiche di zoom e messa a fuoco, principio guida, 2–3 schermate chiave con le dinamiche mostrate in sequenza | designer-ux-ui (Fable) | fatto | `team/design/ui/concetto/` (`CONCETTO.md`, `prototipo.html`, `fotogrammi/`) |
-| ⛔ | **Cancello: Gianmarco approva il concetto** | — | in attesa | — |
+| ⛔ | Cancello concetto "Il Lume": **non approvato** (22/11: luce intesa male, niente carte vere, organizzazione sempre uguale) | — | chiuso | — |
+| B1.3e | Esplorazione divergente: 4 concetti con organizzazioni diverse, dal flusso di gioco (brief in `team/design/ui/esplorazione/BRIEF.md`) | designer-ux-ui (Fable) ×4 in parallelo | da fare | `team/design/ui/esplorazione/` |
+| B1.3f | Valutazione dei 4 concetti sul flusso di gioco e sugli indicatori, raccomandazione | stratega | da fare | `team/valutazioni/B1.3f_*.md` |
+| ⛔ | **Cancello: Gianmarco sceglie il concetto** | — | in attesa | — |
 | B1.3d | Mockup completi e SPEC sul concetto approvato (riusa `bozze_B1.3b/strumenti/`) | designer-ux-ui (Opus) | da fare | `team/design/ui/` |
 | B1.4 | Valutazione del batch contro gli indicatori I1–I5 | stratega | da fare | `team/valutazioni/B1_*.md` |
 | ⛔ | **Cancello: Gianmarco approva i mockup** | — | in attesa | — |
