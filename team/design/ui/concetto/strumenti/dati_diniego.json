@@ -1,0 +1,275 @@
+{
+ "keepIniziale": [
+  "d1",
+  "d2",
+  "d3",
+  "d5"
+ ],
+ "apri": null,
+ "giocatore": [
+  1,
+  4
+ ],
+ "z1": [
+  2,
+  4
+ ],
+ "spinta": [
+  {
+   "cell": [
+    2,
+    3
+   ],
+   "status": "free",
+   "contro": null
+  },
+  {
+   "cell": [
+    3,
+    3
+   ],
+   "status": "free",
+   "contro": null
+  },
+  {
+   "cell": [
+    3,
+    4
+   ],
+   "status": "free",
+   "contro": null
+  }
+ ],
+ "bersagli": [
+  {
+   "id": "Z1",
+   "motivo": null
+  },
+  {
+   "id": "Z2",
+   "motivo": "Il bersaglio deve essere adiacente"
+  },
+  {
+   "id": "Z3",
+   "motivo": "Il bersaglio deve essere adiacente"
+  },
+  {
+   "id": "Z4",
+   "motivo": "Il bersaglio deve essere adiacente"
+  },
+  {
+   "id": "Z5",
+   "motivo": "Il bersaglio deve essere adiacente"
+  }
+ ],
+ "rimetti": null,
+ "esiti": [
+  {
+   "cell": [
+    2,
+    3
+   ],
+   "z1": {
+    "pos": [
+     2,
+     3
+    ],
+    "hp": 5
+   },
+   "eventi": [
+    {
+     "type": "POOL",
+     "data": {
+      "pool": {
+       "forza": 0,
+       "fuoco": 0,
+       "presagio": 0
+      }
+     }
+    },
+    {
+     "type": "DAMAGE",
+     "data": {
+      "target": "Z1",
+      "source": "P",
+      "amount": 1,
+      "final": 1,
+      "absorbed": 0,
+      "hpLoss": 1,
+      "dtype": "normal",
+      "direct": false,
+      "cause": "Diniego Sismico"
+     }
+    },
+    {
+     "type": "PUSH",
+     "data": {
+      "source": "P",
+      "target": "Z1",
+      "to": [
+       2,
+       3
+      ],
+      "collision": false
+     }
+    },
+    {
+     "type": "MOVE",
+     "data": {
+      "unit": "Z1",
+      "from": [
+       2,
+       4
+      ],
+      "to": [
+       2,
+       3
+      ],
+      "how": "push"
+     }
+    }
+   ],
+   "danniSeNonFaiAltro": [
+    "Z2 Attacco Orda −1"
+   ]
+  },
+  {
+   "cell": [
+    3,
+    3
+   ],
+   "z1": {
+    "pos": [
+     3,
+     3
+    ],
+    "hp": 5
+   },
+   "eventi": [
+    {
+     "type": "POOL",
+     "data": {
+      "pool": {
+       "forza": 0,
+       "fuoco": 0,
+       "presagio": 0
+      }
+     }
+    },
+    {
+     "type": "DAMAGE",
+     "data": {
+      "target": "Z1",
+      "source": "P",
+      "amount": 1,
+      "final": 1,
+      "absorbed": 0,
+      "hpLoss": 1,
+      "dtype": "normal",
+      "direct": false,
+      "cause": "Diniego Sismico"
+     }
+    },
+    {
+     "type": "PUSH",
+     "data": {
+      "source": "P",
+      "target": "Z1",
+      "to": [
+       3,
+       3
+      ],
+      "collision": false
+     }
+    },
+    {
+     "type": "MOVE",
+     "data": {
+      "unit": "Z1",
+      "from": [
+       2,
+       4
+      ],
+      "to": [
+       3,
+       3
+      ],
+      "how": "push"
+     }
+    }
+   ],
+   "danniSeNonFaiAltro": [
+    "Z2 Attacco Orda −1"
+   ]
+  },
+  {
+   "cell": [
+    3,
+    4
+   ],
+   "z1": {
+    "pos": [
+     3,
+     4
+    ],
+    "hp": 5
+   },
+   "eventi": [
+    {
+     "type": "POOL",
+     "data": {
+      "pool": {
+       "forza": 0,
+       "fuoco": 0,
+       "presagio": 0
+      }
+     }
+    },
+    {
+     "type": "DAMAGE",
+     "data": {
+      "target": "Z1",
+      "source": "P",
+      "amount": 1,
+      "final": 1,
+      "absorbed": 0,
+      "hpLoss": 1,
+      "dtype": "normal",
+      "direct": false,
+      "cause": "Diniego Sismico"
+     }
+    },
+    {
+     "type": "PUSH",
+     "data": {
+      "source": "P",
+      "target": "Z1",
+      "to": [
+       3,
+       4
+      ],
+      "collision": false
+     }
+    },
+    {
+     "type": "MOVE",
+     "data": {
+      "unit": "Z1",
+      "from": [
+       2,
+       4
+      ],
+      "to": [
+       3,
+       4
+      ],
+      "how": "push"
+     }
+    }
+   ],
+   "danniSeNonFaiAltro": [
+    "Z2 Attacco Orda −1"
+   ]
+  }
+ ]
+}

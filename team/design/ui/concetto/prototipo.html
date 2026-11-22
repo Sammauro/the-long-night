@@ -1,0 +1,606 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=844">
+<title>The Long Night · concetto dell'interfaccia: Il Lume</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700;800&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* palette CLAUDE.md §7 (nomi del mondo) */
+  --notte:#151519; --scheda:#16141c; --pietra:#1c1a24; --filo:#2e2a3e;
+  --osso:#e8e0d0; --cenere:#9a90a8; --oro:#c9a84c; --sangue:#b84040; --scudo:#4a8fbd;
+  /* estensioni motivate (SPEC §3) */
+  --sangue-vivo:#e2705f;      /* rosso per testo piccolo su fondo scuro */
+  --oro-cupo:#7d6526;         /* oro ossidato: filo del rosario, bordi */
+  --pergamena:#d9caa3;        /* l'unica superficie chiara: la Sequenza */
+  --pergamena-ombra:#bfae86;
+  --inchiostro:#2a2017;       /* inchiostro su pergamena */
+  --inchiostro-tenue:#5e5040; /* esito non scelto: leggibile (4,7:1) ma senza anello */
+  --inchiostro-rosso:#8b1e17; /* minaccia scritta sulla pergamena (5,7:1) */
+  --cera:#7e231c; --cera-luce:#a8382c; --cera-testo:#f6e2d8; /* sigilli di cera dei dadi nemici */
+  --carta-ombra:#211e26;      /* carte in mano: carta in ombra, inchiostro chiaro */
+  --carta-ombra-2:#2a2630;
+  --vigore:#e8e0d0; --fuoco:#e58a45; --terrore:#a68ae0;
+  --fuoco-inch:#a4471a; --terrore-inch:#5a3d9a; --vigore-inch:#3b2f22;
+  --f-titolo:'IM Fell English', 'Lora', Georgia, serif;
+  --f-testo:'Alegreya Sans', 'Inter', system-ui, sans-serif;
+  /* scala tipografica, telefono */
+  --t12:12px; --t13:13px; --t14:14px; --t16:16px; --t17:17px; --t20:20px; --t28:28px;
+  --tocco:44px; --dado:48px; --dado-n:44px;
+}
+.fmt-desk{ --t12:14px; --t13:15px; --t14:16px; --t16:19px; --t17:20px; --t20:24px; --t28:40px; --tocco:48px; --dado:72px; --dado-n:66px; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0c0b0e}
+body{font-family:var(--f-testo);font-variant-numeric:lining-nums tabular-nums;color:var(--osso);-webkit-font-smoothing:antialiased}
+*{font-variant-numeric:lining-nums!important}
+.palco{position:relative;overflow:hidden;background:var(--notte);margin:0 auto}
+.fmt-tel.palco{width:844px;height:390px}
+.fmt-desk.palco{width:1400px;height:850px}
+.ico{display:inline-block;width:1em;height:1em;vertical-align:-0.14em;fill:currentColor;flex:none}
+button{font-family:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--oro);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important} }
+/* Il Lume · concetto B1.3c. Tre soli strumenti: luce (al posto dei bordi), filo (al posto delle legende),
+   scala (al posto dei pannelli). Nessun riquadro: i posti sono quattro e si riconoscono dalla posizione. */
+@property --lx{syntax:'<length>';inherits:false;initial-value:222px}
+@property --ly{syntax:'<length>';inherits:false;initial-value:156px}
+@property --rx{syntax:'<length>';inherits:false;initial-value:330px}
+@property --ry{syntax:'<length>';inherits:false;initial-value:230px}
+@property --d{syntax:'<number>';inherits:false;initial-value:.5}
+:root{ --buio:#09080c; --pen:.64; --t-fuoco:.24s; --curva:cubic-bezier(.2,.7,.2,1); --verde:#9fc79a; --azzurro:#8fc0e0; }
+body{padding:0 0 30px}
+.palco{background:var(--buio);user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.palco button{font:inherit;-webkit-tap-highlight-color:transparent}
+.scena{position:absolute;inset:0;display:none}
+.scena.in-scena{display:block}
+.via{opacity:0!important;visibility:hidden;pointer-events:none}
+span.via,em.via,s.via,p.via,.carta.via,.stato.via,.rimetti.via,.faccia-nodo:not(.su){display:none}
+.pen{opacity:var(--pen)}
+.pen.m{opacity:.8}
+.c{font-family:var(--f-testo);font-weight:700;font-size:.88em}
+.nw{white-space:nowrap}
+.rosso{color:var(--sangue-vivo)}
+
+/* ── la stanza ─────────────────────────────────────────────────────────────── */
+.mappa{position:absolute;left:128px;top:24px;width:430px;height:270px}
+.pavimento{position:absolute;left:0;top:0;z-index:0}
+.casella{fill:#1e1b26;stroke:#373249;stroke-width:1}
+.colonna rect,.colonna ellipse{fill:#34303f;stroke:#4a4459;stroke-width:1}
+.trappola path{fill:#4a3620;stroke:#8a6332;stroke-width:1}
+.trappola{transform-box:fill-box}
+.lume{position:absolute;inset:-2px;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse var(--rx) var(--ry) at var(--lx) var(--ly),rgba(9,8,12,0) 0,rgba(9,8,12,0) 50%,rgba(9,8,12,var(--d)) 100%);
+  transition:--lx var(--t-fuoco) var(--curva),--ly var(--t-fuoco) var(--curva),--rx var(--t-fuoco) var(--curva),--ry var(--t-fuoco) var(--curva),--d var(--t-fuoco) linear}
+.unita,.fantasma{position:absolute;width:44px;height:56px;z-index:1;transform-origin:50% 86%;
+  transition:left .5s cubic-bezier(.5,0,.2,1),top .5s cubic-bezier(.5,0,.2,1),transform var(--t-fuoco) var(--curva)}
+.unita.fuoco{z-index:5;transform:scale(1.3)}
+.unita.colpo{transform:scale(1.3) translate(5px,5px)}
+.unita.urto{transform:scale(1.3) translate(3px,2px)}
+.unita.bersaglio{filter:drop-shadow(0 0 5px rgba(201,168,76,.9))}
+.figura .ombra{fill:#000;opacity:.55}
+.zombie .corpo{fill:#46563f}.zombie .testa{fill:#6b7d5e}.zombie .occhio{fill:#ff8a73}
+.giocatore .corpo{fill:#4b4468}.giocatore .testa{fill:#d9c3a3}.giocatore .cappello{fill:#262136}
+.giocatore .lanterna{fill:#f4cf68;filter:drop-shadow(0 0 4px #f4cf68)}
+.fantasma{z-index:3;opacity:.5;pointer-events:none}
+.fantasma.m{opacity:.22}
+.fantasma .corpo,.fantasma .testa{fill:none;stroke:#c9c2b4;stroke-width:1.2;stroke-dasharray:3 2}
+.fantasma .ombra,.fantasma .occhio{display:none}
+.pv{position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);display:flex;gap:1.5px}
+.pv i{width:4px;height:4px;border-radius:50%;background:#000;box-shadow:inset 0 0 0 1px #6d667a}
+.pv i.p{background:#d8d0c2;box-shadow:none}
+.arrivo{position:absolute;z-index:1;width:60px;height:44px;pointer-events:none;transition:opacity var(--t-fuoco)}
+.arrivo polygon{fill:none;stroke:#7a7389;stroke-width:1.3;stroke-dasharray:4 3}
+.arrivo.rosso polygon{stroke:var(--sangue-vivo);fill:rgba(184,64,64,.16)}
+.arrivo .sigillo{position:absolute;left:19px;top:11px}
+.arrivo.fuoco{z-index:3}.arrivo.fuoco polygon{stroke-width:2.2;fill:rgba(184,64,64,.3)}
+.percorso{position:absolute;left:0;top:0;z-index:3;pointer-events:none;transition:opacity var(--t-fuoco)}
+.percorso polyline{fill:none;stroke:var(--sangue-vivo);stroke-width:2.4;stroke-dasharray:1 7;stroke-linecap:round}
+.percorso.m{opacity:.45}.percorso.traccia{opacity:.5}
+.percorso.oro polyline{stroke:var(--oro);stroke-dasharray:none;stroke-width:2}
+.sigillo .forma *{fill:#2a2633;stroke:#8a8298;stroke-width:1.4}
+.sigillo text{font:800 12px var(--f-testo);fill:#ddd5c6}
+.sigillo.rosso .forma *{fill:#6e211b;stroke:#e2705f}.sigillo.rosso text{fill:#f8e6dc}
+.sigillo{flex:none;display:block}
+
+/* etichetta di minaccia: scritta nel mondo, senza riquadro */
+.minaccia{position:absolute;z-index:4;display:flex;align-items:center;gap:5px;min-width:44px;min-height:44px;padding:0;background:none;border:0;
+  text-align:left;color:var(--osso);text-shadow:0 0 2px #09080c,0 0 4px #09080c,0 0 8px #09080c,0 0 12px #09080c;
+  transition:opacity var(--t-fuoco),transform var(--t-fuoco) var(--curva)}
+.minaccia .t{display:flex;flex-direction:column;line-height:1.08}
+.minaccia .az{font:600 12.5px var(--f-testo);color:#d8cfbf;white-space:nowrap}
+.minaccia .n{font:800 22px/1 var(--f-testo);color:var(--sangue-vivo);white-space:nowrap;transition:font-size var(--t-fuoco) var(--curva)}
+.minaccia .n s{font-size:.6em;color:#b9736a;margin-right:2px}
+.minaccia .nota{font:500 12.5px var(--f-testo);color:#a9a0b6;white-space:nowrap}
+.minaccia .nota.bene{color:var(--azzurro)}
+.minaccia.quieta .az{color:#b5acc0}
+.minaccia.a-destra{flex-direction:row-reverse;text-align:right}.minaccia.a-destra .t{align-items:flex-end}
+.minaccia.stretta{flex-direction:column;align-items:flex-start;gap:1px}
+.minaccia.stretta .nota,.minaccia.breve .nota{white-space:normal;width:60px;line-height:1.05}
+.minaccia.fuoco{z-index:6}.minaccia.fuoco .n{font-size:42px}.minaccia.fuoco.m .n{font-size:32px}
+.minaccia.cambia .n{font-size:34px;color:var(--oro)}.minaccia.cambia .nota{color:var(--oro)}
+.minaccia.fatto .az{font-style:italic;color:#a9a0b6}
+.scritta{position:absolute;z-index:4;font:italic 400 14px var(--f-titolo);color:var(--pergamena);white-space:nowrap;pointer-events:none;
+  text-shadow:0 0 2px #09080c,0 0 5px #09080c,0 0 9px #09080c}
+.cifra{position:absolute;z-index:7;font:800 44px/1 var(--f-testo);pointer-events:none;text-shadow:0 0 3px #09080c,0 0 8px #09080c,0 2px 0 #09080c}
+.cifra.danno{color:var(--sangue-vivo)}.cifra.contra,.cifra.colpo{color:var(--oro);font-size:36px}.cifra.cura{color:var(--verde);font-size:26px}
+.scheggia{position:absolute;z-index:7;font:700 13px var(--f-testo);color:var(--azzurro);white-space:nowrap;text-shadow:0 0 3px #09080c,0 0 7px #09080c}
+.costo-pm{position:absolute;z-index:3;font:700 12.5px var(--f-testo);color:#cdb56a;text-shadow:0 0 3px #09080c,0 0 6px #09080c;pointer-events:none}
+.spinta{position:absolute;z-index:4;width:56px;height:44px;padding:0;background:none;border:0;color:var(--oro)}
+.spinta svg{position:absolute;left:0;top:0}
+.spinta polygon{fill:rgba(201,168,76,.1);stroke:var(--oro);stroke-width:1.4;stroke-dasharray:4 3}
+.spinta.scelta polygon{fill:rgba(201,168,76,.3);stroke-dasharray:none;stroke-width:2.2}
+.spinta span{position:relative;font:800 13px var(--f-testo);top:10px;text-shadow:0 0 4px #09080c}
+.teso{position:absolute;left:0;top:0;z-index:8;pointer-events:none;transition:opacity var(--t-fuoco)}
+.teso path{fill:none;stroke:var(--oro);stroke-width:1.5}
+.teso.m{opacity:.4}
+
+/* ── riga di orientamento: una frase, non una barra ─────────────────────────── */
+.orientamento{position:absolute;left:14px;top:2px;height:21px;white-space:nowrap;font:500 14px/21px var(--f-testo);color:#d2c9b9}
+.orientamento b{font:400 17px/21px var(--f-titolo);color:var(--oro);margin-right:5px}
+
+/* ── margine sinistro: io ───────────────────────────────────────────────────── */
+.margine{position:absolute;left:0;top:26px;width:124px;height:266px}
+.candela{position:absolute;left:6px;top:0}
+.candela .cera{fill:#d9cfbb}.candela .tacche path{stroke:#8d846f;stroke-width:1.2}.candela .piatto{fill:var(--oro-cupo)}
+.candela .stoppino{stroke:#2a2017;stroke-width:1.5}.candela .fiamma{fill:#f4cf68}.candela .alone{fill:rgba(244,207,104,.16)}
+.veglia{position:absolute;left:6px;top:246px;white-space:nowrap;font:500 12.5px/1.15 var(--f-testo);color:#a9a0b6}
+.numeri{position:absolute;left:50px;top:10px;width:76px}
+.num{display:grid;grid-template-columns:15px auto 1fr;align-items:baseline;column-gap:5px;margin-bottom:9px}
+.num .ico{font-size:14px;align-self:center}
+.num>b{font:800 24px/1 var(--f-testo);display:inline-block;transform-origin:0 70%;transition:transform .3s var(--curva),color .3s}
+.num>span{font:500 12.5px var(--f-testo);color:#a9a0b6}
+.num .poi{grid-column:1/-1;font:italic 500 12.5px/1.15 var(--f-testo);color:#a9a0b6;margin-top:2px;white-space:nowrap}
+.num .poi b{font:800 15px var(--f-testo);font-style:normal;color:var(--sangue-vivo)}.num .poi.oro b{color:var(--oro)}
+.n-hp .ico{color:#d0564a}.n-pt .ico{color:var(--terrore)}.n-pm .ico{color:#cfc6b6}.n-luce .ico{color:var(--oro)}
+.num.gonfio>b{transform:scale(1.8);color:var(--sangue-vivo)}.num>span{transition:opacity .2s}.num.gonfio>span{opacity:0}.num.cambiato>b{color:var(--sangue-vivo)}
+.stati{position:absolute;left:6px;top:208px;width:118px}
+.stato{display:block;font:600 12.5px/1.2 var(--f-testo);color:var(--azzurro);margin-bottom:5px;white-space:nowrap;transition:color .2s}
+.stato.acceso{color:#fff}.stato.rotto{color:var(--sangue-vivo);text-decoration:line-through}
+
+/* ── margine destro: la mano, oppure la voce di chi agisce ──────────────────── */
+.mano{position:absolute;left:562px;top:24px;width:274px;height:270px;display:flex;flex-direction:column;gap:1px;transition:opacity var(--t-fuoco)}
+.mano .capo{font:500 13px/18px var(--f-testo);color:#d8bd6a;padding-left:10px;white-space:nowrap}
+.tacca .ico{color:#efe7d6}
+.carta{position:relative;display:block;width:100%;min-height:44px;padding:1px 0 2px 10px;text-align:left;background:none;border:0;color:#d2c9b9;flex:none;
+  transition:opacity var(--t-fuoco),transform var(--t-fuoco) var(--curva)}
+.carta .testa{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:6px}
+.carta .nome{font:400 16px/18px var(--f-titolo);color:var(--osso);white-space:nowrap}
+.carta .cd{font:700 12px var(--f-testo);color:#a9a0b6;white-space:nowrap}
+.carta .eco{margin-left:auto;font:italic 500 12px var(--f-testo);color:#a9a0b6;white-space:nowrap}
+.carta .az{display:block;font:500 13px/15.5px var(--f-testo);color:#d2c9b9}
+.carta .az .az{display:inline}
+.costo{font-weight:800;margin-right:1px;white-space:nowrap}
+.c-forza{color:#f3ecdd}.c-fuoco{color:var(--fuoco)}.c-presagio{color:var(--terrore)}.costo.pt{color:var(--terrore)}.costo.gratis{color:var(--oro)}
+.carta .perche{display:block;font:italic 500 12.5px/15.5px var(--f-testo);color:var(--sangue-vivo)}
+.carta.ferma{opacity:.78}.carta.ferma .perche{color:#f08a78}
+.carta.pronta::before{content:'';position:absolute;left:0;top:6px;width:5px;height:5px;background:var(--oro);transform:rotate(45deg)}
+.mano.attiva .carta.pronta .nome{color:#fff}
+.carta.manovra .nome{font-size:15px}
+.carta.gruppo{margin-top:4px}.carta.gruppo .az{color:#a9a0b6}.carta.gruppo .az b{font-weight:700;color:#cfc6b6}
+.carta.gruppo .eco{margin-left:0}
+/* la carta scelta diventa carta: l'unica superficie chiara del margine */
+.carta.foglio{background:var(--pergamena);color:var(--inchiostro);padding:9px 14px 12px 16px;margin:2px 0 8px -6px;width:calc(100% + 6px);transform:rotate(-.7deg);
+  clip-path:polygon(0 1%,24% 0,52% 1.4%,78% 0,100% 1.2%,99.2% 30%,100% 62%,99% 100%,70% 98.6%,44% 100%,18% 98.4%,0 100%,.8% 55%)}
+.carta.foglio::before{display:none}
+.carta.foglio .testa{flex-wrap:wrap;row-gap:0}
+.carta.foglio .nome{font-size:21px;line-height:24px;color:var(--inchiostro)!important}
+.carta.foglio .cd,.carta.foglio .eco{color:var(--inchiostro-tenue)}
+.carta.foglio .eco{margin-left:0;flex-basis:100%}
+.carta.foglio .az.intera{font:600 15px/1.3 var(--f-testo);color:var(--inchiostro);margin-top:6px}
+.carta.foglio .az.intera.ora{display:inline;background:linear-gradient(transparent 58%,rgba(201,168,76,.75) 0)}
+.carta.foglio .ico{color:var(--vigore-inch)}
+.nota-carta{display:block;font:italic 500 13px/1.25 var(--f-testo);color:var(--inchiostro-tenue);margin-top:6px}
+.rimetti{display:block;min-height:44px;padding:4px 0 0 10px;text-align:left;background:none;border:0;font:700 14px var(--f-testo);color:#d8bd6a;text-decoration:underline;text-underline-offset:3px}
+.rimetti small{display:inline-block;width:100%;text-decoration:none;font:italic 500 12.5px var(--f-testo);color:#a9a0b6}
+.voce{position:absolute;left:566px;top:28px;width:268px;transition:opacity var(--t-fuoco)}
+.voce h2{display:flex;align-items:center;gap:8px;font:400 23px/1.1 var(--f-titolo);color:var(--osso)}
+.voce p{font:500 14px/1.3 var(--f-testo);color:#d2c9b9;margin-top:7px}
+.voce p .ico{color:#a9a0b6}
+.voce .sotto-titolo{font:italic 400 16px var(--f-titolo);color:var(--sangue-vivo);margin-top:2px}
+.voce .sotto-titolo .ico{color:var(--sangue-vivo)}
+.voce .grande{font:400 19px/1.2 var(--f-titolo);color:var(--osso);margin-top:9px}
+.voce .grande b{font:800 20px var(--f-testo)}
+.voce .oro{color:#d8bd6a}.voce .oro .ico{color:#d8bd6a}
+.voce .piano{font-size:12.5px;color:#a9a0b6}
+.voce b.rosso,.voce .grande b{color:var(--sangue-vivo)}
+.voce p.detto{opacity:.5}.voce p.adesso{color:#fff}
+
+/* ── il filo: la Sequenza Vincolata ─────────────────────────────────────────── */
+.filo{position:absolute;left:0;top:296px;width:600px;height:94px}
+.corda{position:absolute;left:6px;right:-8px;top:47px;border-top:1.5px solid var(--oro-cupo)}
+.grano{position:absolute;top:0;width:56px;height:94px;padding:0;background:none;border:0;color:inherit;transition:opacity var(--t-fuoco)}
+.grano .sopra{position:absolute;left:-12px;right:-12px;top:0;height:19px;display:flex;justify-content:center;align-items:flex-end;font:700 12.5px/1 var(--f-testo);color:#a9a0b6;white-space:nowrap;transition:transform var(--t-fuoco) var(--curva)}
+.grano .sotto{position:absolute;left:-12px;right:-12px;top:75px;height:18px;text-align:center;font:600 12.5px/18px var(--f-testo);color:#a9a0b6;white-space:nowrap}
+.grano .osso,.grano .sigillo-cera{position:absolute;left:5px;top:25px;width:46px;height:46px;display:grid;place-items:center;
+  transition:transform var(--t-fuoco) var(--curva),opacity var(--t-fuoco),box-shadow var(--t-fuoco),background-color var(--t-fuoco)}
+.grano b{font:800 28px/1 var(--f-testo)}
+.grano .osso .ico,.grano .sigillo-cera .ico{position:absolute;right:3px;top:3px;font-size:13px}
+.osso{background-color:#e9e1d0;background-image:linear-gradient(160deg,rgba(255,255,255,.35),rgba(0,0,0,.08));color:var(--inchiostro);border-radius:8px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.2)}
+.osso.t-fuoco .ico{color:var(--fuoco-inch)}.osso.t-terrore .ico{color:var(--terrore-inch)}.osso.t-vigore .ico{color:var(--vigore-inch)}
+.sigillo-cera{background:radial-gradient(circle at 35% 30%,#7d261d,#4a130d 72%);color:var(--cera-testo);border-radius:50% 46% 52% 48%/48% 52% 46% 50%}
+.sigillo-cera .ico{opacity:.8}
+.mio.tenuto .osso{transform:translateY(-4px);box-shadow:inset 0 -3px 0 rgba(0,0,0,.2),0 0 0 2px var(--oro)}
+.mio.tenuto .sopra{color:var(--oro)}
+.mio.scartato .osso{transform:translateY(5px);background-color:#6f695c;color:#17140f}
+.mio.scartato .osso::after{content:'';position:absolute;inset:5px;background:linear-gradient(45deg,transparent 47%,#17140f 47%,#17140f 53%,transparent 53%),linear-gradient(-45deg,transparent 47%,#17140f 47%,#17140f 53%,transparent 53%);opacity:.55}
+.mio.scartato .sotto{color:var(--oro);font-weight:800}
+.mio.guasto .osso{box-shadow:inset 0 -3px 0 rgba(0,0,0,.2),0 0 0 2.5px var(--sangue-vivo)}.mio.guasto .sopra{color:var(--sangue-vivo)}
+.mio.toccato .osso{transform:translateY(-4px) scale(1.16)}
+.mio.prima.tenuto .osso{transform:translateY(-9px) scale(1.1);box-shadow:inset 0 -3px 0 rgba(0,0,0,.2),0 0 0 2px var(--oro),0 0 14px rgba(201,168,76,.8)}
+.mio.prima.tenuto .sopra{transform:translateY(-6px)}
+.mio.prossimo .osso{box-shadow:inset 0 -3px 0 rgba(0,0,0,.2),0 0 0 2px var(--oro)}
+.suo.colpisce .sotto{color:var(--sangue-vivo);font-weight:800}
+.grano.fuoco .osso,.grano.fuoco .sigillo-cera{transform:translateY(-5px) scale(1.24)}
+.grano.fuoco.m .sigillo-cera{transform:translateY(-3px) scale(1.12)}
+.grano.fuoco .sopra{transform:translateY(-9px)}
+.grano.fuoco .sigillo-cera{box-shadow:0 0 0 2px var(--sangue-vivo),0 0 16px rgba(226,112,95,.7)}
+.grano.fuoco .osso{box-shadow:inset 0 -3px 0 rgba(0,0,0,.2),0 0 0 2px var(--oro),0 0 16px rgba(201,168,76,.8)}
+.grano.risolto .osso,.grano.risolto .sigillo-cera{opacity:.45;filter:grayscale(1)}
+.grano.risolto .sotto{font-style:italic}
+.grano.cambia .sotto{color:var(--oro);font-weight:800}
+.cursore{position:absolute;top:40px;z-index:3;font-size:14px;color:#f4cf68;filter:drop-shadow(0 0 4px #f4cf68);transition:left .3s var(--curva);pointer-events:none}
+.arco{position:absolute;left:0;top:0;pointer-events:none}
+.arco path{fill:none;stroke:var(--sangue-vivo);stroke-width:1.6}
+/* il nodo: l'unico pulsante primario, sempre in fondo al filo */
+.nodo{position:absolute;left:606px;top:312px;width:230px;height:64px;padding:0 8px 0 20px;border:0;background:var(--oro);color:var(--inchiostro);
+  clip-path:polygon(15px 0,100% 0,100% 100%,15px 100%,0 50%);transition:opacity var(--t-fuoco),background-color var(--t-fuoco)}
+.faccia-nodo{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:2px}
+.nodo b{font:400 20px/1.05 var(--f-titolo)}
+.nodo small{font:600 13px/1.1 var(--f-testo)}
+.nodo.cavo{background:#2b2515;color:var(--oro)}
+.nodo.spento{background:#241a1c;color:var(--sangue-vivo)}.nodo.spento b{font-size:17px}.nodo.spento small{color:#d8cfbf}
+
+/* ── fotogrammi fermi e regia della pagina ──────────────────────────────────── */
+.fermo *, .fermo *::before, .fermo *::after{transition:none!important;animation:none!important}
+body.solo .regia{display:none}
+.regia{width:844px;margin:14px auto 0;font-family:var(--f-testo);color:#cfc6b6}
+.regia .scelte{display:flex;gap:8px}
+.regia button{min-height:44px;padding:0 14px;background:none;border:1px solid #3a3548;color:#cfc6b6;font:600 14px var(--f-testo)}
+.regia .scelte button{flex:1}
+.regia button.qui{border-color:var(--oro);color:var(--oro)}
+.didascalia{font:400 17px/1.35 var(--f-titolo);color:var(--osso);margin:14px 0 10px;min-height:46px}
+.passi{display:flex;align-items:center;gap:10px}
+#conta{font:600 14px var(--f-testo);min-width:92px;text-align:center}
+.nota-regia{font:500 13px/1.4 var(--f-testo);color:#8a8198;margin-top:12px}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-forza" viewBox="0 0 24 24"><rect x="5" y="4.5" width="3.6" height="8" rx="1.8"/><rect x="9.1" y="3.5" width="3.6" height="9" rx="1.8"/><rect x="13.2" y="4" width="3.6" height="8.5" rx="1.8"/><rect x="17.3" y="5.5" width="3.4" height="7.5" rx="1.7"/><path d="M4.6 11.5h16.2v3.2c0 4.1-3 6.8-7 6.8h-1.6c-4.3 0-7.6-2.9-7.6-6.6z"/><path d="M3.2 11.2c0-1.1.9-1.7 1.9-1.6l6.6.9c1.1.2 1.6 1 1.5 2l-.2 1.1c-.2.9-1 1.4-1.9 1.3L5 14.1c-1.1-.2-1.8-1.2-1.8-2.3z" fill-opacity=".72"/></symbol>
+<symbol id="i-fuoco" viewBox="0 0 24 24"><path d="M12.6 2c.6 3.4 5.9 5.6 5.9 11.4A6.5 6.5 0 0 1 5.5 14c0-3 1.7-4.9 3-6.6.2 2.4 1.2 3.6 2.4 4 .5-3.5-.2-6.6 1.7-9.4z"/><path d="M12 21c-1.9 0-3.2-1.3-3.2-3.1 0-1.7 1.2-2.6 2.1-3.8.2 1.4.9 2 1.6 2.2.4-1 .3-1.9.9-2.8 1 1.3 1.9 2.6 1.9 4 0 2.1-1.4 3.5-3.3 3.5z" fill="#000" fill-opacity=".35"/></symbol>
+<symbol id="i-presagio" viewBox="0 0 24 24"><path d="M1.5 12C4.3 7 8 4.8 12 4.8S19.7 7 22.5 12c-2.8 5-6.5 7.2-10.5 7.2S4.3 17 1.5 12z"/><circle cx="12" cy="12" r="4.4" fill="#000" fill-opacity=".55"/><circle cx="12" cy="12" r="1.9"/></symbol>
+<symbol id="i-artigli" viewBox="0 0 24 24"><path d="M5 3.5c3.2 4.6 4.3 10 3.2 17l-1.5.2C7.3 14 6.6 8.6 5 3.5zM11.2 2.5c3 5 3.8 11.2 2.4 18.6l-1.6.1c.9-7.2.6-13.3-.8-18.7zM17.3 4c2.6 4.5 3.1 9.8 1.6 15.8l-1.5 0c1-5.7.8-10.9-.1-15.8z"/></symbol>
+<symbol id="i-scudo" viewBox="0 0 24 24"><path d="M12 2.2l8.2 3v6.1c0 5.2-3.4 9-8.2 10.6-4.8-1.6-8.2-5.4-8.2-10.6V5.2z"/></symbol>
+<symbol id="i-hp" viewBox="0 0 24 24"><path d="M12 2.5c3.3 5 6.6 8.6 6.6 12.4A6.6 6.6 0 0 1 5.4 14.9C5.4 11.1 8.7 7.5 12 2.5z"/></symbol>
+<symbol id="i-pt" viewBox="0 0 24 24"><path d="M12 3.2a8.8 8.8 0 1 0 8.8 8.8h-2.2A6.6 6.6 0 1 1 12 5.4c2.7 0 4.8 2 4.8 4.6 0 2-1.6 3.6-3.6 3.6-1.5 0-2.6-1.1-2.6-2.5 0-1.1.8-1.9 1.8-1.9V7c-2.3 0-4 1.8-4 4.1 0 2.6 2.1 4.7 4.8 4.7 3.2 0 5.8-2.6 5.8-5.8C19 6.2 15.9 3.2 12 3.2z"/></symbol>
+<symbol id="i-pm" viewBox="0 0 24 24"><path d="M8.2 3c1.8 0 2.8 1.9 2.8 4.4 0 2.3-.9 4-1 5.6H5.6C5.4 11 5 9.5 5 7.6 5 5 6.3 3 8.2 3zM5.7 14.4h4.1c0 1.6-.6 3-2 3-1.4 0-2.1-1.3-2.1-3zM15.8 7c1.9 0 3.2 2 3.2 4.6 0 1.9-.4 3.4-.6 5.4h-4.4c-.1-1.6-1-3.3-1-5.6C13 8.9 14 7 15.8 7zM14.2 18.4h4.1c0 1.7-.7 3-2.1 3s-2-1.4-2-3z"/></symbol>
+<symbol id="i-luce" viewBox="0 0 24 24"><path d="M9 2.5h6v2H9zM7.5 5.5h9l1.2 3.2v9.3l-1.7 3.5H8l-1.7-3.5V8.7z" fill-opacity=".35"/><path d="M12 8.3c.6 2 2.6 3 2.6 5.6a2.6 2.6 0 0 1-5.2 0c0-1.6 1-2.4 1.6-3.4.3 1 .6 1.4 1 1.5.1-1.3-.4-2.4 0-3.7z"/></symbol>
+<symbol id="i-salto" viewBox="0 0 24 24"><path d="M3 18.5c3.2-9.5 13.8-9.5 18 0l-2 .4C15.8 11.6 8.2 11.6 5 18.9z"/><path d="M17.2 13.2l4.3 5.3-6.5.9z"/></symbol>
+<symbol id="i-colonna" viewBox="0 0 24 24"><path d="M5 3h14v2.5H5zM6.5 6h11v1.8h-11zM7.6 8.3h1.9v10.4H7.6zM11 8.3h2v10.4h-2zM14.5 8.3h1.9v10.4h-1.9zM6.5 19.2h11V21h-11zM5 21.3h14V23H5z"/></symbol>
+<symbol id="i-trappola" viewBox="0 0 24 24"><path d="M2 16l3-7 2.4 4.2L10 6l2 6.8L14 6l2.6 7.2L19 9l3 7z"/><path d="M2 17h20v2.4H2z"/></symbol>
+<symbol id="i-eco" viewBox="0 0 24 24"><path d="M12 4a8 8 0 1 0 8 8h-2.4A5.6 5.6 0 1 1 12 6.4V9l4-3.6L12 1.8z"/></symbol>
+</defs></svg><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-morso" viewBox="0 0 24 24"><path d="M3 7c2.5 0 3 3 4.5 3S10 7 12 7s3 3 4.5 3S19 7 21 7v3c-1.5 0-2.2 3-4.5 3S14 10 12 10s-2.2 3-4.5 3S4.5 10 3 10z"/><path d="M5 15l1.6 4 1.6-4zM10.4 15l1.6 4.5 1.6-4.5zM15.8 15l1.6 4 1.6-4z"/></symbol>
+<symbol id="i-stordito" viewBox="0 0 24 24"><path d="M12 3l1.6 4.2 4.4.3-3.4 2.8 1.1 4.3L12 12.2 8.3 14.6l1.1-4.3L6 7.5l4.4-.3z"/><path d="M4 18.5c3-2 13-2 16 0l-.8 1.6c-3-1.6-11.4-1.6-14.4 0z"/></symbol>
+<symbol id="i-vuln" viewBox="0 0 24 24"><path d="M12 2.2l8.2 3v6.1c0 5.2-3.4 9-8.2 10.6-4.8-1.6-8.2-5.4-8.2-10.6V5.2z" fill-opacity=".35"/><path d="M13.4 4.5l-3 6.5h3l-2.6 8.5 6-10h-3.3l2.4-5z"/></symbol>
+<symbol id="i-contra" viewBox="0 0 24 24"><path d="M4 6h10l-3-3 1.4-1.4L18 7.2l-5.6 5.6L11 11.4l3-3H4z"/><path d="M20 18H10l3 3-1.4 1.4L6 16.8l5.6-5.6 1.4 1.4-3 3h10z"/></symbol>
+<symbol id="i-candela" viewBox="0 0 24 24"><path d="M9 9h6v13H9z"/><path d="M12 1.5c1.6 2.3 2.6 3.7 2.6 5a2.6 2.6 0 0 1-5.2 0c0-1.3 1-2.7 2.6-5z"/></symbol>
+<symbol id="i-chiudi" viewBox="0 0 24 24"><path d="M5.6 4.2L12 10.6l6.4-6.4 1.4 1.4-6.4 6.4 6.4 6.4-1.4 1.4-6.4-6.4-6.4 6.4-1.4-1.4 6.4-6.4-6.4-6.4z"/></symbol>
+</defs></svg>
+<div class="palco fmt-tel vis" id="palco"><section class="scena" data-scena="A" data-passi="4"><p class="orientamento" data-pannello="orientamento"><b>Turno <span class="c">1</span>, Selezione.</b>
+    <span data-s="3:via|4:via">Tocca un dado per tenerlo o scartarlo.</span>
+    <span data-s="1:via|2:via|4:via">Stai guardando Z2.</span>
+    <span class="rosso" data-s="1:via|2:via|3:via">Hai tenuto due dadi Fuoco: lo Slot 4 ne regge uno.</span></p><div class="margine" data-pannello="margine"><svg class="candela" width="34" height="210" viewBox="0 0 34 210" aria-hidden="true">
+    <ellipse class="alone" cx="17" cy="34" rx="15" ry="18"/>
+    <path class="fiamma" d="M17 22c5 7 7 10 7 14a7 7 0 0 1-14 0c0-4 2-7 7-14z"/>
+    <path class="stoppino" d="M17 41v6"/>
+    <rect class="cera" x="8" y="46" width="18" height="150"/><g class="tacche"><path d="M3 71h7" /><path d="M3 96h7" /><path d="M3 121h7" /><path d="M3 146h7" /><path d="M3 171h7" /></g>
+    <path class="piatto" d="M2 196h30l-4 8H6z"/></svg>
+    <div class="veglia">Veglia 1 di 6</div>
+    <div class="numeri"><div class="num n-hp "><svg class="ico " aria-hidden="true"><use href="#i-hp"/></svg><b>10</b><span>HP</span><em class="poi" data-s="4:via">se non fai nulla<br>resti a <b>7</b></em></div><div class="num n-pt "><svg class="ico " aria-hidden="true"><use href="#i-pt"/></svg><b>6</b><span>PT</span></div><div class="num n-pm "><svg class="ico " aria-hidden="true"><use href="#i-pm"/></svg><b>2</b><span>PM</span></div><div class="num n-luce "><svg class="ico " aria-hidden="true"><use href="#i-luce"/></svg><b>0</b><span>Luce</span><em class="poi oro" data-s="4:via">diventa <b>1</b></em><em class="poi" data-s="1:via|2:via|3:via">resta <b>0</b></em></div></div></div>
+    <div class="mappa"><svg class="pavimento" width="430" height="270" viewBox="0 0 430 270"><polygon class="casella" data-casella="R8E1" points="36.0,1.7 66.0,12.3 66.0,33.7 36.0,44.3 6.0,33.7 6.0,12.3"/><polygon class="casella" data-casella="R8E2" points="96.0,1.7 126.0,12.3 126.0,33.7 96.0,44.3 66.0,33.7 66.0,12.3"/><polygon class="casella" data-casella="R8E3" points="156.0,1.7 186.0,12.3 186.0,33.7 156.0,44.3 126.0,33.7 126.0,12.3"/><polygon class="casella" data-casella="R8E4" points="216.0,1.7 246.0,12.3 246.0,33.7 216.0,44.3 186.0,33.7 186.0,12.3"/><polygon class="casella" data-casella="R8E5" points="276.0,1.7 306.0,12.3 306.0,33.7 276.0,44.3 246.0,33.7 246.0,12.3"/><polygon class="casella" data-casella="R8E6" points="336.0,1.7 366.0,12.3 366.0,33.7 336.0,44.3 306.0,33.7 306.0,12.3"/><polygon class="casella" data-casella="R7E1" points="66.0,33.7 96.0,44.3 96.0,65.7 66.0,76.3 36.0,65.7 36.0,44.3"/><polygon class="casella" data-casella="R7E2" points="126.0,33.7 156.0,44.3 156.0,65.7 126.0,76.3 96.0,65.7 96.0,44.3"/><polygon class="casella" data-casella="R7E3" points="186.0,33.7 216.0,44.3 216.0,65.7 186.0,76.3 156.0,65.7 156.0,44.3"/><polygon class="casella" data-casella="R7E4" points="246.0,33.7 276.0,44.3 276.0,65.7 246.0,76.3 216.0,65.7 216.0,44.3"/><polygon class="casella" data-casella="R7E5" points="306.0,33.7 336.0,44.3 336.0,65.7 306.0,76.3 276.0,65.7 276.0,44.3"/><polygon class="casella" data-casella="R7E6" points="366.0,33.7 396.0,44.3 396.0,65.7 366.0,76.3 336.0,65.7 336.0,44.3"/><polygon class="casella" data-casella="R6E1" points="36.0,65.7 66.0,76.3 66.0,97.7 36.0,108.3 6.0,97.7 6.0,76.3"/><polygon class="casella" data-casella="R6E2" points="96.0,65.7 126.0,76.3 126.0,97.7 96.0,108.3 66.0,97.7 66.0,76.3"/><polygon class="casella" data-casella="R6E3" points="156.0,65.7 186.0,76.3 186.0,97.7 156.0,108.3 126.0,97.7 126.0,76.3"/><polygon class="casella" data-casella="R6E4" points="216.0,65.7 246.0,76.3 246.0,97.7 216.0,108.3 186.0,97.7 186.0,76.3"/><polygon class="casella" data-casella="R6E5" points="276.0,65.7 306.0,76.3 306.0,97.7 276.0,108.3 246.0,97.7 246.0,76.3"/><polygon class="casella" data-casella="R6E6" points="336.0,65.7 366.0,76.3 366.0,97.7 336.0,108.3 306.0,97.7 306.0,76.3"/><polygon class="casella" data-casella="R5E1" points="66.0,97.7 96.0,108.3 96.0,129.7 66.0,140.3 36.0,129.7 36.0,108.3"/><polygon class="casella" data-casella="R5E2" points="126.0,97.7 156.0,108.3 156.0,129.7 126.0,140.3 96.0,129.7 96.0,108.3"/><polygon class="casella" data-casella="R5E3" points="186.0,97.7 216.0,108.3 216.0,129.7 186.0,140.3 156.0,129.7 156.0,108.3"/><polygon class="casella" data-casella="R5E4" points="246.0,97.7 276.0,108.3 276.0,129.7 246.0,140.3 216.0,129.7 216.0,108.3"/><polygon class="casella" data-casella="R5E5" points="306.0,97.7 336.0,108.3 336.0,129.7 306.0,140.3 276.0,129.7 276.0,108.3"/><polygon class="casella" data-casella="R5E6" points="366.0,97.7 396.0,108.3 396.0,129.7 366.0,140.3 336.0,129.7 336.0,108.3"/><polygon class="casella" data-casella="R4E1" points="36.0,129.7 66.0,140.3 66.0,161.7 36.0,172.3 6.0,161.7 6.0,140.3"/><polygon class="casella" data-casella="R4E2" points="96.0,129.7 126.0,140.3 126.0,161.7 96.0,172.3 66.0,161.7 66.0,140.3"/><polygon class="casella" data-casella="R4E3" points="156.0,129.7 186.0,140.3 186.0,161.7 156.0,172.3 126.0,161.7 126.0,140.3"/><polygon class="casella" data-casella="R4E4" points="216.0,129.7 246.0,140.3 246.0,161.7 216.0,172.3 186.0,161.7 186.0,140.3"/><polygon class="casella" data-casella="R4E5" points="276.0,129.7 306.0,140.3 306.0,161.7 276.0,172.3 246.0,161.7 246.0,140.3"/><polygon class="casella" data-casella="R4E6" points="336.0,129.7 366.0,140.3 366.0,161.7 336.0,172.3 306.0,161.7 306.0,140.3"/><polygon class="casella" data-casella="R3E1" points="66.0,161.7 96.0,172.3 96.0,193.7 66.0,204.3 36.0,193.7 36.0,172.3"/><polygon class="casella" data-casella="R3E2" points="126.0,161.7 156.0,172.3 156.0,193.7 126.0,204.3 96.0,193.7 96.0,172.3"/><polygon class="casella" data-casella="R3E3" points="186.0,161.7 216.0,172.3 216.0,193.7 186.0,204.3 156.0,193.7 156.0,172.3"/><polygon class="casella" data-casella="R3E4" points="246.0,161.7 276.0,172.3 276.0,193.7 246.0,204.3 216.0,193.7 216.0,172.3"/><polygon class="casella" data-casella="R3E5" points="306.0,161.7 336.0,172.3 336.0,193.7 306.0,204.3 276.0,193.7 276.0,172.3"/><polygon class="casella" data-casella="R3E6" points="366.0,161.7 396.0,172.3 396.0,193.7 366.0,204.3 336.0,193.7 336.0,172.3"/><polygon class="casella" data-casella="R2E1" points="36.0,193.7 66.0,204.3 66.0,225.7 36.0,236.3 6.0,225.7 6.0,204.3"/><polygon class="casella" data-casella="R2E2" points="96.0,193.7 126.0,204.3 126.0,225.7 96.0,236.3 66.0,225.7 66.0,204.3"/><polygon class="casella" data-casella="R2E3" points="156.0,193.7 186.0,204.3 186.0,225.7 156.0,236.3 126.0,225.7 126.0,204.3"/><polygon class="casella" data-casella="R2E4" points="216.0,193.7 246.0,204.3 246.0,225.7 216.0,236.3 186.0,225.7 186.0,204.3"/><polygon class="casella" data-casella="R2E5" points="276.0,193.7 306.0,204.3 306.0,225.7 276.0,236.3 246.0,225.7 246.0,204.3"/><polygon class="casella" data-casella="R2E6" points="336.0,193.7 366.0,204.3 366.0,225.7 336.0,236.3 306.0,225.7 306.0,204.3"/><polygon class="casella" data-casella="R1E1" points="66.0,225.7 96.0,236.3 96.0,257.7 66.0,268.3 36.0,257.7 36.0,236.3"/><polygon class="casella" data-casella="R1E2" points="126.0,225.7 156.0,236.3 156.0,257.7 126.0,268.3 96.0,257.7 96.0,236.3"/><polygon class="casella" data-casella="R1E3" points="186.0,225.7 216.0,236.3 216.0,257.7 186.0,268.3 156.0,257.7 156.0,236.3"/><polygon class="casella" data-casella="R1E4" points="246.0,225.7 276.0,236.3 276.0,257.7 246.0,268.3 216.0,257.7 216.0,236.3"/><polygon class="casella" data-casella="R1E5" points="306.0,225.7 336.0,236.3 336.0,257.7 306.0,268.3 276.0,257.7 276.0,236.3"/><polygon class="casella" data-casella="R1E6" points="366.0,225.7 396.0,236.3 396.0,257.7 366.0,268.3 336.0,257.7 336.0,236.3"/><g class="colonna" transform="translate(276,151)"><ellipse cx="0" cy="3" rx="13" ry="5"/><rect x="-8" y="-30" width="16" height="33"/><rect x="-11" y="-33" width="22" height="5"/></g><g class="colonna" transform="translate(216,87)"><ellipse cx="0" cy="3" rx="13" ry="5"/><rect x="-8" y="-30" width="16" height="33"/><rect x="-11" y="-33" width="22" height="5"/></g><g class="trappola" transform="translate(186,119)"><path d="M-12 5l4-10 3 6 5-11 5 11 3-6 4 10z"/></g></svg><div class="lume" data-st="1=--lx:222px;--ly:156px;--rx:330px;--ry:230px;--d:0.5|2=--lx:277px;--ly:191px;--rx:215px;--ry:155px;--d:0.72|3=--lx:284px;--ly:202px;--rx:128px;--ry:98px;--d:0.9|4=--lx:222px;--ly:156px;--rx:330px;--ry:230px;--d:0.7"></div><div class="arrivo rosso" style="left:186px;top:193px">
+    <svg width="60" height="44" viewBox="-30 -22 60 44"><polygon points="0,-19.5 27,-10 27,10 0,19.5 -27,10 -27,-10"/></svg><svg class="sigillo mini" width="22" height="22" viewBox="0 0 22 22" aria-label="Z1"><g class="forma"><circle cx="11" cy="11" r="9.8"/></g><text x="11" y="15.3" text-anchor="middle">Z1</text></svg></div><div class="arrivo rosso" style="left:246px;top:193px" data-s="3:fuoco">
+    <svg width="60" height="44" viewBox="-30 -22 60 44"><polygon points="0,-19.5 27,-10 27,10 0,19.5 -27,10 -27,-10"/></svg><svg class="sigillo mini" width="22" height="22" viewBox="0 0 22 22" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="18.4" height="18.4"/></g><text x="11" y="15.3" text-anchor="middle">Z2</text></svg></div><div class="arrivo " style="left:66px;top:129px" data-s="2:pen m|3:pen">
+    <svg width="60" height="44" viewBox="-30 -22 60 44"><polygon points="0,-19.5 27,-10 27,10 0,19.5 -27,10 -27,-10"/></svg><svg class="sigillo mini" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg></div><div class="arrivo " style="left:306px;top:129px" data-s="2:pen m|3:pen">
+    <svg width="60" height="44" viewBox="-30 -22 60 44"><polygon points="0,-19.5 27,-10 27,10 0,19.5 -27,10 -27,-10"/></svg><svg class="sigillo mini" width="22" height="22" viewBox="0 0 22 22" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H20.5V12C20.5 18 14 21 11 21.2C8 21 1.5 18 1.5 12z"/></g><text x="11" y="15.3" text-anchor="middle">Z4</text></svg></div><svg class="percorso rosso" width="430" height="270" data-s="1:via|2:m|4:via"><polyline points="336,151 306,183 276,215"/></svg><div class="unita loro" id="u-Z1" style="left:134px;top:103px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita loro" id="u-Z2" style="left:314px;top:103px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita loro" id="u-Z3" style="left:74px;top:39px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita loro" id="u-Z4" style="left:314px;top:39px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita loro" id="u-Z5" style="left:224px;top:7px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita io" id="u-P" style="left:224px;top:199px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura giocatore" transform="translate(0,0) scale(1)">
+      <ellipse cx="0" cy="0" rx="15" ry="5" class="ombra"/>
+      <path d="M-7 0 L-8 -22 Q-8 -28 -3 -29 L3 -29 Q8 -28 8 -22 L7 0z" class="corpo"/>
+      <circle cx="0" cy="-33" r="5" class="testa"/>
+      <path d="M-9 -36 H9 V-38 H5 V-44 H-5 V-38 H-9z" class="cappello"/>
+      <circle cx="11" cy="-12" r="3.4" class="lanterna"/>
+    </g></svg></div><div class="fantasma" style="left:194px;top:167px" data-s="1:via|2:m|4:via"><svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg></div><button class="minaccia colpisce  " data-tocco="minaccia-Z1" style="left:176px;top:129px" data-s="2:pen m|3:pen">
+    <svg class="sigillo rosso" width="22" height="22" viewBox="0 0 22 22" aria-label="Z1"><g class="forma"><circle cx="11" cy="11" r="9.8"/></g><text x="11" y="15.3" text-anchor="middle">Z1</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg> Orda</span><b class="n">−1</b></span></button><button class="minaccia colpisce  " data-tocco="minaccia-Z2" style="left:338px;top:162px" data-s="2:fuoco m|3:fuoco">
+    <svg class="sigillo rosso" width="22" height="22" viewBox="0 0 22 22" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="18.4" height="18.4"/></g><text x="11" y="15.3" text-anchor="middle">Z2</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg> Orda</span><b class="n">−2</b></span></button><button class="minaccia quieta  breve" data-tocco="minaccia-Z3" style="left:116px;top:65px" data-s="2:pen m|3:pen">
+    <svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg> Orda</span><span class="nota">non ti raggiunge</span></span></button><button class="minaccia quieta  stretta" data-tocco="minaccia-Z4" style="left:356px;top:46px" data-s="2:pen m|3:pen">
+    <svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H20.5V12C20.5 18 14 21 11 21.2C8 21 1.5 18 1.5 12z"/></g><text x="11" y="15.3" text-anchor="middle">Z4</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg> Orda</span><span class="nota">non ti raggiunge</span></span></button><button class="minaccia quieta  " data-tocco="minaccia-Z5" style="left:266px;top:6px" data-s="2:pen m|3:pen">
+    <svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z5"><g class="forma"><path d="M5.5 1.5H16.5L21.2 11L16.5 20.5H5.5L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z5</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg> Incassare</span><span class="nota bene">+2 Scudi</span></span></button><span class="scritta" style="left:104px;top:222px" data-s="1:via|2:via|4:via">Z<span class="c">1</span> sarà qui</span></div><svg class="teso" width="844" height="390" data-s="1:via|2:m|4:via"><path d="M209 314 C 209 274, 464 225, 464 181"/></svg><div class="mano" data-pannello="mano" data-s="2:pen m|3:via"><button class="carta " data-tocco="carta-af">
+    <span class="testa"><span class="nome">Attacco di Fuoco</span><span class="cd">CD 1</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +1 PM, +1 Luce</span></span>
+    <span class="az"><span class="costo c-fuoco">1<svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span> 2 Danni, adiacente</span><span class="az"><span class="costo c-fuoco">1<svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span> Vulnerabilità Fuoco, adiacente</span></button><button class="carta " data-tocco="carta-ds">
+    <span class="testa"><span class="nome">Diniego Sismico</span><span class="cd">CD 1</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +1 PM, Ruota 1 CD</span></span>
+    <span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> 1 Danno e Spingi 1, adiacente</span></button><button class="carta " data-tocco="carta-di">
+    <span class="testa"><span class="nome">Distorsione</span><span class="cd">CD 1</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +1 PM, Pesca 1</span></span>
+    <span class="az"><span class="costo c-presagio">X<svg class="ico " aria-hidden="true"><use href="#i-presagio"/></svg></span><span class="costo pt">+1 PT</span> sposta un'unità (non te) di X caselle, trappole attive</span></button><button class="carta " data-tocco="carta-pa">
+    <span class="testa"><span class="nome">Parata</span><span class="cd">CD 0</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +1 Contrattacco</span></span>
+    <span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> +1 Scudo</span><span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> Pesca 1</span></button><button class="carta " data-tocco="carta-cu">
+    <span class="testa"><span class="nome">Carica Furiosa</span><span class="cd">CD 2</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +1 Luce</span></span>
+    <span class="az"><span class="costo gratis">Gratis</span> 2 dadi vicini: carica in linea, danno = caselle</span></button></div><div class="voce" data-pannello="voce" data-s="1:via|2:via|4:via">
+    <h2><svg class="sigillo rosso" width="26" height="26" viewBox="0 0 26 26" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="22.4" height="22.4"/></g><text x="13" y="17.3" text-anchor="middle">Z2</text></svg><span>Z<span class="c">2</span>, Attacco Orda</span></h2>
+    <p class="grande">Ti toglie <b>2 HP</b>.</p>
+    <p>1 di base, +1 perché Z1 gli sarà accanto.</p>
+    <p class="oro">È il quarto dado. Prima di lui agisci con <span class="nw"><svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg> 1</span>; <span class="nw">il <svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg> 1</span> lo stai scartando.</p>
+    <p class="piano">Tocca fuori dalla luce per tornare.</p></div><div class="filo" data-pannello="sequenza"><i class="corda"></i><button class="grano suo colpisce" data-tocco="dado-d8" style="left:10px" data-s="2:pen m|3:pen"><span class="sopra"><svg class="sigillo rosso" width="22" height="22" viewBox="0 0 22 22" aria-label="Z1"><g class="forma"><circle cx="11" cy="11" r="9.8"/></g><text x="11" y="15.3" text-anchor="middle">Z1</text></svg></span><span class="sigillo-cera"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="sotto">Orda −1</span></button><button class="grano mio " data-tocco="dado-d2" style="left:67px" data-s="1:tenuto|2:tenuto|3:tenuto prima|4:tenuto"><span class="sopra"><span data-s="4:via">Slot 1</span><span data-s="1:via|2:via|3:via">Slot 1</span></span><span class="osso t-vigore"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span><span class="sotto">+1 PM</span></button><button class="grano mio " data-tocco="dado-d4" style="left:124px" data-s="1:scartato|2:scartato|3:scartato prima|4:tenuto toccato"><span class="sopra"><span data-s="4:via">nessuno slot</span><span data-s="1:via|2:via|3:via">Slot 4</span></span><span class="osso t-fuoco"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span><span class="sotto">+1 Luce</span></button><button class="grano suo colpisce" data-tocco="dado-d9" style="left:181px" data-s="2:fuoco m|3:fuoco"><span class="sopra"><svg class="sigillo rosso" width="22" height="22" viewBox="0 0 22 22" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="18.4" height="18.4"/></g><text x="11" y="15.3" text-anchor="middle">Z2</text></svg></span><span class="sigillo-cera"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="sotto">Orda −2</span></button><button class="grano suo " data-tocco="dado-d10" style="left:238px" data-s="2:pen m|3:pen"><span class="sopra"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg></span><span class="sigillo-cera"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="sotto">Orda</span></button><button class="grano suo " data-tocco="dado-d6" style="left:295px" data-s="2:pen m|3:pen"><span class="sopra"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H20.5V12C20.5 18 14 21 11 21.2C8 21 1.5 18 1.5 12z"/></g><text x="11" y="15.3" text-anchor="middle">Z4</text></svg></span><span class="sigillo-cera"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="sotto">Orda</span></button><button class="grano mio " data-tocco="dado-d1" style="left:352px" data-s="1:tenuto|2:tenuto|3:tenuto pen|4:tenuto"><span class="sopra"><span data-s="4:via">Slot 3</span><span data-s="1:via|2:via|3:via">Slot 3</span></span><span class="osso t-vigore"><b>2</b><svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span><span class="sotto">+1 PM</span></button><button class="grano suo " data-tocco="dado-d7" style="left:409px" data-s="2:pen m|3:pen"><span class="sopra"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z5"><g class="forma"><path d="M5.5 1.5H16.5L21.2 11L16.5 20.5H5.5L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z5</text></svg></span><span class="sigillo-cera"><b>4</b><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg></span><span class="sotto">Incassare</span></button><button class="grano mio " data-tocco="dado-d5" style="left:466px" data-s="1:tenuto|2:tenuto|3:tenuto pen|4:tenuto"><span class="sopra"><span data-s="4:via">Slot 2</span><span data-s="1:via|2:via|3:via">Slot 2</span></span><span class="osso t-terrore"><b>4</b><svg class="ico " aria-hidden="true"><use href="#i-presagio"/></svg></span><span class="sotto">+1 PT</span></button><button class="grano mio " data-tocco="dado-d3" style="left:523px" data-s="1:tenuto|2:tenuto|3:tenuto pen|4:tenuto guasto"><span class="sopra"><span data-s="4:via">Slot 4</span><span data-s="1:via|2:via|3:via">nessuno slot</span></span><span class="osso t-fuoco"><b>2</b><svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span><span class="sotto">+1 Luce</span></button><svg class="arco" width="620" height="30" data-s="1:via|2:via|3:via"><path d="M152 7 V3 H551 V7"/></svg></div><button class="nodo" data-primario data-tocco="primario" data-s="1:|2:|3:pen|4:spento"><span class="faccia-nodo" data-s="1:su"><b>Conferma i dadi</b><small>tieni 4, scarti 1: +1 Luce</small></span><span class="faccia-nodo" data-s="2:su"><b>Conferma i dadi</b><small>tieni 4, scarti 1: +1 Luce</small></span><span class="faccia-nodo" data-s="3:su"><b>Conferma i dadi</b><small>tieni 4, scarti 1: +1 Luce</small></span><span class="faccia-nodo" data-s="4:su"><b>Troppi dadi per gli slot</b><small>scarta un <svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg> per confermare</small></span></button></section><section class="scena" data-scena="B" data-passi="4"><p class="orientamento" data-pannello="orientamento"><b>Turno <span class="c">3</span>, Risoluzione.</b>
+    <span data-s="2:via|3:via|4:via">Il primo dado è di Z1. Puoi muoverti o giocare Infusione Elementale.</span>
+    <span data-s="1:via|3:via|4:via">Tocca a Z1. Tocca fuori dalla luce per rivedere la stanza.</span>
+    <span data-s="1:via|2:via|4:via">Z1 agisce.</span>
+    <span data-s="1:via|2:via|3:via">Z1 ha agito. Prossimo: il tuo dado <svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg> 2.</span></p><div class="margine" data-pannello="margine"><svg class="candela" width="34" height="210" viewBox="0 0 34 210" aria-hidden="true">
+    <ellipse class="alone" cx="17" cy="84" rx="15" ry="18"/>
+    <path class="fiamma" d="M17 72c5 7 7 10 7 14a7 7 0 0 1-14 0c0-4 2-7 7-14z"/>
+    <path class="stoppino" d="M17 91v6"/>
+    <rect class="cera" x="8" y="96" width="18" height="100"/><g class="tacche"><path d="M3 121h7" /><path d="M3 146h7" /><path d="M3 171h7" /></g>
+    <path class="piatto" d="M2 196h30l-4 8H6z"/></svg>
+    <div class="veglia">Veglia 3 di 6</div>
+    <div class="numeri"><div class="num n-hp" data-s="3:gonfio|4:cambiato"><svg class="ico " aria-hidden="true"><use href="#i-hp"/></svg><b><span data-s="3:via|4:via">7</span><span data-s="1:via|2:via">6</span></b><span>HP</span><em class="poi rosso" data-s="1:via|2:via">era 7</em></div><div class="num n-pt "><svg class="ico " aria-hidden="true"><use href="#i-pt"/></svg><b>5</b><span>PT</span></div><div class="num n-pm "><svg class="ico " aria-hidden="true"><use href="#i-pm"/></svg><b>9</b><span>PM</span></div><div class="num n-luce "><svg class="ico " aria-hidden="true"><use href="#i-luce"/></svg><b>3</b><span>Luce</span></div></div><div class="stati"><span class="stato" data-s="2:acceso|3:rotto|4:via"><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg> Scudo 1</span>
+    <span class="stato" data-s="2:acceso|3:acceso"><svg class="ico " aria-hidden="true"><use href="#i-contra"/></svg> Contrattacco</span></div></div>
+    <div class="mappa"><svg class="pavimento" width="430" height="270" viewBox="0 0 430 270"><polygon class="casella" data-casella="R8E1" points="36.0,1.7 66.0,12.3 66.0,33.7 36.0,44.3 6.0,33.7 6.0,12.3"/><polygon class="casella" data-casella="R8E2" points="96.0,1.7 126.0,12.3 126.0,33.7 96.0,44.3 66.0,33.7 66.0,12.3"/><polygon class="casella" data-casella="R8E3" points="156.0,1.7 186.0,12.3 186.0,33.7 156.0,44.3 126.0,33.7 126.0,12.3"/><polygon class="casella" data-casella="R8E4" points="216.0,1.7 246.0,12.3 246.0,33.7 216.0,44.3 186.0,33.7 186.0,12.3"/><polygon class="casella" data-casella="R8E5" points="276.0,1.7 306.0,12.3 306.0,33.7 276.0,44.3 246.0,33.7 246.0,12.3"/><polygon class="casella" data-casella="R8E6" points="336.0,1.7 366.0,12.3 366.0,33.7 336.0,44.3 306.0,33.7 306.0,12.3"/><polygon class="casella" data-casella="R7E1" points="66.0,33.7 96.0,44.3 96.0,65.7 66.0,76.3 36.0,65.7 36.0,44.3"/><polygon class="casella" data-casella="R7E2" points="126.0,33.7 156.0,44.3 156.0,65.7 126.0,76.3 96.0,65.7 96.0,44.3"/><polygon class="casella" data-casella="R7E3" points="186.0,33.7 216.0,44.3 216.0,65.7 186.0,76.3 156.0,65.7 156.0,44.3"/><polygon class="casella" data-casella="R7E4" points="246.0,33.7 276.0,44.3 276.0,65.7 246.0,76.3 216.0,65.7 216.0,44.3"/><polygon class="casella" data-casella="R7E5" points="306.0,33.7 336.0,44.3 336.0,65.7 306.0,76.3 276.0,65.7 276.0,44.3"/><polygon class="casella" data-casella="R7E6" points="366.0,33.7 396.0,44.3 396.0,65.7 366.0,76.3 336.0,65.7 336.0,44.3"/><polygon class="casella" data-casella="R6E1" points="36.0,65.7 66.0,76.3 66.0,97.7 36.0,108.3 6.0,97.7 6.0,76.3"/><polygon class="casella" data-casella="R6E2" points="96.0,65.7 126.0,76.3 126.0,97.7 96.0,108.3 66.0,97.7 66.0,76.3"/><polygon class="casella" data-casella="R6E3" points="156.0,65.7 186.0,76.3 186.0,97.7 156.0,108.3 126.0,97.7 126.0,76.3"/><polygon class="casella" data-casella="R6E4" points="216.0,65.7 246.0,76.3 246.0,97.7 216.0,108.3 186.0,97.7 186.0,76.3"/><polygon class="casella" data-casella="R6E5" points="276.0,65.7 306.0,76.3 306.0,97.7 276.0,108.3 246.0,97.7 246.0,76.3"/><polygon class="casella" data-casella="R6E6" points="336.0,65.7 366.0,76.3 366.0,97.7 336.0,108.3 306.0,97.7 306.0,76.3"/><polygon class="casella" data-casella="R5E1" points="66.0,97.7 96.0,108.3 96.0,129.7 66.0,140.3 36.0,129.7 36.0,108.3"/><polygon class="casella" data-casella="R5E2" points="126.0,97.7 156.0,108.3 156.0,129.7 126.0,140.3 96.0,129.7 96.0,108.3"/><polygon class="casella" data-casella="R5E3" points="186.0,97.7 216.0,108.3 216.0,129.7 186.0,140.3 156.0,129.7 156.0,108.3"/><polygon class="casella" data-casella="R5E4" points="246.0,97.7 276.0,108.3 276.0,129.7 246.0,140.3 216.0,129.7 216.0,108.3"/><polygon class="casella" data-casella="R5E5" points="306.0,97.7 336.0,108.3 336.0,129.7 306.0,140.3 276.0,129.7 276.0,108.3"/><polygon class="casella" data-casella="R5E6" points="366.0,97.7 396.0,108.3 396.0,129.7 366.0,140.3 336.0,129.7 336.0,108.3"/><polygon class="casella" data-casella="R4E1" points="36.0,129.7 66.0,140.3 66.0,161.7 36.0,172.3 6.0,161.7 6.0,140.3"/><polygon class="casella" data-casella="R4E2" points="96.0,129.7 126.0,140.3 126.0,161.7 96.0,172.3 66.0,161.7 66.0,140.3"/><polygon class="casella" data-casella="R4E3" points="156.0,129.7 186.0,140.3 186.0,161.7 156.0,172.3 126.0,161.7 126.0,140.3"/><polygon class="casella" data-casella="R4E4" points="216.0,129.7 246.0,140.3 246.0,161.7 216.0,172.3 186.0,161.7 186.0,140.3"/><polygon class="casella" data-casella="R4E5" points="276.0,129.7 306.0,140.3 306.0,161.7 276.0,172.3 246.0,161.7 246.0,140.3"/><polygon class="casella" data-casella="R4E6" points="336.0,129.7 366.0,140.3 366.0,161.7 336.0,172.3 306.0,161.7 306.0,140.3"/><polygon class="casella" data-casella="R3E1" points="66.0,161.7 96.0,172.3 96.0,193.7 66.0,204.3 36.0,193.7 36.0,172.3"/><polygon class="casella" data-casella="R3E2" points="126.0,161.7 156.0,172.3 156.0,193.7 126.0,204.3 96.0,193.7 96.0,172.3"/><polygon class="casella" data-casella="R3E3" points="186.0,161.7 216.0,172.3 216.0,193.7 186.0,204.3 156.0,193.7 156.0,172.3"/><polygon class="casella" data-casella="R3E4" points="246.0,161.7 276.0,172.3 276.0,193.7 246.0,204.3 216.0,193.7 216.0,172.3"/><polygon class="casella" data-casella="R3E5" points="306.0,161.7 336.0,172.3 336.0,193.7 306.0,204.3 276.0,193.7 276.0,172.3"/><polygon class="casella" data-casella="R3E6" points="366.0,161.7 396.0,172.3 396.0,193.7 366.0,204.3 336.0,193.7 336.0,172.3"/><polygon class="casella" data-casella="R2E1" points="36.0,193.7 66.0,204.3 66.0,225.7 36.0,236.3 6.0,225.7 6.0,204.3"/><polygon class="casella" data-casella="R2E2" points="96.0,193.7 126.0,204.3 126.0,225.7 96.0,236.3 66.0,225.7 66.0,204.3"/><polygon class="casella" data-casella="R2E3" points="156.0,193.7 186.0,204.3 186.0,225.7 156.0,236.3 126.0,225.7 126.0,204.3"/><polygon class="casella" data-casella="R2E4" points="216.0,193.7 246.0,204.3 246.0,225.7 216.0,236.3 186.0,225.7 186.0,204.3"/><polygon class="casella" data-casella="R2E5" points="276.0,193.7 306.0,204.3 306.0,225.7 276.0,236.3 246.0,225.7 246.0,204.3"/><polygon class="casella" data-casella="R2E6" points="336.0,193.7 366.0,204.3 366.0,225.7 336.0,236.3 306.0,225.7 306.0,204.3"/><polygon class="casella" data-casella="R1E1" points="66.0,225.7 96.0,236.3 96.0,257.7 66.0,268.3 36.0,257.7 36.0,236.3"/><polygon class="casella" data-casella="R1E2" points="126.0,225.7 156.0,236.3 156.0,257.7 126.0,268.3 96.0,257.7 96.0,236.3"/><polygon class="casella" data-casella="R1E3" points="186.0,225.7 216.0,236.3 216.0,257.7 186.0,268.3 156.0,257.7 156.0,236.3"/><polygon class="casella" data-casella="R1E4" points="246.0,225.7 276.0,236.3 276.0,257.7 246.0,268.3 216.0,257.7 216.0,236.3"/><polygon class="casella" data-casella="R1E5" points="306.0,225.7 336.0,236.3 336.0,257.7 306.0,268.3 276.0,257.7 276.0,236.3"/><polygon class="casella" data-casella="R1E6" points="366.0,225.7 396.0,236.3 396.0,257.7 366.0,268.3 336.0,257.7 336.0,236.3"/><g class="colonna" transform="translate(276,151)"><ellipse cx="0" cy="3" rx="13" ry="5"/><rect x="-8" y="-30" width="16" height="33"/><rect x="-11" y="-33" width="22" height="5"/></g><g class="colonna" transform="translate(216,87)"><ellipse cx="0" cy="3" rx="13" ry="5"/><rect x="-8" y="-30" width="16" height="33"/><rect x="-11" y="-33" width="22" height="5"/></g></svg><div class="lume" data-st="1=--lx:222px;--ly:156px;--rx:330px;--ry:230px;--d:0.5|2=--lx:216px;--ly:214px;--rx:118px;--ry:92px;--d:0.9|3=--lx:230px;--ly:230px;--rx:92px;--ry:74px;--d:0.94|4=--lx:222px;--ly:191px;--rx:260px;--ry:190px;--d:0.66"></div><div class="arrivo rosso" style="left:186px;top:193px" data-s="2:fuoco|3:via|4:via">
+    <svg width="60" height="44" viewBox="-30 -22 60 44"><polygon points="0,-19.5 27,-10 27,10 0,19.5 -27,10 -27,-10"/></svg><svg class="sigillo mini" width="22" height="22" viewBox="0 0 22 22" aria-label="Z1"><g class="forma"><circle cx="11" cy="11" r="9.8"/></g><text x="11" y="15.3" text-anchor="middle">Z1</text></svg></div><div class="arrivo rosso" style="left:156px;top:225px" data-s="2:pen|3:pen|4:">
+    <svg width="60" height="44" viewBox="-30 -22 60 44"><polygon points="0,-19.5 27,-10 27,10 0,19.5 -27,10 -27,-10"/></svg><svg class="sigillo mini" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg></div><div class="arrivo " style="left:216px;top:161px" data-s="2:pen|3:pen|4:">
+    <svg width="60" height="44" viewBox="-30 -22 60 44"><polygon points="0,-19.5 27,-10 27,10 0,19.5 -27,10 -27,-10"/></svg><svg class="sigillo mini" width="22" height="22" viewBox="0 0 22 22" aria-label="Z5"><g class="forma"><path d="M5.5 1.5H16.5L21.2 11L16.5 20.5H5.5L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z5</text></svg></div><svg class="percorso rosso" width="430" height="270" data-s="1:via|4:traccia"><polyline points="186,183 216,215"/></svg><div class="unita loro" id="u-Z1" style="left:164px;top:135px" data-s="2:fuoco|3:fuoco colpo|4:" data-st="3=left:194px;top:167px|4=left:194px;top:167px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 2 di 6"><i class="p"></i><i class="p"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><div class="unita loro" id="u-Z2" style="left:254px;top:167px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 4 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class=""></i><i class=""></i></span></div><div class="unita loro" id="u-Z3" style="left:134px;top:167px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita loro" id="u-Z4" style="left:314px;top:103px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita loro" id="u-Z5" style="left:224px;top:71px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita io" id="u-P" style="left:224px;top:199px" data-s="2:fuoco|3:fuoco urto">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura giocatore" transform="translate(0,0) scale(1)">
+      <ellipse cx="0" cy="0" rx="15" ry="5" class="ombra"/>
+      <path d="M-7 0 L-8 -22 Q-8 -28 -3 -29 L3 -29 Q8 -28 8 -22 L7 0z" class="corpo"/>
+      <circle cx="0" cy="-33" r="5" class="testa"/>
+      <path d="M-9 -36 H9 V-38 H5 V-44 H-5 V-38 H-9z" class="cappello"/>
+      <circle cx="11" cy="-12" r="3.4" class="lanterna"/>
+    </g></svg></div><button class="minaccia colpisce a-destra " data-tocco="minaccia-Z1" style="right:262px;top:126px" data-s="2:fuoco|3:via|4:via">
+    <svg class="sigillo rosso" width="22" height="22" viewBox="0 0 22 22" aria-label="Z1"><g class="forma"><circle cx="11" cy="11" r="9.8"/></g><text x="11" y="15.3" text-anchor="middle">Z1</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-morso"/></svg> Morso</span><b class="n">−1</b><span class="nota">Scudo −1</span></span></button><button class="minaccia colpisce a-destra " data-tocco="minaccia-Z3" style="right:294px;top:198px" data-s="2:pen|3:via">
+    <svg class="sigillo rosso" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg> Orda</span><b class="n">−3</b></span></button><button class="minaccia quieta  " data-tocco="minaccia-Z2" style="left:296px;top:193px" data-s="2:pen|3:pen|4:">
+    <svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="18.4" height="18.4"/></g><text x="11" y="15.3" text-anchor="middle">Z2</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg> Incassare</span><span class="nota bene">+2 Scudi</span></span></button><button class="minaccia quieta  stretta" data-tocco="minaccia-Z4" style="left:356px;top:112px" data-s="2:pen|3:pen|4:">
+    <svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H20.5V12C20.5 18 14 21 11 21.2C8 21 1.5 18 1.5 12z"/></g><text x="11" y="15.3" text-anchor="middle">Z4</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg> Incassare</span><span class="nota bene">+2 Scudi</span></span></button><button class="minaccia quieta  breve" data-tocco="minaccia-Z5" style="left:266px;top:88px" data-s="2:pen|3:via">
+    <svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z5"><g class="forma"><path d="M5.5 1.5H16.5L21.2 11L16.5 20.5H5.5L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z5</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg> Orda</span><span class="nota">non ti raggiunge</span></span></button><b class="cifra danno" style="left:230px;top:133px" data-s="1:via|2:via|4:via">−1</b><span class="scheggia" style="left:272px;top:249px" data-s="1:via|2:via|4:via"><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg> Scudo −1</span><b class="cifra contra" style="left:176px;top:111px" data-s="1:via|2:via|4:via">−1</b><b class="cifra cura" style="left:142px;top:153px" data-s="1:via|2:via|4:via">+1</b></div><svg class="teso" width="844" height="390" data-s="1:via|3:via|4:via"><path d="M38 314 C 38 274, 314 257, 314 213"/></svg><div class="mano" data-pannello="mano" data-s="2:via|3:via|4:via">
+    <button class="carta ferma" data-tocco="carta-cu">
+    <span class="testa"><span class="nome">Carica Furiosa</span><span class="cd">CD 2</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +1 Luce</span></span>
+    <span class="perche">Sei adiacente a un nemico</span></button><button class="carta ferma" data-tocco="carta-tm">
+    <span class="testa"><span class="nome">Tiro Mirato</span><span class="cd">CD 0</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +2 PM, Ruota 1 CD</span></span>
+    <span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> +1 Gittata</span><span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> 1 Danno, in gittata</span></button><button class="carta ferma" data-tocco="carta-ap">
+    <span class="testa"><span class="nome">Attacco Poderoso</span><span class="cd">CD 2</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +1 PM, +1 Luce</span></span>
+    <span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> 2 Danni, adiacente</span><span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> Stordisci e Spingi 1, adiacente</span></button><button class="carta pronta" data-tocco="carta-ie">
+    <span class="testa"><span class="nome">Infusione Elementale</span><span class="cd">CD 1</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +1 PM, Ruota 1 CD</span></span>
+    <span class="az"><span class="costo gratis">Gratis</span> un tuo dado non-Terrore diventa <svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg>, +1 impulso</span></button><button class="carta ferma" data-tocco="carta-sc">
+    <span class="testa"><span class="nome">Scatto</span><span class="cd">CD 0</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +2 PM, Ruota 1 CD</span></span>
+    <span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> +1 PM Salto</span></button></div><div class="voce" data-pannello="voce" data-s="1:via|4:via">
+    <h2><svg class="sigillo rosso" width="26" height="26" viewBox="0 0 26 26" aria-label="Z1"><g class="forma"><circle cx="13" cy="13" r="11.8"/></g><text x="13" y="17.3" text-anchor="middle">Z1</text></svg><span>Tocca a Z<span class="c">1</span></span></h2>
+    <p class="sotto-titolo"><svg class="ico " aria-hidden="true"><use href="#i-morso"/></svg> Morso Rigenerante</p>
+    <p class="grande" data-s="3:detto">Ti raggiunge e morde per <span class="c">2</span>.</p>
+    <p data-s="3:detto"><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg> Il tuo Scudo ne ferma 1: perdi <b class="rosso">1 HP</b>.</p>
+    <p data-s="3:adesso"><svg class="ico " aria-hidden="true"><use href="#i-contra"/></svg> Contrattacco: gli rendi 1 danno.</p>
+    <p data-s="3:adesso"><svg class="ico " aria-hidden="true"><use href="#i-hp"/></svg> Poi si cura 1 HP, uno per ogni HP che perdi.</p></div>
+  <div class="voce verdetto" data-pannello="verdetto" data-s="1:via|2:via|3:via">
+    <h2><svg class="sigillo grigio" width="26" height="26" viewBox="0 0 26 26" aria-label="Z1"><g class="forma"><circle cx="13" cy="13" r="11.8"/></g><text x="13" y="17.3" text-anchor="middle">Z1</text></svg><span>Z<span class="c">1</span> ti ha morso</span></h2>
+    <p class="grande">HP <span class="c">7</span> → <b class="rosso">6</b></p>
+    <p>2 danni, lo Scudo ne ha fermato 1. Lo Scudo è consumato.</p>
+    <p>Contrattacco: 1 danno a Z1, da 2 a 1 HP.</p>
+    <p>Il Morso lo ha curato di 1: Z1 è a 2 HP.</p>
+    <p class="oro">Adesso Z3 ti farebbe 3: non hai più Scudi.</p></div><div class="filo" data-pannello="sequenza"><i class="corda"></i><button class="grano suo colpisce" data-tocco="dado-d30" style="left:10px" data-s="1:corrente|2:corrente fuoco|3:corrente fuoco|4:risolto"><span class="sopra"><svg class="sigillo rosso" width="22" height="22" viewBox="0 0 22 22" aria-label="Z1"><g class="forma"><circle cx="11" cy="11" r="9.8"/></g><text x="11" y="15.3" text-anchor="middle">Z1</text></svg></span><span class="sigillo-cera"><b>3</b><svg class="ico " aria-hidden="true"><use href="#i-morso"/></svg></span><span class="sotto">Morso −1</span></button><button class="grano mio " data-tocco="dado-d23" style="left:67px" data-s="2:pen|3:pen|4:prossimo"><span class="osso t-fuoco"><b>2</b><svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span></button><button class="grano suo " data-tocco="dado-d28" style="left:124px" data-s="2:pen|3:pen"><span class="sopra"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="18.4" height="18.4"/></g><text x="11" y="15.3" text-anchor="middle">Z2</text></svg></span><span class="sigillo-cera"><b>4</b><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg></span><span class="sotto">Incassare</span></button><button class="grano mio " data-tocco="dado-d22" style="left:181px" data-s="2:pen|3:pen|4:"><span class="osso t-vigore"><b>2</b><svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span></button><button class="grano suo colpisce" data-tocco="dado-d27" style="left:238px" data-s="2:pen|3:pen"><span class="sopra"><svg class="sigillo rosso" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg></span><span class="sigillo-cera"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="sotto">Orda −3</span></button><button class="grano suo " data-tocco="dado-d29" style="left:295px" data-s="2:pen|3:pen"><span class="sopra"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H20.5V12C20.5 18 14 21 11 21.2C8 21 1.5 18 1.5 12z"/></g><text x="11" y="15.3" text-anchor="middle">Z4</text></svg></span><span class="sigillo-cera"><b>4</b><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg></span><span class="sotto">Incassare</span></button><button class="grano mio " data-tocco="dado-d25" style="left:352px" data-s="2:pen|3:pen|4:"><span class="osso t-terrore"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-presagio"/></svg></span></button><button class="grano suo " data-tocco="dado-d26" style="left:409px" data-s="2:pen|3:pen"><span class="sopra"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z5"><g class="forma"><path d="M5.5 1.5H16.5L21.2 11L16.5 20.5H5.5L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z5</text></svg></span><span class="sigillo-cera"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="sotto">Orda</span></button><button class="grano mio " data-tocco="dado-d21" style="left:466px" data-s="2:pen|3:pen|4:"><span class="osso t-vigore"><b>2</b><svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span></button><i class="cursore" style="left:0px" data-s="2:via|3:via" data-st="1=left:0px|4=left:59.5px"><svg class="ico " aria-hidden="true"><use href="#i-candela"/></svg></i></div><button class="nodo" data-primario data-tocco="primario" data-s="1:|2:|3:cavo|4:"><span class="faccia-nodo" data-s="1:su"><b>Lascia agire Z<span class="c">1</span></b><small>oppure muoviti: hai 9 PM</small></span><span class="faccia-nodo" data-s="2:su"><b>Lascia agire Z<span class="c">1</span></b><small>Morso Rigenerante: −1 HP</small></span><span class="faccia-nodo" data-s="3:su"><b>Z<span class="c">1</span> sta agendo</b><small>tocca per saltare</small></span><span class="faccia-nodo" data-s="4:su"><b>Avanti, tocca a te</b><small>il tuo dado <svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg> 2</small></span></button></section><section class="scena" data-scena="C" data-passi="3"><p class="orientamento" data-pannello="orientamento"><b>Turno <span class="c">1</span>, Risoluzione.</b>
+    <span data-s="2:via|3:via">Usa il dado <svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg> 1: apri una carta, muoviti o passa.</span>
+    <span data-s="1:via|3:via">Diniego Sismico può colpire Z1. Toccala ancora per aprirla.</span>
+    <span data-s="1:via|2:via">Scegli dove spingere Z1, poi conferma.</span></p><div class="margine" data-pannello="margine"><svg class="candela" width="34" height="210" viewBox="0 0 34 210" aria-hidden="true">
+    <ellipse class="alone" cx="17" cy="34" rx="15" ry="18"/>
+    <path class="fiamma" d="M17 22c5 7 7 10 7 14a7 7 0 0 1-14 0c0-4 2-7 7-14z"/>
+    <path class="stoppino" d="M17 41v6"/>
+    <rect class="cera" x="8" y="46" width="18" height="150"/><g class="tacche"><path d="M3 71h7" /><path d="M3 96h7" /><path d="M3 121h7" /><path d="M3 146h7" /><path d="M3 171h7" /></g>
+    <path class="piatto" d="M2 196h30l-4 8H6z"/></svg>
+    <div class="veglia">Veglia 1 di 6</div>
+    <div class="numeri"><div class="num n-hp "><svg class="ico " aria-hidden="true"><use href="#i-hp"/></svg><b>9</b><span>HP</span><em class="poi" data-s="3:via">se non fai nulla<br>resti a <b>7</b></em><em class="poi oro" data-s="1:via|2:via">con la spinta<br>resti a <b>8</b></em></div><div class="num n-pt "><svg class="ico " aria-hidden="true"><use href="#i-pt"/></svg><b>6</b><span>PT</span></div><div class="num n-pm "><svg class="ico " aria-hidden="true"><use href="#i-pm"/></svg><b>2</b><span>PM</span></div><div class="num n-luce "><svg class="ico " aria-hidden="true"><use href="#i-luce"/></svg><b>1</b><span>Luce</span></div></div></div>
+    <div class="mappa"><svg class="pavimento" width="430" height="270" viewBox="0 0 430 270"><polygon class="casella" data-casella="R8E1" points="36.0,1.7 66.0,12.3 66.0,33.7 36.0,44.3 6.0,33.7 6.0,12.3"/><polygon class="casella" data-casella="R8E2" points="96.0,1.7 126.0,12.3 126.0,33.7 96.0,44.3 66.0,33.7 66.0,12.3"/><polygon class="casella" data-casella="R8E3" points="156.0,1.7 186.0,12.3 186.0,33.7 156.0,44.3 126.0,33.7 126.0,12.3"/><polygon class="casella" data-casella="R8E4" points="216.0,1.7 246.0,12.3 246.0,33.7 216.0,44.3 186.0,33.7 186.0,12.3"/><polygon class="casella" data-casella="R8E5" points="276.0,1.7 306.0,12.3 306.0,33.7 276.0,44.3 246.0,33.7 246.0,12.3"/><polygon class="casella" data-casella="R8E6" points="336.0,1.7 366.0,12.3 366.0,33.7 336.0,44.3 306.0,33.7 306.0,12.3"/><polygon class="casella" data-casella="R7E1" points="66.0,33.7 96.0,44.3 96.0,65.7 66.0,76.3 36.0,65.7 36.0,44.3"/><polygon class="casella" data-casella="R7E2" points="126.0,33.7 156.0,44.3 156.0,65.7 126.0,76.3 96.0,65.7 96.0,44.3"/><polygon class="casella" data-casella="R7E3" points="186.0,33.7 216.0,44.3 216.0,65.7 186.0,76.3 156.0,65.7 156.0,44.3"/><polygon class="casella" data-casella="R7E4" points="246.0,33.7 276.0,44.3 276.0,65.7 246.0,76.3 216.0,65.7 216.0,44.3"/><polygon class="casella" data-casella="R7E5" points="306.0,33.7 336.0,44.3 336.0,65.7 306.0,76.3 276.0,65.7 276.0,44.3"/><polygon class="casella" data-casella="R7E6" points="366.0,33.7 396.0,44.3 396.0,65.7 366.0,76.3 336.0,65.7 336.0,44.3"/><polygon class="casella" data-casella="R6E1" points="36.0,65.7 66.0,76.3 66.0,97.7 36.0,108.3 6.0,97.7 6.0,76.3"/><polygon class="casella" data-casella="R6E2" points="96.0,65.7 126.0,76.3 126.0,97.7 96.0,108.3 66.0,97.7 66.0,76.3"/><polygon class="casella" data-casella="R6E3" points="156.0,65.7 186.0,76.3 186.0,97.7 156.0,108.3 126.0,97.7 126.0,76.3"/><polygon class="casella" data-casella="R6E4" points="216.0,65.7 246.0,76.3 246.0,97.7 216.0,108.3 186.0,97.7 186.0,76.3"/><polygon class="casella" data-casella="R6E5" points="276.0,65.7 306.0,76.3 306.0,97.7 276.0,108.3 246.0,97.7 246.0,76.3"/><polygon class="casella" data-casella="R6E6" points="336.0,65.7 366.0,76.3 366.0,97.7 336.0,108.3 306.0,97.7 306.0,76.3"/><polygon class="casella" data-casella="R5E1" points="66.0,97.7 96.0,108.3 96.0,129.7 66.0,140.3 36.0,129.7 36.0,108.3"/><polygon class="casella" data-casella="R5E2" points="126.0,97.7 156.0,108.3 156.0,129.7 126.0,140.3 96.0,129.7 96.0,108.3"/><polygon class="casella" data-casella="R5E3" points="186.0,97.7 216.0,108.3 216.0,129.7 186.0,140.3 156.0,129.7 156.0,108.3"/><polygon class="casella" data-casella="R5E4" points="246.0,97.7 276.0,108.3 276.0,129.7 246.0,140.3 216.0,129.7 216.0,108.3"/><polygon class="casella" data-casella="R5E5" points="306.0,97.7 336.0,108.3 336.0,129.7 306.0,140.3 276.0,129.7 276.0,108.3"/><polygon class="casella" data-casella="R5E6" points="366.0,97.7 396.0,108.3 396.0,129.7 366.0,140.3 336.0,129.7 336.0,108.3"/><polygon class="casella" data-casella="R4E1" points="36.0,129.7 66.0,140.3 66.0,161.7 36.0,172.3 6.0,161.7 6.0,140.3"/><polygon class="casella" data-casella="R4E2" points="96.0,129.7 126.0,140.3 126.0,161.7 96.0,172.3 66.0,161.7 66.0,140.3"/><polygon class="casella" data-casella="R4E3" points="156.0,129.7 186.0,140.3 186.0,161.7 156.0,172.3 126.0,161.7 126.0,140.3"/><polygon class="casella" data-casella="R4E4" points="216.0,129.7 246.0,140.3 246.0,161.7 216.0,172.3 186.0,161.7 186.0,140.3"/><polygon class="casella" data-casella="R4E5" points="276.0,129.7 306.0,140.3 306.0,161.7 276.0,172.3 246.0,161.7 246.0,140.3"/><polygon class="casella" data-casella="R4E6" points="336.0,129.7 366.0,140.3 366.0,161.7 336.0,172.3 306.0,161.7 306.0,140.3"/><polygon class="casella" data-casella="R3E1" points="66.0,161.7 96.0,172.3 96.0,193.7 66.0,204.3 36.0,193.7 36.0,172.3"/><polygon class="casella" data-casella="R3E2" points="126.0,161.7 156.0,172.3 156.0,193.7 126.0,204.3 96.0,193.7 96.0,172.3"/><polygon class="casella" data-casella="R3E3" points="186.0,161.7 216.0,172.3 216.0,193.7 186.0,204.3 156.0,193.7 156.0,172.3"/><polygon class="casella" data-casella="R3E4" points="246.0,161.7 276.0,172.3 276.0,193.7 246.0,204.3 216.0,193.7 216.0,172.3"/><polygon class="casella" data-casella="R3E5" points="306.0,161.7 336.0,172.3 336.0,193.7 306.0,204.3 276.0,193.7 276.0,172.3"/><polygon class="casella" data-casella="R3E6" points="366.0,161.7 396.0,172.3 396.0,193.7 366.0,204.3 336.0,193.7 336.0,172.3"/><polygon class="casella" data-casella="R2E1" points="36.0,193.7 66.0,204.3 66.0,225.7 36.0,236.3 6.0,225.7 6.0,204.3"/><polygon class="casella" data-casella="R2E2" points="96.0,193.7 126.0,204.3 126.0,225.7 96.0,236.3 66.0,225.7 66.0,204.3"/><polygon class="casella" data-casella="R2E3" points="156.0,193.7 186.0,204.3 186.0,225.7 156.0,236.3 126.0,225.7 126.0,204.3"/><polygon class="casella" data-casella="R2E4" points="216.0,193.7 246.0,204.3 246.0,225.7 216.0,236.3 186.0,225.7 186.0,204.3"/><polygon class="casella" data-casella="R2E5" points="276.0,193.7 306.0,204.3 306.0,225.7 276.0,236.3 246.0,225.7 246.0,204.3"/><polygon class="casella" data-casella="R2E6" points="336.0,193.7 366.0,204.3 366.0,225.7 336.0,236.3 306.0,225.7 306.0,204.3"/><polygon class="casella" data-casella="R1E1" points="66.0,225.7 96.0,236.3 96.0,257.7 66.0,268.3 36.0,257.7 36.0,236.3"/><polygon class="casella" data-casella="R1E2" points="126.0,225.7 156.0,236.3 156.0,257.7 126.0,268.3 96.0,257.7 96.0,236.3"/><polygon class="casella" data-casella="R1E3" points="186.0,225.7 216.0,236.3 216.0,257.7 186.0,268.3 156.0,257.7 156.0,236.3"/><polygon class="casella" data-casella="R1E4" points="246.0,225.7 276.0,236.3 276.0,257.7 246.0,268.3 216.0,257.7 216.0,236.3"/><polygon class="casella" data-casella="R1E5" points="306.0,225.7 336.0,236.3 336.0,257.7 306.0,268.3 276.0,257.7 276.0,236.3"/><polygon class="casella" data-casella="R1E6" points="366.0,225.7 396.0,236.3 396.0,257.7 366.0,268.3 336.0,257.7 336.0,236.3"/><g class="colonna" transform="translate(276,151)"><ellipse cx="0" cy="3" rx="13" ry="5"/><rect x="-8" y="-30" width="16" height="33"/><rect x="-11" y="-33" width="22" height="5"/></g><g class="colonna" transform="translate(216,87)"><ellipse cx="0" cy="3" rx="13" ry="5"/><rect x="-8" y="-30" width="16" height="33"/><rect x="-11" y="-33" width="22" height="5"/></g><g class="trappola" transform="translate(186,119)"><path d="M-12 5l4-10 3 6 5-11 5 11 3-6 4 10z"/></g></svg><div class="lume" data-st="1=--lx:222px;--ly:156px;--rx:330px;--ry:230px;--d:0.5|2=--lx:218px;--ly:220px;--rx:118px;--ry:92px;--d:0.88|3=--lx:212px;--ly:208px;--rx:128px;--ry:100px;--d:0.88"></div><span class="costo-pm" style="left:312px;top:249px" data-s="2:via|3:via">2<svg class="ico " aria-hidden="true"><use href="#i-pm"/></svg></span><span class="costo-pm" style="left:192px;top:249px" data-s="2:via|3:via">2<svg class="ico " aria-hidden="true"><use href="#i-pm"/></svg></span><span class="costo-pm" style="left:282px;top:217px" data-s="2:via|3:via">2<svg class="ico " aria-hidden="true"><use href="#i-pm"/></svg></span><div class="arrivo rosso" style="left:246px;top:193px" data-s="3:via">
+    <svg width="60" height="44" viewBox="-30 -22 60 44"><polygon points="0,-19.5 27,-10 27,10 0,19.5 -27,10 -27,-10"/></svg><svg class="sigillo mini" width="22" height="22" viewBox="0 0 22 22" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="18.4" height="18.4"/></g><text x="11" y="15.3" text-anchor="middle">Z2</text></svg></div><div class="arrivo " style="left:66px;top:129px" data-s="2:pen|3:pen">
+    <svg width="60" height="44" viewBox="-30 -22 60 44"><polygon points="0,-19.5 27,-10 27,10 0,19.5 -27,10 -27,-10"/></svg><svg class="sigillo mini" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg></div><div class="arrivo " style="left:306px;top:129px" data-s="2:pen|3:pen">
+    <svg width="60" height="44" viewBox="-30 -22 60 44"><polygon points="0,-19.5 27,-10 27,10 0,19.5 -27,10 -27,-10"/></svg><svg class="sigillo mini" width="22" height="22" viewBox="0 0 22 22" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H20.5V12C20.5 18 14 21 11 21.2C8 21 1.5 18 1.5 12z"/></g><text x="11" y="15.3" text-anchor="middle">Z4</text></svg></div><button class="spinta " data-tocco="spinta-R2E3" style="left:128px;top:193px" data-s="1:via|2:via">
+      <svg width="56" height="44" viewBox="-28 -22 56 44"><polygon points="0,-19 25,-9.5 25,9.5 0,19 -25,9.5 -25,-9.5"/></svg></button><button class="spinta scelta" data-tocco="spinta-R3E3" style="left:158px;top:161px" data-s="1:via|2:via">
+      <svg width="56" height="44" viewBox="-28 -22 56 44"><polygon points="0,-19 25,-9.5 25,9.5 0,19 -25,9.5 -25,-9.5"/></svg></button><button class="spinta " data-tocco="spinta-R3E4" style="left:218px;top:161px" data-s="1:via|2:via">
+      <svg width="56" height="44" viewBox="-28 -22 56 44"><polygon points="0,-19 25,-9.5 25,9.5 0,19 -25,9.5 -25,-9.5"/></svg></button><div class="unita loro" id="u-Z1" style="left:194px;top:167px" data-s="2:fuoco bersaglio|3:fuoco bersaglio">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita loro" id="u-Z2" style="left:314px;top:103px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita loro" id="u-Z3" style="left:74px;top:39px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita loro" id="u-Z4" style="left:314px;top:39px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita loro" id="u-Z5" style="left:224px;top:7px">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg><span class="pv" aria-label="HP 6 di 6"><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i></span></div><div class="unita io" id="u-P" style="left:224px;top:199px" data-s="2:fuoco|3:fuoco">
+    <svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura giocatore" transform="translate(0,0) scale(1)">
+      <ellipse cx="0" cy="0" rx="15" ry="5" class="ombra"/>
+      <path d="M-7 0 L-8 -22 Q-8 -28 -3 -29 L3 -29 Q8 -28 8 -22 L7 0z" class="corpo"/>
+      <circle cx="0" cy="-33" r="5" class="testa"/>
+      <path d="M-9 -36 H9 V-38 H5 V-44 H-5 V-38 H-9z" class="cappello"/>
+      <circle cx="11" cy="-12" r="3.4" class="lanterna"/>
+    </g></svg></div><div class="fantasma" style="left:164px;top:135px" data-s="1:via|2:via"><svg width="44" height="56" viewBox="-22 -48 44 56"><g class="figura zombie" transform="translate(0,0) scale(1)">
+    <ellipse cx="0" cy="0" rx="14" ry="4.5" class="ombra"/>
+    <path d="M-7 0 L-6 -14 Q-9 -20 -6 -26 Q-2 -31 4 -29 Q9 -26 8 -18 L7 0z M5 -22 L15 -17 L14 -14 L5 -18z" class="corpo"/>
+    <circle cx="1" cy="-31" r="5" class="testa"/>
+    <circle cx="3" cy="-32" r="1.1" class="occhio"/><circle cx="-0.5" cy="-32" r="1.1" class="occhio"/>
+  </g></svg></div><svg class="percorso oro freccia" width="430" height="270" data-s="1:via|2:via"><polyline points="216,215 186,183"/></svg><button class="minaccia quieta fatto a-destra" data-tocco="minaccia-Z1" style="right:238px;top:193px" data-s="2:fuoco|3:via"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z1"><g class="forma"><circle cx="11" cy="11" r="9.8"/></g><text x="11" y="15.3" text-anchor="middle">Z1</text></svg><span class="t"><span class="az">ha già agito</span><span class="nota" data-s="1:via|3:via">unico bersaglio</span></span></button><b class="cifra colpo" style="left:164px;top:137px" data-s="1:via|2:via">−1</b><span class="scritta" style="right:276px;top:143px" data-s="1:via|2:via">Z<span class="c">1</span> da <span class="c">6</span> a <span class="c">5</span> HP</span><button class="minaccia colpisce  " data-tocco="minaccia-Z2" style="left:338px;top:162px" data-s="2:pen|3:fuoco cambia">
+    <svg class="sigillo rosso" width="22" height="22" viewBox="0 0 22 22" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="18.4" height="18.4"/></g><text x="11" y="15.3" text-anchor="middle">Z2</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg> Orda</span><b class="n"><s data-s="1:via|2:via">−2</s><span data-s="3:via">−2</span><span data-s="1:via|2:via"> −1</span></b><span class="nota" data-s="1:via|2:via">senza Z1</span></span></button><button class="minaccia quieta  breve" data-tocco="minaccia-Z3" style="left:116px;top:65px" data-s="2:pen|3:pen">
+    <svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg> Orda</span><span class="nota">non ti raggiunge</span></span></button><button class="minaccia quieta  stretta" data-tocco="minaccia-Z4" style="left:356px;top:46px" data-s="2:pen|3:pen">
+    <svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H20.5V12C20.5 18 14 21 11 21.2C8 21 1.5 18 1.5 12z"/></g><text x="11" y="15.3" text-anchor="middle">Z4</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg> Orda</span><span class="nota">non ti raggiunge</span></span></button><button class="minaccia quieta  " data-tocco="minaccia-Z5" style="left:266px;top:6px" data-s="2:pen|3:pen">
+    <svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z5"><g class="forma"><path d="M5.5 1.5H16.5L21.2 11L16.5 20.5H5.5L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z5</text></svg><span class="t"><span class="az"><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg> Incassare</span><span class="nota bene">+2 Scudi</span></span></button></div><div class="mano attiva" data-pannello="mano">
+    <p class="capo" data-s="3:via">Hai <span class="tacca"><svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> 1 impulso da spendere.</p>
+    <button class="carta pronta" data-tocco="carta-ds" data-s="2:foglio|3:foglio aperta">
+    <span class="testa"><span class="nome">Diniego Sismico</span><span class="cd">CD 1</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +1 PM, Ruota 1 CD</span></span>
+    <span class="az breve" data-s="2:via|3:via"><span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> 1 Danno e Spingi 1, adiacente</span></span>
+        <span class="az intera" data-s="1:via|3:ora">1 <svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg>: 1 Danno + Spingi 1 un adiacente.</span>
+        <span class="nota-carta" data-s="1:via|3:via">Dopo l'uso va in Plancia per 1 turno.</span>
+        <span class="nota-carta" data-s="1:via|2:via">Bersaglio Z1, spinto in R3 E3. Muoverti o passare chiude la carta.</span></button><button class="carta pronta" data-tocco="carta-pa" data-s="2:pen|3:via">
+    <span class="testa"><span class="nome">Parata</span><span class="cd">CD 0</span><span class="eco"><svg class="ico " aria-hidden="true"><use href="#i-eco"/></svg> +1 Contrattacco</span></span>
+    <span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> +1 Scudo</span><span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> Pesca 1</span></button>
+    <button class="carta manovra" data-tocco="manovra" data-s="2:via|3:via"><span class="testa"><span class="nome">Movimento Tattico</span><span class="eco">manovra del dado</span></span>
+      <span class="az"><span class="costo c-forza">1<svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span> +1 PM</span></button>
+    <button class="carta gruppo" data-tocco="carte-ferme" data-s="2:via|3:via"><span class="testa"><span class="eco">Non con questo dado</span></span>
+      <span class="az"><b>Attacco di Fuoco</b>, serve <svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span><span class="az"><b>Distorsione</b>, serve <svg class="ico " aria-hidden="true"><use href="#i-presagio"/></svg></span><span class="az"><b>Carica Furiosa</b>, sei adiacente a un nemico</span></button>
+    <button class="rimetti" data-tocco="rimetti" data-s="1:via|2:via">Rimetti in mano <small>non l'hai ancora usata</small></button>
+  </div><div class="filo" data-pannello="sequenza"><i class="corda"></i><button class="grano suo  risolto" data-tocco="dado-d8" style="left:10px"><span class="sopra"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z1"><g class="forma"><circle cx="11" cy="11" r="9.8"/></g><text x="11" y="15.3" text-anchor="middle">Z1</text></svg></span><span class="sigillo-cera"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="sotto">fatto</span></button><button class="grano mio " data-tocco="dado-d2" style="left:67px" data-s="1:corrente fuoco|2:corrente fuoco|3:corrente fuoco speso"><span class="osso t-vigore"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span></button><button class="grano suo colpisce" data-tocco="dado-d9" style="left:124px" data-s="2:pen|3:cambia"><span class="sopra"><svg class="sigillo rosso" width="22" height="22" viewBox="0 0 22 22" aria-label="Z2"><g class="forma"><rect x="1.8" y="1.8" width="18.4" height="18.4"/></g><text x="11" y="15.3" text-anchor="middle">Z2</text></svg></span><span class="sigillo-cera"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="sotto"><span data-s="3:via">Orda −2</span><span data-s="1:via|2:via">Orda −1</span></span></button><button class="grano suo " data-tocco="dado-d10" style="left:181px" data-s="2:pen|3:pen"><span class="sopra"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z3"><g class="forma"><path d="M11 0.8L21.2 11L11 21.2L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z3</text></svg></span><span class="sigillo-cera"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="sotto">Orda</span></button><button class="grano suo " data-tocco="dado-d6" style="left:238px" data-s="2:pen|3:pen"><span class="sopra"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z4"><g class="forma"><path d="M1.5 1.5H20.5V12C20.5 18 14 21 11 21.2C8 21 1.5 18 1.5 12z"/></g><text x="11" y="15.3" text-anchor="middle">Z4</text></svg></span><span class="sigillo-cera"><b>1</b><svg class="ico " aria-hidden="true"><use href="#i-artigli"/></svg></span><span class="sotto">Orda</span></button><button class="grano mio " data-tocco="dado-d1" style="left:295px" data-s="2:pen|3:pen"><span class="osso t-vigore"><b>2</b><svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></span></button><button class="grano suo " data-tocco="dado-d7" style="left:352px" data-s="2:pen|3:pen"><span class="sopra"><svg class="sigillo grigio" width="22" height="22" viewBox="0 0 22 22" aria-label="Z5"><g class="forma"><path d="M5.5 1.5H16.5L21.2 11L16.5 20.5H5.5L0.8 11z"/></g><text x="11" y="15.3" text-anchor="middle">Z5</text></svg></span><span class="sigillo-cera"><b>4</b><svg class="ico " aria-hidden="true"><use href="#i-scudo"/></svg></span><span class="sotto">Incassare</span></button><button class="grano mio " data-tocco="dado-d5" style="left:409px" data-s="2:pen|3:pen"><span class="osso t-terrore"><b>4</b><svg class="ico " aria-hidden="true"><use href="#i-presagio"/></svg></span></button><button class="grano mio " data-tocco="dado-d3" style="left:466px" data-s="2:pen|3:pen"><span class="osso t-fuoco"><b>2</b><svg class="ico " aria-hidden="true"><use href="#i-fuoco"/></svg></span></button></div><button class="nodo" data-primario data-tocco="primario" data-s="1:cavo|2:|3:"><span class="faccia-nodo" data-s="1:su"><b>Passa al prossimo dado</b><small>perdi 1 <svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg></small></span><span class="faccia-nodo" data-s="2:su"><b>Apri Diniego Sismico</b><small>con il dado <svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg> 1</small></span><span class="faccia-nodo" data-s="3:su"><b>Colpisci e spingi Z<span class="c">1</span></b><small>spendi <svg class="ico " aria-hidden="true"><use href="#i-forza"/></svg> 1: Z1 da 6 a 5 HP</small></span></button></section></div>
+<div class="regia">
+  <div class="scelte"><button data-vai="A">Selezione: guardare una minaccia</button><button data-vai="B">Dado nemico: annuncio, atto, verdetto</button><button data-vai="C">Il mio dado: dalla mano alla carta</button></div>
+  <p class="didascalia" id="didascalia"></p>
+  <div class="passi"><button id="indietro">Indietro</button><span id="conta"></span><button id="avanti">Avanti</button><button id="auto">Ferma</button></div>
+  <p class="nota-regia">Prototipo del concetto, non del gioco: i passi sono già scritti, i numeri vengono dal motore (seed 7, La Cripta). Tocca la scena per avanzare.</p>
+</div>
+<script>(function () {
+  var q = new URLSearchParams(location.search);
+  var palco = document.getElementById('palco');
+  var scene = {};
+  [].forEach.call(palco.querySelectorAll('.scena'), function (s) { scene[s.dataset.scena] = s; });
+  var ORD = ['A', 'B', 'C'];
+  // durata di ogni passo nel giro automatico (ms); 0 = passo che esiste solo come fotogramma fermo
+  var DUR = { A: [3200, 0, 5200, 4600], B: [2600, 3800, 1500, 5600], C: [3600, 3600, 5200] };
+  var DID = {
+    A: ['A riposo. Tutte le minacce sono scritte accanto a chi le porta, tutti i dadi sono sul filo, la mano si legge. La luce è larga.',
+      'A metà del gesto (110 ms): hai toccato Z2. La luce si stringe, il suo dado si alza, il filo si tende.',
+      'A fuoco su Z2. Sulla stanza restano il numero grande, il percorso e dove sarà Z1; a destra la mano lascia il posto alla frase che spiega il 2. I dadi che giochi prima di lui si accendono. Un tocco nel buio riporta tutto com\'era.',
+      'Tieni anche il secondo dado Fuoco: la luce scende sul filo, i due dadi in conflitto sono legati, il nodo si spegne e dice perché.'],
+    B: ['Inizio della Risoluzione, luce larga. Puoi ancora muoverti o giocare una carta gratuita.',
+      'Annuncio. Niente parte da solo: la luce si stringe su Z1, il suo dado si alza, la mano tace e al suo posto c\'è cosa sta per succedere, con il conto.',
+      'Atto (0,9 s, si salta con un tocco). Le figure si ingrandiscono, le cifre nascono dove succede la cosa e vanno ai tuoi numeri nel margine.',
+      'Verdetto. Resta scritto finché non vai avanti. La luce si riapre, il dado di Z1 è spento, la fiamma è sul prossimo: il tuo.'],
+    C: ['Il tuo dado è attivo. La mano risponde: avanti le carte che questo dado apre, in un blocco quieto le altre con il motivo.',
+      'Primo tocco su Diniego Sismico: la riga diventa carta, l\'unica superficie chiara. La luce mostra chi può colpire. Il nodo dice cosa farà il secondo tocco.',
+      'Carta aperta, bersaglio e spinta scelti. Prima di confermare vedi l\'esito, e la minaccia che cambia si ingrandisce da sola: Z2 senza Z1 accanto fa 1.'],
+  };
+  var NOME = { A: 'Selezione', B: 'Dado nemico', C: 'Il mio dado' };
+  function parti(str, sep) {
+    var m = {};
+    (str || '').split('|').forEach(function (x) { var i = x.indexOf(sep); if (i > 0) m[x.slice(0, i)] = x.slice(i + 1); });
+    return m;
+  }
+  function applica(root, n) {
+    root.dataset.passo = n;
+    [].forEach.call(root.querySelectorAll('[data-s]'), function (el) {
+      if (el._b == null) el._b = el.getAttribute('class') || '';
+      el.setAttribute('class', (el._b + ' ' + (parti(el.dataset.s, ':')[n] || '')).trim());
+    });
+    [].forEach.call(root.querySelectorAll('[data-st]'), function (el) {
+      if (el._s == null) el._s = el.getAttribute('style') || '';
+      el.setAttribute('style', el._s + ';' + (parti(el.dataset.st, '=')[n] || parti(el.dataset.st, '=')['1'] || ''));
+    });
+  }
+  var cur = 'A', passo = 1, auto = true, timer = null;
+  function mostra(s, n) {
+    cur = s; passo = n;
+    ORD.forEach(function (k) {
+      if (!scene[k].parentNode) return;
+      scene[k].classList.toggle('in-scena', k === s);
+      var m = scene[k].querySelector('.mappa'); if (k === s) m.id = 'mappa'; else m.removeAttribute('id');
+    });
+    applica(scene[s], n);
+    var d = document.getElementById('didascalia'); if (d) d.textContent = DID[s][n - 1];
+    var c = document.getElementById('conta'); if (c) c.textContent = NOME[s] + ' · ' + n + ' di ' + DUR[s].length;
+    [].forEach.call(document.querySelectorAll('[data-vai]'), function (b) { b.classList.toggle('qui', b.dataset.vai === s); });
+  }
+  function prossimo(dir) {
+    var n = passo, s = cur, tot = DUR[s].length;
+    do {
+      n += dir;
+      if (n > tot) { s = ORD[(ORD.indexOf(s) + 1) % ORD.length]; n = 1; tot = DUR[s].length; }
+      if (n < 1) { s = ORD[(ORD.indexOf(s) + ORD.length - 1) % ORD.length]; tot = DUR[s].length; n = tot; }
+    } while (DUR[s][n - 1] === 0);
+    mostra(s, n);
+  }
+  function giro() { clearTimeout(timer); if (!auto) return; timer = setTimeout(function () { prossimo(1); giro(); }, DUR[cur][passo - 1] || 1500); }
+  function ferma() { auto = false; clearTimeout(timer); var b = document.getElementById('auto'); if (b) b.textContent = 'Riparti'; }
+
+  if (q.get('fermo')) { // fotogramma fermo: ?scena=B&passo=3&fermo=1 (serve a schermate e misura)
+    document.body.classList.add('solo'); palco.classList.add('fermo');
+    var s0 = q.get('scena') || 'A';
+    ORD.forEach(function (k) { if (k !== s0) scene[k].parentNode.removeChild(scene[k]); });
+    mostra(s0, +(q.get('passo') || 1));
+    return;
+  }
+  mostra(q.get('scena') || 'A', +(q.get('passo') || 1));
+  palco.addEventListener('click', function () { ferma(); prossimo(1); });
+  document.getElementById('avanti').addEventListener('click', function () { ferma(); prossimo(1); });
+  document.getElementById('indietro').addEventListener('click', function () { ferma(); prossimo(-1); });
+  document.getElementById('auto').addEventListener('click', function () { if (auto) ferma(); else { auto = true; this.textContent = 'Ferma'; giro(); } });
+  [].forEach.call(document.querySelectorAll('[data-vai]'), function (b) { b.addEventListener('click', function () { mostra(b.dataset.vai, 1); giro(); }); });
+  giro();
+})();
+</script></body></html>

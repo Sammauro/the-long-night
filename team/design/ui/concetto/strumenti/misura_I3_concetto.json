@@ -1,0 +1,506 @@
+{
+  "data": "2026-11-22",
+  "viewport": "844×390 touch",
+  "strumento": "strumenti/misura_I3.js (funzione misura) + controlli del concetto",
+  "risultati": {
+    "A1_selezione_riposo": {
+      "testo": {
+        "nodi": 99,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 21,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 6
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 10,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 16,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 6.4,
+        "testoMenoContrastato": "7 (opacità 1.00)"
+      }
+    },
+    "A2_selezione_fuoco_a_meta": {
+      "testo": {
+        "nodi": 99,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 21,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 6
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 10,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 16,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 4.4,
+        "testoMenoContrastato": "−1 (opacità 0.80)"
+      }
+    },
+    "A3_selezione_a_fuoco_su_Z2": {
+      "testo": {
+        "nodi": 87,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 16,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 6
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 10,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 16,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 3.2,
+        "testoMenoContrastato": "−1 (opacità 0.64)",
+        "voceTocca": []
+      }
+    },
+    "A4_selezione_rifiuto_sul_filo": {
+      "testo": {
+        "nodi": 97,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 21,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 6
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 10,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 16,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 6.4,
+        "testoMenoContrastato": "0 (opacità 1.00)"
+      }
+    },
+    "B1_nemico_luce_larga": {
+      "testo": {
+        "nodi": 85,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 20,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 6
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 9,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 16,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 5.2,
+        "testoMenoContrastato": "CD 2 (opacità 0.78)"
+      }
+    },
+    "B2_nemico_annuncio": {
+      "testo": {
+        "nodi": 68,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 15,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 7
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 9,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 16,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 3.2,
+        "testoMenoContrastato": "−3 (opacità 0.64)",
+        "voceTocca": []
+      }
+    },
+    "B3_nemico_atto": {
+      "testo": {
+        "nodi": 62,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 12,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 2
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 9,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 16,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 3.2,
+        "testoMenoContrastato": "Orda −3 (opacità 0.64)",
+        "voceTocca": []
+      }
+    },
+    "B4_nemico_verdetto": {
+      "testo": {
+        "nodi": 64,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 14,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 4
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 9,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 16,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 3.8,
+        "testoMenoContrastato": "3 (opacità 0.45)",
+        "voceTocca": []
+      }
+    },
+    "C1_dado_mio_la_mano_risponde": {
+      "testo": {
+        "nodi": 83,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 19,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 6
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 9,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 16,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 3.8,
+        "testoMenoContrastato": "1 (opacità 0.45)"
+      }
+    },
+    "C2_carta_scelta": {
+      "testo": {
+        "nodi": 71,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 17,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 7
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 9,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 21,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 3.2,
+        "testoMenoContrastato": "−2 (opacità 0.64)"
+      }
+    },
+    "C3_carta_aperta_spinta": {
+      "testo": {
+        "nodi": 71,
+        "sotto12": 0,
+        "min": 12,
+        "esempiSotto12": []
+      },
+      "tocco": {
+        "elementi": 19,
+        "sotto44": 0,
+        "minW": 56,
+        "minH": 44,
+        "fuori": []
+      },
+      "griglia": {
+        "caselle": 48,
+        "dentroSchermo": 48,
+        "altezza": 267,
+        "larghezza": 390,
+        "quotaAltezza": "68%",
+        "casellaMaggiore": 60,
+        "casellaMinore": 43,
+        "coperteDaPannello": 0,
+        "centroSottoUnaEtichettaDiMinaccia": 5
+      },
+      "pannelli": {
+        "pannelli": 4,
+        "sovrapposti": 0,
+        "dettaglio": [],
+        "etichetteMinacciaFuoriMappa": 0
+      },
+      "primari": 1,
+      "regoleHover": 0,
+      "sequenza": {
+        "dadi": 9,
+        "latoMinimo": 46,
+        "corpoValoreDadi": 28,
+        "corpoMaxAltriNumeri": 21,
+        "unaRiga": true
+      },
+      "concetto": {
+        "contrastoMinimoSuBuio": 3.8,
+        "testoMenoContrastato": "non ti raggiunge (opacità 0.64)"
+      }
+    }
+  }
+}

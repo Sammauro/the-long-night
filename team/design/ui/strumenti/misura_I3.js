@@ -71,7 +71,9 @@ function misura() {
   return out;
 }
 
-(async () => {
+// la funzione di misura è riusata dai passi successivi (concetto B1.3c: concetto/strumenti/misura_concetto.js)
+module.exports = { misura };
+if (require.main === module) (async () => {
   const b = await chromium.launch();
   const ctx = await b.newContext({ viewport: { width: 844, height: 390 }, deviceScaleFactor: 2, hasTouch: true, isMobile: true });
   await fontRoute(ctx);
